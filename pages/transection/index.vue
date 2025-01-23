@@ -416,30 +416,6 @@ const updateAccountTransition = async (
   }
 };
 
-// const updateRealAccountTransition = async (accountTypeId, accountTypeValue) => {
-//   console.log(accountTypeId);
-//   console.log(accountTypeValue);
-//   try {
-//     const response = await fetch(
-//       `https://api-accountapp.onrender.com/api/transitionsubmit/account_transition_id`,
-//       {
-//         method: "PUT", // Use POST or PUT depending on your API design
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//           account_type_id: accountTypeId,
-//           account_transition_value: accountTypeValue,
-//         }),
-//       }
-//     );
-//     if (!response.ok) {
-//       throw new Error("Network response was not ok");
-//     }
-//   } catch (error) {
-//     console.error("Error updating account transition:", error);
-//   }
-// };
 
 const handleOkClick = () => {
   if (selectedIcon.value) {
