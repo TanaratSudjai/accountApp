@@ -345,7 +345,7 @@ const accountTypeValue = computed({
 const fetchIcon = async () => {
   try {
     const response = await fetch(
-      `https://api-accountapp.onrender.com/api/menu_icon`
+      "https://api-accountapp.onrender.com/api/menu_icon"
     );
     const data = await response.json();
     IconData.value = data.data_menu;
