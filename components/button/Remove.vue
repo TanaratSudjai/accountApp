@@ -10,7 +10,7 @@
       @click="confirmAndRemoveType"
       class="bg-cyan-600 rounded-xl text-white cursor-pointer hover:bg-cyan-700 transition w-[98%] sm:w-[48%]"
     >
-      เคลียร์ข้อมูลประเภททั้งหมด
+      เคลียร์ข้อมูลเพื่อเปิดบัญชีใหม่
     </button>
   </div>
 </template>
