@@ -3,7 +3,7 @@
 
   <div
     v-else
-    class="flex justify-center items-center gap-4 min-h-full w-full mt-4"
+    class="flex justify-center items-center gap-4 min-h-full w-full"
   >
     <!-- Box of Account Types -->
 
