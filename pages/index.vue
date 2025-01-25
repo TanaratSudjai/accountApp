@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col font-noto bg-cyan-600 min-h-screen">
-    <div class="flex-1 p-6 pt-[70px]">
+    <div class="flex-1 p-6">
       <div
         class="grid grid-cols-2 md:grid-cols-3 gap-2 max-w-4xl mx-auto mb-12"
       >
