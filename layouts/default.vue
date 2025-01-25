@@ -6,15 +6,19 @@
     >
       <!-- logo stars -->
       <div class="w-[98%] md:w-[28%] lg:w-[28%]">
-        <div class="font-sans text-xl pb-2 text-gray-400">ACCOUNT APPLICATION</div>
+        <div class="font-sans pb-2 text-gray-400">
+          ACCOUNT APPLICATION
+        </div>
       </div>
       <div class="w-[98%] md:w-[28%] lg:w-[28%]">
         <ButtonRemove />
       </div>
     </div>
-    <div class="p-2 pt-[80px]">
+
+    <div class="p-2 pt-[100px]">
       <slot />
     </div>
+
   </div>
 </template>
 
