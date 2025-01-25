@@ -25,6 +25,7 @@ const confirmAndRemove = async () => {
           "Content-Type": "application/json",
         },
       });
+      window.location.reload();
     } catch (error) {
       console.error("Error fetching transition:", error);
       alert("ข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์");
@@ -41,6 +42,7 @@ const confirmAndRemoveType = async () => {
           "Content-Type": "application/json",
         },
       });
+      window.location.reload();
     } catch (error) {
       console.error("Error fetching transition:", error);
       alert("ข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์");
