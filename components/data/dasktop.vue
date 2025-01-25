@@ -1,10 +1,7 @@
 <template>
   <div v-if="loadsum">Loading...</div>
 
-  <div
-    v-else
-    class="flex justify-center items-center gap-4 min-h-full w-full mt-4"
-  >
+  <div v-else class="flex justify-center items-center gap-4 min-h-full w-full mt-4">
     <!-- Box of Account Types -->
 
     <!-- <div class="grid col-span-2 gap-1 p-2">
@@ -20,12 +17,15 @@
 
     <!-- Box of Account Type Sums -->
     <div class="flex w-full p-2 max-h-screen overflow-auto">
-      <table
-        class="min-w-full table-auto border-collapse rounded-md max-h-full overflow-auto"
-      >
+      <table class="min-w-full table-auto border-collapse rounded-md max-h-full overflow-auto">
         <thead>
           <tr class="bg-gray-100 text-center font-bold">
-            <th class="px-4 py-3 border-2">รายการทั้งหมด</th>
+            <th class="px-4 py-3 border-2">
+              <button @click="toggleZeroSumVisibility" class="bg-blue-500 text-white px-4 py-2 rounded">
+                {{ showZeroSum ? 'ซ่อน' : 'แสดง' }}
+              </button>
+              รายการทั้งหมด
+            </th>
             <th class="px-4 py-3 border-2">DR</th>
             <th class="px-4 py-3 border-2">CR</th>
             <th class="px-4 py-3 border-2">DR</th>
@@ -36,123 +36,91 @@
         </thead>
 
         <tbody>
-          <tr
-            v-for="type_sum in datatype_sum"
-            :key="type_sum.account_type_name"
-            class="even:bg-gray-50 odd:bg-white"
-          >
+          <tr v-for="type_sum in datatype_sum" :key="type_sum.account_type_name" class="even:bg-gray-50 odd:bg-white">
             <!-- รายการทั้งหมด -->
             <td class="border-r-2 px-4 py-2 text-center">
-              <div
-                class="border-4 border-l-yellow-300 border-r-yellow-300 rounded-xl px-4 py-2"
-              >
+              <div class="border-4 border-l-yellow-300 border-r-yellow-300 rounded-xl px-4 py-2">
                 {{ type_sum.account_type_name }}
               </div>
             </td>
 
             <!-- DR Column 1 -->
             <td class="border-r-2 px-4 py-2 text-center">
-              <div
-                v-if="
-                  type_sum.account_category_id == 1 ||
-                  type_sum.account_category_id == 5
-                "
-                :class="{
+              <div v-if="
+                type_sum.account_category_id == 1 ||
+                type_sum.account_category_id == 5
+              " :class="{
                   'border-l-yellow-300 border-r-yellow-300':
                     type_sum.account_category_id == 1,
                   'border-l-pink-300 border-r-pink-300':
                     type_sum.account_category_id == 5,
-                }"
-                class="border-4 rounded-xl px-4 py-2"
-              >
+                }" class="border-4 rounded-xl px-4 py-2">
                 {{ type_sum.account_type_sum }}
               </div>
             </td>
 
             <!-- CR Column 1 -->
             <td class="border-r-2 px-4 py-2 text-center relative">
-              <div
-                class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"
-              ></div>
-              <div
-                v-if="
-                  type_sum.account_category_id >= 2 &&
-                  type_sum.account_category_id <= 4
-                "
-                :class="{
+              <div class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"></div>
+              <div v-if="
+                type_sum.account_category_id >= 2 &&
+                type_sum.account_category_id <= 4
+              " :class="{
                   'border-l-purple-300 border-r-purple-300':
                     type_sum.account_category_id == 2,
                   'border-l-blue-300 border-r-blue-300':
                     type_sum.account_category_id == 3,
                   'border-l-green-300 border-r-green-300':
                     type_sum.account_category_id == 4,
-                }"
-                class="border-4 rounded-xl px-4 py-2"
-              >
+                }" class="border-4 rounded-xl px-4 py-2">
                 {{ type_sum.account_type_sum }}
               </div>
             </td>
 
             <!-- DR Column 2 -->
             <td class="border-r-2 px-4 py-2 text-center">
-              <div
-                v-if="type_sum.account_category_id == 1"
-                class="border-4 border-l-yellow-300 border-r-yellow-300 rounded-xl px-4 py-2"
-              >
+              <div v-if="type_sum.account_category_id == 1"
+                class="border-4 border-l-yellow-300 border-r-yellow-300 rounded-xl px-4 py-2">
                 {{ type_sum.account_type_sum }}
               </div>
             </td>
 
             <!-- CR Column 2 -->
             <td class="border-r-2 px-4 py-2 text-center relative">
-              <div
-                class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"
-              ></div>
-              <div
-                v-if="
-                  type_sum.account_category_id == 2 ||
-                  type_sum.account_category_id == 3
-                "
-                :class="{
+              <div class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"></div>
+              <div v-if="
+                type_sum.account_category_id == 2 ||
+                type_sum.account_category_id == 3
+              " :class="{
                   'border-l-purple-300 border-r-purple-300':
                     type_sum.account_category_id == 2,
                   'border-l-blue-300 border-r-blue-300':
                     type_sum.account_category_id == 3,
-                }"
-                class="border-4 rounded-xl px-4 py-2"
-              >
+                }" class="border-4 rounded-xl px-4 py-2">
                 {{ type_sum.account_type_sum }}
               </div>
             </td>
 
             <!-- DR Column 3 -->
             <td class="border-r-2 px-4 py-2 text-center">
-              <div
-                v-if="type_sum.account_category_id == 5"
-                class="border-4 border-l-pink-300 border-r-pink-300 rounded-xl px-4 py-2"
-              >
+              <div v-if="type_sum.account_category_id == 5"
+                class="border-4 border-l-pink-300 border-r-pink-300 rounded-xl px-4 py-2">
                 {{ type_sum.account_type_sum }}
               </div>
             </td>
 
             <!-- CR Column 3 -->
             <td class="border-r-2 px-4 py-2 text-center relative">
-              <div
-                class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"
-              ></div>
-              <div
-                v-if="type_sum.account_category_id == 4"
-                class="border-4 border-l-green-300 border-r-green-300 rounded-xl px-4 py-2"
-              >
+              <div class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"></div>
+              <div v-if="type_sum.account_category_id == 4"
+                class="border-4 border-l-green-300 border-r-green-300 rounded-xl px-4 py-2">
                 {{ type_sum.account_type_sum }}
               </div>
             </td>
           </tr>
 
           <!-- สรุปผลบัญชี -->
-          <tr
-            class="border-2 mt-12 border-b-green-400 text-center font-semibold"
-          >
+          <tr class="border-2 mt-12 border-b-green-400 text-center font-semibold">
             <td class="p-2 rounded-xl shadow-md">สรุปผลบัญชี</td>
             <td class="border-r-2">{{ sumColumn1 }}</td>
             <td class="border-r-2">{{ sumColumn2 }}</td>
@@ -197,23 +165,39 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-
-// const datatype_name = ref([]);
 const datatype_sum = ref([]);
+const showZeroSum = ref(true);
+const error = ref(""); 
 
-//ดึงชื่อประเภทมาเเสดงช่องที่ 1
-// const { pendings, error } = await useAsyncData("fetchData", async () => {
-//   const datatypename = await $fetch("https://api-accountapp.onrender.com/api/dasktop_data");
+const fetchType = async () => {
+  try {
+    if(showZeroSum.value){
+      const response = await $fetch(
+      "https://api-accountapp.onrender.com/api/dasktop_data_sumtype"
+    );
+    console.log("API Response not zero:", response); // Log the response
+    datatype_sum.value = response.account_type_sum || [];
+    }
+    else{
+      const response = await $fetch(
+      "https://api-accountapp.onrender.com/api/dasktop_data_sumzero"
+    );
+    console.log("API Response zero:", response); // Log the response
+    datatype_sum.value = response.account_type_sum || [];
+    }
+  } catch (err) {
+    error.value = "Error fetching transitions: " + err.message;
+  }
+};
 
-//   datatype_name.value = datatypename;
-// });
-
-const { loadsum, err } = await useAsyncData("fecthDataSumType", async () => {
-  const sumtype = await $fetch(
-    "https://api-accountapp.onrender.com/api/dasktop_data_sumtype"
-  );
-  datatype_sum.value = sumtype.account_type_sum || [];
+onMounted(() => {
+  fetchType();
 });
+
+const toggleZeroSumVisibility = () =>{
+  showZeroSum.value = !showZeroSum.value;
+  fetchType();
+}
 
 const sumColumn1 = computed(() =>
   datatype_sum.value
