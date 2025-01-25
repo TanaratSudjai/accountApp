@@ -2,6 +2,19 @@
   <div v-if="loadsum">Loading...</div>
 
   <div v-else class="flex justify-center items-center gap-4 min-h-full w-full">
+    <!-- Box of Account Types -->
+
+    <!-- <div class="grid col-span-2 gap-1 p-2">
+      <div class="border-2 p-3 text-center">รายการทั้งหมด</div>
+      <div
+        v-for="(type_name, index) in datatype_name"
+        :key="index"
+        class="bg-white border-4 p-2 rounded-xl border-l-pink-400"
+      >
+        {{ type_name.account_type_name }}
+      </div>
+    </div> -->
+
     <!-- Box of Account Type Sums -->
     <div class="flex w-full p-2 max-h-screen overflow-auto">
       <table
@@ -12,7 +25,7 @@
             <th class="px-4 py-3 border-2">
               <button
                 @click="toggleZeroSumVisibility"
-                class="bg-cyan-600 text-white px-4 py-2 rounded"
+                class="bg-blue-500 text-white px-4 py-2 rounded"
               >
                 {{ showZeroSum ? "ซ่อน" : "แสดง" }}
               </button>
@@ -35,38 +48,58 @@
 
         <tbody>
           <tr
-            v-for="type_sum in datatype_sum"
+            v-for="(type_sum, index) in datatype_sum"
             :key="type_sum.account_type_name"
-            class="even:bg-gray-50 odd:bg-white"
+            :class="{
+              'bg-yellow-100':
+                type_sum.account_category_id == 1 && index % 2 === 0,
+              'bg-yellow-200':
+                type_sum.account_category_id == 1 && index % 2 !== 0,
+
+              'bg-purple-300':
+                type_sum.account_category_id == 2 && index % 2 === 0,
+              'bg-[#ad46ff]':
+                type_sum.account_category_id == 2 && index % 2 !== 0,
+
+              'bg-blue-300':
+                type_sum.account_category_id == 3 && index % 2 === 0,
+              'bg-blue-400':
+                type_sum.account_category_id == 3 && index % 2 !== 0,
+
+              'bg-green-100':
+                type_sum.account_category_id == 4 && index % 2 === 0,
+              'bg-green-400':
+                type_sum.account_category_id == 4 && index % 2 !== 0,
+
+              'bg-pink-100':
+                type_sum.account_category_id == 5 && index % 2 === 0,
+              'bg-pink-200':
+                type_sum.account_category_id == 5 && index % 2 !== 0,
+            }"
           >
             <!-- รายการทั้งหมด -->
             <td class="border-r-2 text-center">
               <div class="rounded-xl text-left px-3 mx-2">
                 {{ type_sum.account_type_name }}
+                {{ type_sum.account_category_id }}
               </div>
             </td>
 
             <!-- DR Column 1 -->
-            <td class="border-r-2 text-center">
+            <td class="border-r-2 text-right">
               <div
                 v-if="
                   type_sum.account_category_id == 1 ||
                   type_sum.account_category_id == 5
                 "
-                :class="{
-                  'border-l-yellow-300 border-r-yellow-300':
-                    type_sum.account_category_id == 1,
-                  'border-l-pink-300 border-r-pink-300':
-                    type_sum.account_category_id == 5,
-                }"
-                class="rounded-xl"
+                class="text-right"
               >
-                {{ type_sum.account_type_sum }}
+                <p class="text-center">{{ type_sum.account_type_sum }}</p>
               </div>
             </td>
 
             <!-- CR Column 1 -->
-            <td class="border-r-2 text-center relative">
+            <td class="border-r-2 text-right">
               <div
                 class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"
               ></div>
@@ -75,17 +108,9 @@
                   type_sum.account_category_id >= 2 &&
                   type_sum.account_category_id <= 4
                 "
-                :class="{
-                  'border-l-purple-300 border-r-purple-300':
-                    type_sum.account_category_id == 2,
-                  'border-l-blue-300 border-r-blue-300':
-                    type_sum.account_category_id == 3,
-                  'border-l-green-300 border-r-green-300':
-                    type_sum.account_category_id == 4,
-                }"
-                class="rounded-xl"
+                class="text-right"
               >
-                {{ type_sum.account_type_sum }}
+                <p class="text-center">{{ type_sum.account_type_sum }}</p>
               </div>
             </td>
 
@@ -106,13 +131,6 @@
                   type_sum.account_category_id == 2 ||
                   type_sum.account_category_id == 3
                 "
-                :class="{
-                  'border-l-purple-300 border-r-purple-300':
-                    type_sum.account_category_id == 2,
-                  'border-l-blue-300 border-r-blue-300':
-                    type_sum.account_category_id == 3,
-                }"
-                class="border-4 rounded-xl"
               >
                 {{ type_sum.account_type_sum }}
               </div>
@@ -120,10 +138,7 @@
 
             <!-- DR Column 3 -->
             <td class="border-r-2 text-center">
-              <div
-                v-if="type_sum.account_category_id == 5"
-                class="border-4 border-l-pink-300 border-r-pink-300 rounded-xl"
-              >
+              <div v-if="type_sum.account_category_id == 5">
                 {{ type_sum.account_type_sum }}
               </div>
             </td>
@@ -133,10 +148,7 @@
               <div
                 class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"
               ></div>
-              <div
-                v-if="type_sum.account_category_id == 4"
-                class="border-4 border-l-green-300 border-r-green-300 rounded-xl px-4 py-2"
-              >
+              <div v-if="type_sum.account_category_id == 4">
                 {{ type_sum.account_type_sum }}
               </div>
             </td>
