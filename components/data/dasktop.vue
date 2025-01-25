@@ -2,19 +2,6 @@
   <div v-if="loadsum">Loading...</div>
 
   <div v-else class="flex justify-center items-center gap-4 min-h-full w-full">
-    <!-- Box of Account Types -->
-
-    <!-- <div class="grid col-span-2 gap-1 p-2">
-      <div class="border-2 p-3 text-center">รายการทั้งหมด</div>
-      <div
-        v-for="(type_name, index) in datatype_name"
-        :key="index"
-        class="bg-white border-4 p-2 rounded-xl border-l-pink-400"
-      >
-        {{ type_name.account_type_name }}
-      </div>
-    </div> -->
-
     <!-- Box of Account Type Sums -->
     <div class="flex w-full p-2 max-h-screen overflow-auto">
       <table
@@ -25,11 +12,17 @@
             <th class="px-4 py-3 border-2">
               <button
                 @click="toggleZeroSumVisibility"
-                class="bg-blue-500 text-white px-4 py-2 rounded"
+                class="bg-cyan-600 text-white px-4 py-2 rounded"
               >
                 {{ showZeroSum ? "ซ่อน" : "แสดง" }}
               </button>
               รายการทั้งหมด
+              <button
+                @click="gotoGrap"
+                class="bg-cyan-600 px-4 py-2 text-white rounded"
+              >
+                graph
+              </button>
             </th>
             <th class="px-4 py-3 border-2">DR</th>
             <th class="px-4 py-3 border-2">CR</th>
@@ -197,6 +190,8 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const datatype_sum = ref([]);
 const showZeroSum = ref(true);
 const error = ref("");
@@ -219,6 +214,10 @@ const fetchType = async () => {
   } catch (err) {
     error.value = "Error fetching transitions: " + err.message;
   }
+};
+
+const gotoGrap = async () => {
+  router.push("/graph");
 };
 
 onMounted(() => {
