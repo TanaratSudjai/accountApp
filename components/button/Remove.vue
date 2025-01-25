@@ -2,15 +2,15 @@
   <div class="flex w-full gap-2 justify-center">
     <button
       @click="confirmAndRemove"
-      class="bg-cyan-600 p-2 px-4 rounded-xl text-white cursor-pointer hover:bg-cyan-700 transition w-[98%] sm:w-[48%]"
+      class="bg-cyan-600 rounded-xl text-white cursor-pointer hover:bg-cyan-700 transition w-[98%] sm:w-[48%]"
     >
       รีเซ็ทรายการธุรกรรม
     </button>
     <button
       @click="confirmAndRemoveType"
-      class="bg-cyan-600 p-2 px-4 rounded-xl text-white cursor-pointer hover:bg-cyan-700 transition w-[98%] sm:w-[48%]"
+      class="bg-cyan-600 rounded-xl text-white cursor-pointer hover:bg-cyan-700 transition w-[98%] sm:w-[48%]"
     >
-      เคลียร์ข้อมูลรายการประเภททั้งหมด
+      เคลียร์ข้อมูลประเภททั้งหมด
     </button>
   </div>
 </template>

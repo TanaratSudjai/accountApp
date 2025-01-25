@@ -1,21 +1,14 @@
 <template>
-  <client-only>
-    <BackComponents></BackComponents>
-  </client-only>
-  <div class="max-w-4xl mx-auto rounded-lg p-4 min-h-screen">
-    <div class="flex flex-col min-h-screen sm:px-6 lg:px-8 w-full">
+  <div class="mx-auto rounded-lg min-h-screen">
+    <div class="flex flex-col min-h-screen w-full">
       <!-- Header -->
-      <div class="mb-6 mt-4 shadow-md">
-        <h1
-          class="flex justify-center items-center text-2xl sm:text-3xl font-bold text-gray-800 bg-white p-4 rounded-xl shadow-sm"
-        >
-          การเปิดบัญชี
-        </h1>
+      <div class="mb-2 bg-white p-5 rounded-lg text-center">
+        <div class="font-medium">การตั้งค่าเปิดบัญชี</div>
       </div>
 
       <!-- Icon Selector -->
-      <div class="bg-white rounded-xl shadow-md mb-4 p-4">
-        <div class="flex overflow-x-auto py-2 space-x-4 scrollbar-hide">
+      <div class="bg-white rounded-lg shadow-md mb-2 p-5 flex flex-col gap-4">
+        <div class="flex overflow-x-auto py-1 space-x-4 scrollbar-hide">
           <div
             v-for="icon in IconData"
             :key="icon.account_type_id"
@@ -43,17 +36,16 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Selected Icon Display -->
-      <div class="bg-white p-4 rounded-xl shadow-md mb-4">
-        <h2 class="text-center text-lg font-semibold text-gray-700">
-          {{ selectedIcon?.account_type_name || "กรุณาเลือกประเภทบัญชี" }}
-        </h2>
+        <!-- Selected Icon Display -->
+        <div class="p-4 pt-5 border border-cyan-600 rounded-lg">
+          <h2 class="text-center text-lg font-semibold text-gray-700">
+            {{ selectedIcon?.account_type_name || "กรุณาเลือกประเภทบัญชี" }}
+          </h2>
+        </div>
       </div>
 
       <!-- Input Section -->
-      <div class="bg-white p-4 rounded-xl shadow-md mb-4">
+      <div class="bg-white p-4 rounded-lg shadow-md mb-2">
         <div class="flex gap-3">
           <input
             type="text"
@@ -68,17 +60,14 @@
               'px-6 font-semibold rounded-xl transition-colors duration-300 flex items-center justify-center',
               isButtonDisabled
                 ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
-                : 'bg-blue-500 hover:bg-blue-600 text-white cursor-pointer',
+                : 'bg-cyan-600 hover:bg-cyan-700 text-white cursor-pointer',
             ]"
           >
             เพิ่ม
           </button>
         </div>
-      </div>
-
-      <!-- Summary Section -->
-      <div class="bg-white p-4 rounded-xl shadow-md mb-4">
-        <div class="grid grid-cols-3 gap-3">
+        <!-- Summary Section -->
+        <div class="grid grid-cols-3 gap-3 mt-2">
           <!-- Sumone -->
           <div
             v-if="sumone.length === 0"
@@ -127,7 +116,11 @@
       </div>
 
       <!-- Transactions List -->
-      <div class="bg-white rounded-xl shadow-md mb-4 overflow-hidden">
+      <div
+        class="bg-white min-h-[200px] rounded-xl shadow-md overflow-hidden mb-16"
+      >
+        <div class="text-center p-2 font-medium">รายการธุรกรรมการเปิดบัญชี</div>
+
         <!-- Group One -->
         <div class="p-4">
           <div class="space-y-3">
@@ -164,12 +157,13 @@
           </div>
         </div>
       </div>
+
       <!-- Submit Button -->
       <button
-        class="fixed bottom-4 left-4 right-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 rounded-xl shadow-lg transition-colors duration-300 sm:static sm:mb-8"
+        class="fixed bottom-4 left-4 right-4 border border-cyan-900 bg-white hover:bg-white text-cyan-600 font-semibold py-4 rounded-xl shadow-lg transition-colors duration-300 sm:static sm:mb-8"
         @click="submitDifferences()"
       >
-        ยืนยัน
+        ยืนยันการเปิดบัญชี
       </button>
     </div>
   </div>
@@ -415,7 +409,6 @@ const updateAccountTransition = async (
     console.error("Error updating account transition:", error);
   }
 };
-
 
 const handleOkClick = () => {
   if (selectedIcon.value) {
