@@ -1,7 +1,7 @@
 <template>
   <div class="font-noto">
     <slot />
-    <NavbarComponents></NavbarComponents>
+    <!-- <NavbarComponents></NavbarComponents> -->
   </div>
 </template>
 
