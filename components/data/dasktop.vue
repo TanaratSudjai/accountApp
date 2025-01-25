@@ -1,10 +1,7 @@
 <template>
   <div v-if="loadsum">Loading...</div>
 
-  <div
-    v-else
-    class="flex justify-center items-center gap-4 min-h-full w-full"
-  >
+  <div v-else class="flex justify-center items-center gap-4 min-h-full w-full">
     <!-- Box of Account Types -->
 
     <!-- <div class="grid col-span-2 gap-1 p-2">
