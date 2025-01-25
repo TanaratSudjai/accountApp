@@ -1,8 +1,9 @@
 <template>
   <div v-if="loadsum">Loading...</div>
-  
+
   <div
-    v-else class="flex justify-center items-center gap-4 max-h-full w-4xl mt-4"
+    v-else
+    class="flex justify-center items-center gap-4 min-h-full w-full mt-4"
   >
     <!-- Box of Account Types -->
 
@@ -18,8 +19,10 @@
     </div> -->
 
     <!-- Box of Account Type Sums -->
-    <div class="flex w-4xl max-h-[900px] overflow-auto">
-      <table class="min-w-full table-auto border-collapse rounded-md max-h-full overflow-auto">
+    <div class="flex w-full p-2 max-h-screen overflow-auto">
+      <table
+        class="min-w-full table-auto border-collapse rounded-md max-h-full overflow-auto"
+      >
         <thead>
           <tr class="bg-gray-100 text-center font-bold">
             <th class="px-4 py-3 border-2">รายการทั้งหมด</th>
@@ -240,7 +243,10 @@ const sumColumn3 = computed(() =>
 
 const sumColumn4 = computed(() =>
   datatype_sum.value
-    .filter((type_sum) => type_sum.account_category_id === 2 || type_sum.account_category_id === 3)
+    .filter(
+      (type_sum) =>
+        type_sum.account_category_id === 2 || type_sum.account_category_id === 3
+    )
     .reduce((acc, curr) => acc + parseFloat(curr.account_type_sum || 0), 0)
 );
 

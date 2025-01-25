@@ -1,0 +1,50 @@
+<template>
+  <div class="flex w-full gap-2 justify-center">
+    <button
+      @click="confirmAndRemove"
+      class="bg-cyan-600 rounded-xl text-white cursor-pointer hover:bg-cyan-700 transition w-[98%] sm:w-[48%]"
+    >
+      รีเซ็ทรายการธุรกรรม
+    </button>
+    <button
+      @click="confirmAndRemoveType"
+      class="bg-cyan-600 rounded-xl text-white cursor-pointer hover:bg-cyan-700 transition w-[98%] sm:w-[48%]"
+    >
+      เคลียร์ข้อมูลประเภททั้งหมด
+    </button>
+  </div>
+</template>
+
+<script setup>
+const confirmAndRemove = async () => {
+  if (confirm("คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ทรายการธุรกรรม?")) {
+    try {
+      await fetch("https://api-accountapp.onrender.com/api/removetransition", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching transition:", error);
+      alert("ข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์");
+    }
+  }
+};
+
+const confirmAndRemoveType = async () => {
+  if (confirm("คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ทรายการธุรกรรม?")) {
+    try {
+      await fetch("https://api-accountapp.onrender.com/api/removedatatype", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching transition:", error);
+      alert("ข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์");
+    }
+  }
+};
+</script>
