@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto rounded-lg min-h-screen">
+  <div class="mx-auto max-w-4xl rounded-lg min-h-screen">
     <div class="flex flex-col min-h-screen w-full">
       <!-- Header -->
       <div class="mb-2 bg-white p-5 rounded-lg text-center">
