@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex justify-center items-center mt-[-50px]">
-    <FormLogin />
+    <FormRegister />
   </div>
 </template>
 
