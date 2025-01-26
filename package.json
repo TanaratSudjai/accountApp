@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxt/image": "^1.8.1",
     "@nuxtjs/proxy": "^2.1.0",
+    "axios": "^1.7.9",
     "chart.js": "^4.4.7",
     "lucide-vue-next": "^0.454.0",
     "nuxt": "^3.13.0",
