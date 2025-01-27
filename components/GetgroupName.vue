@@ -16,7 +16,7 @@
   const fetchGroup = async () => {
     try {
       const response = await fetch(
-        `https://api-accountapp.onrender.com/api/category/${groupID}`
+        `http://localhost:5000/api/category/${groupID}`
       );
       const data = await response.json();
       GroupData.value = data;

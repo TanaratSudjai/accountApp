@@ -92,7 +92,7 @@ const handleLogin = async () => {
       formData.account_user_password === formData.account_user_confirmpassword
     ) {
       const response = await axios.post(
-        "https://api-accountapp.onrender.com/api/auth/register",
+        "http://localhost:5000/api/auth/register",
         {
           account_user_username: formData.account_user_username,
           account_user_password: formData.account_user_password,
@@ -101,7 +101,7 @@ const handleLogin = async () => {
       console.log(response.data.token);
       const token = response.data.token;
       localStorage.setItem("token", token);
-      await router.push("/home");
+      await router.push("/");
     } else {
       error.value = err.response?.data?.message || "Password is not confirm !";
     }

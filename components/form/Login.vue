@@ -72,14 +72,21 @@ const handleLogin = async () => {
   error.value = "";
 
   try {
-    const response = await axios.post("https://api-accountapp.onrender.com/api/auth/login", {
-      account_user_username: formData.account_user_username,
-      account_user_password: formData.account_user_password,
-    });
-    console.log(response.data.token);
+    const response = await axios.post(
+      "http://localhost:5000/api/auth/login",
+      {
+        account_user_username: formData.account_user_username,
+        account_user_password: formData.account_user_password,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    console.log(response);
     const token = response.data.token;
     localStorage.setItem("token", token);
-
+    // console.log(response.data.token);
     await router.push("/home");
   } catch (err) {
     error.value = err.response?.data?.message || "Login failed. Try again.";

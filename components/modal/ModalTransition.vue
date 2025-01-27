@@ -182,7 +182,7 @@ const { data: category, error } = await useAsyncData(
   "fetch transitions",
   async () => {
     const result_category = await $fetch(
-      "https://api-accountapp.onrender.com/api/get_type_from_id"
+      "http://localhost:5000/api/get_type_from_id"
     );
     categorys.value = result_category.result || [];
   }
