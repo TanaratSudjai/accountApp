@@ -212,13 +212,13 @@ const fetchType = async () => {
   try {
     if (showZeroSum.value) {
       const response = await $fetch(
-        "https://api-accountapp.onrender.com/api/dasktop_data_sumtype"
+        "http://localhost:5000/api/dasktop_data_sumtype"
       );
       console.log("API Response not zero:", response); // Log the response
       datatype_sum.value = response.account_type_sum || [];
     } else {
       const response = await $fetch(
-        "https://api-accountapp.onrender.com/api/dasktop_data_sumzero"
+        "http://localhost:5000/api/dasktop_data_sumzero"
       );
       console.log("API Response zero:", response); // Log the response
       datatype_sum.value = response.account_type_sum || [];

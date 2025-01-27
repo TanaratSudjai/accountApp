@@ -45,7 +45,10 @@
       >
         {{ เข้าสู่ระบบ ? "กำลังโหลด..." : "เข้าสู่ระบบ" }}
       </button>
-      <button @click="goRegister" class="text-cyan-600 px-4 py-2 rounded underline">
+      <button
+        @click="goRegister"
+        class="text-cyan-600 px-4 py-2 rounded underline"
+      >
         {{ สมัครใช้งาน ? "กำลังโหลด..." : "สมัครใช้งาน" }}
       </button>
     </form>
@@ -73,13 +76,10 @@ const handleLogin = async () => {
   error.value = "";
 
   try {
-    const response = await axios.post(
-      "https://api-accountapp.onrender.com/api/login",
-      {
-        account_user_username: formData.account_user_username,
-        account_user_password: formData.account_user_password,
-      }
-    );
+    const response = await axios.post("http://localhost:5000/api/login", {
+      account_user_username: formData.account_user_username,
+      account_user_password: formData.account_user_password,
+    });
     console.log(response.data.token);
     const token = response.data.token;
     localStorage.setItem("token", token);

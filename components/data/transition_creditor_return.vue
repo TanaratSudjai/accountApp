@@ -185,7 +185,7 @@ function setColumnValue(value) {
 
 const fetchCat = async () => {
   try {
-    const res = await fetch("https://api-accountapp.onrender.com/api/get_type_from_id");
+    const res = await fetch("http://localhost:5000/api/get_type_from_id");
     if (!res.ok) throw new Error("Network response was not ok");
     const data = await res.json();
     // console.log(data);
@@ -199,7 +199,7 @@ const creditor = ref([]);
 
 const fetchCreditor = async () => {
   try {
-    const res = await fetch("https://api-accountapp.onrender.com/api/get_creditor");
+    const res = await fetch("http://localhost:5000/api/get_creditor");
     if (!res.ok) throw new Error("Network response was not ok");
     const data = await res.json();
     // console.log(data);
@@ -280,7 +280,7 @@ const handleOkClick = async () => {
   try {
     // Send data to the API
     const response = await fetch(
-      "https://api-accountapp.onrender.com/api/bank_return",
+      "http://localhost:5000/api/bank_return",
       {
         method: "POST",
         headers: {
@@ -303,7 +303,7 @@ const handleOkClick = async () => {
 
 const bankTransition = async () => {
   try {
-    const response = await fetch(`https://api-accountapp.onrender.com/api/transition_bank`);
+    const response = await fetch(`http://localhost:5000/api/transition_bank`);
     const data = await response.json();
     bankData.value = data.data_transition_bank;
   } catch (error) {
@@ -313,7 +313,7 @@ const bankTransition = async () => {
 
 const deleteTransection = async (id) => {
   try {
-    await $fetch(`https://api-accountapp.onrender.com/api/reuse_return_bank/${id}`, {
+    await $fetch(`http://localhost:5000/api/reuse_return_bank/${id}`, {
       method: "DELETE",
     });
     //console.log(`Transaction ${id} deleted successfully`);
