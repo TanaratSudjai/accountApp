@@ -55,7 +55,7 @@
     console.log(localAccountGroup.value.account_group_id)
     console.log(localAccountGroup.value.account_group_name)
     try {
-      const response = await fetch(`http://localhost:5000/api/account_group_update/${localAccountGroup.value.account_group_id}`, {
+      const response = await fetch(`https://api-accountapp.onrender.com/api/account_group_update/${localAccountGroup.value.account_group_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

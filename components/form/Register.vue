@@ -91,10 +91,13 @@ const handleLogin = async () => {
     if (
       formData.account_user_password === formData.account_user_confirmpassword
     ) {
-      const response = await axios.post("http://localhost:5000/api/register", {
-        account_user_username: formData.account_user_username,
-        account_user_password: formData.account_user_password,
-      });
+      const response = await axios.post(
+        "https://api-accountapp.onrender.com/api/auth/register",
+        {
+          account_user_username: formData.account_user_username,
+          account_user_password: formData.account_user_password,
+        }
+      );
       console.log(response.data.token);
       const token = response.data.token;
       localStorage.setItem("token", token);

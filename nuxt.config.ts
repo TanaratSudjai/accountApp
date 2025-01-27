@@ -14,15 +14,15 @@ export default defineNuxtConfig({
   // nitro: {
   //   routeRules: {
   //     "/**": {
-  //       proxy: "http://localhost:5000/api/**", // URL ของ API ที่ต้องการ Proxy
+  //       proxy: "https://api-accountapp.onrender.com/api/**", // URL ของ API ที่ต้องการ Proxy
   //     },
   //   },
   //   debug: true,
   // },
 
-  runtimeConfig: {
-    public: {
-      apiUrl: process.env.API_URL || "http://localhost:5000/api",
-    },
-  },
+  // runtimeConfig: {
+  //   public: {
+  //     apiUrl: process.env.API_URL || "https://api-accountapp.onrender.com/api",
+  //   },
+  // },
 });

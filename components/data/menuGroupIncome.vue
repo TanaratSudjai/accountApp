@@ -125,7 +125,7 @@ const handleUpdate = async ({
 
   try {
     // ส่งข้อมูลไปยัง API
-    await $fetch("http://localhost:5000/api/transition_select_income", {
+    await $fetch("https://api-accountapp.onrender.com/api/transition_select_income", {
       method: "POST",
       body: formData.value,
     });
@@ -142,7 +142,7 @@ const handleUpdate = async ({
 const fetchMenuGroupData = async () => {
   try {
     const menuGroup_result = await $fetch(
-      "http://localhost:5000/api/getMenuGroup_income"
+      "https://api-accountapp.onrender.com/api/getMenuGroup_income"
     );
     menuGroup.value = menuGroup_result || [];
     // console.log(menuGroup.value);
@@ -162,7 +162,7 @@ onMounted(async () => {
 const fetchDataSelect = async () => {
   try {
     const data = await $fetch(
-      "http://localhost:5000/api/getSelect_countSelect"
+      "https://api-accountapp.onrender.com/api/getSelect_countSelect"
     );
     count.value = data; // เก็บค่าที่ดึงมา
   } catch (err) {
@@ -176,7 +176,7 @@ const disabledAccountTypeIds = ref(new Set()); // A Set to store disabled accoun
 
 const fetchTransitions = async () => {
   try {
-    transition.value = await $fetch("http://localhost:5000/api/get_income_transition");
+    transition.value = await $fetch("https://api-accountapp.onrender.com/api/get_income_transition");
 
     // Extract account_type_id values and add them to the Set
     disabledAccountTypeIds.value = new Set(transition.value.map(item => item.account_type_id));

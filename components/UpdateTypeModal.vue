@@ -52,7 +52,7 @@ const typeData = ref([]);
 
 const fetchTypeData = async () => {
   try {
-    const response = await fetch(`http://localhost:5000/api/account_type_get`);
+    const response = await fetch(`https://api-accountapp.onrender.com/api/account_type_get`);
     const data = await response.json();
     typeData.value = data.account_type;
   } catch (error) {
@@ -108,7 +108,7 @@ const updateAccountType = async () => {
   console.log(localAccountType.value.account_type_from_id);
   try {
     const response = await fetch(
-      `http://localhost:5000/api/account_type_update/${localAccountType.value.account_type_id}`,
+      `https://api-accountapp.onrender.com/api/account_type_update/${localAccountType.value.account_type_id}`,
       {
         method: "PUT",
         headers: {
