@@ -29,6 +29,12 @@ import { useRouter } from "vue-router";
 import axios from "axios";
 const router = useRouter();
 const error = ref("");
+
+definePageMeta({
+  middleware: ['auth']
+})
+
+
 const logout = async () => {
   try {
     // ดึง token จาก localStorage
@@ -63,7 +69,7 @@ const logout = async () => {
     // ถ้าเป็น error 401 อาจจะ force logout
     if (err.response?.status === 401) {
       localStorage.removeItem("token");
-      await router.push("/");
+      await router.push("/login");
     }
   }
 };
