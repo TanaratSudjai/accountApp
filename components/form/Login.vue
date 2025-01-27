@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-10 rounded-lg shadow-md w-[60%] flex justify-center items-center"
+    class="p-10 rounded-lg shadow-md w-[80%] flex justify-center items-center"
   >
     <form
       @submit.prevent="handleLogin"
@@ -38,18 +38,14 @@
         {{ error }}
       </div>
 
-      <button
-        type="submit"
-        :disabled="เข้าสู่ระบบ"
-        class="bg-cyan-600 text-white px-4 py-2 rounded"
-      >
-        {{ เข้าสู่ระบบ ? "กำลังโหลด..." : "เข้าสู่ระบบ" }}
+      <button type="submit" class="bg-cyan-600 text-white px-4 py-2 rounded">
+        เข้าสู่ระบบ
       </button>
       <button
         @click="goRegister"
         class="text-cyan-600 px-4 py-2 rounded underline"
       >
-        {{ สมัครใช้งาน ? "กำลังโหลด..." : "สมัครใช้งาน" }}
+        สมัครใช้งาน
       </button>
     </form>
   </div>
