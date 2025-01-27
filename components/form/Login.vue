@@ -85,9 +85,13 @@ const handleLogin = async () => {
 
     console.log(response);
     const token = response.data.token;
+    
     localStorage.setItem("token", token);
-    // console.log(response.data.token);
+    const tokenCookie = useCookie('token'); 
+    tokenCookie.value = token;
+
     await router.push("/home");
+    window.location.reload();
   } catch (err) {
     error.value = err.response?.data?.message || "Login failed. Try again.";
   } finally {

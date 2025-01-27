@@ -63,6 +63,7 @@ const logout = async () => {
         .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
     });
     await router.push("/");
+    window.location.reload();
   } catch (err) {
     console.error("Logout error:", err);
     error.value = err.response?.data?.message || "Logout failed. Try again.";
