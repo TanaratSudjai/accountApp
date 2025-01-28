@@ -55,6 +55,7 @@ import {
   Grid2x2Plus,
   ArrowUpFromLine,
 } from "lucide-vue-next";
+import axios from "axios";
 
 const checkData = ref([]);
 const fetchData = async () => {
@@ -68,8 +69,31 @@ const fetchData = async () => {
   }
 };
 
+const fetch_transition = async () => {
+  try {
+    const token = localStorage.getItem("token"); // หรือดึงจาก cookie ถ้าเก็บไว้ใน cookie
+    if (!token) {
+      throw new Error("Token missing!");
+    }
+    console.log("Token user login \n" + token);
+
+    const res = await axios.get("http://localhost:5000/api/transitions", {
+      headers: {
+        Authorization: `Bearer ${token}`, // ส่ง Token ใน Authorization Header
+      },
+    });
+    console.log("Response of res. data axios fetch Barer :", res.data);
+  } catch (err) {
+    console.error(
+      "Error fetching transitions:",
+      err.response?.data || err.message
+    );
+  }
+};
+
 onMounted(async () => {
   await fetchData();
+  await fetch_transition();
 });
 
 const menuItems = [

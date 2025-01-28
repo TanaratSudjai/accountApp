@@ -31,9 +31,8 @@ const router = useRouter();
 const error = ref("");
 
 definePageMeta({
-  middleware: ['auth']
-})
-
+  middleware: ["auth"],
+});
 
 const logout = async () => {
   try {
@@ -46,7 +45,7 @@ const logout = async () => {
     // ส่ง request พร้อม token ใน header
     await axios.post(
       "http://localhost:5000/api/auth/logout",
-      {}, // request body
+      // request body
       {
         headers: {
           Authorization: `Bearer ${token}`, // ส่ง token ใน header
@@ -65,13 +64,13 @@ const logout = async () => {
     await router.push("/");
     window.location.reload();
   } catch (err) {
-    console.error("Logout error:", err);
-    error.value = err.response?.data?.message || "Logout failed. Try again.";
-    // ถ้าเป็น error 401 อาจจะ force logout
-    if (err.response?.status === 401) {
+    if (error.response?.status === 401) {
+      // Handle unauthorized error (e.g., redirect to login)
+      console.error("Unauthorized access. Please login again.");
+      // Optionally clear token
       localStorage.removeItem("token");
-      await router.push("/login");
     }
+    throw error;
   }
 };
 </script>
