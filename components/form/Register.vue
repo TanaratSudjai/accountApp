@@ -10,6 +10,19 @@
 
       <div class="mb-4">
         <label for="username" class="block text-gray-700 font-medium mb-2">
+          ชื่อบัญชี
+        </label>
+        <input
+          v-model="formData.account_user_name"
+          id="name"
+          type="text"
+          placeholder="ชื่อผู้ใช้"
+          class="p-4 rounded-sm w-full border-2"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label for="username" class="block text-gray-700 font-medium mb-2">
           ชื่อผู้ใช้
         </label>
         <input
@@ -76,6 +89,7 @@ const loading = ref(false);
 const error = ref("");
 
 const formData = reactive({
+  account_user_name: "",
   account_user_username: "",
   account_user_password: "",
   account_user_confirmpassword: "",
@@ -94,6 +108,7 @@ const handleLogin = async () => {
       const response = await axios.post(
         "http://localhost:5000/api/auth/register",
         {
+          account_user_name: formData.account_user_name,
           account_user_username: formData.account_user_username,
           account_user_password: formData.account_user_password,
         }
