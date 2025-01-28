@@ -64,7 +64,6 @@ const formData = reactive({
   account_user_username: "",
   account_user_password: "",
 });
-
 const handleLogin = async () => {
   if (loading.value) return;
 
@@ -79,17 +78,23 @@ const handleLogin = async () => {
         account_user_password: formData.account_user_password,
       },
       {
-        withCredentials: true,
+        withCredentials: true, // สำคัญ: backend ต้องรองรับ cookies
       }
     );
 
-    console.log(response);
     const token = response.data.token;
 
+    // เก็บ token ทั้งใน localStorage และ cookie
     localStorage.setItem("token", token);
-    const tokenCookie = useCookie("token");
+
+    const tokenCookie = useCookie("token", {
+      maxAge: 7 * 24 * 60 * 60, // อายุ 7 วัน
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
     tokenCookie.value = token;
 
+    // Redirect หลังจาก login สำเร็จ
     await router.push("/home");
     window.location.reload();
   } catch (err) {
