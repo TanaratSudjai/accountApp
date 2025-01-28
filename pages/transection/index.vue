@@ -208,7 +208,7 @@ const sumtwo = ref([]);
 const onSubmitTransition = async () => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/transitionsubmit`,
+      `https://api-accountapp.onrender.com/api/transitionsubmit`,
       {
         method: "PUT",
         headers: {
@@ -239,7 +239,7 @@ const router = useRouter();
 const submitDifferences = async () => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/sumbittrantision_suminsert`,
+      `https://api-accountapp.onrender.com/api/sumbittrantision_suminsert`,
       {
         method: "POST",
         headers: {
@@ -268,7 +268,7 @@ const submitDifferences = async () => {
 const fetchsumone = async () => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/getSumGropOne`
+      `https://api-accountapp.onrender.com/api/getSumGropOne`
 
     );
     const data = await response.json();
@@ -282,7 +282,7 @@ const fetchsumtwo = async () => {
   try {
     const response = await fetch(
 
-      `http://localhost:5000/api/getSumGropTwo`
+      `https://api-accountapp.onrender.com/api/getSumGropTwo`
 
     );
     const data = await response.json();
@@ -295,7 +295,7 @@ const fetchsumtwo = async () => {
 const fetchTransition = async () => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/transitions`
+      `https://api-accountapp.onrender.com/api/transitions`
 
     );
     const data = await response.json();
@@ -308,7 +308,7 @@ const fetchTransition = async () => {
 const groupOneTransition = async () => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/getGropOne`
+      `https://api-accountapp.onrender.com/api/getGropOne`
 
     );
     const data = await response.json();
@@ -321,7 +321,7 @@ const groupOneTransition = async () => {
 const groupTwoTransition = async () => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/getGropTwo`
+      `https://api-accountapp.onrender.com/api/getGropTwo`
 
     );
     const data = await response.json();
@@ -345,7 +345,7 @@ const accountTypeValue = computed({
 const fetchIcon = async () => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/menu_icon`
+      `https://api-accountapp.onrender.com/api/menu_icon`
 
     );
     const data = await response.json();
@@ -392,7 +392,7 @@ const updateAccountTransition = async (
   console.log(accountCategoryID);
   try {
     const response = await fetch(
-      `http://localhost:5000/api/transition`,
+      `https://api-accountapp.onrender.com/api/transition`,
 
       {
         method: "POST",

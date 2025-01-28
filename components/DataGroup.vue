@@ -53,7 +53,7 @@ const groupData = ref([]);
 const fetchGroup = async () => {
     try {
         const response = await fetch(
-            `http://localhost:5000/api/account_group_counttype/${categoryID}`
+            `https://api-accountapp.onrender.com/api/account_group_counttype/${categoryID}`
         );
         const data = await response.json();
         groupData.value = data.count_type_at_group;
@@ -76,7 +76,7 @@ const deleteFormData = async (account_group_id) => {
     console.log(account_group_id);
     try {
         const response = await fetch(
-            `http://localhost:5000/api/account_group_del/${account_group_id}`,
+            `https://api-accountapp.onrender.com/api/account_group_del/${account_group_id}`,
             {
                 method: "DELETE",
             }

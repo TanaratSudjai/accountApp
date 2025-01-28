@@ -45,7 +45,7 @@ const logout = async () => {
     }
     // ส่ง request พร้อม token ใน header
     await axios.post(
-      "http://localhost:5000/api/auth/logout",
+      "https://api-accountapp.onrender.com/api/auth/logout",
       {}, // request body
       {
         headers: {
