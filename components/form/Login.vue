@@ -85,9 +85,9 @@ const handleLogin = async () => {
 
     console.log(response);
     const token = response.data.token;
-    
+
     localStorage.setItem("token", token);
-    const tokenCookie = useCookie('token'); 
+    const tokenCookie = useCookie("token");
     tokenCookie.value = token;
 
     await router.push("/home");

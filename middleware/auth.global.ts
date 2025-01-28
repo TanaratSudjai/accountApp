@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   // (หลังจากกระบวนการ SSR) สถานะโทเค็นจะถูกเติมไว้แล้ว และจะไม่มีการกำหนดไว้
 
 
-  const token = tokenState.value;
+  const token = tokenCookie.value;
 
   console.log('Token from cookie:', token);
 
