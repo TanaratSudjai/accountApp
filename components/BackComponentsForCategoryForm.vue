@@ -52,7 +52,7 @@ const breadcrumbs = ref([
 
 const fetchGroup = async () => {
   try {
-    const response = await fetch(`https://api-accountapp.onrender.com/api/category/${categoryID}`);
+    const response = await fetch(`http://localhost:5000/api/category/${categoryID}`);
     const data = await response.json();
     GroupData.value = data;
     console.log(GroupData.value);

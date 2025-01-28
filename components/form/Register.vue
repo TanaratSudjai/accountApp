@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-10 rounded-lg shadow-md w-[60%] flex justify-center items-center"
+    class="p-10 rounded-lg shadow-md w-[80%] flex justify-center items-center"
   >
     <form
       @submit.prevent="handleLogin"
@@ -52,16 +52,15 @@
 
       <button
         type="submit"
-        :disabled="เข้าสู่ระบบ"
         class="bg-cyan-600 text-white p-4 rounded hover:bg-cyan-700"
       >
-        {{ สมัครใช้งาน ? "กำลังโหลด..." : "สมัครใช้งาน" }}
+        สมัครใช้งาน
       </button>
       <button
         @click="goLogin"
         class="text-cyan-600 px-4 py-2 rounded underline"
       >
-        {{ เข้าสู่ระบบ ? "กำลังโหลด..." : "เข้าสู่ระบบ" }}
+        เข้าสู่ระบบ
       </button>
     </form>
   </div>
@@ -93,7 +92,7 @@ const handleLogin = async () => {
       formData.account_user_password === formData.account_user_confirmpassword
     ) {
       const response = await axios.post(
-        "https://api-accountapp.onrender.com/api/register",
+        "http://localhost:5000/api/auth/register",
         {
           account_user_username: formData.account_user_username,
           account_user_password: formData.account_user_password,
@@ -102,7 +101,8 @@ const handleLogin = async () => {
       console.log(response.data.token);
       const token = response.data.token;
       localStorage.setItem("token", token);
-      await router.push("/home");
+      await router.push("/");
+      
     } else {
       error.value = err.response?.data?.message || "Password is not confirm !";
     }

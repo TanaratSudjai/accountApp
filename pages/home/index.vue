@@ -59,9 +59,7 @@ import {
 const checkData = ref([]);
 const fetchData = async () => {
   try {
-    const res = await fetch(
-      "https://api-accountapp.onrender.com/api/transitions"
-    );
+    const res = await fetch("http://localhost:5000/api/transitions");
     if (!res.ok) throw new Error("Network response was not ok");
     const data = await res.json();
     checkData.value = data.res_transition;

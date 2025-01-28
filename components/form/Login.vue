@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-10 rounded-lg shadow-md w-[60%] flex justify-center items-center"
+    class="p-10 rounded-lg shadow-md w-[80%] flex justify-center items-center"
   >
     <form
       @submit.prevent="handleLogin"
@@ -38,15 +38,14 @@
         {{ error }}
       </div>
 
-      <button
-        type="submit"
-        :disabled="เข้าสู่ระบบ"
-        class="bg-cyan-600 text-white px-4 py-2 rounded"
-      >
-        {{ เข้าสู่ระบบ ? "กำลังโหลด..." : "เข้าสู่ระบบ" }}
+      <button type="submit" class="bg-cyan-600 text-white px-4 py-2 rounded">
+        เข้าสู่ระบบ
       </button>
-      <button @click="goRegister" class="text-cyan-600 px-4 py-2 rounded underline">
-        {{ สมัครใช้งาน ? "กำลังโหลด..." : "สมัครใช้งาน" }}
+      <button
+        @click="goRegister"
+        class="text-cyan-600 px-4 py-2 rounded underline"
+      >
+        สมัครใช้งาน
       </button>
     </form>
   </div>
@@ -74,17 +73,25 @@ const handleLogin = async () => {
 
   try {
     const response = await axios.post(
-      "https://api-accountapp.onrender.com/api/login",
+      "http://localhost:5000/api/auth/login",
       {
         account_user_username: formData.account_user_username,
         account_user_password: formData.account_user_password,
+      },
+      {
+        withCredentials: true,
       }
     );
-    console.log(response.data.token);
+
+    console.log(response);
     const token = response.data.token;
+    
     localStorage.setItem("token", token);
+    const tokenCookie = useCookie('token'); 
+    tokenCookie.value = token;
 
     await router.push("/home");
+    window.location.reload();
   } catch (err) {
     error.value = err.response?.data?.message || "Login failed. Try again.";
   } finally {

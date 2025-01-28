@@ -1,290 +1,436 @@
 <template>
-  <div v-if="loadsum">Loading...</div>
-
-  <div v-else class="flex justify-center items-center gap-4 min-h-full w-full">
-    <!-- Box of Account Types -->
-
-    <!-- <div class="grid col-span-2 gap-1 p-2">
-      <div class="border-2 p-3 text-center">รายการทั้งหมด</div>
-      <div
-        v-for="(type_name, index) in datatype_name"
-        :key="index"
-        class="bg-white border-4 p-2 rounded-xl border-l-pink-400"
-      >
-        {{ type_name.account_type_name }}
+  <div class="mx-auto max-w-4xl rounded-lg min-h-screen">
+    <div class="flex flex-col min-h-screen w-full">
+      <!-- Header -->
+      <div class="mb-2 bg-white p-5 rounded-lg text-center">
+        <div class="font-medium">การตั้งค่าเปิดบัญชี</div>
       </div>
-    </div> -->
 
-    <!-- Box of Account Type Sums -->
-    <div class="flex w-full p-2 max-h-screen overflow-auto">
-      <table
-        class="min-w-full bg-gray-200 table-fixed border-collapse rounded-md max-h-full overflow-auto"
+      <!-- Icon Selector -->
+      <div class="bg-white rounded-lg shadow-md mb-2 p-5 flex flex-col gap-4">
+        <div class="flex overflow-x-auto py-1 space-x-4 scrollbar-hide">
+          <div
+            v-for="icon in IconData"
+            :key="icon.account_type_id"
+            class="flex-shrink-0 flex flex-col items-center gap-2"
+          >
+            <div
+              :class="[
+                'rounded-full flex items-center justify-center w-16 h-16 cursor-pointer transition-all duration-300 transform hover:scale-105',
+                selectedIcon &&
+                selectedIcon.account_type_id === icon.account_type_id
+                  ? 'bg-gray-400 ring-4 ring-gray-200'
+                  : icon.account_category_id === 1
+                  ? 'bg-yellow-500 ring-4 ring-yellow-300'
+                  : icon.account_category_id === 2
+                  ? 'bg-purple-500 ring-4 ring-purple-300'
+                  : 'bg-gray-100',
+              ]"
+              @click="toggleSelect(icon)"
+            >
+              <img
+                :src="icon.account_type_icon"
+                alt="icon"
+                class="w-12 h-12 rounded-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- Selected Icon Display -->
+        <div class="p-4 pt-5 border border-cyan-600 rounded-lg">
+          <h2 class="text-center text-lg font-semibold text-gray-700">
+            {{ selectedIcon?.account_type_name || "กรุณาเลือกประเภทบัญชี" }}
+          </h2>
+        </div>
+      </div>
+
+      <!-- Input Section -->
+      <div class="bg-white p-4 rounded-lg shadow-md mb-2">
+        <div class="flex gap-3">
+          <input
+            type="text"
+            placeholder="ตั้งจำนวนเงิน"
+            class="flex-1 text-gray-800 text-sm border border-gray-200 px-4 py-3 rounded-xl outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+            v-model="accountTypeValue"
+          />
+          <button
+            @click="handleOkClick"
+            :disabled="isButtonDisabled"
+            :class="[
+              'px-6 font-semibold rounded-xl transition-colors duration-300 flex items-center justify-center',
+              isButtonDisabled
+                ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                : 'bg-cyan-600 hover:bg-cyan-700 text-white cursor-pointer',
+            ]"
+          >
+            เพิ่ม
+          </button>
+        </div>
+        <!-- Summary Section -->
+        <div class="grid grid-cols-3 gap-3 mt-2">
+          <!-- Sumone -->
+          <div
+            v-if="sumone.length === 0"
+            class="p-3 rounded-xl border-l-4 border border-yellow-300 bg-yellow-50 font-semibold text-center"
+          >
+            0
+          </div>
+          <div
+            v-for="sumone_s in sumone"
+            :key="sumone_s.total_transition_value"
+            class="p-3 rounded-xl border-l-4 border border-yellow-300 bg-yellow-50 font-semibold text-center"
+          >
+            {{ sumone_s.total_transition_value ?? 0 }}
+          </div>
+
+          <!-- Sumtwo -->
+          <div
+            v-if="sumtwo.length === 0"
+            class="p-3 rounded-xl border-l-4 border border-purple-300 bg-purple-50 font-semibold text-center"
+          >
+            0
+          </div>
+          <div
+            v-for="sumtwo_s in sumtwo"
+            :key="sumtwo_s.total_transition_value"
+            class="p-3 rounded-xl border-l-4 border border-purple-300 bg-purple-50 font-semibold text-center"
+          >
+            {{ sumtwo_s.total_transition_value ?? 0 }}
+          </div>
+
+          <!-- Differences -->
+          <div
+            v-if="sumtwo.length === 0 && sumone.length === 0"
+            class="p-3 rounded-xl border border-gray-200 bg-gray-50 font-semibold text-center"
+          >
+            0
+          </div>
+          <div
+            v-for="(difference, index) in differences"
+            :key="index"
+            class="p-3 rounded-xl border border-gray-200 bg-gray-50 font-semibold text-center"
+          >
+            {{ difference ?? 0 }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Transactions List -->
+      <div
+        class="bg-white min-h-[200px] rounded-xl shadow-md overflow-hidden mb-16"
       >
-        <thead>
-          <tr class="bg-gray-200 text-center font-bold">
-            <th class="px-4 py-3 border-2">
-              <button
-                @click="toggleZeroSumVisibility"
-                class="bg-blue-500 text-white px-4 py-2 rounded"
-              >
-                {{ showZeroSum ? "ซ่อน" : "แสดง" }}
-              </button>
-              รายการทั้งหมด
-              <button
-                @click="gotoGrap"
-                class="bg-cyan-600 px-4 py-2 text-white rounded"
-              >
-                graph
-              </button>
-            </th>
-            <th class="px-4 py-3 border-2">DR</th>
-            <th class="px-4 py-3 border-2">CR</th>
-            <th class="px-4 py-3 border-2">DR</th>
-            <th class="px-4 py-3 border-2">CR</th>
-            <th class="px-4 py-3 border-2">DR</th>
-            <th class="px-4 py-3 border-2">CR</th>
-          </tr>
-        </thead>
+        <div class="text-center p-2 font-medium">รายการธุรกรรมการเปิดบัญชี</div>
 
-        <tbody>
-          <tr
-            v-for="(type_sum, index) in datatype_sum"
-            :key="type_sum.account_type_name"
-            :class="{
-              'bg-yellow-100':
-                type_sum.account_category_id == 1 && index % 2 === 0,
-              'bg-yellow-200':
-                type_sum.account_category_id == 1 && index % 2 !== 0,
+        <!-- Group One -->
+        <div class="p-4">
+          <div class="space-y-3">
+            <div
+              v-for="group_one in groupOne"
+              :key="group_one.account_transition_id"
+              class="flex justify-between p-4 border-l-4 border border-yellow-300 rounded-xl bg-yellow-50 hover:shadow-md transition-shadow"
+            >
+              <span class="font-semibold text-gray-800">
+                {{ group_one.account_type_name }}
+              </span>
+              <span class="font-bold text-yellow-700">
+                {{ group_one.account_transition_value }}
+              </span>
+            </div>
+          </div>
+        </div>
 
-              'bg-purple-300':
-                type_sum.account_category_id == 2 && index % 2 === 0,
-              'bg-[#ad46ff]':
-                type_sum.account_category_id == 2 && index % 2 !== 0,
+        <!-- Group Two -->
+        <div class="p-4">
+          <div class="space-y-3">
+            <div
+              v-for="group_two in groupTwo"
+              :key="group_two.account_transition_id"
+              class="flex justify-between p-4 border-l-4 border border-purple-300 rounded-xl bg-purple-50 hover:shadow-md transition-shadow"
+            >
+              <span class="font-semibold text-gray-800">
+                {{ group_two.account_type_name }}
+              </span>
+              <span class="font-bold text-purple-700">
+                {{ group_two.account_transition_value }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              'bg-blue-300':
-                type_sum.account_category_id == 3 && index % 2 === 0,
-              'bg-blue-400':
-                type_sum.account_category_id == 3 && index % 2 !== 0,
-
-              'bg-green-100':
-                type_sum.account_category_id == 4 && index % 2 === 0,
-              'bg-green-400':
-                type_sum.account_category_id == 4 && index % 2 !== 0,
-
-              'bg-pink-100':
-                type_sum.account_category_id == 5 && index % 2 === 0,
-              'bg-pink-200':
-                type_sum.account_category_id == 5 && index % 2 !== 0,
-            }"
-          >
-            <!-- รายการทั้งหมด -->
-            <td class="border-r-2 text-center">
-              <div class="rounded-xl text-left px-3 mx-2">
-                {{ type_sum.account_type_name }}
-                {{ type_sum.account_category_id }}
-              </div>
-            </td>
-
-            <!-- DR Column 1 -->
-            <td class="border-r-2 text-right">
-              <div
-                v-if="
-                  type_sum.account_category_id == 1 ||
-                  type_sum.account_category_id == 5
-                "
-                class="text-right"
-              >
-                <p class="text-center">{{ type_sum.account_type_sum }}</p>
-              </div>
-            </td>
-
-            <!-- CR Column 1 -->
-            <td class="border-r-2 text-right">
-              <div
-                class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"
-              ></div>
-              <div
-                v-if="
-                  type_sum.account_category_id >= 2 &&
-                  type_sum.account_category_id <= 4
-                "
-                class="text-right"
-              >
-                <p class="text-center">{{ type_sum.account_type_sum }}</p>
-              </div>
-            </td>
-
-            <!-- DR Column 2 -->
-            <td class="border-r-2 text-center">
-              <div v-if="type_sum.account_category_id == 1" class="rounded-xl">
-                {{ type_sum.account_type_sum }}
-              </div>
-            </td>
-
-            <!-- CR Column 2 -->
-            <td class="border-r-2 text-center relative">
-              <div
-                class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"
-              ></div>
-              <div
-                v-if="
-                  type_sum.account_category_id == 2 ||
-                  type_sum.account_category_id == 3
-                "
-              >
-                {{ type_sum.account_type_sum }}
-              </div>
-            </td>
-
-            <!-- DR Column 3 -->
-            <td class="border-r-2 text-center">
-              <div v-if="type_sum.account_category_id == 5">
-                {{ type_sum.account_type_sum }}
-              </div>
-            </td>
-
-            <!-- CR Column 3 -->
-            <td class="border-r-2 text-center relative">
-              <div
-                class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"
-              ></div>
-              <div v-if="type_sum.account_category_id == 4">
-                {{ type_sum.account_type_sum }}
-              </div>
-            </td>
-          </tr>
-
-          <!-- สรุปผลบัญชี -->
-          <tr
-            class="border-2 mt-12 border-b-green-400 text-center font-semibold"
-          >
-            <td class="p-2 rounded-xl shadow-md">สรุปผลบัญชี</td>
-            <td class="border-r-2">{{ sumColumn1 }}</td>
-            <td class="border-r-2">{{ sumColumn2 }}</td>
-            <td class="border-r-2">{{ sumColumn3 }}</td>
-            <td class="border-r-2">{{ sumColumn4 }}</td>
-            <td class="border-r-2">{{ sumColumn5 }}</td>
-            <td class="border-r-2">{{ sumColumn6 }}</td>
-          </tr>
-
-          <!-- ผลต่าง -->
-          <tr class="border-2 border-b-green-400 text-center font-semibold">
-            <td class="border-r-2"></td>
-            <td class="border-r-2">1</td>
-            <td class="border-r-2">1</td>
-            <td class="border-r-2">
-              <div class="p-2" v-if="sumColumn4 - sumColumn3 > 0">
-                {{ sumColumn4 - sumColumn3 }}
-              </div>
-            </td>
-            <td class="border-r-2">
-              <div class="p-2" v-if="sumColumn3 - sumColumn4 > 0">
-                {{ sumColumn3 - sumColumn4 }}
-              </div>
-            </td>
-            <td class="border-r-2">
-              <div class="p-2" v-if="sumColumn6 - sumColumn5 > 0">
-                {{ sumColumn6 - sumColumn5 }}
-              </div>
-            </td>
-            <td class="border-r-2">
-              <div class="p-2" v-if="sumColumn5 - sumColumn6 > 0">
-                {{ sumColumn5 - sumColumn6 }}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Submit Button -->
+      <button
+        class="fixed bottom-4 left-4 right-4 border border-cyan-900 bg-white hover:bg-white text-cyan-600 font-semibold py-4 rounded-xl shadow-lg transition-colors duration-300 sm:static sm:mb-8"
+        @click="submitDifferences()"
+      >
+        ยืนยันการเปิดบัญชี
+      </button>
     </div>
-    <!-- end -->
   </div>
 </template>
 
+<style scoped>
+.scrollbar-hide {
+  -ms-overflow-style: auto;
+  scrollbar-width: thin;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.scrollbar-hide::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.scrollbar-hide::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.scrollbar-hide::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+</style>
+
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
-const router = useRouter();
-const datatype_sum = ref([]);
-const showZeroSum = ref(true);
-const error = ref("");
 
-const fetchType = async () => {
+const IconData = ref([]);
+const transition = ref([]);
+const selectedIcon = ref(null);
+const groupOne = ref([]);
+const groupTwo = ref([]);
+const sumone = ref([]);
+const sumtwo = ref([]);
+
+const onSubmitTransition = async () => {
   try {
-    if (showZeroSum.value) {
-      const response = await $fetch(
-        "https://api-accountapp.onrender.com/api/dasktop_data_sumtype"
-      );
-      console.log("API Response not zero:", response); // Log the response
-      datatype_sum.value = response.account_type_sum || [];
-    } else {
-      const response = await $fetch(
-        "https://api-accountapp.onrender.com/api/dasktop_data_sumzero"
-      );
-      console.log("API Response zero:", response); // Log the response
-      datatype_sum.value = response.account_type_sum || [];
+    const response = await fetch(
+      `http://localhost:5000/api/transitionsubmit`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+    console.log("Success:", data);
+  } catch (error) {
+    console.error("Error fetching transition:", error.message);
+  }
+};
+// -------------------------------------------------------------------------------------
+const differences = computed(() => {
+  return sumone.value.map((sumone_s, index) => {
+    const sumtwo_s = sumtwo.value[index] || { total_transition_value: 0 };
+    // Ensure values are parsed as floats
+    const sumoneValue = parseFloat(sumone_s.total_transition_value);
+    const sumtwoValue = parseFloat(sumtwo_s.total_transition_value);
+    return sumoneValue - sumtwoValue;
+  });
+});
+
+const router = useRouter();
+
+const submitDifferences = async () => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/sumbittrantision_suminsert`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          account_transition_value: differences.value,
+        }),
+      }
+    );
+    if (response.ok) {
+      onSubmitTransition();
     }
-  } catch (err) {
-    error.value = "Error fetching transitions: " + err.message;
+    await fetchTransition();
+    groupOneTransition();
+    groupTwoTransition();
+    fetchsumone();
+    fetchsumtwo();
+    router.push({ path: "/" });
+  } catch (error) {
+    console.error("Error submitting data:", error);
+  }
+};
+// -------------------------------------------------------------------------------------
+
+const fetchsumone = async () => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/getSumGropOne`
+    );
+    const data = await response.json();
+    sumone.value = data;
+  } catch (error) {
+    console.error("Error fetching transition:", error);
   }
 };
 
-const gotoGrap = async () => {
-  router.push("/graph");
+const fetchsumtwo = async () => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/getSumGropTwo`
+    );
+    const data = await response.json();
+    sumtwo.value = data;
+  } catch (error) {
+    console.error("Error fetching transition:", error);
+  }
 };
 
-onMounted(() => {
-  fetchType();
+const fetchTransition = async () => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/transitions`
+    );
+    const data = await response.json();
+    transition.value = data.res_transition;
+  } catch (error) {
+    console.error("Error fetching transition:", error);
+  }
+};
+
+const groupOneTransition = async () => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/getGropOne`
+    );
+    const data = await response.json();
+    groupOne.value = data;
+  } catch (error) {
+    console.error("Error fetching transition group One:", error);
+  }
+};
+
+const groupTwoTransition = async () => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/getGropTwo`
+    );
+    const data = await response.json();
+    groupTwo.value = data;
+  } catch (error) {
+    console.error("Error fetching transition group Two:", error);
+  }
+};
+
+const accountTypeValue = computed({
+  get() {
+    return selectedIcon.value ? selectedIcon.value.account_type_value : "";
+  },
+  set(value) {
+    if (selectedIcon.value) {
+      selectedIcon.value.account_type_value = value;
+    }
+  },
 });
 
-const toggleZeroSumVisibility = () => {
-  showZeroSum.value = !showZeroSum.value;
-  fetchType();
+const fetchIcon = async () => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/menu_icon`
+    );
+    const data = await response.json();
+    IconData.value = data.data_menu;
+  } catch (error) {
+    console.error("Error fetching icons:", error);
+  }
 };
 
-const sumColumn1 = computed(() =>
-  datatype_sum.value
-    .filter(
-      (type_sum) =>
-        type_sum.account_category_id === 1 || type_sum.account_category_id === 5
-    )
-    .reduce((acc, curr) => acc + parseFloat(curr.account_type_sum || 0), 0)
-);
+const toggleSelect = (icon) => {
+  if (
+    selectedIcon.value &&
+    selectedIcon.value.account_type_id === icon.account_type_id
+  ) {
+    selectedIcon.value = null;
+  } else {
+    selectedIcon.value = icon;
+  }
+};
 
-const sumColumn2 = computed(() =>
-  datatype_sum.value
-    .filter(
-      (type_sum) =>
-        type_sum.account_category_id === 2 ||
-        type_sum.account_category_id === 3 ||
-        type_sum.account_category_id === 4
-    )
-    .reduce((acc, curr) => acc + parseFloat(curr.account_type_sum || 0), 0)
-);
+const sumoneForCategory2 = computed(() => {
+  const item = sumone.value.find((item) => item.account_category_id === 1);
+  return item ? parseFloat(item.total_transition_value) : 0;
+});
 
-const sumColumn3 = computed(() =>
-  datatype_sum.value
-    .filter((type_sum) => type_sum.account_category_id === 1)
-    .reduce((acc, curr) => acc + parseFloat(curr.account_type_sum || 0), 0)
-);
+const isButtonDisabled = computed(() => {
+  const value = parseFloat(accountTypeValue.value) || 0;
+  console.log(accountTypeValue.value);
+  console.log(sumoneForCategory2.value);
+  return (
+    selectedIcon.value &&
+    selectedIcon.value.account_category_id === 2 &&
+    value > differences.value
+  );
+});
 
-const sumColumn4 = computed(() =>
-  datatype_sum.value
-    .filter(
-      (type_sum) =>
-        type_sum.account_category_id === 2 || type_sum.account_category_id === 3
-    )
-    .reduce((acc, curr) => acc + parseFloat(curr.account_type_sum || 0), 0)
-);
+const updateAccountTransition = async (
+  accountTypeId,
+  accountTypeValue,
+  accountCategoryID
+) => {
+  console.log(accountTypeId);
+  console.log(accountTypeValue);
+  console.log(accountCategoryID);
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/transition`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          account_type_id: accountTypeId,
+          account_transition_value: accountTypeValue,
+          account_category_from_id: accountCategoryID,
+        }),
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    fetchTransition(), groupOneTransition();
+    groupTwoTransition();
+    fetchsumone();
+    fetchsumtwo();
+  } catch (error) {
+    console.error("Error updating account transition:", error);
+  }
+};
 
-const sumColumn5 = computed(() =>
-  datatype_sum.value
-    .filter((type_sum) => type_sum.account_category_id === 5)
-    .reduce((acc, curr) => acc + parseFloat(curr.account_type_sum || 0), 0)
-);
+const handleOkClick = () => {
+  if (selectedIcon.value) {
+    updateAccountTransition(
+      selectedIcon.value.account_type_id,
+      accountTypeValue.value,
+      selectedIcon.value.account_category_id
+    );
+    accountTypeValue.value = "";
+  } else {
+    console.warn("No icon selected");
+  }
+};
 
-const sumColumn6 = computed(() =>
-  datatype_sum.value
-    .filter((type_sum) => type_sum.account_category_id === 4)
-    .reduce((acc, curr) => acc + parseFloat(curr.account_type_sum || 0), 0)
-);
+onMounted(async () => {
+  await Promise.all([
+    fetchIcon(),
+    fetchTransition(),
+    groupOneTransition(),
+    groupTwoTransition(),
+    fetchsumone(),
+    fetchsumtwo(),
+  ]);
+});
 </script>
