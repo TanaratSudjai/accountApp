@@ -4,7 +4,7 @@
   >
     <form
       @submit.prevent="handleLogin"
-      class="rounded-md w-full flex flex-col justify-center p-5"
+      class="rounded-md w-full flex flex-col justify-center p-10"
     >
       <h2>สมัครใช้งาน</h2>
 

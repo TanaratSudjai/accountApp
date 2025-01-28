@@ -269,6 +269,7 @@ const fetchsumone = async () => {
   try {
     const response = await fetch(
       `http://localhost:5000/api/getSumGropOne`
+
     );
     const data = await response.json();
     sumone.value = data;
@@ -280,7 +281,9 @@ const fetchsumone = async () => {
 const fetchsumtwo = async () => {
   try {
     const response = await fetch(
+
       `http://localhost:5000/api/getSumGropTwo`
+
     );
     const data = await response.json();
     sumtwo.value = data;
@@ -293,6 +296,7 @@ const fetchTransition = async () => {
   try {
     const response = await fetch(
       `http://localhost:5000/api/transitions`
+
     );
     const data = await response.json();
     transition.value = data.res_transition;
@@ -305,6 +309,7 @@ const groupOneTransition = async () => {
   try {
     const response = await fetch(
       `http://localhost:5000/api/getGropOne`
+
     );
     const data = await response.json();
     groupOne.value = data;
@@ -317,6 +322,7 @@ const groupTwoTransition = async () => {
   try {
     const response = await fetch(
       `http://localhost:5000/api/getGropTwo`
+
     );
     const data = await response.json();
     groupTwo.value = data;
@@ -340,6 +346,7 @@ const fetchIcon = async () => {
   try {
     const response = await fetch(
       `http://localhost:5000/api/menu_icon`
+
     );
     const data = await response.json();
     IconData.value = data.data_menu;
@@ -386,6 +393,7 @@ const updateAccountTransition = async (
   try {
     const response = await fetch(
       `http://localhost:5000/api/transition`,
+
       {
         method: "POST",
         headers: {
