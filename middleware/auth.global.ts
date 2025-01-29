@@ -16,6 +16,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     return;
   }
 
+  if(token && to.path === "/register"){
+    return navigateTo("/home");
+  }
+
   if (!token && to.path !== "/") {
     console.log("Redirecting due to missing or invalid token");
     return navigateTo("/");
