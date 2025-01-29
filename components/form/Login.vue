@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-10 rounded-lg shadow-md w-[80%] flex justify-center items-center"
+    class="p-10 rounded-lg shadow-md w-[80%] flex flex-col justify-center items-center"
   >
     <form
       @submit.prevent="handleLogin"
