@@ -122,11 +122,10 @@ const submitForm = async () => {
 
     // อัพเดท formData
     formData.value = {
-      account_group_name: formData.account_group_name,
+      account_group_name: "",
       account_category_id: formData.account_category_id,
     };
 
-    fetchGroup();
   } catch (error) {
     console.error(
       "Error creating account group:",
@@ -135,11 +134,4 @@ const submitForm = async () => {
   }
 };
 
-watch(
-  formData,
-  (newVal) => {
-    console.log("Form Data Updated:", newVal);
-  },
-  { deep: true }
-);
 </script>

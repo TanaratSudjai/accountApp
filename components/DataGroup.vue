@@ -20,10 +20,10 @@
           <div>
             <NuxtLink
               :to="`/type/${group.account_group_id}?groupID=${categoryID}`"
-              class="text-blue-500 hover:underline"
+              class="text-blue-500 hover:underline text-white"
             >
               ชื่อ:
-              <span class="font-normal">{{ group.account_group_name }}</span>
+              <span class="font-normal ">{{ group.account_group_name }}</span>
             </NuxtLink>
           </div>
           <div class="mt-2">
@@ -79,7 +79,8 @@ const fetchGroup = async () => {
         },
       }
     );
-    groupData.value = response.data;
+    groupData.value = response.data.count_type_at_group;
+    console.log(groupData.value);
   } catch (error) {
     console.error("Error fetching group data:", error);
   }
