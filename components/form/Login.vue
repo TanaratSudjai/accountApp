@@ -41,13 +41,13 @@
       <button type="submit" class="bg-cyan-600 text-white px-4 py-2 rounded">
         เข้าสู่ระบบ
       </button>
-      <button
-        @click="goRegister"
-        class="text-cyan-600 px-4 py-2 rounded underline"
-      >
-        สมัครใช้งาน
-      </button>
     </form>
+    <button
+      @click="goRegister"
+      class="text-cyan-600 px-4 py-2 rounded underline"
+    >
+      สมัครใช้งาน
+    </button>
   </div>
 </template>
 
