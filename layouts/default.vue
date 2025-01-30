@@ -2,23 +2,22 @@
   <div class="flex flex-col font-noto bg-cyan-600 min-h-screen">
     <!-- Header -->
     <div
-      class="flex flex-wrap justify-center items-center fixed top-0 left-0 w-full z-50 p-3 bg-white shadow-md"
+      class="flex flex-col md:flex-row gap-2 justify-center items-center w-full z-50 p-3 bg-white shadow-md"
     >
       <!-- logo stars -->
-      <div class="w-[98%] md:w-[28%] lg:w-[28%]">
+      <div class="w-full">
         <div class="font-sans pb-2 text-gray-400">
-          ACCOUNT APPLICATION
+          บัญชีของคุณ {{ nameuser }}
           <button @click="logout" class="text-blue-600 underline">
             ออกจากระบบ
           </button>
         </div>
       </div>
-      <div class="w-[98%] md:w-[28%] lg:w-[28%]">
+      <div class="w-full">
         <ButtonRemove />
       </div>
     </div>
-
-    <div class="p-2 pt-[65px]">
+    <div class="p-2">
       <slot />
     </div>
   </div>
@@ -29,11 +28,26 @@ import { useRouter } from "vue-router";
 import axios from "axios";
 const router = useRouter();
 const error = ref("");
-
+let nameuser = ref("");
 definePageMeta({
   middleware: ["auth"],
 });
 
+const getSession = async () => {
+  const token = localStorage.getItem("token");
+  const response = await axios.get(
+    "http://localhost:5000/api/auth/get_session",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  nameuser.value = response.data.data_user.account_user_name;
+};
+
+// api call logout
 const logout = async () => {
   try {
     // ดึง token จาก localStorage
@@ -55,7 +69,7 @@ const logout = async () => {
     );
     // เคลียร์ข้อมูล authentication
     localStorage.removeItem("token");
-    // เคลียร์ cookies (ถ้ามี)
+    // เคลียร์ cookies (ถ้ามี) csr
     document.cookie.split(";").forEach((cookie) => {
       document.cookie = cookie
         .replace(/^ +/, "")
@@ -73,6 +87,10 @@ const logout = async () => {
     throw error;
   }
 };
+
+onMounted(() => {
+  getSession();
+});
 </script>
 <style scoped>
 .font-noto {

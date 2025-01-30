@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2 h-auto overflow-y-auto">
+  <div class="pt-2 h-auto overflow-y-auto">
     <div
       v-if="!groupData || groupData.length === 0"
       class="text-center p-4 text-gray-600"
@@ -7,11 +7,11 @@
       ไม่มีกลุ่ม
     </div>
     <div v-else>
-      <div class="grid grid-cols-1 sm:grid-cols-1 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div
           v-for="group in groupData"
           :key="group.account_group_id"
-          class="border border-gray-200 rounded-lg p-4 shadow-md"
+          class="border border-gray-200 rounded-xl bg-white/85 p-4 shadow-md"
         >
           <div class="font-semibold text-lg">
             รหัส:
@@ -20,10 +20,10 @@
           <div>
             <NuxtLink
               :to="`/type/${group.account_group_id}?groupID=${categoryID}`"
-              class="text-blue-500 hover:underline text-white"
+              class="hover:underline text-black"
             >
               ชื่อ:
-              <span class="font-normal ">{{ group.account_group_name }}</span>
+              <span class="font-normal">{{ group.account_group_name }}</span>
             </NuxtLink>
           </div>
           <div class="mt-2">
@@ -38,7 +38,7 @@
               ลบ
             </button>
             <button
-              class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 ml-2"
+              class="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700 ml-2"
               @click="openUpdateModal(group)"
             >
               แก้ไข
@@ -88,8 +88,8 @@ const fetchGroup = async () => {
 
 onMounted(() => {
   // Set interval to fetch every 2 seconds
-  const intervalId = setInterval(fetchGroup, 1000);
-
+  // setInterval(fetchGroup, 1000);
+  fetchGroup();
   // Clear the interval when the component is unmounted
   onBeforeUnmount(() => {
     clearInterval(intervalId);
