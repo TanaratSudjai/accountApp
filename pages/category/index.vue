@@ -46,10 +46,11 @@ import {
 } from "lucide-vue-next";
 
 const categoryData = ref([]);
+const { $axios } = useNuxtApp();
 
 const fetchCategory = async () => {
-  const response = await fetch("/category");
-  const data = await response.json();
+  const response = await $axios.get("/category");
+  const data = await response.data;
   categoryData.value = data;
 };
 

@@ -44,6 +44,7 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
+const { $axios } = useNuxtApp();
 
 const GroupData = ref([]);
 const breadcrumbs = ref([
@@ -53,14 +54,14 @@ const breadcrumbs = ref([
 
 const fetchGroup = async () => {
   try {
-    const response = await fetch(
+    const response = await $axios.get(
       `/category/${categoryID}`
     );
-    const data = await response.json();
+    const data = await response.data;
     GroupData.value = data;
     console.log(GroupData.value);
   } catch (error) {
-    console.error("Error fetching group data:", error);
+    console.log("Error fetching group data:", error);
   }
 };
 

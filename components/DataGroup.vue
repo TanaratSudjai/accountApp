@@ -69,62 +69,46 @@ const groupData = ref([]);
 
 const fetchGroup = async () => {
   try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("Token missing!");
-    }
     const response = await $axios.get(
       `/account_group_counttype/${categoryID}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
     );
     groupData.value = response.data.count_type_at_group;
-    console.log(groupData.value);
   } catch (error) {
     console.error("Error fetching group data:", error);
   }
 };
 
+defineExpose({ fetchGroup });
+
 onMounted(() => {
+  // setInterval(() => {
+  //   fetchGroup();
+  // }, 1000);
   // Set interval to fetch every 2 seconds
   // setInterval(fetchGroup, 1000);
   fetchGroup();
   // Clear the interval when the component is unmounted
-  onBeforeUnmount(() => {
-    clearInterval(intervalId);
-  });
+  // onBeforeUnmount(() => {
+  //   clearInterval(intervalId);
+  // });
 });
 
 const deleteFormData = async (account_group_id) => {
-  console.log(account_group_id);
   try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("Token missing!");
-    }
     const response = await $axios.delete(
-      `/account_group_del/${account_group_id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `/account_group_del/${account_group_id}`
     );
-
-    if (response.ok) {
+    if (response.status === 200 || response.status === 201) {
       groupData.value = groupData.value.filter(
         (group) => group.account_group_id !== account_group_id
       );
       console.log("Group deleted successfully");
       fetchGroup();
     } else {
-      console.error("Failed to delete group");
+      console.log("Failed to delete group");
     }
   } catch (error) {
-    console.error("Error deleting group:", error);
+    console.log("Error deleting group:", error);
   }
 };
 

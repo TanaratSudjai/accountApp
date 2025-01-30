@@ -18,18 +18,18 @@
             class="w-full md:w-[70%] text-gray-800 text-sm border-2 border-cyan-500 px-4 py-3 rounded-md outline-blue-600"
             v-model="formData.account_group_name"
           />
-          <button
+          <button 
             type="submit"
             class="w-full md:w-[30%] bg-cyan-600 text-white hover:bg-cyan-700 font-bold py-3 rounded-md transition duration-300 ease-in-out"
+            
           >
             เพิ่มกลุ่ม
           </button>
         </div>
       </form>
     </div>
-
     <div class="rounded-2xl w-full">
-      <DataGroup></DataGroup>
+      <DataGroup ref="dataGroupRef"></DataGroup>
     </div>
   </div>
 
@@ -70,12 +70,16 @@
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
 
+import { useRoute } from "vue-router";
 const route = useRoute();
 const categoryID = route.params.id;
+const emit = defineEmits(["submit_fetch"]);
+const dataGroupRef = ref(null);
 
-import { ref, onMounted } from "vue";
+// import { useGroupStore } from "../../stores/group";
+// const groupStore = useGroupStore();
+
 import GetgroupName from "~/components/GetgroupName.vue";
 const { $axios } = useNuxtApp();
 
@@ -94,9 +98,6 @@ watch(
 
 const submitForm = async () => {
   try {
-    const token = localStorage.getItem("token");
-    console.log(token);
-
     const response = await $axios.post(
       "/account_group_create",
       // ข้อมูลที่จะส่ง (request body)
@@ -104,28 +105,20 @@ const submitForm = async () => {
         account_group_name: formData.account_group_name,
         account_category_id: formData.account_category_id,
       },
-      // config object
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
     );
-
     console.log("Account group created successfully:", response.data);
-
     // อัพเดท formData
-    formData.value = {
-      account_group_name: "",
-      account_category_id: formData.account_category_id,
-    };
+    formData.account_group_name = "";
+    dataGroupRef.value.fetchGroup();
   } catch (error) {
-    console.error(
-      "Error creating account group:",
-      error.response?.data || error.message
-    );
+    console.log(error, "Error creating account group:",);
   }
 };
+
+// const fetchData = async () => {
+//   if (route.params.id) {
+//     await groupStore.fetchGroup(route.params.id);
+//   }
+// };
+
 </script>

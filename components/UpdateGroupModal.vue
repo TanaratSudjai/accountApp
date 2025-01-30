@@ -38,6 +38,7 @@
 
 <script setup>
 import { ref, watch } from "vue";
+const { $axios } = useNuxtApp();
 
 const props = defineProps({
   show: Boolean,
@@ -59,26 +60,21 @@ const updateAccountType = async () => {
   console.log(localAccountGroup.value.account_group_id);
   console.log(localAccountGroup.value.account_group_name);
   try {
-    const response = await fetch(
+    const response = await $axios.put(
       `/account_group_update/${localAccountGroup.value.account_group_id}`,
       {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(localAccountGroup.value), // Use localAccountType here
+        account_group_name: localAccountGroup.value.account_group_name, // ✅ Fix property
       }
     );
 
-    if (response.ok) {
-      const updatedData = await response.json();
-      emit("update", updatedData);
+    if (response.status === 200 || response.status === 201) { // ✅ Use status instead of `ok`
+      emit("update", response.data); // ✅ Use `response.data`, no need for `.json()`
       close();
     } else {
-      console.error("Error updating account type");
+      console.log("Error updating account type");
     }
   } catch (error) {
-    console.error("Error:", error);
+    console.log("Error:", error);
   }
 };
 

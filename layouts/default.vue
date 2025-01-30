@@ -36,7 +36,7 @@ definePageMeta({
 const getSession = async () => {
   const token = localStorage.getItem("token");
   const response = await $axios.get(
-    "/get_session",
+    "auth/get_session",
     {
       headers: {
         Authorization: `Bearer ${token}`,
