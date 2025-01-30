@@ -56,6 +56,8 @@ import {
   ArrowUpFromLine,
 } from "lucide-vue-next";
 const checkData = ref([]);
+
+// by of plungins
 const { $axios } = useNuxtApp();
 
 const fetchData = async () => {
@@ -69,11 +71,10 @@ const fetchData = async () => {
 
 const fetch_transition = async () => {
   try {
-    const token = localStorage.getItem("token"); // หรือดึงจาก cookie ถ้าเก็บไว้ใน cookie
     if (!token) {
       throw new Error("Token missing!");
     }
-    const res = await $axios.get("http://localhost:5000/api/transitions");
+    const res = await $axios.get("/transitions");
   } catch (err) {
     console.error(
       "Error fetching transitions:",

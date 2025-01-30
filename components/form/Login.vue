@@ -54,7 +54,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
+const { $axios } = useNuxtApp();
 
 const router = useRouter();
 const loading = ref(false);
@@ -71,28 +71,14 @@ const handleLogin = async () => {
   error.value = "";
 
   try {
-    const response = await axios.post(
-      "http://localhost:5000/api/auth/login",
-      {
-        account_user_username: formData.account_user_username,
-        account_user_password: formData.account_user_password,
-      },
-      {
-        withCredentials: true, // สำคัญ: backend ต้องรองรับ cookies
-      }
-    );
+    const response = await $axios.post("/auth/login", {
+      account_user_username: formData.account_user_username,
+      account_user_password: formData.account_user_password,
+    });
 
     const token = response.data.token;
-
-    // เก็บ token ทั้งใน localStorage และ cookie
+    // // เก็บ token ทั้งใน localStorage
     localStorage.setItem("token", token);
-
-    const tokenCookie = useCookie("token", {
-      maxAge: 7 * 24 * 60 * 60, // อายุ 7 วัน
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    });
-    tokenCookie.value = token;
     // Redirect หลังจาก login สำเร็จ
     await router.push("/home");
     window.location.reload();
