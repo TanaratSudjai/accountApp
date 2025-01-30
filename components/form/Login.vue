@@ -93,7 +93,6 @@ const handleLogin = async () => {
       sameSite: "strict",
     });
     tokenCookie.value = token;
-
     // Redirect หลังจาก login สำเร็จ
     await router.push("/home");
     window.location.reload();

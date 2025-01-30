@@ -16,7 +16,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     return;
   }
 
-  if(token && to.path === "/register"){
+  if (token && to.path === "/register") {
     return navigateTo("/home");
   }
 

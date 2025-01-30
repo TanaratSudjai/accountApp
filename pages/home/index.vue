@@ -66,7 +66,7 @@ const fetchData = async () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      withCredentials: true, // If using cookies
+      withCredentials: true,
     });
     checkData.value = response.data.res_transition;
   } catch (error) {
@@ -87,14 +87,11 @@ const fetch_transition = async () => {
     if (!token) {
       throw new Error("Token missing!");
     }
-    console.log("Token user login \n" + token);
-
     const res = await axios.get("http://localhost:5000/api/transitions", {
       headers: {
-        Authorization: `Bearer ${token}`, // ส่ง Token ใน Authorization Header
+        Authorization: `Bearer ${token}`,
       },
     });
-    console.log("Response of res. data axios fetch Barer :", res.data);
   } catch (err) {
     console.error(
       "Error fetching transitions:",
@@ -105,7 +102,6 @@ const fetch_transition = async () => {
 
 onMounted(async () => {
   await fetchData();
-  await fetch_transition();
 });
 
 const menuItems = [

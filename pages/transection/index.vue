@@ -196,7 +196,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-
+import axios from "axios";
 const IconData = ref([]);
 const transition = ref([]);
 const selectedIcon = ref(null);
@@ -207,12 +207,12 @@ const sumtwo = ref([]);
 
 const onSubmitTransition = async () => {
   try {
-    const response = await fetch(
+    const token = localStorage.getItem("token");
+    const response = await axios.put(
       `http://localhost:5000/api/transitionsubmit`,
       {
-        method: "PUT",
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -267,11 +267,16 @@ const submitDifferences = async () => {
 
 const fetchsumone = async () => {
   try {
-    const response = await fetch(
-      `http://localhost:5000/api/getSumGropOne`
-
+    const token = localStorage.getItem("token");
+    const response = await axios.get(
+      `http://localhost:5000/api/getSumGropOne`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
-    const data = await response.json();
+    const data = await response.data;
     sumone.value = data;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -280,12 +285,17 @@ const fetchsumone = async () => {
 
 const fetchsumtwo = async () => {
   try {
-    const response = await fetch(
-
-      `http://localhost:5000/api/getSumGropTwo`
-
+    const token = localStorage.getItem("token");
+    const response = await axios.get(
+      `http://localhost:5000/api/getSumGropTwo`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
-    const data = await response.json();
+    const data = await response.data;
+    // console.log("data sum group two", data);
     sumtwo.value = data;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -294,11 +304,14 @@ const fetchsumtwo = async () => {
 
 const fetchTransition = async () => {
   try {
-    const response = await fetch(
-      `http://localhost:5000/api/transitions`
-
-    );
-    const data = await response.json();
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`http://localhost:5000/api/transitions`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.data.res_transition;
+    // console.log("transition of user session : ", data);
     transition.value = data.res_transition;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -307,11 +320,13 @@ const fetchTransition = async () => {
 
 const groupOneTransition = async () => {
   try {
-    const response = await fetch(
-      `http://localhost:5000/api/getGropOne`
-
-    );
-    const data = await response.json();
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`http://localhost:5000/api/getGropOne`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.data;
     groupOne.value = data;
   } catch (error) {
     console.error("Error fetching transition group One:", error);
@@ -320,11 +335,13 @@ const groupOneTransition = async () => {
 
 const groupTwoTransition = async () => {
   try {
-    const response = await fetch(
-      `http://localhost:5000/api/getGropTwo`
-
-    );
-    const data = await response.json();
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`http://localhost:5000/api/getGropTwo`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.data;
     groupTwo.value = data;
   } catch (error) {
     console.error("Error fetching transition group Two:", error);
@@ -344,12 +361,14 @@ const accountTypeValue = computed({
 
 const fetchIcon = async () => {
   try {
-    const response = await fetch(
-      `http://localhost:5000/api/menu_icon`
-
-    );
-    const data = await response.json();
-    IconData.value = data.data_menu;
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`http://localhost:5000/api/menu_icon`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.data.data_menu;
+    IconData.value = data;
   } catch (error) {
     console.error("Error fetching icons:", error);
   }
