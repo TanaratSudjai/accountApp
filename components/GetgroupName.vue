@@ -21,7 +21,6 @@
       );
       const data = await response.data;
       GroupData.value = data;
-      console.log(GroupData.value);
     } catch (error) {
       console.error("Error fetching group data:", error);
     }

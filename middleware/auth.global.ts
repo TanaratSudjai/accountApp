@@ -9,10 +9,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   const token = tokenState.value;
 
-  console.log("Token from cookie:", token);
+  // console.log("Token from cookie:", token);
 
   if (!token && to.path === "/register") {
-    console.log("Redirecting due to missing or invalid token");
+    // console.log("Redirecting due to missing or invalid token");
     return;
   }
 
@@ -21,17 +21,17 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   }
 
   if (!token && to.path !== "/") {
-    console.log("Redirecting due to missing or invalid token");
+    // console.log("Redirecting due to missing or invalid token");
     return navigateTo("/");
   }
 
   if (token && to.path === "/") {
-    console.log("Valid token detected, redirecting to /home");
+    // console.log("Valid token detected, redirecting to /home");
     return navigateTo("/home");
   }
 
   if (token) {
-    console.log("Valid token detected, continuing");
+    // console.log("Valid token detected, continuing");
     return;
   }
 });

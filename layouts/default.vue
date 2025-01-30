@@ -1,7 +1,9 @@
 <template>
+  
   <div class="flex flex-col font-noto bg-cyan-600 min-h-screen">
     <!-- Header -->
-    <div
+    
+    <div 
       class="flex flex-col md:flex-row gap-2 justify-center items-center w-full z-50 p-3 bg-white shadow-md"
     >
       <!-- logo stars -->
@@ -17,7 +19,8 @@
         <ButtonRemove />
       </div>
     </div>
-    <div class="p-2">
+    <div v-if="loading"><div ><LoadingPageload /></div></div>
+    <div v-else class="p-2">
       <slot />
     </div>
   </div>
@@ -29,6 +32,8 @@ const { $axios } = useNuxtApp();
 const router = useRouter();
 const error = ref("");
 let nameuser = ref("");
+const loading = ref(true);
+
 definePageMeta({
   middleware: ["auth"],
 });
@@ -37,14 +42,10 @@ const getSession = async () => {
   const token = localStorage.getItem("token");
   const response = await $axios.get(
     "auth/get_session",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
   );
 
   nameuser.value = response.data.data_user.account_user_name;
+  loading.value = false;
 };
 
 // api call logout
