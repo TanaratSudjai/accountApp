@@ -1,6 +1,8 @@
 <template>
-  <div class="w-full p-2 bg-white/80 backdrop-blur flex border-b-2 border-blue-400">
-    <div class=" p-3">
+  <div
+    class="w-full p-2 bg-white/60 backdrop-blur flex border-b-2 border-blue-400 rounded-xl"
+  >
+    <div class="p-3">
       <NuxtLink to="/category">
         <svg
           fill="#000000"
@@ -36,23 +38,24 @@
         <span v-if="index < breadcrumbs.length - 1"> > </span>
       </span>
     </div>
-
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, onMounted, watch } from "vue";
+import { useRoute } from "vue-router";
 
 const GroupData = ref([]);
 const breadcrumbs = ref([
-  { text: 'จัดการหมวดหมู่', link: '/category' },
-  { text: '', link: '' },  
+  { text: "จัดการหมวดหมู่", link: "/category" },
+  { text: "", link: "" },
 ]);
 
 const fetchGroup = async () => {
   try {
-    const response = await fetch(`http://localhost:5000/api/category/${categoryID}`);
+    const response = await fetch(
+      `http://localhost:5000/api/category/${categoryID}`
+    );
     const data = await response.json();
     GroupData.value = data;
     console.log(GroupData.value);
@@ -74,5 +77,4 @@ watch(GroupData, (newData) => {
     breadcrumbs.value[1].link = `/group/${categoryID}`;
   }
 });
-
 </script>

@@ -55,21 +55,57 @@ import {
   Grid2x2Plus,
   ArrowUpFromLine,
 } from "lucide-vue-next";
-
+import axios from "axios";
 const checkData = ref([]);
+
 const fetchData = async () => {
   try {
-    const res = await fetch("http://localhost:5000/api/transitions");
-    if (!res.ok) throw new Error("Network response was not ok");
-    const data = await res.json();
-    checkData.value = data.res_transition;
+    const token = localStorage.getItem("token");
+
+    const response = await axios.get("http://localhost:5000/api/transitions", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true, // If using cookies
+    });
+    checkData.value = response.data.res_transition;
   } catch (error) {
-    console.error("Error fetching transition:", error);
+    if (error.response) {
+      console.error("Server Error:", error.response.data);
+      console.error("Status Code:", error.response.status);
+    } else if (error.request) {
+      console.error("No response received:", error.request);
+    } else {
+      console.error("Error:", error.message);
+    }
+  }
+};
+
+const fetch_transition = async () => {
+  try {
+    const token = localStorage.getItem("token"); // หรือดึงจาก cookie ถ้าเก็บไว้ใน cookie
+    if (!token) {
+      throw new Error("Token missing!");
+    }
+    console.log("Token user login \n" + token);
+
+    const res = await axios.get("http://localhost:5000/api/transitions", {
+      headers: {
+        Authorization: `Bearer ${token}`, // ส่ง Token ใน Authorization Header
+      },
+    });
+    console.log("Response of res. data axios fetch Barer :", res.data);
+  } catch (err) {
+    console.error(
+      "Error fetching transitions:",
+      err.response?.data || err.message
+    );
   }
 };
 
 onMounted(async () => {
   await fetchData();
+  await fetch_transition();
 });
 
 const menuItems = [
