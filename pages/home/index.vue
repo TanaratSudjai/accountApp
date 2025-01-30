@@ -55,26 +55,17 @@ import {
   Grid2x2Plus,
   ArrowUpFromLine,
 } from "lucide-vue-next";
-import axios from "axios";
 const checkData = ref([]);
-const { $api } = useNuxtApp();
+const { $axios } = useNuxtApp();
 
 const fetchData = async () => {
   try {
-    const response = await $api.get("/transitions");
+    const response = await $axios.get("/transitions");
     checkData.value = response.data.res_transition;
   } catch (error) {
-    if (error.response) {
-      console.error("Server Error:", error.response.data);
-      console.error("Status Code:", error.response.status);
-    } else if (error.request) {
-      console.error("No response received:", error.request);
-    } else {
-      console.error("Error:", error.message);
-    }
+    console.log(error);
   }
 };
-
 
 const fetch_transition = async () => {
   try {
@@ -82,11 +73,7 @@ const fetch_transition = async () => {
     if (!token) {
       throw new Error("Token missing!");
     }
-    const res = await axios.get("http://localhost:5000/api/transitions", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await $axios.get("http://localhost:5000/api/transitions");
   } catch (err) {
     console.error(
       "Error fetching transitions:",

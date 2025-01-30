@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const api = axios.create({
+  const $axios = axios.create({
     baseURL: "http://localhost:5000/api",
   });
 
-  api.interceptors.request.use(
+  $axios.interceptors.request.use(
     (config) => {
       if (process.client) {
         const token = localStorage.getItem("token");
@@ -22,7 +22,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   return {
     provide: {
-      api, // Makes `$api` available globally in Nuxt
+      $axios,
     },
   };
 });
