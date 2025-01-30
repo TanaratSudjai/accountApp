@@ -16,7 +16,7 @@ const GroupData = ref([]);
 const fetchGroup = async () => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/account_group_get/${groupID}`
+      `/account_group_get/${groupID}`
     );
     const data = await response.json();
     GroupData.value = data.account_group_by_id;

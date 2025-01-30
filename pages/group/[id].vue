@@ -77,7 +77,7 @@ const categoryID = route.params.id;
 
 import { ref, onMounted } from "vue";
 import GetgroupName from "~/components/GetgroupName.vue";
-import axios from "axios";
+const { $axios } = useNuxtApp();
 
 const formData = reactive({
   account_group_name: "",
@@ -97,8 +97,8 @@ const submitForm = async () => {
     const token = localStorage.getItem("token");
     console.log(token);
 
-    const response = await axios.post(
-      "http://localhost:5000/api/account_group_create",
+    const response = await $axios.post(
+      "/account_group_create",
       // ข้อมูลที่จะส่ง (request body)
       {
         account_group_name: formData.account_group_name,

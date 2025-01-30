@@ -11,7 +11,7 @@
 const onSubmit = async () => {
   try {
     await fetch(
-      `http://localhost:5000/api/transition_group_income_and_extend`,
+      `/transition_group_income_and_extend`,
       {
         method: "POST",
         headers: {

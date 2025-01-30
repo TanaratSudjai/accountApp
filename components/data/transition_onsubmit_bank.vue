@@ -246,7 +246,7 @@ const isButtonDisabled = computed(() => {
 
 const fetchCat = async () => {
   try {
-    const res = await fetch("http://localhost:5000/api/get_type_from_id");
+    const res = await fetch("/get_type_from_id");
     if (!res.ok) throw new Error("Network response was not ok");
     const data = await res.json();
     // console.log(data);
@@ -326,7 +326,7 @@ const handleOkClick = async () => {
   try {
     // Send data to the API
     const response = await fetch(
-      "http://localhost:5000/api/bank_trantisionInsert",
+      "/bank_trantisionInsert",
       {
         method: "POST",
         headers: {
@@ -349,7 +349,7 @@ const handleOkClick = async () => {
 
 const bankTransition = async () => {
   try {
-    const response = await fetch(`http://localhost:5000/api/transition_bank`);
+    const response = await fetch(`/transition_bank`);
     const data = await response.json();
     bankData.value = data.data_transition_bank;
   } catch (error) {
@@ -359,7 +359,7 @@ const bankTransition = async () => {
 
 const deleteTransection = async (id) => {
   try {
-    await $fetch(`http://localhost:5000/api/reuse_transition_bank/${id}`, {
+    await $fetch(`/reuse_transition_bank/${id}`, {
       method: "DELETE",
     });
     //console.log(`Transaction ${id} deleted successfully`);

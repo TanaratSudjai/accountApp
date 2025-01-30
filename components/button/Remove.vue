@@ -19,7 +19,7 @@
 const confirmAndRemove = async () => {
   if (confirm("คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ทรายการธุรกรรม?")) {
     try {
-      await fetch("http://localhost:5000/api/removetransition", {
+      await fetch("/removetransition", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ const confirmAndRemove = async () => {
 const confirmAndRemoveType = async () => {
   if (confirm("คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ทรายการธุรกรรม?")) {
     try {
-      await fetch("http://localhost:5000/api/removedatatype", {
+      await fetch("/removedatatype", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

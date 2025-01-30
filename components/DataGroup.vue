@@ -60,7 +60,7 @@ import { useRoute } from "vue-router";
 import { useRouter } from 'vue-router';
 
 import { onMounted, onBeforeUnmount } from "vue";
-import axios from "axios";
+const { $axios } = useNuxtApp();
 const route = useRoute();
 const categoryID = route.params.id;
 
@@ -73,8 +73,8 @@ const fetchGroup = async () => {
     if (!token) {
       throw new Error("Token missing!");
     }
-    const response = await axios.get(
-      `http://localhost:5000/api/account_group_counttype/${categoryID}`,
+    const response = await $axios.get(
+      `/account_group_counttype/${categoryID}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -105,8 +105,8 @@ const deleteFormData = async (account_group_id) => {
     if (!token) {
       throw new Error("Token missing!");
     }
-    const response = await axios.delete(
-      `http://localhost:5000/api/account_group_del/${account_group_id}`,
+    const response = await $axios.delete(
+      `/account_group_del/${account_group_id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

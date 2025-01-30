@@ -196,7 +196,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import axios from "axios";
+const { $axios } = useNuxtApp();
 const IconData = ref([]);
 const transition = ref([]);
 const selectedIcon = ref(null);
@@ -207,15 +207,7 @@ const sumtwo = ref([]);
 
 const onSubmitTransition = async () => {
   try {
-    const token = localStorage.getItem("token");
-    const response = await axios.put(
-      `http://localhost:5000/api/transitionsubmit`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await $axios.put(`transitionsubmit`);
 
     const data = await response.json();
     console.log("Success:", data);
@@ -239,7 +231,7 @@ const router = useRouter();
 const submitDifferences = async () => {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/sumbittrantision_suminsert`,
+      `/sumbittrantision_suminsert`,
       {
         method: "POST",
         headers: {
@@ -268,8 +260,8 @@ const submitDifferences = async () => {
 const fetchsumone = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get(
-      `http://localhost:5000/api/getSumGropOne`,
+    const response = await $axios.get(
+      `/getSumGropOne`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -286,8 +278,8 @@ const fetchsumone = async () => {
 const fetchsumtwo = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get(
-      `http://localhost:5000/api/getSumGropTwo`,
+    const response = await $axios.get(
+      `/getSumGropTwo`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -305,7 +297,7 @@ const fetchsumtwo = async () => {
 const fetchTransition = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get(`http://localhost:5000/api/transitions`, {
+    const response = await $axios.get(`/transitions`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -321,7 +313,7 @@ const fetchTransition = async () => {
 const groupOneTransition = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get(`http://localhost:5000/api/getGropOne`, {
+    const response = await $axios.get(`/getGropOne`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -336,7 +328,7 @@ const groupOneTransition = async () => {
 const groupTwoTransition = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get(`http://localhost:5000/api/getGropTwo`, {
+    const response = await $axios.get(`/getGropTwo`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -362,7 +354,7 @@ const accountTypeValue = computed({
 const fetchIcon = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get(`http://localhost:5000/api/menu_icon`, {
+    const response = await $axios.get(`/menu_icon`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -411,7 +403,7 @@ const updateAccountTransition = async (
   console.log(accountCategoryID);
   try {
     const response = await fetch(
-      `http://localhost:5000/api/transition`,
+      `/transition`,
 
       {
         method: "POST",

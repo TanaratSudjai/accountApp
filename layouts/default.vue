@@ -25,7 +25,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
+const { $axios } = useNuxtApp();
 const router = useRouter();
 const error = ref("");
 let nameuser = ref("");
@@ -35,8 +35,8 @@ definePageMeta({
 
 const getSession = async () => {
   const token = localStorage.getItem("token");
-  const response = await axios.get(
-    "http://localhost:5000/api/auth/get_session",
+  const response = await $axios.get(
+    "/auth/get_session",
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -57,8 +57,8 @@ const logout = async () => {
       throw new Error("No token found");
     }
     // ส่ง request พร้อม token ใน header
-    await axios.post(
-      "http://localhost:5000/api/auth/logout",
+    await $axios.post(
+      "/auth/logout",
       // request body
       {
         headers: {

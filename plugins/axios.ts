@@ -2,8 +2,9 @@ import axios from "axios";
 import { useCookie } from "#app";
 
 export default defineNuxtPlugin((nuxtApp) => {
+  const config = useRuntimeConfig();
   const $axios = axios.create({
-    baseURL: "http://localhost:5000/api",
+    baseURL: config.public.apiBaseUrl,
     withCredentials: true, // ใช้ cookies กับ request
   });
 
