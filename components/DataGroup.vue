@@ -17,15 +17,14 @@
             รหัส:
             <span class="font-normal">{{ group.account_group_id }}</span>
           </div>
-          <div>
+          <button @click="goToPath(group.account_group_id, categoryID)">
             <NuxtLink
-              :to="`/type/${group.account_group_id}?groupID=${categoryID}`"
               class="hover:underline text-black"
             >
               ชื่อ:
               <span class="font-normal">{{ group.account_group_name }}</span>
             </NuxtLink>
-          </div>
+          </button>
           <div class="mt-2">
             จำนวน:
             <span class="font-semibold">{{ group.type_count }}</span>
@@ -58,11 +57,14 @@
 
 <script setup>
 import { useRoute } from "vue-router";
+import { useRouter } from 'vue-router';
+
 import { onMounted, onBeforeUnmount } from "vue";
 import axios from "axios";
 const route = useRoute();
 const categoryID = route.params.id;
 
+const router = useRouter();
 const groupData = ref([]);
 
 const fetchGroup = async () => {
@@ -143,4 +145,11 @@ const handleUpdate = (updatedData) => {
   console.log("Account type updated successfully:", updatedData);
   fetchGroup();
 };
+
+const goToPath = (account_group_id,categoryID) => {
+  router.push(`/type/${account_group_id}?groupID=${categoryID}`)
+    .then(() => {
+      window.location.reload();
+    });
+}
 </script>

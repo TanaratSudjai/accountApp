@@ -57,17 +57,11 @@ import {
 } from "lucide-vue-next";
 import axios from "axios";
 const checkData = ref([]);
+const { $api } = useNuxtApp();
 
 const fetchData = async () => {
   try {
-    const token = localStorage.getItem("token");
-
-    const response = await axios.get("http://localhost:5000/api/transitions", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      withCredentials: true,
-    });
+    const response = await $api.get("/transitions");
     checkData.value = response.data.res_transition;
   } catch (error) {
     if (error.response) {
@@ -80,6 +74,7 @@ const fetchData = async () => {
     }
   }
 };
+
 
 const fetch_transition = async () => {
   try {
