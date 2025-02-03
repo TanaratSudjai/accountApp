@@ -11,7 +11,7 @@
 const onSubmit = async () => {
   try {
     await fetch(
-      `https://api-accountapp.onrender.com/api/transition_group_income_and_extend`,
+      `/transition_group_income_and_extend`,
       {
         method: "POST",
         headers: {

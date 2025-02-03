@@ -97,7 +97,7 @@ const loading = ref(true);
 const fetchData = async () => {
   loading.value = true;
   const { data, error: fetchError } = await useFetch(
-    "https://api-accountapp.onrender.com/api/dashboard"
+    "/dashboard"
   );
 
   if (fetchError.value) {

@@ -53,7 +53,7 @@ const breadcrumbs = ref([
 
 const fetchCategory = async () => {
   try {
-    const response = await fetch(`https://api-accountapp.onrender.com/api/category/${groupID}`);
+    const response = await fetch(`/category/${groupID}`);
     const data = await response.json();
     CategoryData.value = data;
     console.log(CategoryData.value);
@@ -64,7 +64,7 @@ const fetchCategory = async () => {
 
 const fetchGroup = async () => {
   try {
-    const response = await fetch(`https://api-accountapp.onrender.com/api/account_group_get/${typeID}`);
+    const response = await fetch(`/account_group_get/${typeID}`);
     const data = await response.json();
     GroupData.value = data.account_group_by_id;
     console.log(GroupData.value);

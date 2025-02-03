@@ -55,16 +55,31 @@ import {
   Grid2x2Plus,
   ArrowUpFromLine,
 } from "lucide-vue-next";
-
 const checkData = ref([]);
+
+// by of plungins
+const { $axios } = useNuxtApp();
+
 const fetchData = async () => {
   try {
-    const res = await fetch("https://api-accountapp.onrender.com/api/transitions");
-    if (!res.ok) throw new Error("Network response was not ok");
-    const data = await res.json();
-    checkData.value = data.res_transition;
+    const response = await $axios.get("/transitions");
+    checkData.value = response.data.res_transition;
   } catch (error) {
-    console.error("Error fetching transition:", error);
+    console.log(error);
+  }
+};
+
+const fetch_transition = async () => {
+  try {
+    if (!token) {
+      throw new Error("Token missing!");
+    }
+    const res = await $axios.get("/transitions");
+  } catch (err) {
+    console.error(
+      "Error fetching transitions:",
+      err.response?.data || err.message
+    );
   }
 };
 

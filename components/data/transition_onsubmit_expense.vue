@@ -119,7 +119,7 @@ let intervalId; // สำหรับเก็บ ID ของ interval
 const fetchTransitions = async () => {
   try {
     const response = await $fetch(
-      "https://api-accountapp.onrender.com/api/get_expense_transition"
+      "/get_expense_transition"
     );
     // console.log("Fetched data:", response); // ดูข้อมูลที่ถูกส่งกลับ
     transition.value = response || [];
@@ -132,7 +132,7 @@ const fetchTransitions = async () => {
 // ฟังก์ชันลบธุรกรรม
 const deleteTransection = async (id, value) => {
   try {
-    await $fetch(`https://api-accountapp.onrender.com/api/delete_transition_expense/${id}`, {
+    await $fetch(`/delete_transition_expense/${id}`, {
       method: "PUT",
       body: JSON.stringify({ account_transition_value: value }),
       headers: { "Content-Type": "application/json" },

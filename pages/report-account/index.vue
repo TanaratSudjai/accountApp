@@ -29,7 +29,7 @@ const reports = ref([]);
 
 const fetchReports = async () => {
   try {
-    const response = await fetch("https://api-accountapp.onrender.com/api/report");
+    const response = await fetch("/report");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

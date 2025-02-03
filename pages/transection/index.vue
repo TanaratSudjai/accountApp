@@ -196,7 +196,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-
+const { $axios } = useNuxtApp();
 const IconData = ref([]);
 const transition = ref([]);
 const selectedIcon = ref(null);
@@ -207,15 +207,7 @@ const sumtwo = ref([]);
 
 const onSubmitTransition = async () => {
   try {
-    const response = await fetch(
-      `https://api-accountapp.onrender.com/api/transitionsubmit`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await $axios.put(`transitionsubmit`);
 
     const data = await response.json();
     console.log("Success:", data);
@@ -239,7 +231,7 @@ const router = useRouter();
 const submitDifferences = async () => {
   try {
     const response = await fetch(
-      `https://api-accountapp.onrender.com/api/sumbittrantision_suminsert`,
+      `/sumbittrantision_suminsert`,
       {
         method: "POST",
         headers: {
@@ -267,11 +259,16 @@ const submitDifferences = async () => {
 
 const fetchsumone = async () => {
   try {
-    const response = await fetch(
-      `https://api-accountapp.onrender.com/api/getSumGropOne`
-
+    const token = localStorage.getItem("token");
+    const response = await $axios.get(
+      `/getSumGropOne`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
-    const data = await response.json();
+    const data = await response.data;
     sumone.value = data;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -280,12 +277,17 @@ const fetchsumone = async () => {
 
 const fetchsumtwo = async () => {
   try {
-    const response = await fetch(
-
-      `https://api-accountapp.onrender.com/api/getSumGropTwo`
-
+    const token = localStorage.getItem("token");
+    const response = await $axios.get(
+      `/getSumGropTwo`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
-    const data = await response.json();
+    const data = await response.data;
+    // console.log("data sum group two", data);
     sumtwo.value = data;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -294,11 +296,14 @@ const fetchsumtwo = async () => {
 
 const fetchTransition = async () => {
   try {
-    const response = await fetch(
-      `https://api-accountapp.onrender.com/api/transitions`
-
-    );
-    const data = await response.json();
+    const token = localStorage.getItem("token");
+    const response = await $axios.get(`/transitions`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.data.res_transition;
+    // console.log("transition of user session : ", data);
     transition.value = data.res_transition;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -307,11 +312,13 @@ const fetchTransition = async () => {
 
 const groupOneTransition = async () => {
   try {
-    const response = await fetch(
-      `https://api-accountapp.onrender.com/api/getGropOne`
-
-    );
-    const data = await response.json();
+    const token = localStorage.getItem("token");
+    const response = await $axios.get(`/getGropOne`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.data;
     groupOne.value = data;
   } catch (error) {
     console.error("Error fetching transition group One:", error);
@@ -320,11 +327,13 @@ const groupOneTransition = async () => {
 
 const groupTwoTransition = async () => {
   try {
-    const response = await fetch(
-      `https://api-accountapp.onrender.com/api/getGropTwo`
-
-    );
-    const data = await response.json();
+    const token = localStorage.getItem("token");
+    const response = await $axios.get(`/getGropTwo`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.data;
     groupTwo.value = data;
   } catch (error) {
     console.error("Error fetching transition group Two:", error);
@@ -344,12 +353,14 @@ const accountTypeValue = computed({
 
 const fetchIcon = async () => {
   try {
-    const response = await fetch(
-      `https://api-accountapp.onrender.com/api/menu_icon`
-
-    );
-    const data = await response.json();
-    IconData.value = data.data_menu;
+    const token = localStorage.getItem("token");
+    const response = await $axios.get(`/menu_icon`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.data.data_menu;
+    IconData.value = data;
   } catch (error) {
     console.error("Error fetching icons:", error);
   }
@@ -392,7 +403,7 @@ const updateAccountTransition = async (
   console.log(accountCategoryID);
   try {
     const response = await fetch(
-      `https://api-accountapp.onrender.com/api/transition`,
+      `/transition`,
 
       {
         method: "POST",

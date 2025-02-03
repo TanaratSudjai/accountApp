@@ -49,10 +49,11 @@
 import { ref, watch } from "vue";
 
 const typeData = ref([]);
+const { $axios } = useNuxtApp();
 
 const fetchTypeData = async () => {
   try {
-    const response = await fetch(`https://api-accountapp.onrender.com/api/account_type_get`);
+    const response = await fetch(`/account_type_get`);
     const data = await response.json();
     typeData.value = data.account_type;
   } catch (error) {
@@ -107,18 +108,16 @@ const updateAccountType = async () => {
   console.log(localAccountType.value.account_type_description);
   console.log(localAccountType.value.account_type_from_id);
   try {
-    const response = await fetch(
-      `https://api-accountapp.onrender.com/api/account_type_update/${localAccountType.value.account_type_id}`,
+    const response = await $axios.put(
+      `/account_type_update/${localAccountType.value.account_type_id}`,
       {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(localAccountType.value), // Use localAccountType here
+        account_type_name : localAccountType.value.account_type_name, 
+        account_type_value: localAccountType.value.accountType_value,
+        account_type_description: localAccountType.value.account_type_description,
       }
     );
 
-    if (response.ok) {
+    if (response.status === 200 || response.status === 201) {
       emit("update", {
         ...localAccountType.value,
         account_type_from_id: localAccountType.value.account_type_from_id,  // Include updated account_type_from_id

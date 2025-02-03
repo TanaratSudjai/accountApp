@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-10 rounded-lg shadow-md w-[80%] flex justify-center items-center"
+    class="p-10 rounded-lg shadow-md w-[80%] flex flex-col justify-center items-center"
   >
     <form
       @submit.prevent="handleLogin"
@@ -41,20 +41,20 @@
       <button type="submit" class="bg-cyan-600 text-white px-4 py-2 rounded">
         เข้าสู่ระบบ
       </button>
-      <button
-        @click="goRegister"
-        class="text-cyan-600 px-4 py-2 rounded underline"
-      >
-        สมัครใช้งาน
-      </button>
     </form>
+    <button
+      @click="goRegister"
+      class="text-cyan-600 px-4 py-2 rounded underline"
+    >
+      สมัครใช้งาน
+    </button>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
+const { $axios } = useNuxtApp();
 
 const router = useRouter();
 const loading = ref(false);
@@ -71,29 +71,14 @@ const handleLogin = async () => {
   error.value = "";
 
   try {
-    const response = await axios.post(
-      "https://api-accountapp.onrender.com/api/auth/login",
-      {
-        account_user_username: formData.account_user_username,
-        account_user_password: formData.account_user_password,
-      },
-      {
-        withCredentials: true, // สำคัญ: backend ต้องรองรับ cookies
-      }
-    );
+    const response = await $axios.post("/auth/login", {
+      account_user_username: formData.account_user_username,
+      account_user_password: formData.account_user_password,
+    });
 
     const token = response.data.token;
-
-    // เก็บ token ทั้งใน localStorage และ cookie
+    // // เก็บ token ทั้งใน localStorage
     localStorage.setItem("token", token);
-
-    const tokenCookie = useCookie("token", {
-      maxAge: 7 * 24 * 60 * 60, // อายุ 7 วัน
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    });
-    tokenCookie.value = token;
-
     // Redirect หลังจาก login สำเร็จ
     await router.push("/home");
     window.location.reload();

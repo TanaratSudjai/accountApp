@@ -96,7 +96,7 @@ const formData = ref({
 const typeData = ref([]);
 const fetchTypeData = async () => {
   try {
-    const response = await fetch(`https://api-accountapp.onrender.com/api/account_type_get`);
+    const response = await fetch(`/account_type_get`);
     const data = await response.json();
     typeData.value = data.account_type;
   } catch (error) {
@@ -107,7 +107,7 @@ const fetchTypeData = async () => {
 const typeDataID = ref([]);
 const fetchTypeDataID = async () => {
   try {
-    const response = await fetch(`https://api-accountapp.onrender.com/api/account_type_get`);
+    const response = await fetch(`/account_type_get`);
     const data = await response.json();
     typeDataID.value = data.account_type;
   } catch (error) {
@@ -122,7 +122,7 @@ const goBack = () => {
 const submitForm = async () => {
   try {
     const response = await fetch(
-      "https://api-accountapp.onrender.com/api/account_type_create",
+      "/account_type_create",
       {
         method: "POST",
         headers: {
@@ -156,7 +156,7 @@ const TypeData = ref([]);
 const fetchType = async () => {
   try {
     const response = await fetch(
-      `https://api-accountapp.onrender.com/api/account_type_get/${groupID}`
+      `/account_type_get/${groupID}`
     );
     const data = await response.json();
     TypeData.value = data.account_type;
@@ -176,7 +176,7 @@ const deleteFormData = async (account_type_id) => {
   console.log(account_type_id);
   try {
     const response = await fetch(
-      `https://api-accountapp.onrender.com/api/account_type_del/${account_type_id}`,
+      `/account_type_del/${account_type_id}`,
       {
         method: "DELETE",
       }

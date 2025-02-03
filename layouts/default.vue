@@ -1,24 +1,26 @@
 <template>
+  
   <div class="flex flex-col font-noto bg-cyan-600 min-h-screen">
     <!-- Header -->
-    <div
-      class="flex flex-wrap justify-center items-center fixed top-0 left-0 w-full z-50 p-3 bg-white shadow-md"
+    
+    <div 
+      class="flex flex-col md:flex-row gap-2 justify-center items-center w-full z-50 p-3 bg-white shadow-md"
     >
       <!-- logo stars -->
-      <div class="w-[98%] md:w-[28%] lg:w-[28%]">
+      <div class="w-full">
         <div class="font-sans pb-2 text-gray-400">
-          ACCOUNT APPLICATION
+          บัญชีของคุณ {{ nameuser }}
           <button @click="logout" class="text-blue-600 underline">
             ออกจากระบบ
           </button>
         </div>
       </div>
-      <div class="w-[98%] md:w-[28%] lg:w-[28%]">
+      <div class="w-full">
         <ButtonRemove />
       </div>
     </div>
-
-    <div class="p-2 pt-[65px]">
+    <div v-if="loading"><div ><LoadingPageload /></div></div>
+    <div v-else class="p-2">
       <slot />
     </div>
   </div>
@@ -26,15 +28,27 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
+const { $axios } = useNuxtApp();
 const router = useRouter();
 const error = ref("");
+let nameuser = ref("");
+const loading = ref(true);
 
 definePageMeta({
-  middleware: ['auth']
-})
+  middleware: ["auth"],
+});
 
+const getSession = async () => {
+  const token = localStorage.getItem("token");
+  const response = await $axios.get(
+    "auth/get_session",
+  );
 
+  nameuser.value = response.data.data_user.account_user_name;
+  loading.value = false;
+};
+
+// api call logout
 const logout = async () => {
   try {
     // ดึง token จาก localStorage
@@ -44,9 +58,9 @@ const logout = async () => {
       throw new Error("No token found");
     }
     // ส่ง request พร้อม token ใน header
-    await axios.post(
-      "https://api-accountapp.onrender.com/api/auth/logout",
-      {}, // request body
+    await $axios.post(
+      "/auth/logout",
+      // request body
       {
         headers: {
           Authorization: `Bearer ${token}`, // ส่ง token ใน header
@@ -56,7 +70,7 @@ const logout = async () => {
     );
     // เคลียร์ข้อมูล authentication
     localStorage.removeItem("token");
-    // เคลียร์ cookies (ถ้ามี)
+    // เคลียร์ cookies (ถ้ามี) csr
     document.cookie.split(";").forEach((cookie) => {
       document.cookie = cookie
         .replace(/^ +/, "")
@@ -65,15 +79,19 @@ const logout = async () => {
     await router.push("/");
     window.location.reload();
   } catch (err) {
-    console.error("Logout error:", err);
-    error.value = err.response?.data?.message || "Logout failed. Try again.";
-    // ถ้าเป็น error 401 อาจจะ force logout
-    if (err.response?.status === 401) {
+    if (error.response?.status === 401) {
+      // Handle unauthorized error (e.g., redirect to login)
+      console.error("Unauthorized access. Please login again.");
+      // Optionally clear token
       localStorage.removeItem("token");
-      await router.push("/login");
     }
+    throw error;
   }
 };
+
+onMounted(() => {
+  getSession();
+});
 </script>
 <style scoped>
 .font-noto {

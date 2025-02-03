@@ -10,17 +10,17 @@
   
   const route = useRoute();
   const groupID = route.params.id;
+  const { $axios } = useNuxtApp();
   
   const GroupData = ref([]);
   
   const fetchGroup = async () => {
     try {
-      const response = await fetch(
-        `https://api-accountapp.onrender.com/api/category/${groupID}`
+      const response = await $axios.get(
+        `/category/${groupID}`
       );
-      const data = await response.json();
+      const data = await response.data;
       GroupData.value = data;
-      console.log(GroupData.value);
     } catch (error) {
       console.error("Error fetching group data:", error);
     }

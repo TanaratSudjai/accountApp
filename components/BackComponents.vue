@@ -1,5 +1,5 @@
 <template >
-  <div class="w-full p-2 bg-white/80 backdrop-blur flex border-b-2 border-blue-400">
+  <div class="w-full p-2 bg-white/60 backdrop-blur flex border-b-2 border-blue-400 rounded-xl">
     <div class=" p-3">
       <NuxtLink to="/">
         <svg

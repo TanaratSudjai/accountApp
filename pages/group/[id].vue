@@ -1,32 +1,35 @@
 <template>
-  <client-only>
+  <div>
     <BackComponentsForCategoryForm></BackComponentsForCategoryForm>
-  </client-only>
+  </div>
   <div class="flex items-center justify-center mb-10 w-full flex-col">
-    <div class="w-full max-w-sm border border-gray-200 rounded-lg p-4 shadow-xl mt-5 ">
-      <div class="flex justify-center items-center mb-4">
+    <div class="w-full border bg-white/85 rounded-xl p-4 shadow-xl mt-2">
+      <div class="flex justify-center items-center mb-4 text-bold">
         <GetgroupName></GetgroupName>
       </div>
       <form @submit.prevent="submitForm" class="space-y-4">
-        <div class="mb-4">
-          <label htmlFor="phone" class="text-gray-800 text-sm block">
-            ชื่อกลุ่ม
-          </label>
-          <div class="relative flex items-center">
-            <input type="text" placeholder="account_group_name"
-              class="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 rounded-md outline-blue-600"
-              v-model="formData.account_group_name" />
-          </div>
-          <button type="submit"
-            class="w-full bg-blue-300 hover:bg-blue-300 font-bold text-black py-3 mt-4 rounded-md transition duration-300 ease-in-out mb-2">
+        <label htmlFor="phone" class="text-bold block"> ชื่อกลุ่ม </label>
+        <div
+          class="mb-4 flex flex-col items-center justify-center w-full md:flex-row lg:flex-row gap-2"
+        >
+          <input
+            type="text"
+            placeholder="account_group_name"
+            class="w-full md:w-[70%] text-gray-800 text-sm border-2 border-cyan-500 px-4 py-3 rounded-md outline-blue-600"
+            v-model="formData.account_group_name"
+          />
+          <button 
+            type="submit"
+            class="w-full md:w-[30%] bg-cyan-600 text-white hover:bg-cyan-700 font-bold py-3 rounded-md transition duration-300 ease-in-out"
+            
+          >
             เพิ่มกลุ่ม
           </button>
         </div>
       </form>
     </div>
-
-    <div class="p-6 sm:p-8 rounded-2xl w-full max-w-md">
-      <DataGroup></DataGroup>
+    <div class="rounded-2xl w-full">
+      <DataGroup ref="dataGroupRef"></DataGroup>
     </div>
   </div>
 
@@ -64,19 +67,23 @@
         </tbody>
       </table> -->
   </div>
-
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
 
+import { useRoute } from "vue-router";
 const route = useRoute();
 const categoryID = route.params.id;
+const emit = defineEmits(["submit_fetch"]);
+const dataGroupRef = ref(null);
 
-import { ref, onMounted } from "vue";
+// import { useGroupStore } from "../../stores/group";
+// const groupStore = useGroupStore();
+
 import GetgroupName from "~/components/GetgroupName.vue";
+const { $axios } = useNuxtApp();
 
-const formData = ref({
+const formData = reactive({
   account_group_name: "",
   account_category_id: categoryID,
 });
@@ -91,36 +98,27 @@ watch(
 
 const submitForm = async () => {
   try {
-    const response = await fetch(
-      "https://api-accountapp.onrender.com/api/account_group_create",
+    const response = await $axios.post(
+      "/account_group_create",
+      // ข้อมูลที่จะส่ง (request body)
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData.value),
-      }
+        account_group_name: formData.account_group_name,
+        account_category_id: formData.account_category_id,
+      },
     );
-
-    const result = await response.json();
-    console.log("Account group created successfully:", result);
-
-    formData.value = {
-      account_group_name: "",
-      account_category_id: categoryID,
-    };
-    fetchGroup();
+    console.log("Account group created successfully:", response.data);
+    // อัพเดท formData
+    formData.account_group_name = "";
+    dataGroupRef.value.fetchGroup();
   } catch (error) {
-    console.log("Error creating account group:", error);
+    console.log(error, "Error creating account group:",);
   }
 };
 
-watch(
-  formData,
-  (newVal) => {
-    console.log("Form Data Updated:", newVal);
-  },
-  { deep: true }
-);
+// const fetchData = async () => {
+//   if (route.params.id) {
+//     await groupStore.fetchGroup(route.params.id);
+//   }
+// };
 
 </script>

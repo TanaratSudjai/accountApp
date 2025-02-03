@@ -26,7 +26,7 @@ let interval;
 const fetchTransitions = async () => {
   try {
     transition.value = await $fetch(
-      "https://api-accountapp.onrender.com/api/get_income_transition"
+      "/get_income_transition"
     );
   } catch (err) {
     error.value = "Error fetching transitions: " + err.message; // ตั้งค่า error
