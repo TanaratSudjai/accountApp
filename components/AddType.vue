@@ -51,20 +51,17 @@
                     เลือกไอคอน
                 </label>
                 <div class="flex overflow-x-auto py-2 space-x-4 border-2 p-2 rounded-xl mb-2">
-                    <div class="inline-flex flex-col gap-2 justify-center"> <!--v-for="icon in IconData" :key="icon.account_type_id"-->
-                            <div class="text-white rounded-full flex items-center justify-center w-16 h-16 cursor-pointer bg-gray-500">
-                                Icon.png
-                            </div>
-                        <!-- <div :class="[
+                    <div v-for="icon in icons" :key="icon.account_icon_id"
+                        class="inline-flex flex-col gap-2 justify-center">
+                        <div @click="toggleSelectIcon(icon)" :class="[
                             'rounded-full flex items-center justify-center w-16 h-16 cursor-pointer',
-                            selectedIcon &&
-                                selectedIcon.account_type_id === icon.account_type_id
+                            selectedIcon && selectedIcon.account_icon_id === icon.account_icon_id
                                 ? 'bg-green-500'
-                                : 'bg-gray-200',
-                        ]" @click="toggleSelect(icon)">
-                            <img :src="icon.account_type_icon" alt="icon" class="w-12 h-12 rounded-full object-cover" />
-                        </div> -->
-                        ยังไม่มีฐานข้อมูลไอคอน
+                                : 'bg-gray-200'
+                        ]">
+                            <img :src="`/icon_folder/${icon.account_icon_name}`" alt="icon"
+                                class="w-12 h-12 rounded-full object-cover" />
+                        </div>
                     </div>
                 </div>
                 <!-- <label htmlFor="phone" className="text-gray-800 text-sm  block">
@@ -96,6 +93,19 @@ const groupID = route.params.id;
 const { $axios } = useNuxtApp();
 
 
+const icons = ref();
+const fetchIcon = async () => {
+    try {
+        const response = await $axios.get(`/get_icons`);
+        const data = await response.data;
+        icons.value = data.data;
+        console.log(data.data);
+    }
+    catch (error) {
+        console.log("No data", error);
+    }
+}
+
 const selected = ref(null);
 const toggleSelect = (type) => {
     if (selected.value && selected.value.account_type_id === type.account_type_id) {
@@ -105,14 +115,25 @@ const toggleSelect = (type) => {
         selected.value = type;
         formData.value.account_type_from_id = type.account_type_id;
     }
+    console.log(selected.value)
+};
+
+
+const selectedIcon = ref(null);
+const toggleSelectIcon = (icon) => {
+  selectedIcon.value =
+    selectedIcon.value?.account_icon_id === icon.account_icon_id
+      ? null
+      : icon;
+      console.log(selectedIcon.value);
 };
 
 const formData = ref({
     account_type_name: "",
     account_type_value: "",
     account_type_description: "",
-    account_type_from_id: "",
-    account_type_icon: "",
+    account_type_from_id: selected,
+    account_type_icon: selectedIcon,
     account_group_id: groupID,
 });
 
@@ -122,6 +143,7 @@ const fetchTypeData = async () => {
         const response = await $axios.get(`/account_type_get`);
         const data = await response.data;
         typeData.value = data.account_type;
+        console.log(data.account_type);
     } catch (error) {
         console.error("Error fetching icons:", error);
     }
@@ -175,7 +197,6 @@ const submitForm = async () => {
 };
 
 const TypeData = ref([]);
-
 const fetchType = async () => {
     try {
         const response = await $axios.get(
@@ -193,6 +214,7 @@ onMounted(async () => {
     fetchType();
     fetchTypeData();
     fetchTypeDataID();
+    fetchIcon();
 });
 
 </script>
