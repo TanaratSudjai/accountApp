@@ -81,120 +81,117 @@
 </template>
 
 <script setup>
-
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-
 const route = useRoute();
 const groupID = route.params.id;
+const categoryID = route.query.groupID
 const { $axios } = useNuxtApp();
 
-
-const icons = ref();
-const fetchIcon = async () => {
+const icons = ref(); //เก็บข้อมูลไอคอน
+const fetchIcon = async () => { //นำข้อมูลไอคอนมา
     try {
         const response = await $axios.get(`/get_icons`);
         const data = await response.data;
         icons.value = data.data;
-        console.log(data.data);
+        
     }
     catch (error) {
         console.log("No data", error);
     }
 }
 
-const selected = ref(null);
-const toggleSelect = (type) => {
-    if (selected.value && selected.value.account_type_id === type.account_type_id) {
-        selected.value = null;
-        formData.value.account_type_from_id = "";
-    } else {
-        selected.value = type;
-        formData.value.account_type_from_id = type.account_type_id;
-    }
-    console.log(selected.value)
-};
-
-
-const selectedIcon = ref(null);
-const toggleSelectIcon = (icon) => {
-  selectedIcon.value =
-    selectedIcon.value?.account_icon_id === icon.account_icon_id
-      ? null
-      : icon;
-      console.log(selectedIcon.value);
-};
-
-const formData = ref({
+const formData = ref({ //ฟอร์มเตรียมส่ง
     account_type_name: "",
     account_type_value: "",
     account_type_description: "",
-    account_type_from_id: selected,
-    account_type_icon: selectedIcon,
+    account_type_from_id: null,
+    account_type_icon: null,
     account_group_id: groupID,
+    account_category_id: categoryID,
 });
 
-const typeData = ref([]);
-const fetchTypeData = async () => {
+
+const selected = ref(null); //เก็บ account_type_id
+const toggleSelect = (type) => { //เลือกและยกเลืกการเลือก account_type_id
+    selected.value = selected.value?.account_type_id === type.account_type_id ? null : type;
+    console.log(selected.value)
+};
+
+const selectedIcon = ref(null); //เก็บ account_icon_id
+const toggleSelectIcon = (icon) => { //เลือกและยกเลืกการเลือก account_icon_id
+  selectedIcon.value =
+    selectedIcon.value?.account_icon_id === icon.account_icon_id ? null : icon;
+      console.log(selectedIcon.value.account_icon_id);
+      console.log(formData);
+};
+
+watch(selected, (newVal) => {
+    formData.value.account_type_from_id = newVal ? newVal.account_type_id : null;
+});
+
+// Watch `selectedIcon` and update formData.account_type_icon
+watch(selectedIcon, (newVal) => {
+    formData.value.account_type_icon = newVal ? newVal.account_icon_id : null;
+});
+
+
+
+
+
+
+const typeData = ref([]); //เก็บข้อมูล type ไว้ใช้ในการกำหนด account_type_from_id
+const fetchTypeData = async () => { //นำข้อมูล account_type มา
     try {
         const response = await $axios.get(`/account_type_get`);
         const data = await response.data;
         typeData.value = data.account_type;
-        console.log(data.account_type);
     } catch (error) {
         console.error("Error fetching icons:", error);
     }
 };
 
-const typeDataID = ref([]);
-const fetchTypeDataID = async () => {
-    try {
-        const response = await $axios.get(`/account_type_get`);
-        const data = await response.data;
-        typeDataID.value = data.account_type;
-    } catch (error) {
-        console.log("Error fetching icons:", error);
-    }
-};
-
-const goBack = () => {
+const goBack = () => { //ปุ่มย้อนกลับ
     router.back();
 };
 
 const submitForm = async () => {
     try {
-        const response = await fetch(
-            "/account_type_create",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData.value),
-            }
-        );
+        const response = await $axios.post("/account_type_create", {
+            account_type_name: formData.value.account_type_name,
+            account_type_value: formData.value.account_type_value,
+            account_type_description: formData.value.account_type_description,
+            account_type_from_id: formData.value.account_type_from_id,
+            account_type_icon: formData.value.account_type_icon,
+            account_group_id: formData.value.account_group_id,
+            account_category_id: formData.value.account_category_id,   
+        });
 
-        const result = await response.json();
+        const result = response.data;
         console.log("Account group created successfully:", result);
 
+        // Reset formData correctly
         formData.value = {
             account_type_name: "",
             account_type_value: "",
             account_type_description: "",
-            account_type_from_id: "",
-            account_type_icon: "",
-            account_group_id: "",
+            account_type_from_id: null, // Use null instead of empty string
+            account_type_icon: null,
+            account_group_id: null,
+            account_category_id: null,
         };
 
         selected.value = null;
+        selectedIcon.value = null;
         fetchType();
     } catch (error) {
-        console.log("Error creating account group:", error);
+        console.log("Error creating account group:", error.response?.data || error);
     }
 };
+
 
 const TypeData = ref([]);
 const fetchType = async () => {
@@ -213,7 +210,6 @@ const fetchType = async () => {
 onMounted(async () => {
     fetchType();
     fetchTypeData();
-    fetchTypeDataID();
     fetchIcon();
 });
 
