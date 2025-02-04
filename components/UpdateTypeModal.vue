@@ -53,11 +53,11 @@ const { $axios } = useNuxtApp();
 
 const fetchTypeData = async () => {
   try {
-    const response = await fetch(`/account_type_get`);
-    const data = await response.json();
+    const response = await $axios.get(`/account_type_get`);
+    const data = await response.data;
     typeData.value = data.account_type;
   } catch (error) {
-    console.error("Error fetching icons:", error);
+    console.log("Error fetching icons:", error);
   }
 };
 

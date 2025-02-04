@@ -65,6 +65,7 @@ const router = useRouter();
 
 const route = useRoute();
 const groupID = route.params.id;
+const { $axios } = useNuxtApp();
 
 const selected = ref(null);
 const toggleSelect = (type) => {
@@ -96,8 +97,8 @@ const formData = ref({
 const typeData = ref([]);
 const fetchTypeData = async () => {
   try {
-    const response = await fetch(`/account_type_get`);
-    const data = await response.json();
+    const response = await $axios.get(`/account_type_get`);
+    const data = await response.data;
     typeData.value = data.account_type;
   } catch (error) {
     console.error("Error fetching icons:", error);
@@ -107,8 +108,8 @@ const fetchTypeData = async () => {
 const typeDataID = ref([]);
 const fetchTypeDataID = async () => {
   try {
-    const response = await fetch(`/account_type_get`);
-    const data = await response.json();
+    const response = await $axios.get(`/account_type_get`);
+    const data = await response.data;
     typeDataID.value = data.account_type;
   } catch (error) {
     console.error("Error fetching icons:", error);
@@ -121,7 +122,7 @@ const goBack = () => {
 
 const submitForm = async () => {
   try {
-    const response = await fetch(
+    const response = await $axios.post(
       "/account_type_create",
       {
         method: "POST",
@@ -155,10 +156,10 @@ const TypeData = ref([]);
 
 const fetchType = async () => {
   try {
-    const response = await fetch(
+    const response = await $axios.get(
       `/account_type_get/${groupID}`
     );
-    const data = await response.json();
+    const data = await response.data;
     TypeData.value = data.account_type;
     console.log(TypeData.value);
   } catch (error) {
@@ -175,7 +176,7 @@ onMounted(async () => {
 const deleteFormData = async (account_type_id) => {
   console.log(account_type_id);
   try {
-    const response = await fetch(
+    const response = await $axios.delete(
       `/account_type_del/${account_type_id}`,
       {
         method: "DELETE",
