@@ -2,64 +2,88 @@
   <client-only>
     <BackComponentsForTypeForm1></BackComponentsForTypeForm1>
   </client-only>
- 
-    
-  <div class="flex items-center justify-center mb-10">
-    <div class="p-6 sm:p-8 rounded-2xl w-full max-w-md">
-        <div v-if="!TypeData || TypeData.length === 0" class="text-center p-4 text-gray-600">
-          ไม่มีประเภท
-        </div>
-        <div v-else>
-          <div v-for="Type in TypeData" :key="Type.account_type_id"
-            class="border border-gray-200 rounded-lg p-4 mb-4 shadow-md">
-            <div class="font-semibold text-lg">
-              รหัส: <span class="font-normal">{{ Type.account_type_id }}</span>
-            </div>
-            <div>
-              ชื่อ:
-              <span class="font-normal">{{ Type.account_type_name }}</span>
-            </div>
-            <div>
-              จำนวน:
-              <span class="font-semibold">{{ Type.account_type_value }}</span>
-            </div>
-            <div>
-              รายละเอียด:
-              <span class="font-normal">{{
-                Type.account_type_description
-              }}</span>
-            </div>
-            <div>
-              ประเภท:
-              <span class="font-normal">{{ getAccountTypeName(Type.account_type_from_id) }}</span>
-            </div>
-
-            <div class="mt-4">
-              <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                @click="deleteFormData(Type.account_type_id )">
-                ลบ
-              </button>
-              <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 ml-2"
-                @click="openUpdateModal(Type)">
-                แก้ไข
-              </button>
-            </div>
+  <div
+    v-if="!TypeData || TypeData.length === 0"
+    class="text-center p-4 text-gray-600"
+  >
+    ไม่มีประเภท
+  </div>
+  <div v-else class="flex w-full justify-center mt-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 gap-4 xl:grid-cols-3 max-w-7xl">
+      <div
+        v-for="Type in TypeData"
+        :key="Type.account_type_id"
+        className="bg-white shadow-lg rounded-xl border border-gray-100 p-6 mb-4 transition-all hover:shadow-xl "
+      >
+        <div className="flex items-center mb-4">
+          <div>
+            <img
+              :src="`/icon_folder/${Type.account_icon_name}`"
+              alt="icon"
+              class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-blue-100"
+            />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-gray-800 mb-1">
+              {{ Type.account_type_name }}
+            </h3>
+            <p className="text-sm text-gray-500">
+              Code: {{ Type.account_type_id }}
+            </p>
           </div>
         </div>
+    
+        <div className="space-y-2 text-gray-700 mb-4">
+          <div className="flex">
+            <span className="font-semibold mr-2 w-24">Amount:</span>
+            <span className="font-bold text-blue-600">
+              {{ Type.account_type_value }}
+            </span>
+          </div>
+          <div className="flex">
+            <span className="font-semibold mr-2 w-24">Description:</span>
+            <span>{{ Type.account_type_description }}</span>
+          </div>
+          <div className="flex">
+            <span className="font-semibold mr-2 w-24">Type:</span>
+            <span>{{ getAccountTypeName(Type.account_type_from_id) }}</span>
+          </div>
+        </div>
+    
+        <div className="flex space-x-2">
+          <button
+            @click="deleteFormData(Type.account_type_id)"
+            className="flex items-center bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+          >
+            <Trash2 className="mr-2 w-2 h-2" />
+            Delete
+          </button>
+          <button
+            @click="openUpdateModal(Type)"
+            className="flex items-center bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors"
+          >
+            <Pencil className="mr-2 w-4 h-4" />
+            Edit
+          </button>
+          <UpdateTypeModal
+            :show="showUpdateModal"
+            :accountType="selectedAccountType"
+            :account_type_from_id="formData.account_type_from_id"
+            @update="handleUpdate"
+            @close="showUpdateModal = false"
+          />
+        </div>
       </div>
-      <UpdateTypeModal :show="showUpdateModal" :accountType="selectedAccountType"
-        :account_type_from_id="formData.account_type_from_id" 
-        @update="handleUpdate"
-        @close="showUpdateModal = false"
-        />
     </div>
-  
+
+  </div>
 </template>
 
 <script setup>
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { Pencil,Trash2  } from "lucide-vue-next";
 
 const router = useRouter();
 
@@ -69,7 +93,10 @@ const { $axios } = useNuxtApp();
 
 const selected = ref(null);
 const toggleSelect = (type) => {
-  if (selected.value && selected.value.account_type_id === type.account_type_id) {
+  if (
+    selected.value &&
+    selected.value.account_type_id === type.account_type_id
+  ) {
     selected.value = null;
     formData.value.account_type_from_id = "";
   } else {
@@ -79,10 +106,8 @@ const toggleSelect = (type) => {
 };
 
 const getAccountTypeName = (id) => {
-  const account = typeDataID.value.find(
-    (type) => type.account_type_id === id
-  );
-  return account ? account.account_type_name : 'ยังไม่ได้เลือก';
+  const account = typeDataID.value.find((type) => type.account_type_id === id);
+  return account ? account.account_type_name : "ยังไม่ได้เลือก";
 };
 
 const formData = ref({
@@ -116,22 +141,16 @@ const fetchTypeDataID = async () => {
   }
 };
 
-const goBack = () => {
-  router.back();
-};
 
 const submitForm = async () => {
   try {
-    const response = await $axios.post(
-      "/account_type_create",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData.value),
-      }
-    );
+    const response = await $axios.post("/account_type_create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData.value),
+    });
 
     const result = await response.json();
     console.log("Account group created successfully:", result);
@@ -156,9 +175,7 @@ const TypeData = ref([]);
 
 const fetchType = async () => {
   try {
-    const response = await $axios.get(
-      `/account_type_get/${groupID}`
-    );
+    const response = await $axios.get(`/account_type_get/${groupID}`);
     const data = await response.data;
     TypeData.value = data.account_type;
     console.log(TypeData.value);
@@ -178,12 +195,9 @@ const deleteFormData = async (account_type_id) => {
   try {
     const response = await $axios.delete(
       `/account_type_del/${account_type_id}`,
-      {
-        method: "DELETE",
-      }
     );
 
-    if (response.ok) {
+    if (response.status == 200 || response.status ==201) {
       TypeData.value = TypeData.value.filter(
         (Type) => Type.account_type_id !== account_type_id
       );
@@ -217,6 +231,4 @@ const handleUpdate = (updatedData) => {
   console.log("Account type updated successfully:", updatedData);
   fetchType();
 };
-
-
 </script>

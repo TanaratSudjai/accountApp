@@ -1,40 +1,61 @@
 <template>
-  <div class="w-full p-2 bg-white/80 backdrop-blur flex border-b-2 border-blue-400">
-    <div class=" p-3">
-      <NuxtLink to="/category">
-        <svg fill="#000000" height="35" width="35" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 219.151 219.151" xml:space="preserve">
-          <g>
-            <path
-              d="M109.576,219.151c60.419,0,109.573-49.156,109.573-109.576C219.149,49.156,169.995,0,109.576,0S0.002,49.156,0.002,109.575
-              C0.002,169.995,49.157,219.151,109.576,219.151z M109.576,15c52.148,0,94.573,42.426,94.574,94.575
-              c0,52.149-42.425,94.575-94.574,94.576c-52.148-0.001-94.573-42.427-94.573-94.577C15.003,57.427,57.428,15,109.576,15z" />
-            <path d="M94.861,156.507c2.929,2.928,7.678,2.927,10.606,0c2.93-2.93,2.93-7.678-0.001-10.608l-28.82-28.819l83.457-0.008
-              c4.142-0.001,7.499-3.358,7.499-7.502c-0.001-4.142-3.358-7.498-7.5-7.498l-83.46,0.008l28.827-28.825
-              c2.929-2.929,2.929-7.679,0-10.607c-1.465-1.464-3.384-2.197-5.304-2.197c-1.919,0-3.838,0.733-5.303,2.196l-41.629,41.628
-              c-1.407,1.406-2.197,3.313-2.197,5.303c0.001,1.99,0.791,3.896,2.198,5.305L94.861,156.507z" />
-          </g>
-        </svg>
+  <header class="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b-2 border-blue-400 shadow-sm">
+    <div class="container mx-auto px-4 py-3 flex sm:flex-row items-center justify-between">
+      <!-- Back Button -->
+      <NuxtLink 
+        to="/category" 
+        class="mb-2 sm:mb-0 self-start sm:self-center"
+      >
+        <div class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+          <Rewind 
+            name="heroicons:arrow-left" 
+            class="w-5 h-5 text-gray-800" 
+          />
+        </div>
       </NuxtLink>
-    </div>
-    <div class="flex mt-4 space-x-2">
-      <span v-for="(crumb, index) in breadcrumbs" :key="index">
-        <NuxtLink :to="crumb.link" v-if="crumb.link">{{ crumb.text }}</NuxtLink>
-        <span v-else>{{ crumb.text }}</span>
-        <span v-if="index < breadcrumbs.length - 1"> > </span>
-      </span>
-      <NuxtLink :to="`/type/addType/${typeID}?groupID=${groupID}`">
-        <div class="rounded-full flex items-center justify-center w-6 h-6 cursor-pointer bg-green-400 mt-1">
-          +
+
+      <!-- Breadcrumbs -->
+      <div class="flex items-center flex-wrap justify-center space-x-2 mb-2 sm:mb-0">
+        <template v-for="(crumb, index) in breadcrumbs" :key="index">
+          <NuxtLink 
+            v-if="crumb.link" 
+            :to="crumb.link" 
+            class="text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            {{ crumb.text }}
+          </NuxtLink>
+          <span v-else class="text-gray-500">{{ crumb.text }}</span>
+          
+          <span 
+            v-if="index < breadcrumbs.length - 1" 
+            class="text-gray-400 mx-1"
+          >
+            /
+          </span>
+        </template>
+      </div>
+
+      <!-- Add Button -->
+      <NuxtLink 
+        :to="`/type/addType/${typeID}?groupID=${groupID}`"
+        class="mb-2 sm:mb-0 self-start sm:self-center"
+      >
+        <div class="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center 
+          hover:bg-green-600 transition-colors shadow-md hover:shadow-lg">
+          <DiamondPlus 
+            name="heroicons:plus" 
+            class="w-5 h-5" 
+          />
         </div>
       </NuxtLink>
     </div>
-  </div>
+  </header>
 </template>
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { Rewind, DiamondPlus } from 'lucide-vue-next';
 
 const route = useRoute();
 const groupID = route.query.groupID || '';  // Retrieve groupID from query parameters
