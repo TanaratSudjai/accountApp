@@ -1,13 +1,8 @@
 <template>
   <div class="flex flex-col font-noto bg-cyan-600 min-h-screen">
     <div class="flex-1 p-6">
-      <div
-        class="grid grid-cols-2 md:grid-cols-3 gap-2 max-w-4xl mx-auto mb-12"
-      >
-        <NuxtLink
-          v-for="(item, index) in menuItems"
-          :key="index"
-          :to="isDisabled(item.title) ? '#' : item.route"
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-2 max-w-4xl mx-auto mb-12">
+        <NuxtLink v-for="(item, index) in menuItems" :key="index" :to="isDisabled(item.title) ? '#' : item.route"
           :class="[
             'rounded-3xl shadow-lg p-6 flex flex-col items-center justify-center transition-shadow truncate h-[120px] hover:scale-105 duration-300 ease-out',
             isDisabled(item.title)
@@ -15,9 +10,7 @@
               : 'hover:shadow-xl',
             item.bg || 'bg-white',
             item.text || 'text-gray-800',
-          ]"
-          @click="isDisabled(item.title) && $event.preventDefault()"
-        >
+          ]" @click="isDisabled(item.title) && $event.preventDefault()">
           <div :class="item.color">
             <component :is="item.icon" class="w-12 h-12" />
           </div>
