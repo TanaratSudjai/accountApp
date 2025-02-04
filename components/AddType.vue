@@ -93,6 +93,7 @@ const router = useRouter();
 
 const route = useRoute();
 const groupID = route.params.id;
+const { $axios } = useNuxtApp();
 
 
 const selected = ref(null);
@@ -118,8 +119,8 @@ const formData = ref({
 const typeData = ref([]);
 const fetchTypeData = async () => {
     try {
-        const response = await fetch(`/account_type_get`);
-        const data = await response.json();
+        const response = await $axios.get(`/account_type_get`);
+        const data = await response.data;
         typeData.value = data.account_type;
     } catch (error) {
         console.error("Error fetching icons:", error);
@@ -129,11 +130,11 @@ const fetchTypeData = async () => {
 const typeDataID = ref([]);
 const fetchTypeDataID = async () => {
     try {
-        const response = await fetch(`/account_type_get`);
-        const data = await response.json();
+        const response = await $axios.get(`/account_type_get`);
+        const data = await response.data;
         typeDataID.value = data.account_type;
     } catch (error) {
-        console.error("Error fetching icons:", error);
+        console.log("Error fetching icons:", error);
     }
 };
 
@@ -177,14 +178,14 @@ const TypeData = ref([]);
 
 const fetchType = async () => {
     try {
-        const response = await fetch(
+        const response = await $axios.get(
             `/account_type_get/${groupID}`
         );
-        const data = await response.json();
+        const data = await response;
         TypeData.value = data.account_type;
         console.log(TypeData.value);
     } catch (error) {
-        console.error("Error fetching group data:", error);
+        console.log("Error fetching group data:", error);
     }
 };
 
