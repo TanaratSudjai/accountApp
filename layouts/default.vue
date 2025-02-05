@@ -34,7 +34,6 @@ const { $axios } = useNuxtApp();
 const router = useRouter();
 let nameuser = ref("");
 const loading = ref(true);
-import { useCookie } from "#app";
 definePageMeta({
   middleware: ["auth"],
 
@@ -47,9 +46,6 @@ const getSession = async () => {
     const response = await $axios.get(
       "auth/get_session",
     );
-
-    console.log(response);
-
     nameuser.value = response.data.data_user.account_user_name;
     loading.value = false;
   } catch (err) {
