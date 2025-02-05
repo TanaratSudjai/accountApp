@@ -259,7 +259,7 @@ const submitDifferences = async () => {
 
 const fetchsumone = async () => {
   try {
-    const token = localStorage.getItem("token");
+    
     const response = await $axios.get(
       `/getSumGropOne`,
       {
@@ -277,7 +277,7 @@ const fetchsumone = async () => {
 
 const fetchsumtwo = async () => {
   try {
-    const token = localStorage.getItem("token");
+    
     const response = await $axios.get(
       `/getSumGropTwo`,
       {
@@ -296,7 +296,7 @@ const fetchsumtwo = async () => {
 
 const fetchTransition = async () => {
   try {
-    const token = localStorage.getItem("token");
+    
     const response = await $axios.get(`/transitions`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -312,7 +312,7 @@ const fetchTransition = async () => {
 
 const groupOneTransition = async () => {
   try {
-    const token = localStorage.getItem("token");
+    
     const response = await $axios.get(`/getGropOne`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -327,7 +327,7 @@ const groupOneTransition = async () => {
 
 const groupTwoTransition = async () => {
   try {
-    const token = localStorage.getItem("token");
+    
     const response = await $axios.get(`/getGropTwo`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -353,7 +353,7 @@ const accountTypeValue = computed({
 
 const fetchIcon = async () => {
   try {
-    const token = localStorage.getItem("token");
+    
     const response = await $axios.get(`/menu_icon`, {
       headers: {
         Authorization: `Bearer ${token}`,

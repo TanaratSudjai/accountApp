@@ -1,11 +1,9 @@
 <template>
-  
+
   <div class="flex flex-col font-noto bg-cyan-600 min-h-screen">
     <!-- Header -->
-    
-    <div 
-      class="flex flex-col md:flex-row gap-2 justify-center items-center w-full z-50 p-3 bg-white shadow-md"
-    >
+
+    <div class="flex flex-col md:flex-row gap-2 justify-center items-center w-full z-50 p-3 bg-white shadow-md">
       <!-- logo stars -->
       <div class="w-full">
         <div class="font-sans pb-2 text-gray-400">
@@ -19,7 +17,11 @@
         <ButtonRemove />
       </div>
     </div>
-    <div v-if="loading"><div ><LoadingPageload /></div></div>
+    <div v-if="loading">
+      <div>
+        <LoadingPageload />
+      </div>
+    </div>
     <div v-else class="p-2">
       <slot />
     </div>
@@ -30,64 +32,57 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 const { $axios } = useNuxtApp();
 const router = useRouter();
-const error = ref("");
 let nameuser = ref("");
 const loading = ref(true);
-
+import { useCookie } from "#app";
 definePageMeta({
   middleware: ["auth"],
+
 });
 
 const getSession = async () => {
-  const token = localStorage.getItem("token");
-  const response = await $axios.get(
-    "auth/get_session",
-  );
 
-  nameuser.value = response.data.data_user.account_user_name;
-  loading.value = false;
+  try {
+
+    const response = await $axios.get(
+      "auth/get_session",
+    );
+
+    console.log(response);
+
+    nameuser.value = response.data.data_user.account_user_name;
+    loading.value = false;
+  } catch (err) {
+    console.log(err);
+
+  }
 };
 
 // api call logout
 const logout = async () => {
   try {
-    // ดึง token จาก localStorage
-    const token = localStorage.getItem("token");
-    console.log("Token:", token);
     if (!token) {
       throw new Error("No token found");
     }
-    // ส่ง request พร้อม token ใน header
-    await $axios.post(
-      "/auth/logout",
-      // request body
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, // ส่ง token ใน header
-        },
-        withCredentials: true,
-      }
-    );
-    // เคลียร์ข้อมูล authentication
-    localStorage.removeItem("token");
-    // เคลียร์ cookies (ถ้ามี) csr
+    await $axios.post("/auth/logout");
     document.cookie.split(";").forEach((cookie) => {
       document.cookie = cookie
         .replace(/^ +/, "")
         .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
     });
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     await router.push("/");
     window.location.reload();
   } catch (err) {
-    if (error.response?.status === 401) {
-      // Handle unauthorized error (e.g., redirect to login)
+    if (err.response?.status === 401) {
       console.error("Unauthorized access. Please login again.");
-      // Optionally clear token
-      localStorage.removeItem("token");
+    } else {
+      console.error("Logout failed:", err.message);
     }
-    throw error;
   }
 };
+
 
 onMounted(() => {
   getSession();
