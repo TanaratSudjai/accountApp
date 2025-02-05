@@ -114,11 +114,12 @@ import {
 const transition = ref([]); // เก็บข้อมูลธุรกรรม
 const error = ref(null); // เก็บข้อผิดพลาด (ถ้ามี)
 let intervalId; // สำหรับเก็บ ID ของ interval
+const { $axios } = useNuxtApp();
 
 // ฟังก์ชันดึงข้อมูลธุรกรรม
 const fetchTransitions = async () => {
   try {
-    const response = await $fetch(
+    const response = await $axios.get(
       "/get_expense_transition"
     );
     // console.log("Fetched data:", response); // ดูข้อมูลที่ถูกส่งกลับ
@@ -132,10 +133,8 @@ const fetchTransitions = async () => {
 // ฟังก์ชันลบธุรกรรม
 const deleteTransection = async (id, value) => {
   try {
-    await $fetch(`/delete_transition_expense/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({ account_transition_value: value }),
-      headers: { "Content-Type": "application/json" },
+    await $axios.put(`/delete_transition_expense/${id}`, {
+      account_transition_value: ({ account_transition_value: value }),
     });
     await fetchTransitions(); // Fetch updated data after deletion
   } catch (error) {

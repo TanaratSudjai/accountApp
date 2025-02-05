@@ -20,12 +20,13 @@
 <script setup>
 const error = ref(null); // สำหรับจัดการข้อผิดพลาด
 const transition = ref([]);
+const { $axios } = useNuxtApp();
 
 let interval;
 // ฟังก์ชันดึงข้อมูลการเปลี่ยนแปลง
 const fetchTransitions = async () => {
   try {
-    transition.value = await $fetch(
+    transition.value = await $axios.get(
       "/get_expense_transition"
     );
   } catch (err) {
