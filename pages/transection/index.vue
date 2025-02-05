@@ -29,7 +29,7 @@
               @click="toggleSelect(icon)"
             >
               <img
-                :src="icon.account_type_icon"
+                :src="`/icon_folder/${icon.account_icon_name}`"
                 alt="icon"
                 class="w-12 h-12 rounded-full object-cover"
               />

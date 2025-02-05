@@ -176,15 +176,16 @@ input[type="number"] {
 import { ref, defineProps, defineEmits, computed, onMounted } from "vue";
 
 const categorys = ref([]);
+const { $axios } = useNuxtApp();
 
 // Fetch category data
 const { data: category, error } = await useAsyncData(
   "fetch transitions",
   async () => {
-    const result_category = await $fetch(
+    const result_category = await $axios.get(
       "/get_type_from_id"
     );
-    categorys.value = result_category.result || [];
+    categorys.value = result_category.data.result || [];
   }
 );
 

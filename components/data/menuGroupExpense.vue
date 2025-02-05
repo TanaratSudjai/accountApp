@@ -203,7 +203,8 @@ const fetchMenuGroupData = async () => {
     const menuGroup_result = await $axios.get(
       "/getMenuGroup_expense"
     );
-    menuGroup.value = menuGroup_result || [];
+    menuGroup.value = menuGroup_result.data || [];
+    console.log(menuGroup_result);
   } catch (err) {
     error.value = "Error fetching menu group: " + err.message; // ตั้งค่า error
   }
@@ -236,7 +237,7 @@ const fetchTransitions = async () => {
     transition.value = await $axios.get("/get_expense_transition");
 
     // Extract account_type_id values and add them to the Set
-    disabledAccountTypeIds.value = new Set(transition.value.map(item => item.account_type_id));
+    // disabledAccountTypeIds.value = new Set(transition.value.map(item => item.account_type_id));
   } catch (err) {
     error.value = "Error fetching transitions: " + err.message;
   }
