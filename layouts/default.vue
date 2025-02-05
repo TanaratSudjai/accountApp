@@ -57,18 +57,7 @@ const getSession = async () => {
 // api call logout
 const logout = async () => {
   try {
-    if (!token) {
-      throw new Error("No token found");
-    }
     await $axios.post("/auth/logout");
-    document.cookie.split(";").forEach((cookie) => {
-      document.cookie = cookie
-        .replace(/^ +/, "")
-        .replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
-    });
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    await router.push("/");
     window.location.reload();
   } catch (err) {
     if (err.response?.status === 401) {
