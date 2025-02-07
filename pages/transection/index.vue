@@ -237,7 +237,7 @@ const submitDifferences = async () => {
           account_transition_value: differences.value,
       }
     );
-    if (response.ok) {
+    if (response.status === 200 || response.status === 201) {
       onSubmitTransition();
     }
     await fetchTransition();

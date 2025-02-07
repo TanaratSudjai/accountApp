@@ -179,7 +179,7 @@ const handleUpdate = async ({
 
   try {
     // ส่งข้อมูลไปยัง API
-    const response = await $$axios.post(
+    const response = await $axios.post(
       "/transition_select_expense",
       {
         account_type_id: formData.value.account_type_id ,
