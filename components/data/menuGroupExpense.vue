@@ -232,16 +232,23 @@ let interval;
 const transition = ref([]); // Original transition data
 const disabledAccountTypeIds = ref(new Set()); // A Set to store disabled account_type_ids
 
+
 const fetchTransitions = async () => {
   try {
-    transition.value = await $axios.get("/get_expense_transition");
+    const response = await $axios.get("/get_expense_transition");
 
-    // Extract account_type_id values and add them to the Set
-    // disabledAccountTypeIds.value = new Set(transition.value.map(item => item.account_type_id));
+    // Ensure response.data exists and is an array
+    if (Array.isArray(response.data)) {
+      transition.value = response.data;
+      disabledAccountTypeIds.value = new Set(transition.value.map(item => item.account_type_id));
+    } else {
+      throw new Error("Invalid data format: Expected an array");
+    }
   } catch (err) {
     error.value = "Error fetching transitions: " + err.message;
   }
 };
+
 
 // เรียกใช้ fetchTransitions ทุกๆ 1 วินาที
 onMounted(() => {

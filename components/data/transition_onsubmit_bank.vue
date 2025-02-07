@@ -326,18 +326,17 @@ const handleOkClick = async () => {
 
   try {
     // Send data to the API
-    const response = await fetch(
+    const response = await $axios.post(
       "/bank_trantisionInsert",
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Ensure the content type is set
-        },
-        body: JSON.stringify(formData.value), // Stringify the body
+        account_type_id: formData.value.account_type_id,
+        account_type_from_id: formData.value.account_type_from_id,
+        account_category_id: formData.value.account_category_id,
+        account_transition_value: formData.value.account_transition_value,
       }
     );
 
-    if (!response.ok) {
+    if (!response.status === 200 || !response.status === 201) {
       throw new Error("Network response was not ok");
     }
     await bankTransition();
@@ -360,13 +359,11 @@ const bankTransition = async () => {
 
 const deleteTransection = async (id) => {
   try {
-    await $fetch(`/reuse_transition_bank/${id}`, {
-      method: "DELETE",
-    });
+    await $axios.delete(`/reuse_transition_bank/${id}`);
     //console.log(`Transaction ${id} deleted successfully`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
   } catch (error) {
-    console.error("Error deleting transaction:", error);
+    console.log("Error deleting transaction:", error);
   }
 };
 
