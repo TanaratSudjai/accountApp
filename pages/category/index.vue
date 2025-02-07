@@ -66,18 +66,6 @@ const menuItems = ref([
     route: `/group/1`, // Replace with the appropriate account_category_id
   },
   {
-    icon: User,
-    title: "ลูกหนี้",
-    color: "text-green-500",
-    route: `/group/1`, // Replace with the appropriate account_category_id
-  },
-  {
-    icon: Landmark,
-    title: "ธนาคาร",
-    color: "text-green-400",
-    route: `/group/1`, // Replace with the appropriate account_category_id
-  },
-  {
     icon: Grid2x2Plus,
     title: "หนี้สิน",
     color: "text-purple-400",

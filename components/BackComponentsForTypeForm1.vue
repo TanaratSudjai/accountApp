@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4 py-3 flex sm:flex-row items-center justify-between">
       <!-- Back Button -->
       <NuxtLink 
-        to="/category" 
+        @click="goback"
         class="mb-2 sm:mb-0 self-start sm:self-center"
       >
         <div class="p-2 hover:bg-gray-100 rounded-full transition-colors">
@@ -54,10 +54,11 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { Rewind, DiamondPlus } from 'lucide-vue-next';
 
 const route = useRoute();
+const router = useRouter();
 const groupID = route.query.groupID || '';  // Retrieve groupID from query parameters
 const typeID = route.params.id;
 const { $axios } = useNuxtApp();
@@ -113,5 +114,10 @@ watch(GroupData, (newData) => {
     breadcrumbs.value[2].link = `/type/${typeID}?groupID=${groupID}`;
   }
 });
+
+const goback = () => {
+  router.back();
+  
+}
 
 </script>

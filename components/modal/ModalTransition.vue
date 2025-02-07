@@ -69,10 +69,10 @@
                     : 'border-gray-200',
                 ]"
               >
-                <img
-                  :src="cat.account_type_icon"
-                  alt=""
-                  class="w-6 h-6 object-contain"
+              <img
+                  :src="`/icon_folder/${cat.account_icon_name}`"
+                  :alt="cat.account_icon_name"
+                  class="w-8 h-8 object-cover rounded-lg"
                 />
                 <span
                   class="flex justify-between items-center text-sm font-medium text-gray-700"
