@@ -37,9 +37,9 @@
                 :key="type.account_type_id"
                 @click.prevent="toggleSelect(type)"
                 :class="[
-                  'px-4 py-2 rounded-lg whitespace-nowrap transition-colors',
+                  'px-4 py-2 rounded-lg whitespace-nowrap transition-colors ',
                   selected?.account_type_id === type.account_type_id
-                    ? 'bg-green-500 text-white'
+                    ? 'border border-green-400 bg-green-500 text-white'
                     : 'bg-white border border-gray-200 hover:bg-gray-50'
                 ]"
               >
