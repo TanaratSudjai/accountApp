@@ -1,37 +1,22 @@
 <template>
-  <div
-    class="p-10 rounded-lg shadow-md w-[80%] flex flex-col justify-center items-center"
-  >
-    <form
-      @submit.prevent="handleLogin"
-      class="rounded-md w-full flex flex-col justify-center p-5"
-    >
+  <div class="p-10 rounded-lg shadow-md w-[80%] flex flex-col justify-center items-center">
+    <form @submit.prevent="handleLogin" class="rounded-md w-full flex flex-col justify-center p-5">
       <h2>เข้าสู่ระบบ</h2>
 
       <div class="mb-4">
         <label for="username" class="block text-gray-700 font-medium mb-2">
           ชื่อผู้ใช้
         </label>
-        <input
-          v-model="formData.account_user_username"
-          id="username"
-          type="text"
-          placeholder="กรุณากรอกชื่อผู้ใช้"
-          class="p-4 rounded-sm w-full border-2"
-        />
+        <input v-model="formData.account_user_username" id="username" type="text" placeholder="กรุณากรอกชื่อผู้ใช้"
+          class="p-4 rounded-sm w-full border-2" />
       </div>
 
       <div class="mb-4">
         <label for="password" class="block text-gray-700 font-medium mb-2">
           รหัสผ่าน
         </label>
-        <input
-          v-model="formData.account_user_password"
-          id="password"
-          type="password"
-          placeholder="กรุณากรอกรหัสผ่าน"
-          class="p-4 rounded-sm w-full border-2"
-        />
+        <input v-model="formData.account_user_password" id="password" type="password" placeholder="กรุณากรอกรหัสผ่าน"
+          class="p-4 rounded-sm w-full border-2" />
       </div>
 
       <div v-if="error" class="text-red-500 mb-4">
@@ -42,10 +27,7 @@
         เข้าสู่ระบบ
       </button>
     </form>
-    <button
-      @click="goRegister"
-      class="text-cyan-600 px-4 py-2 rounded underline"
-    >
+    <button @click="goRegister" class="text-cyan-600 px-4 py-2 rounded underline">
       สมัครใช้งาน
     </button>
   </div>
@@ -71,14 +53,11 @@ const handleLogin = async () => {
   error.value = "";
 
   try {
-    const response = await $axios.post("/auth/login", {
+    await $axios.post("/auth/login", {
       account_user_username: formData.account_user_username,
       account_user_password: formData.account_user_password,
     });
 
-    const token = response.data.token;
-    // // เก็บ token ทั้งใน localStorage
-    localStorage.setItem("token", token);
     // Redirect หลังจาก login สำเร็จ
     await router.push("/home");
     window.location.reload();

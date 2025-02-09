@@ -9,15 +9,20 @@ export default defineNuxtPlugin((nuxtApp) => {
   });
 
   // ดึง token จาก localStorage หรือ cookies แล้วเพิ่มเข้า headers
-  $axios.interceptors.request.use(
-    (config) => {
-      if (process.client) {
-        let token = localStorage.getItem("token");
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
+  $axios.interceptors.response.use(
+    (response) => {
+      if (response.config.url === "/auth/login" && response.data.token) {
+        const token = response.data.token;
+        const tokenCookie = useCookie("token", {
+          maxAge: 60 * 60 * 24, // 1 วัน
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          path: "/", // เพิ่ม path ให้ใช้ได้ทุกหน้า
+        });
+        tokenCookie.value = token;
+        console.log("✅ Token Saved in Cookie:", tokenCookie.value);
       }
-      return config;
+      return response;
     },
     (error) => Promise.reject(error)
   );
@@ -27,17 +32,14 @@ export default defineNuxtPlugin((nuxtApp) => {
     (response) => {
       if (response.config.url === "/auth/login" && response.data.token) {
         const token = response.data.token;
-
-        // บันทึก token ลง localStorage
-        localStorage.setItem("token", token);
-
-        // บันทึก token ลง cookies
         const tokenCookie = useCookie("token", {
-          maxAge: 1 * 24 * 60 * 60,
+          maxAge: 60 * 60 * 24, // 1 วัน
           secure: process.env.NODE_ENV === "production",
           sameSite: "strict",
+          path: '/'
         });
         tokenCookie.value = token;
+        console.log("✅ Token Saved in Cookie:", tokenCookie.value);
       }
       return response;
     },
