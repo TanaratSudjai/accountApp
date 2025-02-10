@@ -214,6 +214,7 @@
   const columnTwoSelected = ref(null); //จากคอลัมน์ที่ 2
   const accountTypeValue = ref(0);
   const bankData = ref([]);
+  const { $axios } = useNuxtApp();
   
   const maxAccountTypeId = computed(() => {
     return Math.max(...bankData.value.map((item) => item.account_transition_id));
@@ -258,9 +259,9 @@
   
   const fetchCat = async () => {
     try {
-      const res = await fetch("/get_type_from_id");
-      if (!res.ok) throw new Error("Network response was not ok");
-      const data = await res.json();
+      const res = await $axios.get("/get_type_from_id");
+      if (!res.status === 200 || !res.status === 201) throw new Error("Network response was not ok");
+      const data = await res.data;
       // console.log(data);
       catData.value = data.result;
     } catch (error) {
@@ -272,9 +273,9 @@
 
   const fetchDebtor = async () => {
     try {
-      const res = await fetch("/get_debtor");
-      if (!res.ok) throw new Error("Network response was not ok");
-      const data = await res.json();
+      const res = await $axios.get("/get_debtor");
+      if (!res.status === 200 || !res.status === 201) throw new Error("Network response was not ok");
+      const data = await res.data;
       console.log(data);
       debtor.value = data.result;
     } catch (error) {
@@ -376,8 +377,8 @@
   
   const bankTransition = async () => {
     try {
-      const response = await fetch(`/transition_bank`);
-      const data = await response.json();
+      const response = await $axios.get(`/transition_bank`);
+      const data = await response.data;
       bankData.value = data.data_transition_bank;
     } catch (error) {
       console.error("Error fetching transition group One:", error);

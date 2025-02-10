@@ -359,7 +359,7 @@ const bankTransition = async () => {
 
 const deleteTransection = async (id) => {
   try {
-    await $axios.delete(`/reuse_transition_bank/${id}`);
+    await $axios.patch(`/return_transition_bank`);
     //console.log(`Transaction ${id} deleted successfully`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
   } catch (error) {
