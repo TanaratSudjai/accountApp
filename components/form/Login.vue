@@ -58,6 +58,11 @@ const handleLogin = async () => {
       account_user_password: formData.account_user_password,
     });
 
+
+    console.log(response);
+    const token = response.data.token;
+    // // เก็บ token ทั้งใน localStorage
+    localStorage.setItem("token", token);
     // Redirect หลังจาก login สำเร็จ
     await router.push("/home");
     window.location.reload();
