@@ -112,7 +112,7 @@ const handleLogin = async () => {
       });
       console.log(response.data.token);
       const token = response.data.token;
-      localStorage.setItem("token", token);
+      
       await router.push("/");
     } else {
       error.value = err.response?.data?.message || "Password is not confirm !";

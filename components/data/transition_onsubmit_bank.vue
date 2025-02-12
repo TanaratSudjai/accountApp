@@ -1,197 +1,157 @@
 <template>
-  <div class="">
-    <div class="flex justify-center w-full p-4 mb-6">
-      <div class="w-full max-w-4xl space-y-2">
-        <div class="grid grid-cols-7 gap-4">
-          <!-- Left Column: Looping Buttons -->
-          <div class="flex flex-col col-span-3">
-            <div
-              v-for="item in catData"
-              :key="item.account_type_id"
-              class="mb-2"
-            >
+  <div class="min-h-screen py-8">
+    <div class="max-w-5xl mx-auto px-4">
+      <!-- Main Card -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 space-y-8">
+        <h2 class="text-2xl font-semibold text-gray-800 text-center">Account Transfer</h2>
+        
+        <!-- Transfer Selection Grid -->
+        <div class="grid grid-cols-7 gap-6">
+          <!-- Source Account Column -->
+          <div class="col-span-3 space-y-3">
+            <h3 class="text-sm font-medium text-gray-600 mb-4">Source Account</h3>
+            <div v-for="item in catData" :key="item.account_type_id" class="transition-all duration-200">
               <button
                 v-if="item.account_type_total > 0"
                 :class="[
-                  'hover:bg-green-500 focus:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors duration-200 ease-in-out rounded-lg shadow-md w-[100%]',
-                  columnOneSelected &&
-                  columnOneSelected.account_type_id === item.account_type_id
-                    ? 'bg-green-500 text-white'
-                    : 'text-gray-800',
+                  'w-full transition-all duration-200 group',
+                  columnOneSelected?.account_type_id === item.account_type_id
+                    ? 'ring-2 ring-emerald-500'
+                    : 'hover:shadow-md'
                 ]"
-                @click="
-                  toggleColumnOne(item);
-                  setColumnValue(item);
-                "
+                @click="toggleColumnOne(item); setColumnValue(item);"
               >
-                <div
-                  class="border border-gray-300 rounded-lg p-4 flex items-center justify-center h-full"
-                >
-                  <p class="font-medium text-lg truncate">
-                    {{ item.account_type_name }} <br />
-                    {{ item.account_type_total }}
-                  </p>
+                <div class="relative overflow-hidden rounded-xl border border-gray-200 p-4">
+                  <div :class="[
+                    'absolute inset-0 transition-colors duration-200',
+                    columnOneSelected?.account_type_id === item.account_type_id
+                      ? 'bg-emerald-50'
+                      : 'group-hover:bg-gray-50'
+                  ]" />
+                  <div class="relative">
+                    <p class="font-medium text-gray-900">{{ item.account_type_name }}</p>
+                    <p class="text-sm text-gray-600 mt-1">Balance: {{ item.account_type_total }}</p>
+                  </div>
                 </div>
               </button>
 
-              <button
+              <div
                 v-else
-                :class="[
-                  'transition-colors duration-200 ease-in-out rounded-lg shadow-md bg-gray-300 w-[100%]',
-                  columnOneSelected &&
-                  columnOneSelected.account_type_id === item.account_type_id
-                    ? 'bg-green-500 text-white'
-                    : 'text-gray-800',
-                ]"
+                class="rounded-xl border border-gray-200 p-4 bg-gray-50"
               >
-                <div
-                  class="border border-gray-300 rounded-lg p-4 flex items-center justify-center h-full py-7"
-                >
-                  <p class="font-medium text-lg truncate">
-                    {{ item.account_type_name }}
-                  </p>
-                </div>
-              </button>
+                <p class="font-medium text-gray-400">{{ item.account_type_name }}</p>
+                <p class="text-sm text-gray-400 mt-1">No Balance</p>
+              </div>
             </div>
           </div>
 
-          <!-- Middle Column: SVG -->
+          <!-- Arrow Column -->
           <div class="flex items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
-              />
-            </svg>
+            <div class="p-3 rounded-full bg-gray-100">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                class="w-6 h-6 text-gray-600"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"
+                />
+              </svg>
+            </div>
           </div>
 
-          <!-- Right Column: Looping Buttons -->
-          <div class="flex flex-col col-span-3">
-            <div
-              v-for="item in catData"
-              :key="item.account_type_id"
-              class="mb-2"
-            >
+          <!-- Destination Account Column -->
+          <div class="col-span-3 space-y-3">
+            <h3 class="text-sm font-medium text-gray-600 mb-4">Destination Account</h3>
+            <div v-for="item in catData" :key="item.account_type_id" class="transition-all duration-200">
               <button
                 :class="[
-                  'hover:bg-blue-500 focus:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 ease-in-out rounded-lg shadow-md w-[100%]',
-                  columnTwoSelected &&
-                  columnTwoSelected.account_type_id === item.account_type_id
-                    ? 'bg-blue-500 text-white'
-                    : columnOneSelected &&
-                      columnOneSelected.account_type_id === item.account_type_id
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed hover:bg-gray-300'
-                    : 'text-gray-800',
+                  'w-full transition-all duration-200 group',
+                  {'pointer-events-none opacity-50': columnOneSelected?.account_type_id === item.account_type_id},
+                  columnTwoSelected?.account_type_id === item.account_type_id
+                    ? 'ring-2 ring-blue-500'
+                    : 'hover:shadow-md'
                 ]"
-                :disabled="
-                  columnOneSelected &&
-                  columnOneSelected.account_type_id === item.account_type_id
-                "
+                :disabled="columnOneSelected?.account_type_id === item.account_type_id"
                 @click="toggleColumnTwo(item)"
               >
-                <div
-                  class="border border-gray-300 rounded-lg p-4 flex items-center justify-center h-full py-7"
-                >
-                  <p class="font-medium text-lg truncate">
-                    {{ item.account_type_name }}
-                  </p>
+                <div class="relative overflow-hidden rounded-xl border border-gray-200 p-4">
+                  <div :class="[
+                    'absolute inset-0 transition-colors duration-200',
+                    columnTwoSelected?.account_type_id === item.account_type_id
+                      ? 'bg-blue-50'
+                      : 'group-hover:bg-gray-50'
+                  ]" />
+                  <div class="relative">
+                    <p class="font-medium text-gray-900">{{ item.account_type_name }}</p>
+                  </div>
                 </div>
               </button>
             </div>
           </div>
         </div>
 
-        <div
-          class="flex border-2 border-gray-300 rounded-xl p-2 gap-2 justify-center bg-white shadow-md"
-        >
-          <input
-            type="number"
-            placeholder="ตั้งจำนวนเงิน"
-            class="w-1/2 text-gray-800 text-sm border border-gray-300 px-4 py-3 rounded-xl outline-blue-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 ease-in-out"
-            v-model="accountTypeValue"
-          />
+        <!-- Transfer Amount Input -->
+        <div class="flex gap-4">
+          <div class="relative flex-1">
+            <input
+              v-model="accountTypeValue"
+              type="number"
+              placeholder="Enter amount"
+              class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+            />
+          </div>
           <button
             :class="[
-              'flex w-1/2 bg-blue-400 text-white font-bold border-2 border-blue-400 px-4 py-3 rounded-xl justify-center hover:bg-blue-500 focus:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200 ease-in-out',
+              'px-8 py-3 rounded-xl font-medium transition-all duration-200',
               isButtonDisabled
-                ? 'bg-gray-300 border-gray-300 cursor-not-allowed hover:bg-gray-300'
-                : '',
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
             ]"
             :disabled="isButtonDisabled"
             @click="handleOkClick"
           >
-            เพิ่ม
+            Transfer
           </button>
         </div>
-        <div class="bg-white rounded-lg shadow-md p-4">
-          <table class="table-auto w-full">
-            <thead>
-              <tr>
-                <th
-                  class="border-b border-gray-300 pb-2 text-left text-gray-800 font-medium"
-                >
-                  ต้นทาง
-                </th>
-                <th
-                  class="border-b border-gray-300 pb-2 text-left text-gray-800 font-medium"
-                >
-                  ปลายทาง
-                </th>
-                <th
-                  class="border-b border-gray-300 pb-2 text-left text-gray-800 font-medium"
-                >
-                  จำนวนเงิน
-                </th>
-                <th
-                  class="border-b border-gray-300 pb-2 text-left text-gray-800 font-medium"
-                >
-                  ลบรายการ
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="bankDatas in bankData"
-                :key="bankDatas.account_transition_id"
-                class="border-b border-gray-300 hover:bg-gray-100 transition-colors duration-200 ease-in-out"
+
+        <!-- Transaction History -->
+        <div class="rounded-xl border border-gray-200 overflow-hidden">
+          <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+            <h3 class="font-medium text-gray-800">Recent Transfers</h3>
+          </div>
+          <div class="divide-y divide-gray-200">
+            <div
+              v-for="bankDatas in bankData"
+              :key="bankDatas.account_transition_id"
+              class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
+            >
+              <div class="flex items-center space-x-4">
+                <div>
+                  <p class="text-sm font-medium text-gray-900">
+                    {{ bankDatas.account_type_name }} → {{ bankDatas.account_type_from_name }}
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    {{ bankDatas.account_transition_value }}
+                  </p>
+                </div>
+              </div>
+              <button
+                v-if="bankDatas.account_transition_id === maxAccountTypeId"
+                @click="deleteTransection(bankDatas.account_transition_id)"
+                class="p-2 rounded-full hover:bg-red-50 text-red-600 transition-colors duration-200"
               >
-                <td class="py-3 text-gray-800">
-                  {{ bankDatas.account_type_name }}
-                </td>
-                <td class="py-3 text-gray-800">
-                  {{ bankDatas.account_type_from_name }}
-                </td>
-                <td class="text-gray-800">
-                  {{ bankDatas.account_transition_value }}
-                </td>
-                <td class="flex ml-4 mt-1 items-center p-1">
-                  <div
-                    class="font-bold text-green-700 flex items-center justify-center  gap-3"
-                  >
-                    <button
-                      v-if="
-                        bankDatas.account_transition_id === maxAccountTypeId
-                      "
-                      class="bg-white w-8 h-8 rounded-full "
-                      @click="
-                        deleteTransection(bankDatas.account_transition_id)
-                      "
-                    >
-                      ❌
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -204,6 +164,7 @@ const columnOneSelected = ref(null); //จากคอลัมน์ที่ 1
 const columnTwoSelected = ref(null); //จากคอลัมน์ที่ 2
 const accountTypeValue = ref(0);
 const bankData = ref([]);
+const { $axios } = useNuxtApp();
 
 const maxAccountTypeId = computed(() => {
   return Math.max(...bankData.value.map((item) => item.account_transition_id));
@@ -246,9 +207,9 @@ const isButtonDisabled = computed(() => {
 
 const fetchCat = async () => {
   try {
-    const res = await fetch("/get_type_from_id");
-    if (!res.ok) throw new Error("Network response was not ok");
-    const data = await res.json();
+    const res = await $axios.get("/get_type_from_id");
+    if (!res.status === 200 || !res.status === 201) throw new Error("Network response was not ok");
+    const data = await res.data;
     // console.log(data);
     catData.value = data.result;
   } catch (error) {
@@ -325,18 +286,17 @@ const handleOkClick = async () => {
 
   try {
     // Send data to the API
-    const response = await fetch(
+    const response = await $axios.post(
       "/bank_trantisionInsert",
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Ensure the content type is set
-        },
-        body: JSON.stringify(formData.value), // Stringify the body
+        account_type_id: formData.value.account_type_id,
+        account_type_from_id: formData.value.account_type_from_id,
+        account_category_id: formData.value.account_category_id,
+        account_transition_value: formData.value.account_transition_value,
       }
     );
 
-    if (!response.ok) {
+    if (!response.status === 200 || !response.status === 201) {
       throw new Error("Network response was not ok");
     }
     await bankTransition();
@@ -349,8 +309,8 @@ const handleOkClick = async () => {
 
 const bankTransition = async () => {
   try {
-    const response = await fetch(`/transition_bank`);
-    const data = await response.json();
+    const response = await $axios.get(`/transition_bank`);
+    const data = await response.data;
     bankData.value = data.data_transition_bank;
   } catch (error) {
     console.error("Error fetching transition group One:", error);
@@ -359,13 +319,11 @@ const bankTransition = async () => {
 
 const deleteTransection = async (id) => {
   try {
-    await $fetch(`/reuse_transition_bank/${id}`, {
-      method: "DELETE",
-    });
+    await $axios.patch(`/return_transition_bank`);
     //console.log(`Transaction ${id} deleted successfully`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
   } catch (error) {
-    console.error("Error deleting transaction:", error);
+    console.log("Error deleting transaction:", error);
   }
 };
 

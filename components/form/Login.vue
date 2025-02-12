@@ -53,10 +53,11 @@ const handleLogin = async () => {
   error.value = "";
 
   try {
-    const response = await $axios.post("/auth/login", {
+    await $axios.post("/auth/login", {
       account_user_username: formData.account_user_username,
       account_user_password: formData.account_user_password,
     });
+
 
     console.log(response);
     const token = response.data.token;

@@ -70,9 +70,9 @@
                 ]"
               >
                 <img
-                  :src="cat.account_type_icon"
-                  alt=""
-                  class="w-6 h-6 object-contain"
+                  :src="`/icon_folder/${cat.account_icon_name}`"
+                  :alt="cat.account_icon_name"
+                  class="w-8 h-8 object-cover rounded-lg"
                 />
                 <span
                   class="flex justify-between items-center text-sm font-medium text-gray-700"
@@ -96,8 +96,7 @@
                 <span class="text-gray-500">฿</span>
               </div>
               <input
-                @click=""
-                v-model="updatedValue"
+                v-model.number="updatedValue"
                 type="number"
                 class="block w-full pl-8 pr-4 py-3 border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg shadow-sm transition-colors duration-200"
                 placeholder="0.00"
@@ -110,7 +109,9 @@
         <div class="flex items-center justify-between space-x-3">
           <div>
             <span
-              v-if="account_category_id === 5 && updatedValue > AccountTypeTotal "
+              v-if="
+                account_category_id === 5 && updatedValue > AccountTypeTotal
+              "
               class="text-red-500 text-sm"
             >
               จำนวนเงินไม่พอ
@@ -130,7 +131,7 @@
               :class="{
                 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200': true,
                 'bg-gray-400 text-gray-600 cursor-not-allowed opacity-50':
-                (account_category_id === 5 && isSubmitDisabled) ,
+                  account_category_id === 5 && isSubmitDisabled,
                 'bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500':
                   !isSubmitDisabled,
               }"
@@ -144,7 +145,7 @@
               :class="{
                 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200': true,
                 'bg-gray-400 text-gray-600 cursor-not-allowed opacity-50':
-                (isSubmitDisabledIncome) ,
+                  isSubmitDisabledIncome,
                 'bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500':
                   !isSubmitDisabledIncome,
               }"
@@ -176,15 +177,14 @@ input[type="number"] {
 import { ref, defineProps, defineEmits, computed, onMounted } from "vue";
 
 const categorys = ref([]);
+const { $axios } = useNuxtApp();
 
 // Fetch category data
 const { data: category, error } = await useAsyncData(
   "fetch transitions",
   async () => {
-    const result_category = await $fetch(
-      "/get_type_from_id"
-    );
-    categorys.value = result_category.result || [];
+    const result_category = await $axios.get("/get_type_from_id");
+    categorys.value = result_category.data.result || [];
   }
 );
 
@@ -213,8 +213,8 @@ const selectCategory = (cat) => {
 
 const AccountTypeTotal = ref(0);
 const getAccountTypeTotal = (cat) => {
-  console.log(cat.account_type_total);
-  AccountTypeTotal.value = cat.account_type_total;
+  AccountTypeTotal.value = Number(cat.account_type_total) || 0;  // Convert to number
+  console.log(AccountTypeTotal.value);
 };
 
 const updateValue = () => {
@@ -249,7 +249,7 @@ const isSubmitDisabledIncome = computed(() => {
     updatedValue.value === null ||
     updatedValue.value === undefined ||
     updatedValue.value === "" ||
-    updatedAccountTypeId.value === null 
+    updatedAccountTypeId.value === null
   );
 });
 

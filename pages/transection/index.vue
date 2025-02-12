@@ -29,7 +29,7 @@
               @click="toggleSelect(icon)"
             >
               <img
-                :src="icon.account_type_icon"
+                :src="`/icon_folder/${icon.account_icon_name}`"
                 alt="icon"
                 class="w-12 h-12 rounded-full object-cover"
               />
@@ -205,6 +205,7 @@ const groupTwo = ref([]);
 const sumone = ref([]);
 const sumtwo = ref([]);
 
+
 const onSubmitTransition = async () => {
   try {
     const response = await $axios.put(`transitionsubmit`);
@@ -230,19 +231,13 @@ const router = useRouter();
 
 const submitDifferences = async () => {
   try {
-    const response = await fetch(
+    const response = await $axios.post(
       `/sumbittrantision_suminsert`,
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
           account_transition_value: differences.value,
-        }),
       }
     );
-    if (response.ok) {
+    if (response.status === 200 || response.status === 201) {
       onSubmitTransition();
     }
     await fetchTransition();
@@ -402,22 +397,15 @@ const updateAccountTransition = async (
   console.log(accountTypeValue);
   console.log(accountCategoryID);
   try {
-    const response = await fetch(
+    const response = await $axios.post(
       `/transition`,
-
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
           account_type_id: accountTypeId,
           account_transition_value: accountTypeValue,
           account_category_from_id: accountCategoryID,
-        }),
       }
     );
-    if (!response.ok) {
+    if (!response.status === 200 || !response.status === 201) {
       throw new Error("Network response was not ok");
     }
     fetchTransition(), groupOneTransition();
@@ -425,7 +413,7 @@ const updateAccountTransition = async (
     fetchsumone();
     fetchsumtwo();
   } catch (error) {
-    console.error("Error updating account transition:", error);
+    console.log("Error updating account transition:", error);
   }
 };
 

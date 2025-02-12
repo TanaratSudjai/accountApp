@@ -137,6 +137,7 @@ const selectedMenu = ref(null); // เก็บข้อมูลเมนูท
 const count = ref(null); // เก็บจำนวนรายการ
 const selectedCategory = ref(5); // เก็บประเภทที่เลือก
 const error = ref(null); // สำหรับจัดการข้อผิดพลาด
+const { $axios } = useNuxtApp();
 
 // ฟังก์ชันสำหรับแสดงประเภท
 function showCategory(categoryId) {
@@ -178,11 +179,13 @@ const handleUpdate = async ({
 
   try {
     // ส่งข้อมูลไปยัง API
-    const response = await $fetch(
+    const response = await $axios.post(
       "/transition_select_expense",
       {
-        method: "POST",
-        body: formData.value,
+        account_type_id: formData.value.account_type_id ,
+        account_transition_value: formData.value.account_transition_value,
+        account_type_from_id: formData.value.account_type_from_id,
+        account_category_id: formData.value.account_category_id ,
       }
     );
     await fetchMenuGroupData(); // ดึงข้อมูลเมนูใหม่
@@ -197,10 +200,11 @@ const handleUpdate = async ({
 // ฟังก์ชันดึงข้อมูลรายการเมนู
 const fetchMenuGroupData = async () => {
   try {
-    const menuGroup_result = await $fetch(
+    const menuGroup_result = await $axios.get(
       "/getMenuGroup_expense"
     );
-    menuGroup.value = menuGroup_result || [];
+    menuGroup.value = menuGroup_result.data || [];
+    console.log(menuGroup_result);
   } catch (err) {
     error.value = "Error fetching menu group: " + err.message; // ตั้งค่า error
   }
@@ -215,7 +219,7 @@ onMounted(async () => {
 // ฟังก์ชันดึงข้อมูลจำนวนรายการ
 const fetchDataSelect = async () => {
   try {
-    const data = await $fetch(
+    const data = await $axios.get(
       "/getSelect_countSelect"
     );
     count.value = data; // เก็บค่าที่ดึงมา
@@ -228,16 +232,23 @@ let interval;
 const transition = ref([]); // Original transition data
 const disabledAccountTypeIds = ref(new Set()); // A Set to store disabled account_type_ids
 
+
 const fetchTransitions = async () => {
   try {
-    transition.value = await $fetch("/get_expense_transition");
+    const response = await $axios.get("/get_expense_transition");
 
-    // Extract account_type_id values and add them to the Set
-    disabledAccountTypeIds.value = new Set(transition.value.map(item => item.account_type_id));
+    // Ensure response.data exists and is an array
+    if (Array.isArray(response.data)) {
+      transition.value = response.data;
+      disabledAccountTypeIds.value = new Set(transition.value.map(item => item.account_type_id));
+    } else {
+      throw new Error("Invalid data format: Expected an array");
+    }
   } catch (err) {
     error.value = "Error fetching transitions: " + err.message;
   }
 };
+
 
 // เรียกใช้ fetchTransitions ทุกๆ 1 วินาที
 onMounted(() => {
