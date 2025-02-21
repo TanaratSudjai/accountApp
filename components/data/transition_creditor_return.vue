@@ -13,9 +13,9 @@
                   ? 'bg-green-500 text-white'
                   : 'text-gray-800',
               ]" @click="
-                  toggleColumnOne(item);
-                setColumnValue(item);
-                ">
+                toggleColumnOne(item);
+              setColumnValue(item);
+              ">
                 <div class="border border-gray-300 rounded-lg p-4 flex items-center justify-center h-full">
                   <p class="font-medium text-lg truncate">
                     {{ item.account_type_name }} <br />
@@ -54,12 +54,12 @@
               <button v-if="
                 item.account_type_total > 0 && item.account_category_id === 2
               " :class="[
-                  'hover:bg-blue-500 focus:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors duration-200 ease-in-out rounded-lg shadow-md w-[100%]',
-                  columnTwoSelected &&
-                    columnTwoSelected.account_type_id === item.account_type_id
-                    ? 'bg-blue-500 text-white'
-                    : 'text-gray-800',
-                ]" @click="
+                'hover:bg-blue-500 focus:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors duration-200 ease-in-out rounded-lg shadow-md w-[100%]',
+                columnTwoSelected &&
+                  columnTwoSelected.account_type_id === item.account_type_id
+                  ? 'bg-blue-500 text-white'
+                  : 'text-gray-800',
+              ]" @click="
                   toggleColumnTwo(item);
                 setColumnValue(item);
                 ">
@@ -237,7 +237,7 @@ const toggleColumnOne = (type) => {
     accountTypeValue.value = 0;
   } else {
     columnOneSelected.value = type;
-   
+
   }
   console.log(
     "จากต้นทาง =" +
@@ -281,14 +281,13 @@ const handleOkClick = async () => {
 
   try {
     // Send data to the API
-    const response = await fetch(
+    const response = await $axios.post(
       "/bank_return",
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Ensure the content type is set
-        },
-        body: JSON.stringify(formData.value), // Stringify the body
+        account_type_id: columnOneSelected.value.account_type_id,
+        account_type_from_id: columnTwoSelected.value.account_type_id,
+        account_transition_value: parseInt(accountTypeValue.value), // Access the value directly
+        account_category_id: 1,
       }
     );
 
@@ -315,9 +314,7 @@ const bankTransition = async () => {
 
 const deleteTransection = async (id) => {
   try {
-    await $fetch(`/reuse_return_bank/${id}`, {
-      method: "DELETE",
-    });
+    await $axios.delete(`/reuse_return_bank/${id}`);
     //console.log(`Transaction ${id} deleted successfully`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
   } catch (error) {
@@ -339,18 +336,18 @@ const isButtonDisabled = computed(() => {
       columnTwoSelected.value &&
       columnOneSelected.value.account_type_id ===
       columnTwoSelected.value.account_type_id) ||
-      (columnOneSelected.value &&
-      columnTwoSelected.value && 
-      columnOneSelected.value.account_type_total < accountTypeValue.value)||
-      (columnOneSelected.value &&
-      columnTwoSelected.value && 
-      columnTwoSelected.value.account_type_total < accountTypeValue.value)||
-      accountTypeValue.value < 0 ||
-      accountTypeValue.value === 0 ||
-      accountTypeValue.value === 0.00 ||
-      accountTypeValue.value === null ||
-      accountTypeValue.value === undefined ||
-      accountTypeValue.value === "" 
+    (columnOneSelected.value &&
+      columnTwoSelected.value &&
+      columnOneSelected.value.account_type_total < accountTypeValue.value) ||
+    (columnOneSelected.value &&
+      columnTwoSelected.value &&
+      columnTwoSelected.value.account_type_total < accountTypeValue.value) ||
+    accountTypeValue.value < 0 ||
+    accountTypeValue.value === 0 ||
+    accountTypeValue.value === 0.00 ||
+    accountTypeValue.value === null ||
+    accountTypeValue.value === undefined ||
+    accountTypeValue.value === ""
   );
 });
 </script>
