@@ -53,17 +53,13 @@ const handleLogin = async () => {
   error.value = "";
 
   try {
-    await $axios.post("/auth/login", {
+    const response = await $axios.post("/auth/login", {
       account_user_username: formData.account_user_username,
       account_user_password: formData.account_user_password,
     });
 
-
-    console.log(response);
     const token = response.data.token;
-    // // เก็บ token ทั้งใน localStorage
     localStorage.setItem("token", token);
-    // Redirect หลังจาก login สำเร็จ
     await router.push("/home");
     window.location.reload();
   } catch (err) {
