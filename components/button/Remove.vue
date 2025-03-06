@@ -2,13 +2,13 @@
   <div class="flex w-full gap-2 justify-center">
     <button
       @click="confirmAndRemove"
-      class="bg-cyan-600 rounded-xl text-white p-1 text-sm cursor-pointer hover:bg-cyan-700 transition w-full md:w-[50%]"
+      class="bg-[#111827] text-green-400 opacity-[90%] rounded-xl p-1 text-sm cursor-pointer hover:bg-cyan-700 transition w-full md:w-[50%]"
     >
       รีเซ็ทรายการธุรกรรม
     </button>
     <button
       @click="confirmAndRemoveType"
-      class="bg-cyan-600 rounded-xl p-1 text-sm text-white cursor-pointer hover:bg-cyan-700 transition w-full md:w-[50%]"
+      class="bg-[#374151] text-green-400 opacity-[90%] rounded-xl p-1 text-sm cursor-pointer hover:bg-cyan-700 transition w-full md:w-[50%]"
     >
       เคลียร์ข้อมูลเพื่อเปิดบัญชีใหม่
     </button>

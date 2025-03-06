@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen font-noto bg-gradient-to-br from-cyan-600 to-cyan-800">
+  <div class="min-h-screen font-noto ">
     <div class="container mx-auto px-4 py-8">
       <!-- Dashboard Header -->
       <div class="mb-8">
