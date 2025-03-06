@@ -35,7 +35,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         const tokenCookie = useCookie("token", {
           maxAge: 60 * 60 * 24, // 1 วัน
           secure: process.env.NODE_ENV === "production",
-          sameSite: "strict",
+          sameSite: "none",
           path: '/'
         });
         tokenCookie.value = token;
