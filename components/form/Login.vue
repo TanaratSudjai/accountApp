@@ -46,8 +46,10 @@ const formData = reactive({
   account_user_username: "",
   account_user_password: "",
 });
+
 const handleLogin = async () => {
   if (loading.value) return;
+  console.log(formData);
 
   loading.value = true;
   error.value = "";
