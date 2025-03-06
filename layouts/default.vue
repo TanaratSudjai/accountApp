@@ -13,6 +13,7 @@
           </button>
         </div>
       </div>
+      <!-- button remove stars -->
       <div class="w-full">
         <ButtonRemove />
       </div>

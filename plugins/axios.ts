@@ -15,7 +15,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-  }, (error) => Promise.reject(error));
+  }, (error) => {
+    console.error("Request error:", error);
+    return Promise.reject(error);
+  });
 
   // ดึง token จาก localStorage หรือ cookies แล้วเพิ่มเข้า headers
   $axios.interceptors.response.use(
@@ -37,7 +40,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       }
       return response;
     },
-    (error) => Promise.reject(error)
+    (error) => {
+      console.error("Response error:", error);
+      return Promise.reject(error);
+    }
   );
 
   return {
