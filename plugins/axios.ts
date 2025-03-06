@@ -19,8 +19,12 @@ export default defineNuxtPlugin((nuxtApp) => {
           sameSite: "none",
           path: "/", // เพิ่ม path ให้ใช้ได้ทุกหน้า
         });
-        tokenCookie.value = token;
-        console.log("✅ Token Saved in Cookie:", tokenCookie.value);
+
+        // Check if token is already set to prevent duplicate cookies
+        if (tokenCookie.value !== token) {
+          tokenCookie.value = token;
+          console.log("✅ Token Saved in Cookie:", tokenCookie.value);
+        }
       }
       return response;
     },
