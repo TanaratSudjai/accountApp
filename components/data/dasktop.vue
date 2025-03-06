@@ -1,200 +1,174 @@
 <template>
-  <div class="flex justify-center items-center gap-4 min-h-full w-full">
-    <!-- Box of Account Types -->
-
-    <!-- <div class="grid col-span-2 gap-1 p-2">
-      <div class="border-2 p-3 text-center">รายการทั้งหมด</div>
-      <div
-        v-for="(type_name, index) in datatype_name"
-        :key="index"
-        class="bg-white border-4 p-2 rounded-xl border-l-pink-400"
-      >
-        {{ type_name.account_type_name }}
+  <div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header Controls -->
+      <div class="mb-6 flex justify-between items-center">
+        <div class="flex gap-4">
+          <button
+            @click="toggleZeroSumVisibility"
+            class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200"
+          >
+            {{ showZeroSum ? "ซ่อน" : "แสดง" }}
+            <span class="ml-2">รายการ</span>
+          </button>
+          <button
+            @click="gotoGrap"
+            class="inline-flex items-center px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors duration-200"
+          >
+            Graph
+          </button>
+        </div>
       </div>
-    </div> -->
 
-    <!-- Box of Account Type Sums -->
-    <div class="flex w-full p-2 max-h-screen overflow-auto">
-      <table
-        class="min-w-full bg-gray-200 table-fixed border-collapse rounded-md max-h-full overflow-auto"
-      >
-        <thead>
-          <tr class="bg-gray-200 text-center font-bold">
-            <th class="px-4 py-3 border-2">
-              <button
-                @click="toggleZeroSumVisibility"
-                class="bg-blue-500 text-white px-4 py-2 rounded"
+      <!-- Main Table -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+            <!-- Table Header -->
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 border-b">รายการทั้งหมด</th>
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 border-b">DR</th>
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 border-b">CR</th>
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 border-b">DR</th>
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 border-b">CR</th>
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 border-b">DR</th>
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 border-b">CR</th>
+              </tr>
+            </thead>
+
+            <!-- Table Body -->
+            <tbody>
+              <tr
+                v-for="(type_sum, index) in datatype_sum"
+                :key="type_sum.account_type_name"
+                :class="[
+                  'transition-colors duration-200',
+                  {
+                    'bg-yellow-50 hover:bg-yellow-100': type_sum.account_category_id == 1 && index % 2 === 0,
+                    'bg-yellow-100 hover:bg-yellow-200': type_sum.account_category_id == 1 && index % 2 !== 0,
+                    'bg-purple-50 hover:bg-purple-100': type_sum.account_category_id == 2 && index % 2 === 0,
+                    'bg-purple-100 hover:bg-purple-200': type_sum.account_category_id == 2 && index % 2 !== 0,
+                    'bg-blue-50 hover:bg-blue-100': type_sum.account_category_id == 3 && index % 2 === 0,
+                    'bg-blue-100 hover:bg-blue-200': type_sum.account_category_id == 3 && index % 2 !== 0,
+                    'bg-green-50 hover:bg-green-100': type_sum.account_category_id == 4 && index % 2 === 0,
+                    'bg-green-100 hover:bg-green-200': type_sum.account_category_id == 4 && index % 2 !== 0,
+                    'bg-pink-50 hover:bg-pink-100': type_sum.account_category_id == 5 && index % 2 === 0,
+                    'bg-pink-100 hover:bg-pink-200': type_sum.account_category_id == 5 && index % 2 !== 0,
+                  }
+                ]"
               >
-                {{ showZeroSum ? "ซ่อน" : "แสดง" }}
-              </button>
-              รายการทั้งหมด
-              <button
-                @click="gotoGrap"
-                class="bg-cyan-600 px-4 py-2 text-white rounded"
-              >
-                graph
-              </button>
-            </th>
-            <th class="px-4 py-3 border-2">DR</th>
-            <th class="px-4 py-3 border-2">CR</th>
-            <th class="px-4 py-3 border-2">DR</th>
-            <th class="px-4 py-3 border-2">CR</th>
-            <th class="px-4 py-3 border-2">DR</th>
-            <th class="px-4 py-3 border-2">CR</th>
-          </tr>
-        </thead>
+                <!-- Account Name Column -->
+                <td class="px-6 py-4 border-r">
+                  <div class="flex items-center">
+                    <span class="font-medium">{{ type_sum.account_type_name }}</span>
+                    <span class="ml-2 text-sm text-gray-500">({{ type_sum.account_category_id }})</span>
+                  </div>
+                </td>
 
-        <tbody>
-          <tr
-            v-for="(type_sum, index) in datatype_sum"
-            :key="type_sum.account_type_name"
-            :class="{
-              'bg-yellow-100':
-                type_sum.account_category_id == 1 && index % 2 === 0,
-              'bg-yellow-200':
-                type_sum.account_category_id == 1 && index % 2 !== 0,
+                <!-- DR Column 1 -->
+                <td class="px-6 py-4 border-r text-right">
+                  <div
+                    v-if="type_sum.account_category_id == 1 || type_sum.account_category_id == 5"
+                    class="font-medium"
+                  >
+                    {{ type_sum.account_type_sum }}
+                  </div>
+                </td>
 
-              'bg-purple-300':
-                type_sum.account_category_id == 2 && index % 2 === 0,
-              'bg-[#ad46ff]':
-                type_sum.account_category_id == 2 && index % 2 !== 0,
+                <!-- CR Column 1 -->
+                <td class="px-6 py-4 border-r text-right">
+                  <div
+                    v-if="type_sum.account_category_id >= 2 && type_sum.account_category_id <= 4"
+                    class="font-medium"
+                  >
+                    {{ type_sum.account_type_sum }}
+                  </div>
+                </td>
 
-              'bg-blue-300':
-                type_sum.account_category_id == 3 && index % 2 === 0,
-              'bg-blue-400':
-                type_sum.account_category_id == 3 && index % 2 !== 0,
+                <!-- DR Column 2 -->
+                <td class="px-6 py-4 border-r text-right">
+                  <div
+                    v-if="type_sum.account_category_id == 1"
+                    class="font-medium"
+                  >
+                    {{ type_sum.account_type_sum }}
+                  </div>
+                </td>
 
-              'bg-green-100':
-                type_sum.account_category_id == 4 && index % 2 === 0,
-              'bg-green-400':
-                type_sum.account_category_id == 4 && index % 2 !== 0,
+                <!-- CR Column 2 -->
+                <td class="px-6 py-4 border-r text-right">
+                  <div
+                    v-if="type_sum.account_category_id == 2 || type_sum.account_category_id == 3"
+                    class="font-medium"
+                  >
+                    {{ type_sum.account_type_sum }}
+                  </div>
+                </td>
 
-              'bg-pink-100':
-                type_sum.account_category_id == 5 && index % 2 === 0,
-              'bg-pink-200':
-                type_sum.account_category_id == 5 && index % 2 !== 0,
-            }"
-          >
-            <!-- รายการทั้งหมด -->
-            <td class="border-r-2 text-center">
-              <div class="rounded-xl text-left px-3 mx-2">
-                {{ type_sum.account_type_name }}
-                {{ type_sum.account_category_id }}
-              </div>
-            </td>
+                <!-- DR Column 3 -->
+                <td class="px-6 py-4 border-r text-right">
+                  <div
+                    v-if="type_sum.account_category_id == 5"
+                    class="font-medium"
+                  >
+                    {{ type_sum.account_type_sum }}
+                  </div>
+                </td>
 
-            <!-- DR Column 1 -->
-            <td class="border-r-2 text-right">
-              <div
-                v-if="
-                  type_sum.account_category_id == 1 ||
-                  type_sum.account_category_id == 5
-                "
-                class="text-right"
-              >
-                <p class="text-center">{{ type_sum.account_type_sum }}</p>
-              </div>
-            </td>
+                <!-- CR Column 3 -->
+                <td class="px-6 py-4 border-r text-right">
+                  <div
+                    v-if="type_sum.account_category_id == 4"
+                    class="font-medium"
+                  >
+                    {{ type_sum.account_type_sum }}
+                  </div>
+                </td>
+              </tr>
 
-            <!-- CR Column 1 -->
-            <td class="border-r-2 text-right">
-              <div
-                class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"
-              ></div>
-              <div
-                v-if="
-                  type_sum.account_category_id >= 2 &&
-                  type_sum.account_category_id <= 4
-                "
-                class="text-right"
-              >
-                <p class="text-center">{{ type_sum.account_type_sum }}</p>
-              </div>
-            </td>
+              <!-- Summary Row -->
+              <tr class="bg-gray-50 border-t-2 border-gray-200">
+                <td class="px-6 py-4 font-semibold">สรุปผลบัญชี</td>
+                <td class="px-6 py-4 text-right font-semibold">{{ sumColumn1 }}</td>
+                <td class="px-6 py-4 text-right font-semibold">{{ sumColumn2 }}</td>
+                <td class="px-6 py-4 text-right font-semibold">{{ sumColumn3 }}</td>
+                <td class="px-6 py-4 text-right font-semibold">{{ sumColumn4 }}</td>
+                <td class="px-6 py-4 text-right font-semibold">{{ sumColumn5 }}</td>
+                <td class="px-6 py-4 text-right font-semibold">{{ sumColumn6 }}</td>
+              </tr>
 
-            <!-- DR Column 2 -->
-            <td class="border-r-2 text-center">
-              <div v-if="type_sum.account_category_id == 1" class="rounded-xl">
-                {{ type_sum.account_type_sum }}
-              </div>
-            </td>
-
-            <!-- CR Column 2 -->
-            <td class="border-r-2 text-center relative">
-              <div
-                class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"
-              ></div>
-              <div
-                v-if="
-                  type_sum.account_category_id == 2 ||
-                  type_sum.account_category_id == 3
-                "
-              >
-                {{ type_sum.account_type_sum }}
-              </div>
-            </td>
-
-            <!-- DR Column 3 -->
-            <td class="border-r-2 text-center">
-              <div v-if="type_sum.account_category_id == 5">
-                {{ type_sum.account_type_sum }}
-              </div>
-            </td>
-
-            <!-- CR Column 3 -->
-            <td class="border-r-2 text-center relative">
-              <div
-                class="absolute inset-y-0 right-0 w-2 border-r-4 border-gray-400 border-double"
-              ></div>
-              <div v-if="type_sum.account_category_id == 4">
-                {{ type_sum.account_type_sum }}
-              </div>
-            </td>
-          </tr>
-
-          <!-- สรุปผลบัญชี -->
-          <tr
-            class="border-2 mt-12 border-b-green-400 text-center font-semibold"
-          >
-            <td class="p-2 rounded-xl shadow-md">สรุปผลบัญชี</td>
-            <td class="border-r-2">{{ sumColumn1 }}</td>
-            <td class="border-r-2">{{ sumColumn2 }}</td>
-            <td class="border-r-2">{{ sumColumn3 }}</td>
-            <td class="border-r-2">{{ sumColumn4 }}</td>
-            <td class="border-r-2">{{ sumColumn5 }}</td>
-            <td class="border-r-2">{{ sumColumn6 }}</td>
-          </tr>
-
-          <!-- ผลต่าง -->
-          <tr class="border-2 border-b-green-400 text-center font-semibold">
-            <td class="border-r-2"></td>
-            <td class="border-r-2">1</td>
-            <td class="border-r-2">1</td>
-            <td class="border-r-2">
-              <div class="p-2" v-if="sumColumn4 - sumColumn3 > 0">
-                {{ sumColumn4 - sumColumn3 }}
-              </div>
-            </td>
-            <td class="border-r-2">
-              <div class="p-2" v-if="sumColumn3 - sumColumn4 > 0">
-                {{ sumColumn3 - sumColumn4 }}
-              </div>
-            </td>
-            <td class="border-r-2">
-              <div class="p-2" v-if="sumColumn6 - sumColumn5 > 0">
-                {{ sumColumn6 - sumColumn5 }}
-              </div>
-            </td>
-            <td class="border-r-2">
-              <div class="p-2" v-if="sumColumn5 - sumColumn6 > 0">
-                {{ sumColumn5 - sumColumn6 }}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <!-- Difference Row -->
+              <tr class="bg-gray-50">
+                <td class="px-6 py-4 font-semibold">ผลต่าง</td>
+                <td class="px-6 py-4 text-right">1</td>
+                <td class="px-6 py-4 text-right">1</td>
+                <td class="px-6 py-4 text-right">
+                  <div v-if="sumColumn4 - sumColumn3 > 0" class="font-medium text-red-600">
+                    {{ sumColumn4 - sumColumn3 }}
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <div v-if="sumColumn3 - sumColumn4 > 0" class="font-medium text-red-600">
+                    {{ sumColumn3 - sumColumn4 }}
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <div v-if="sumColumn6 - sumColumn5 > 0" class="font-medium text-red-600">
+                    {{ sumColumn6 - sumColumn5 }}
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <div v-if="sumColumn5 - sumColumn6 > 0" class="font-medium text-red-600">
+                    {{ sumColumn5 - sumColumn6 }}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    <!-- end -->
   </div>
 </template>
 
@@ -215,14 +189,14 @@ const fetchType = async () => {
         "/dasktop_data_sumtype"
       );
       console.log("API Response not zero:", response); // Log the response
-      datatype_sum.value = response.account_type_sum || [];
+      datatype_sum.value = response.data.account_type_sum || [];
       loading.value = false;
     } else {
       const response = await $axios.get(
         "/dasktop_data_sumzero"
       );
       console.log("API Response zero:", response); // Log the response
-      datatype_sum.value = response.account_type_sum || [];
+      datatype_sum.value = response.data.account_type_sum || [];
     }
   } catch (err) {
     error.value = "Error fetching transitions: " + err.message;

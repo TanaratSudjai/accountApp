@@ -1,14 +1,14 @@
 <template>
 
-  <div class="flex flex-col font-noto bg-cyan-600 min-h-screen">
+  <div class="flex flex-col font-noto bg-[#111827]  min-h-screen">
     <!-- Header -->
 
-    <div class="flex flex-col md:flex-row gap-2 justify-center items-center w-full z-50 p-3 bg-white shadow-md">
+    <div class="flex flex-col md:flex-row gap-2 justify-center items-center w-full z-50 p-3 bg-[#1f2937] shadow-md">
       <!-- logo stars -->
       <div class="w-full">
         <div class="font-sans pb-2 text-gray-400">
           บัญชีของคุณ {{ nameuser }}
-          <button @click="logout" class="text-blue-600 underline">
+          <button @click="logout" class="text-rose-500 underline-none">
             ออกจากระบบ
           </button>
         </div>

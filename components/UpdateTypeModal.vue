@@ -196,6 +196,7 @@ const toggleSelect = (type) => {
     localAccountType.value.account_type_from_id = type.account_type_id;
   }
   console.log(localAccountType.value.account_type_icon);
+  console.log(localAccountType.value.account_type_from_id);
 };
 watch(
   () => props.account_type_from_id,
@@ -239,7 +240,7 @@ const updateAccountType = async () => {
       {
         account_type_name: localAccountType.value.account_type_name,
         account_type_value: localAccountType.value.account_type_value,
-        account_type_from_id: parseInt(localAccountType.value.account_type_from_id)? null : null,
+        account_type_from_id: parseInt(localAccountType.value.account_type_from_id),
         account_type_description: localAccountType.value.account_type_description,
         account_type_icon: localAccountType.value.account_type_icon ? parseInt(localAccountType.value.account_type_icon)
         : null,
