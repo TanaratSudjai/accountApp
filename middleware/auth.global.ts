@@ -7,9 +7,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   // และจัดเก็บไว้ในสถานะที่คงอยู่ทั้ง SSR และ CSR ซึ่งจะทำให้แน่ใจได้ว่าเมื่อเพจถูกไฮเดรต
   // (หลังจากกระบวนการ SSR) สถานะโทเค็นจะถูกเติมไว้แล้ว และจะไม่มีการกำหนดไว้
 
-  const token = tokenState.value;
+  // Add logging to track token changes
+  console.log("Token from cookie:", tokenCookie.value);
+  console.log("Token from state:", tokenState.value);
 
-  // console.log("Token from cookie:", token);
+  const token = tokenState.value;
 
   if (!token && to.path === "/register") {
     // console.log("Redirecting due to missing or invalid token");
