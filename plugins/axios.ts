@@ -8,6 +8,15 @@ export default defineNuxtPlugin((nuxtApp) => {
     withCredentials: true, // ใช้ cookies กับ request
   });
 
+  // Add request interceptor to include token in headers for all API requests
+  $axios.interceptors.request.use((config) => {
+    const token = useCookie("token").value;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  }, (error) => Promise.reject(error));
+
   // ดึง token จาก localStorage หรือ cookies แล้วเพิ่มเข้า headers
   $axios.interceptors.response.use(
     (response) => {
