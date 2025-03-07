@@ -31,8 +31,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import axios from 'axios';
-import {useCookie} from "#app";
+const { $axios } = useNuxtApp();
 
 const router = useRouter();
 let nameuser = ref("");
@@ -47,17 +46,7 @@ definePageMeta({
 
 const getSession = async () => {
   try {
-    const token = tokenCookie.value;
-    if (!token) {
-      console.error("❌ Token not found in Cookie");
-      return;
-    }
-    const response = await axios.get("api/auth/get_session", {
-      headers: {
-        Authorization: `Bearer ${token}`, // ✅ ส่ง Token ไปกับ Headers
-      },
-      withCredentials: true, // ✅ ให้แน่ใจว่า Cookies ถูกส่งไป
-    });
+    const response = await $axios.get("auth/get_session");
     console.log("✅ Session Data:", response.data);
     nameuser.value = response.data.user.name;
     loading.value = false;
