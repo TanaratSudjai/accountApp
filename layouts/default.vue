@@ -38,6 +38,8 @@ const router = useRouter();
 let nameuser = ref("");
 const loading = ref(true);
 const tokenCookie = useCookie("token");
+console.log("📌 Token from Cookie:", tokenCookie.value);
+
 definePageMeta({
   middleware: ["auth"],
 
