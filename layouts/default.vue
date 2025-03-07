@@ -52,7 +52,7 @@ const getSession = async () => {
       console.error("❌ Token not found in Cookie");
       return;
     }
-    const response = await axios.get("auth/get_session", {
+    const response = await axios.get("api/auth/get_session", {
       headers: {
         Authorization: `Bearer ${token}`, // ✅ ส่ง Token ไปกับ Headers
       },
