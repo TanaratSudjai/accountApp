@@ -1,10 +1,9 @@
 <template>
-  <div class="flex flex-col font-noto bg-[#111827] min-h-screen">
+
+  <div class="flex flex-col font-noto bg-[#111827]  min-h-screen">
     <!-- Header -->
 
-    <div
-      class="flex flex-col md:flex-row gap-2 justify-center items-center w-full z-50 p-3 bg-[#1f2937] shadow-md"
-    >
+    <div class="flex flex-col md:flex-row gap-2 justify-center items-center w-full z-50 p-3 bg-[#1f2937] shadow-md">
       <!-- logo stars -->
       <div class="w-full">
         <div class="font-sans pb-2 text-gray-400">
@@ -14,7 +13,6 @@
           </button>
         </div>
       </div>
-      <!-- button remove stars -->
       <div class="w-full">
         <ButtonRemove />
       </div>
@@ -33,25 +31,26 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 const { $axios } = useNuxtApp();
-
 const router = useRouter();
 let nameuser = ref("");
 const loading = ref(true);
-const tokenCookie = useCookie("token");
-console.log("📌 Token from Cookie:", tokenCookie.value);
-
 definePageMeta({
   middleware: ["auth"],
+
 });
 
 const getSession = async () => {
+
   try {
-    const response = await $axios.get("/auth/get_session");
-    console.log("✅ Session Data:", response.data);
-    nameuser.value = response.data.user.name;
+
+    const response = await $axios.get(
+      "auth/get_session",
+    );
+    nameuser.value = response.data.data_user.account_user_name;
     loading.value = false;
   } catch (err) {
-    console.error("❌ Error Fetching Session:", err);
+    console.log(err);
+
   }
 };
 
@@ -68,6 +67,7 @@ const logout = async () => {
     }
   }
 };
+
 
 onMounted(() => {
   getSession();
