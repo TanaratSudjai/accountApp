@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   },
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@pinia/nuxt" ],
+  modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@pinia/nuxt"],
 
   components: true,
   vue: {
@@ -17,7 +17,9 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL ,
+      apiBaseUrl:
+        process.env.NUXT_PUBLIC_API_BASE_UR ||
+        "https://api-accountapp.onrender.com/api",
     },
   },
 });
