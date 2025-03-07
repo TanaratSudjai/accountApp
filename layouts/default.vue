@@ -31,10 +31,13 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-const { $axios } = useNuxtApp();
+import axios from 'axios';
+import {useCookie} from "#app";
+
 const router = useRouter();
 let nameuser = ref("");
 const loading = ref(true);
+const tokenCookie = useCookie("token");
 definePageMeta({
   middleware: ["auth"],
 
@@ -42,9 +45,19 @@ definePageMeta({
 
 const getSession = async () => {
   try {
-    const response = await $axios.get("auth/get_session");
+    const token = tokenCookie.value;
+    if (!token) {
+      console.error("❌ Token not found in Cookie");
+      return;
+    }
+    const response = await axios.get("auth/get_session", {
+      headers: {
+        Authorization: `Bearer ${token}`, // ✅ ส่ง Token ไปกับ Headers
+      },
+      withCredentials: true, // ✅ ให้แน่ใจว่า Cookies ถูกส่งไป
+    });
     console.log("✅ Session Data:", response.data);
-    nameuser.value = response.data.user.name; // อ้างอิงชื่อให้ตรงกับ Response
+    nameuser.value = response.data.user.name;
     loading.value = false;
   } catch (err) {
     console.error("❌ Error Fetching Session:", err);
