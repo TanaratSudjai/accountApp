@@ -3,37 +3,29 @@ import { useCookie } from "#app";
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig();
-  const tokenCookie = useCookie("token"); // ใช้ useCookie เพื่อเข้าถึง token ที่ถูกบันทึกไว้ก่อนหน้า
-
   const $axios = axios.create({
     baseURL: config.public.apiBaseUrl,
-    withCredentials: true, // ให้ Axios ส่ง Cookies ไปกับทุก Request
+    withCredentials: true, // ใช้ cookies กับ request
   });
 
-  // ✅ Interceptor สำหรับ Response -> บันทึก Token เมื่อ Login สำเร็จ
+  // ดึง token จาก localStorage หรือ cookies แล้วเพิ่มเข้า headers
   $axios.interceptors.response.use(
     (response) => {
       if (response.config.url === "/auth/login" && response.data.token) {
-        tokenCookie.value = response.data.token; // บันทึก Token ลง Cookie
+        const token = response.data.token;
+        const tokenCookie = useCookie("token", {
+          maxAge: 60 * 60 * 24, // 1 วัน
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+          path: "/", // เพิ่ม path ให้ใช้ได้ทุกหน้า
+        });
+        tokenCookie.value = token;
         console.log("✅ Token Saved in Cookie:", tokenCookie.value);
       }
       return response;
     },
     (error) => Promise.reject(error)
   );
-
-  // ✅ Interceptor สำหรับ Request -> เพิ่ม Token เข้า Headers
-  $axios.interceptors.request.use(
-    (config) => {
-      const token = tokenCookie.value;
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    },
-    (error) => Promise.reject(error)
-  );
-
   return {
     provide: {
       axios: $axios,
