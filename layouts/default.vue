@@ -46,7 +46,7 @@ definePageMeta({
 
 const getSession = async () => {
   try {
-    const response = await $axios.get("auth/get_session");
+    const response = await $axios.get("/auth/get_session");
     console.log("✅ Session Data:", response.data);
     nameuser.value = response.data.user.name;
     loading.value = false;
