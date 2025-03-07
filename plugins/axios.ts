@@ -3,47 +3,35 @@ import { useCookie } from "#app";
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig();
+  const tokenCookie = useCookie("token"); // ใช้ useCookie เพื่อเข้าถึง token ที่ถูกบันทึกไว้ก่อนหน้า
+
   const $axios = axios.create({
     baseURL: config.public.apiBaseUrl,
-    withCredentials: true, // ใช้ cookies กับ request
+    withCredentials: true, // ให้ Axios ส่ง Cookies ไปกับทุก Request
   });
 
-  // Add request interceptor to include token in headers for all API requests
-  $axios.interceptors.request.use((config) => {
-    const token = useCookie("token").value;
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  }, (error) => {
-    console.error("Request error:", error);
-    return Promise.reject(error);
-  });
-
-  // ดึง token จาก localStorage หรือ cookies แล้วเพิ่มเข้า headers
+  // ✅ Interceptor สำหรับ Response -> บันทึก Token เมื่อ Login สำเร็จ
   $axios.interceptors.response.use(
     (response) => {
       if (response.config.url === "/auth/login" && response.data.token) {
-        const token = response.data.token;
-        const tokenCookie = useCookie("token", {
-          maxAge: 60 * 60 * 24, // 1 วัน
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "none",
-          path: "/", // เพิ่ม path ให้ใช้ได้ทุกหน้า
-        });
-
-        // Check if token is already set to prevent duplicate cookies
-        if (tokenCookie.value !== token) {
-          tokenCookie.value = token;
-          console.log("✅ Token Saved in Cookie:", tokenCookie.value);
-        }
+        tokenCookie.value = response.data.token; // บันทึก Token ลง Cookie
+        console.log("✅ Token Saved in Cookie:", tokenCookie.value);
       }
       return response;
     },
-    (error) => {
-      console.error("Response error:", error);
-      return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
+  );
+
+  // ✅ Interceptor สำหรับ Request -> เพิ่ม Token เข้า Headers
+  $axios.interceptors.request.use(
+    (config) => {
+      const token = tokenCookie.value;
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => Promise.reject(error)
   );
 
   return {

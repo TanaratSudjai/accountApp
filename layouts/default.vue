@@ -41,17 +41,13 @@ definePageMeta({
 });
 
 const getSession = async () => {
-
   try {
-
-    const response = await $axios.get(
-      "auth/get_session",
-    );
-    nameuser.value = response.data.data_user.account_user_name;
+    const response = await $axios.get("auth/get_session");
+    console.log("✅ Session Data:", response.data);
+    nameuser.value = response.data.user.name; // อ้างอิงชื่อให้ตรงกับ Response
     loading.value = false;
   } catch (err) {
-    console.log(err);
-
+    console.error("❌ Error Fetching Session:", err);
   }
 };
 
