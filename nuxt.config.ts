@@ -18,8 +18,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBaseUrl:
-        process.env.NUXT_PUBLIC_API_BASE_UR ||
-        "https://api-accountapp.onrender.com/api",
+        process.env.NUXT_PUBLIC_API_BASE_URL,
     },
   },
 });
