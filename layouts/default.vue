@@ -28,6 +28,7 @@
   </div>
 </template>
 <script setup>
+import { Cookie } from "lucide-vue-next";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 const { $axios } = useNuxtApp();
@@ -58,6 +59,8 @@ const getSession = async () => {
 const logout = async () => {
   try {
     await $axios.post("/auth/logout");
+    const tokenCookie = useCookie("token");
+    tokenCookie.value = null;
     window.location.reload();
   } catch (err) {
     if (err.response?.status === 401) {

@@ -25,7 +25,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       return response;
     },
     (error) => Promise.reject(error)
-  );
+  );  
   return {
     provide: {
       axios: $axios,
