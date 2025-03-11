@@ -9,7 +9,7 @@
     ไม่มีประเภท
   </div>
   <div v-else class="flex w-full justify-center mt-4">
-    <div class="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 gap-4 xl:grid-cols-3 max-w-7xl">
+    <div class="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 gap-4 xl:grid-cols-3 max-w-5xl">
       <div
         v-for="Type in TypeData"
         :key="Type.account_type_id"
