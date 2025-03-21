@@ -58,6 +58,8 @@ const getSession = async () => {
 const logout = async () => {
   try {
     await $axios.post("/auth/logout");
+    localStorage.removeItem("token");
+    sessionStorage.clear();
     window.location.reload();
   } catch (err) {
     if (err.response?.status === 401) {
