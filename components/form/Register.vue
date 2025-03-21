@@ -1,78 +1,46 @@
 <template>
-  <div
-    class="p-10 rounded-lg shadow-md w-[80%] flex justify-center items-center"
-  >
-    <form
-      @submit.prevent="handleLogin"
-      class="rounded-md w-full flex flex-col justify-center p-10"
-    >
-      <h2>สมัครใช้งาน</h2>
-
+  <div class="p-20  rounded-2xl shadow-lg  flex flex-col justify-center items-center bg-gray-800">
+    <text class="text-4xl text-cyan-600 py-1">สมัครใช้งานระบบ</text>
+    <form @submit.prevent="handleLogin" class="rounded-md w-full flex flex-col justify-center">
       <div class="mb-4">
-        <label for="username" class="block text-gray-700 font-medium mb-2">
+        <label for="username" class="block text-white font-medium mb-2">
           ชื่อบัญชี
         </label>
-        <input
-          v-model="formData.account_user_name"
-          id="name"
-          type="text"
-          placeholder="ชื่อผู้ใช้"
-          class="p-4 rounded-sm w-full border-2"
-        />
+        <input v-model="formData.account_user_name" id="name" type="text" placeholder="ชื่อผู้ใช้"
+          class="p-3 rounded-full w-full border-2" />
       </div>
 
       <div class="mb-4">
-        <label for="username" class="block text-gray-700 font-medium mb-2">
+        <label for="username" class="block text-white font-medium mb-2">
           ชื่อผู้ใช้
         </label>
-        <input
-          v-model="formData.account_user_username"
-          id="username"
-          type="text"
-          placeholder="ชื่อผู้ใช้"
-          class="p-4 rounded-sm w-full border-2"
-        />
+        <input v-model="formData.account_user_username" id="username" type="text" placeholder="ชื่อผู้ใช้"
+          class="p-3 rounded-full w-full border-2" />
       </div>
 
       <div class="mb-4">
-        <label for="password" class="block text-gray-700 font-medium mb-2">
+        <label for="password" class="block text-white font-medium mb-2">
           รหัสผ่าน
         </label>
-        <input
-          v-model="formData.account_user_password"
-          id="password"
-          type="password"
-          placeholder="รหัสผ่าน"
-          class="p-4 rounded-sm w-full border-2"
-        />
+        <input v-model="formData.account_user_password" id="password" type="password" placeholder="รหัสผ่าน"
+          class="p-3 rounded-full w-full border-2" />
       </div>
       <div class="mb-4">
-        <label for="password" class="block text-gray-700 font-medium mb-2">
+        <label for="password" class="block text-white font-medium mb-2">
           ยืนยันรหัสผ่านอีกครั้ง
         </label>
-        <input
-          v-model="formData.account_user_confirmpassword"
-          id="password"
-          type="password"
-          placeholder="ยืนยันรหัสผ่านอีกครั้ง"
-          class="p-4 rounded-sm w-full border-2"
-        />
+        <input v-model="formData.account_user_confirmpassword" id="password" type="password"
+          placeholder="ยืนยันรหัสผ่านอีกครั้ง" class="p-3 rounded-full w-full border-2" />
       </div>
 
       <div v-if="error" class="text-red-500 mb-4">
         {{ error }}
       </div>
 
-      <button
-        type="submit"
-        class="bg-cyan-600 text-white p-4 rounded hover:bg-cyan-700"
-      >
+      <button type="submit" class="bg-cyan-600 text-white p-3 rounded-full hover:bg-cyan-700">
         สมัครใช้งาน
       </button>
-      <button
-        @click="goLogin"
-        class="text-cyan-600 px-4 py-2 rounded underline"
-      >
+      <button @click="goLogin" class="text-cyan-600 px-4 py-2 rounded ">
         เข้าสู่ระบบ
       </button>
     </form>
@@ -82,19 +50,27 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
-const { $axios } = useNuxtApp();
+import Swal from "sweetalert2";
 
-const router = useRouter();
+const { $axios } = useNuxtApp();
 const loading = ref(false);
 const error = ref("");
-
+const router = useRouter();
 const formData = reactive({
   account_user_name: "",
   account_user_username: "",
   account_user_password: "",
   account_user_confirmpassword: "",
 });
-
+const showAlert = (title, text, icon = "error", confirmButtonColor = "#0891b2") => {
+  Swal.fire({
+    title,
+    text,
+    icon,
+    confirmButtonText: "ลองอีกครั้ง",
+    confirmButtonColor,
+  });
+};
 const handleLogin = async () => {
   if (loading.value) return;
 
@@ -110,21 +86,22 @@ const handleLogin = async () => {
         account_user_username: formData.account_user_username,
         account_user_password: formData.account_user_password,
       });
-      console.log(response.data.token);
-      const token = response.data.token;
-      
+      showAlert("สมัครสำเร็จ!", "คุณสามารถเข้าสู่ระบบได้ทันที", "success");
+
       await router.push("/");
     } else {
-      error.value = err.response?.data?.message || "Password is not confirm !";
+      // ❌ แจ้งเตือนเมื่อรหัสผ่านไม่ตรงกัน
+      showAlert("เกิดข้อผิดพลาด!", "รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน");
     }
   } catch (err) {
-    error.value = err.response?.data?.message || "Login failed. Try again.";
+    // ❌ แจ้งเตือนเมื่อเกิดข้อผิดพลาด
+    showAlert("สมัครไม่สำเร็จ!", "กรุณาลองใหม่อีกครั้ง");
   } finally {
     loading.value = false;
   }
 };
 
-const goLogin = async () => {
+const goLogin = () => {
   router.push("/");
 };
 </script>
