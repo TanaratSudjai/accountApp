@@ -1,33 +1,33 @@
 <template>
-  <div class="p-10 rounded-lg shadow-md w-[80%] flex flex-col justify-center items-center">
-    <form @submit.prevent="handleLogin" class="rounded-md w-full flex flex-col justify-center p-5">
-      <h2>เข้าสู่ระบบ</h2>
-
+  <div class="p-20  rounded-2xl shadow-lg  flex flex-col justify-center items-center bg-gray-800">
+    <text class="text-4xl text-cyan-600 py-5">เข้าสู่ระบบ</text>
+    <form @submit.prevent="handleLogin" class="rounded-md w-full flex flex-col justify-center ">
       <div class="mb-4">
-        <label for="username" class="block text-gray-700 font-medium mb-2">
+        <label for="username" class="block text-white font-medium mb-2">
           ชื่อผู้ใช้
         </label>
         <input v-model="formData.account_user_username" id="username" type="text" placeholder="กรุณากรอกชื่อผู้ใช้"
-          class="p-4 rounded-sm w-full border-2" />
+          class="p-3 rounded-full w-full border-cyan-600 focus:border-cyan-600" />
       </div>
-
       <div class="mb-4">
-        <label for="password" class="block text-gray-700 font-medium mb-2">
+        <label for="password" class="block text-white font-medium mb-2">
           รหัสผ่าน
         </label>
         <input v-model="formData.account_user_password" id="password" type="password" placeholder="กรุณากรอกรหัสผ่าน"
-          class="p-4 rounded-sm w-full border-2" />
+          class="p-3 rounded-full w-full border-2" />
       </div>
 
       <!-- <div v-if="error" class="text-red-500 mb-4">
         {{ error }}
       </div> -->
 
-      <button @click="handleLogin" :disabled="loading" class="bg-cyan-600 text-white px-4 py-2 rounded">
+      <button @click="handleLogin" :disabled="loading"
+        class="bg-cyan-700 text-white px-4 py-3 rounded-full hover:bg-cyan-600">
         {{ loading ? "Logging in..." : "Login" }}
       </button>
     </form>
-    <button @click="goRegister" class="text-cyan-600 px-4 py-2 rounded underline">
+    <button @click="goRegister" class="text-white px-4 py-2 rounded">
+      <span class="text-cyan-600">มีชื่อผู้ใช้หรือยัง</span>
       สมัครใช้งาน
     </button>
   </div>
@@ -37,7 +37,6 @@
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-
 
 const { $axios } = useNuxtApp();
 
@@ -49,12 +48,13 @@ const formData = ref({
   account_user_username: "",
   account_user_password: "",
 });
-const showAlert = (title, text, icon = "error") => {
+const showAlert = (title, text, icon = "error", confirmButtonColor = "#0891b2") => {
   Swal.fire({
     title,
     text,
     icon,
     confirmButtonText: "ลองอีกครั้ง",
+    confirmButtonColor,
   });
 };
 
@@ -85,14 +85,6 @@ const handleLogin = async () => {
 
     const token = response.data.token;
     localStorage.setItem("token", token);
-
-    await Swal.fire({
-      title: "เข้าสู่ระบบสำเร็จ",
-      text: "ยินดีต้อนรับ!",
-      icon: "success",
-      confirmButtonText: "ตกลง",
-    });
-
     await router.push("/home");
     window.location.reload();
   } catch (err) {

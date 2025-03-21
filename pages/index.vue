@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex justify-center items-center mt-[-50px]">
+  <div class="">
     <FormLogin />
   </div>
 </template>
