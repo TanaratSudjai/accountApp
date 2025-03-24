@@ -1,10 +1,9 @@
 <template>
-  <div
-    class="flex flex-col font-noto bg-cyan-600 h-10 text-white justify-center items-center"
-  >
-    ACCOUNT APPLICATION
+  <div class="h-screen flex flex-col justify-center items-center bg-gray-700">
+    <div class="container mx-auto p-4 lg:w-[40%] xl:w-[40%]">
+      <slot />
+    </div>
   </div>
-  <slot class="font-noto" />
 </template>
 
 <style scoped>

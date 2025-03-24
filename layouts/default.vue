@@ -59,6 +59,8 @@ const getSession = async () => {
 const logout = async () => {
   try {
     await $axios.post("/auth/logout");
+    localStorage.removeItem("token");
+    sessionStorage.clear();
     const tokenCookie = useCookie("token");
     tokenCookie.value = null;
     window.location.reload();
