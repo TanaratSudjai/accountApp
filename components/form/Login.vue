@@ -26,7 +26,8 @@
         {{ loading ? "Logging in..." : "Login" }}
       </button>
     </form>
-    <button @click="goRegister" class="text-white px-4 py-2 rounded">
+    <button @click="goRegister"
+      class="text-white px-4 py-2 rounded flex gap-2 flex-col md:flex-row lg:flex-row xl:flex-row">
       <span class="text-cyan-600">มีชื่อผู้ใช้หรือยัง</span>
       สมัครใช้งาน
     </button>
@@ -84,7 +85,6 @@ const handleLogin = async () => {
       account_user_username: formData.value.account_user_username,
       account_user_password: formData.value.account_user_password,
     });
-
     const token = response.data.token;
     localStorage.setItem("token", token);
     await router.push("/home");
