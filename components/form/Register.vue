@@ -15,7 +15,7 @@
         <label for="username" class="block text-white font-medium mb-2">
           ชื่อผู้ใช้
         </label>
-        <input v-model="formData.account_user_username" id="username" type="text" placeholder="ชื่อผู้ใช้"
+        <input v-model="formData.account_user_username" id="username" type="email" placeholder="ชื่อผู้ใช้"
           class="p-3 rounded-full w-full border-2" />
       </div>
 
