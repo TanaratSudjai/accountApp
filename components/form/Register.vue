@@ -1,7 +1,8 @@
 <template>
-  <div class="p-20  rounded-2xl shadow-lg  flex flex-col justify-center items-center bg-gray-800">
+  <div
+    class="p-12 sm:p-12 md:p-20 lg:p-20  rounded-2xl shadow-lg  flex flex-col justify-center items-center bg-gray-800">
     <text class="text-4xl text-cyan-600 py-1">สมัครใช้งานระบบ</text>
-    <form @submit.prevent="handleLogin" class="rounded-md w-full flex flex-col justify-center">
+    <form @submit.prevent="handleLogin" class="rounded-md w-full flex flex-col justify-center bg">
       <div class="mb-4">
         <label for="username" class="block text-white font-medium mb-2">
           ชื่อบัญชี
