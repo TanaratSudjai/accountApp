@@ -48,6 +48,7 @@ const formData = ref({
   account_user_username: "",
   account_user_password: "",
 });
+
 const showAlert = (title, text, icon = "error", confirmButtonColor = "#0891b2") => {
   Swal.fire({
     title,
@@ -60,6 +61,7 @@ const showAlert = (title, text, icon = "error", confirmButtonColor = "#0891b2") 
 
 const handleLogin = async () => {
   if (loading.value) return;
+  console.log(formData);
 
   loading.value = true;
   error.value = "";

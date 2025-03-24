@@ -14,7 +14,7 @@
             :key="icon.account_type_id"
             class="flex-shrink-0 flex flex-col items-center gap-2"
           >
-            <div
+            <div v-if="icon.account_category_id === 1"
               :class="[
                 'rounded-full flex items-center justify-center w-16 h-16 cursor-pointer transition-all duration-300 transform hover:scale-105',
                 selectedIcon &&
@@ -36,6 +36,37 @@
             </div>
           </div>
         </div>
+
+        <div class="flex overflow-x-auto py-1 space-x-4 scrollbar-hide">
+          <div
+          v-for="icon in IconData"
+          :key="icon.account_type_id"
+          
+            class="flex-shrink-0 flex flex-col items-center gap-2"
+          >
+            <div v-if="icon.account_category_id === 2"
+              :class="[
+                'rounded-full flex items-center justify-center w-16 h-16 cursor-pointer transition-all duration-300 transform hover:scale-105',
+                selectedIcon &&
+                selectedIcon.account_type_id === icon.account_type_id
+                  ? 'bg-gray-400 ring-4 ring-gray-200'
+                  : icon.account_category_id === 1
+                  ? 'bg-yellow-500 ring-4 ring-yellow-300'
+                  : icon.account_category_id === 2
+                  ? 'bg-purple-500 ring-4 ring-purple-300'
+                  : 'bg-gray-100',
+              ]"
+              @click="toggleSelect(icon)"
+            >
+              <img
+                :src="`/icon_folder/${icon.account_icon_name}`"
+                alt="icon"
+                class="w-12 h-12 rounded-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+        
         <!-- Selected Icon Display -->
         <div class="p-4 pt-5 border border-cyan-600 rounded-lg">
           <h2 class="text-center text-lg font-semibold text-gray-700">
@@ -356,6 +387,7 @@ const fetchIcon = async () => {
     });
     const data = await response.data.data_menu;
     IconData.value = data;
+    console.log(IconData.value)
   } catch (error) {
     console.error("Error fetching icons:", error);
   }
