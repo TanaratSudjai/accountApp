@@ -108,7 +108,7 @@
       <div class="bg-gray-800 p-2 rounded-lg shadow-md mb-2">
         <div class="flex gap-2">
           <input type="text" placeholder="ตั้งจำนวนเงิน"
-            class="flex-1 gap-2 text-gray-800 bg-gray-700 border-none text-sm border border-gray-200 px-4 py-3 rounded-xl outline-none focus:ring-2 focus:ring-green-500 transition-all"
+            class="flex-1 gap-2 text-gray-400 bg-gray-700 border-none text-sm border border-gray-200 px-4 py-3 rounded-xl outline-none focus:ring-2 focus:ring-green-500 transition-all"
             v-model="accountTypeValue" />
           <button @click="handleOkClick" :disabled="isButtonDisabled" :class="[
             'px-6 font-semibold rounded-xl transition-colors duration-300 flex items-center justify-center bg-green-500',
