@@ -3,6 +3,10 @@ export default defineNuxtConfig({
   routeRules: {
     "/": { middleware: "auth.global" },
   },
+  ssr: true,
+  build: {
+    transpile: ['gsap']
+  },
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@pinia/nuxt"],

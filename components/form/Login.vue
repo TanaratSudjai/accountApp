@@ -1,20 +1,20 @@
 <template>
-  <div class="p-20  rounded-2xl shadow-lg  flex flex-col justify-center items-center bg-gray-800">
+  <div ref="boxRef" class="box p-10 md:p-15 lg:p-20 xl:p-20  rounded-2xl shadow-lg  flex flex-col justify-center items-center bg-gray-800">
     <text class="text-4xl text-cyan-600 py-5">เข้าสู่ระบบ</text>
-    <form @submit.prevent="handleLogin" class="rounded-md w-full flex flex-col justify-center ">
+    <form @submit.prevent="handleLogin" class="rounded-md w-full flex flex-col justify-center">
       <div class="mb-4">
         <label for="username" class="block text-white font-medium mb-2">
           ชื่อผู้ใช้
         </label>
         <input v-model="formData.account_user_username" id="username" type="text" placeholder="กรุณากรอกชื่อผู้ใช้"
-          class="p-3 rounded-full w-full border-cyan-600 focus:border-cyan-600" />
+          class="p-3 rounded-full w-full border-cyan-600 focus:ring-2 focus:ring-cyan-600 focus:outline-none" />
       </div>
       <div class="mb-4">
         <label for="password" class="block text-white font-medium mb-2">
           รหัสผ่าน
         </label>
         <input v-model="formData.account_user_password" id="password" type="password" placeholder="กรุณากรอกรหัสผ่าน"
-          class="p-3 rounded-full w-full border-2" />
+          class="p-3 rounded-full w-full border-2 focus:ring-2 focus:ring-cyan-600 focus:outline-none" />
       </div>
 
       <!-- <div v-if="error" class="text-red-500 mb-4">
@@ -38,12 +38,31 @@
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-
+import { gsap } from 'gsap'
 const { $axios } = useNuxtApp();
-
+const boxRef = ref(null)
 const router = useRouter();
 const loading = ref(false);
 const error = ref("");
+
+onMounted(() => {
+  gsap.fromTo(
+    boxRef.value,
+    {
+      y: 200,  // Start from below
+      opacity: 0,
+      scale: 0.5  // Start smaller
+    },
+    {
+      y: 0,  // Animate to original position
+      opacity: 1,
+      scale: 1,  // Return to full size
+      duration: 1,
+      ease: 'elastic.out(1, 0.8)',  // Bouncy easing
+      delay: 0.2  // Slight delay for anticipation
+    }
+  )
+})
 
 const formData = ref({
   account_user_username: "",
