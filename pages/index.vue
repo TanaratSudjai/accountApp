@@ -1,7 +1,5 @@
 <template>
-  <div class="">
     <FormLogin />
-  </div>
 </template>
 
 <script setup>
