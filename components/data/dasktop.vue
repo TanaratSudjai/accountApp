@@ -69,7 +69,7 @@
                 <!-- DR Column 1 -->
                 <td class="px-6 py-4 border-r text-right">
                   <div
-                    v-if="type_sum.account_category_id == 1 || type_sum.account_category_id == 5"
+                    v-if="type_sum.account_category_id == 1 || type_sum.account_category_id == 5 || type_sum.account_category_id == 6 || type_sum.account_category_id == 7"
                     class="font-medium"
                   >
                     {{ type_sum.account_type_sum }}
@@ -89,7 +89,7 @@
                 <!-- DR Column 2 -->
                 <td class="px-6 py-4 border-r text-right">
                   <div
-                    v-if="type_sum.account_category_id == 1"
+                    v-if="type_sum.account_category_id == 1 || type_sum.account_category_id == 6 || type_sum.account_category_id == 7"
                     class="font-medium"
                   >
                     {{ type_sum.account_type_sum }}
@@ -220,7 +220,7 @@ const sumColumn1 = computed(() =>
   datatype_sum.value
     .filter(
       (type_sum) =>
-        type_sum.account_category_id === 1 || type_sum.account_category_id === 5
+        type_sum.account_category_id === 1 || type_sum.account_category_id === 5 || type_sum.account_category_id === 6 || type_sum.account_category_id === 7
     )
     .reduce((acc, curr) => acc + parseFloat(curr.account_type_sum || 0), 0)
 );
@@ -238,7 +238,7 @@ const sumColumn2 = computed(() =>
 
 const sumColumn3 = computed(() =>
   datatype_sum.value
-    .filter((type_sum) => type_sum.account_category_id === 1)
+    .filter((type_sum) => type_sum.account_category_id === 1 || type_sum.account_category_id === 6 || type_sum.account_category_id === 7)
     .reduce((acc, curr) => acc + parseFloat(curr.account_type_sum || 0), 0)
 );
 

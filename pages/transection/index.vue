@@ -10,7 +10,7 @@
       <div class="container rounded-lg mb-2 p-2 shadow-md flex flex-col bg-gray-800">
         <p class="text-green-400 px-2 bg-gray-700 rounded-xl my-1 ">สินทรัพย์</p>
         <div class="flex flex-col overflow-x-auto scrollbar-hide">
-          <div class="container flex justify-start p-2 ">
+          <div class="container flex justify-start p-2 space-x-4">
             <div v-for="icon in IconData.filter(i => i.account_category_id === 1)" :key="icon.account_type_id">
               <div v-if="icon.account_category_id === 1" :class="[
                 'rounded-full flex items-center justify-center w-12 h-12 cursor-pointer transition-all duration-300 transform hover:scale-105',
@@ -33,7 +33,7 @@
         <!-- Icon Selector -->
         <p class="text-green-400 px-2 bg-gray-700 rounded-xl my-1 ">หนี้สิน</p>
         <div class="flex overflow-x-auto scrollbar-hide">
-          <div class="container flex justify-start p-2 gap-4">
+          <div class="container flex justify-start p-2 space-x-4">
             <div v-for="icon in IconData.filter(i => i.account_category_id === 2)" :key="icon.account_type_id">
               <div v-if="icon.account_category_id === 2" :class="[
                 'rounded-full flex items-center justify-center w-12 h-12 cursor-pointer transition-all duration-300 transform hover:scale-105 ',
@@ -56,7 +56,7 @@
         <!-- Icon Selector -->
         <p class="text-green-400 px-2 bg-gray-700 rounded-xl my-1 ">ลูกหนี้</p>
         <div class="flex overflow-x-auto scrollbar-hide">
-          <div class="container flex justify-start p-2 gap-4">
+          <div class="container flex justify-start p-2 space-x-4">
             <div v-for="icon in IconData.filter(i => i.account_category_id === 6)" :key="icon.account_type_id">
               <div v-if="icon.account_category_id === 6" :class="[
                 'rounded-full flex items-center justify-center w-12 h-12 cursor-pointer transition-all duration-300 transform hover:scale-105 ',
@@ -77,7 +77,7 @@
         <!-- Icon Selector -->
         <p class="text-green-400 px-2 bg-gray-700 rounded-xl my-1 ">ธนาคาร</p>
         <div class="flex overflow-x-auto scrollbar-hide">
-          <div class="container flex justify-start p-2 ">
+          <div class="container flex justify-start p-2 space-x-4">
             <div v-for="icon in IconData.filter(i => i.account_category_id === 7)" :key="icon.account_type_id">
               <div v-if="icon.account_category_id === 7" :class="[
                 'rounded-full flex items-center justify-center w-12 h-12 cursor-pointer transition-all duration-300 transform hover:scale-105',
@@ -126,7 +126,7 @@
             class="p-3 rounded-xl border-l-4 border border-yellow-300 bg-yellow-50 font-semibold text-center">
             0
           </div>
-          <div v-for="sumone_s in sumone" :key="sumone_s.total_transition_value"
+          <div v-for="sumone_s in sumone" :key="sumone_s.account_transition_id"
             class="p-3 rounded-xl border-l-4 border border-yellow-300 bg-yellow-50 font-semibold text-center">
             {{ sumone_s.total_transition_value ?? 0 }}
           </div>
