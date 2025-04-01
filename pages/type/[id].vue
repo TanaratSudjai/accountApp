@@ -9,7 +9,9 @@
     ไม่มีประเภท
   </div>
   <div v-else class="flex w-full justify-center mt-4">
-    <div class="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 gap-4 xl:grid-cols-3 max-w-5xl">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-3 gap-4 xl:grid-cols-3 max-w-5xl"
+    >
       <div
         v-for="Type in TypeData"
         :key="Type.account_type_id"
@@ -32,24 +34,24 @@
             </p>
           </div>
         </div>
-    
+
         <div className="space-y-2 text-gray-700 mb-4">
           <div className="flex">
-            <span className="font-semibold mr-2 w-24">Amount:</span>
+            <span className="font-semibold mr-2 w-24">ค่าตั้งต้น</span>
             <span className="font-bold text-blue-600">
-              {{ Type.account_type_value }}
+              {{ formatNumber(Type.account_type_value) }}
             </span>
           </div>
           <div className="flex">
-            <span className="font-semibold mr-2 w-24">Description:</span>
+            <span className="font-semibold mr-2 w-24">รายละเอียด</span>
             <span>{{ Type.account_type_description }}</span>
           </div>
           <div className="flex">
-            <span className="font-semibold mr-2 w-24">Type:</span>
+            <span className="font-semibold mr-2 w-24">ประเภท</span>
             <span>{{ getAccountTypeName(Type.account_type_from_id) }}</span>
           </div>
         </div>
-    
+
         <div className="flex space-x-2">
           <button
             @click="deleteFormData(Type.account_type_id)"
@@ -75,22 +77,20 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script setup>
 import { useRoute } from "vue-router";
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { Pencil,Trash2  } from "lucide-vue-next";
-
-const router = useRouter();
-
+import { ref, onMounted, watch } from "vue";
+import { Pencil, Trash2 } from "lucide-vue-next";
 const route = useRoute();
 const groupID = route.params.id;
 const { $axios } = useNuxtApp();
 
+// formattedValue form composables
+const { formatNumber } = useFormatNumber();
+// -------------------------------------------------------------------------------------
 const selected = ref(null);
 const toggleSelect = (type) => {
   if (
@@ -140,7 +140,6 @@ const fetchTypeDataID = async () => {
     console.error("Error fetching icons:", error);
   }
 };
-
 
 const submitForm = async () => {
   try {
@@ -194,10 +193,10 @@ const deleteFormData = async (account_type_id) => {
   console.log(account_type_id);
   try {
     const response = await $axios.delete(
-      `/account_type_del/${account_type_id}`,
+      `/account_type_del/${account_type_id}`
     );
 
-    if (response.status == 200 || response.status ==201) {
+    if (response.status == 200 || response.status == 201) {
       TypeData.value = TypeData.value.filter(
         (Type) => Type.account_type_id !== account_type_id
       );
