@@ -10,13 +10,23 @@
         <!-- Header -->
         <div class="p-6 border-b border-gray-100">
           <div class="flex items-center justify-between">
-            <div class="text-xl font-semibold text-gray-900">Update Account Type</div>
-            <div 
+            <div class="text-xl font-semibold text-gray-900">อัพเดตประเภท</div>
+            <div
               class="cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors"
               @click="close"
             >
-              <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                class="w-5 h-5 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </div>
           </div>
@@ -29,7 +39,9 @@
             <div class="space-y-5">
               <!-- Name Input -->
               <div>
-                <div class="text-sm font-medium text-gray-700 mb-1.5">ชื่อประเภท</div>
+                <div class="text-sm font-medium text-gray-700 mb-1.5">
+                  ชื่อประเภท
+                </div>
                 <div class="relative">
                   <input
                     type="text"
@@ -42,7 +54,9 @@
 
               <!-- Amount Input -->
               <div>
-                <div class="text-sm font-medium text-gray-700 mb-1.5">จำนวนเงิน</div>
+                <div class="text-sm font-medium text-gray-700 mb-1.5">
+                  จำนวนเงิน
+                </div>
                 <div class="relative">
                   <input
                     type="text"
@@ -54,7 +68,9 @@
 
               <!-- Description Input -->
               <div>
-                <div class="text-sm font-medium text-gray-700 mb-1.5">คำอธิบาย</div>
+                <div class="text-sm font-medium text-gray-700 mb-1.5">
+                  คำอธิบาย
+                </div>
                 <div class="relative">
                   <input
                     type="text"
@@ -66,19 +82,20 @@
 
               <!-- Type Selection -->
               <div>
-                <div class="text-sm font-medium text-gray-700 mb-2">เลือกประเภท</div>
+                <div class="text-sm font-medium text-gray-700 mb-2">
+                  เลือกประเภท
+                </div>
                 <div class="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
                   <div
-                    
                     v-for="type in typeData"
-
                     :key="type.account_type_id"
                     @click="toggleSelect(type)"
                     :class="[
                       'px-4 py-2.5 rounded-xl text-sm font-medium cursor-pointer whitespace-nowrap transition-all duration-200',
-                      selected && selected.account_type_id === type.account_type_id
+                      selected &&
+                      selected.account_type_id === type.account_type_id
                         ? 'bg-yellow-500 text-white shadow-lg scale-105'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200',
                     ]"
                   >
                     {{ type.account_type_name }}
@@ -88,10 +105,14 @@
 
               <!-- Icon Selection -->
               <div>
-                <div class="text-sm font-medium text-gray-700 mb-2">เลือกไอคอน</div>
+                <div class="text-sm font-medium text-gray-700 mb-2">
+                  เลือกไอคอน
+                </div>
                 <div class="relative">
                   <div class="overflow-x-auto">
-                    <div class="grid grid-rows-3 auto-cols-max grid-flow-col gap-3 p-4 bg-gray-50 rounded-xl w-max">
+                    <div
+                      class="grid grid-rows-3 auto-cols-max grid-flow-col gap-3 p-4 bg-gray-50 rounded-xl w-max"
+                    >
                       <div
                         v-for="icon in icons"
                         :key="icon.account_icon_id"
@@ -100,7 +121,7 @@
                           'w-12 h-12 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105',
                           selectedIcon?.account_icon_id === icon.account_icon_id
                             ? 'bg-yellow-500 shadow-lg ring-2 ring-yellow-500 ring-offset-2'
-                            : 'bg-white hover:bg-gray-100 border border-gray-200'
+                            : 'bg-white hover:bg-gray-100 border border-gray-200',
                         ]"
                       >
                         <div class="p-2 h-full">
@@ -141,7 +162,6 @@
 
 <script setup>
 import { ref, watch } from "vue";
-
 
 const typeData = ref([]);
 const { $axios } = useNuxtApp();
@@ -215,7 +235,10 @@ watch(
 const selectedIcon = ref(localAccountType.value.account_type_icon); //เก็บ account_icon_id
 const toggleSelectIcon = (icon) => {
   // If the currently selected icon is the same as the clicked one, deselect it
-  if (selectedIcon.value && selectedIcon.value.account_icon_id === icon.account_icon_id) {
+  if (
+    selectedIcon.value &&
+    selectedIcon.value.account_icon_id === icon.account_icon_id
+  ) {
     selectedIcon.value = null;
   } else {
     selectedIcon.value = icon;
@@ -224,12 +247,29 @@ const toggleSelectIcon = (icon) => {
 };
 
 watch(selectedIcon, (newVal) => {
-  localAccountType.value.account_type_icon = newVal ? newVal.account_icon_id : null;
+  localAccountType.value.account_type_icon = newVal
+    ? newVal.account_icon_id
+    : null;
 });
+
+// formattedValue
+watch(
+  () => localAccountType.value.account_type_value, // ✅ ใช้ getter function
+  (newValue, oldValue) => {
+    if (!newValue) return; // ✅ ตรวจสอบค่า null หรือ undefined
+    let numericValue = newValue.toString().replace(/,/g, ""); // ✅ แปลงเป็น string ก่อน
+    if (!isNaN(numericValue) && numericValue !== "") {
+      localAccountType.value.account_type_value =
+        Number(numericValue).toLocaleString("en-US");
+    }
+  }
+);
+// -------------------------------------------------------------------------------------
 
 const updateAccountType = async () => {
   console.log(localAccountType.value.account_type_id);
   console.log(localAccountType.value.account_type_name);
+  // value format
   console.log(localAccountType.value.account_type_value);
   console.log(localAccountType.value.account_type_description);
   console.log(localAccountType.value.account_type_from_id);
@@ -239,11 +279,16 @@ const updateAccountType = async () => {
       `/account_type_update/${localAccountType.value.account_type_id}`,
       {
         account_type_name: localAccountType.value.account_type_name,
-        account_type_value: localAccountType.value.account_type_value,
-        account_type_from_id: parseInt(localAccountType.value.account_type_from_id),
-        account_type_description: localAccountType.value.account_type_description,
-        account_type_icon: localAccountType.value.account_type_icon ? parseInt(localAccountType.value.account_type_icon)
-        : null,
+        // value
+        account_type_value: rawValue.value,
+        account_type_from_id: parseInt(
+          localAccountType.value.account_type_from_id
+        ),
+        account_type_description:
+          localAccountType.value.account_type_description,
+        account_type_icon: localAccountType.value.account_type_icon
+          ? parseInt(localAccountType.value.account_type_icon)
+          : null,
       }
     );
 
@@ -266,7 +311,6 @@ const updateAccountType = async () => {
 const close = () => {
   emit("close");
 };
-
 
 onMounted(async () => {
   fetchTypeData();
