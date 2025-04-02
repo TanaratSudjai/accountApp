@@ -343,12 +343,12 @@ const router = useRouter();
 
 const submitDifferences = async () => {
   try {
-    const response = await $axios.post(`/sumbittrantision_suminsert`, {
+    onSubmitTransition();
+
+    await $axios.post(`/sumbittrantision_suminsert`, {
       account_transition_value: differences.value,
     });
-    if (response.status === 200 || response.status === 201) {
-      onSubmitTransition();
-    }
+    
     await fetchTransition();
     groupOneTransition();
     groupTwoTransition();
