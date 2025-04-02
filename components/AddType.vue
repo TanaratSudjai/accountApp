@@ -84,26 +84,29 @@
           <label class="block text-sm font-medium text-gray-700"
             >เลือกไอคอน</label
           >
-          <div
-            class="grid grid-cols-4 sm:grid-cols-6 gap-4 p-4 bg-gray-50 rounded-xl"
-          >
-            <button
-              v-for="icon in icons"
-              :key="icon.account_icon_id"
-              @click.prevent="toggleSelectIcon(icon)"
-              :class="[
-                'relative p-2 rounded-xl aspect-square transition-all hover:scale-105',
-                selectedIcon?.account_icon_id === icon.account_icon_id
-                  ? 'bg-green-500 shadow-lg'
-                  : 'bg-white border border-gray-200',
-              ]"
+          <div class="overflow-x-auto">
+
+            <div
+              class="grid grid-column-3 auto-cols-max grid-flow-col gap-3 p-4 bg-gray-50 rounded-xl w-max"
             >
-              <img
-                :src="`/icon_folder/${icon.account_icon_name}`"
-                :alt="icon.account_icon_name"
-                class="w-full h-full object-cover rounded-lg"
-              />
-            </button>
+              <button
+                v-for="icon in icons"
+                :key="icon.account_icon_id"
+                @click.prevent="toggleSelectIcon(icon)"
+                :class="[
+                  'w-12 h-12 relative p-2 rounded-xl aspect-square transition-all hover:scale-105',
+                  selectedIcon?.account_icon_id === icon.account_icon_id
+                    ? 'bg-green-500 shadow-lg'
+                    : 'bg-white border border-gray-200',
+                ]"
+              >
+                <img
+                  :src="`/icon_folder/${icon.account_icon_name}`"
+                  :alt="icon.account_icon_name"
+                  class="w-full h-full object-cover rounded-lg"
+                />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -159,7 +162,7 @@ const icons = ref(); //เก็บข้อมูลไอคอน
 const fetchIcon = async () => {
   //นำข้อมูลไอคอนมา
   try {
-    const response = await $axios.get(`/get_icons`);
+    const response = await $axios.get(`/get_icons/${categoryID}`);
     const data = await response.data;
     icons.value = data.data;
   } catch (error) {

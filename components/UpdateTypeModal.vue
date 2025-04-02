@@ -111,7 +111,7 @@
                 <div class="relative">
                   <div class="overflow-x-auto">
                     <div
-                      class="grid grid-rows-3 auto-cols-max grid-flow-col gap-3 p-4 bg-gray-50 rounded-xl w-max"
+                      class="grid grid-column-3 auto-cols-max grid-flow-col gap-3 p-4 bg-gray-50 rounded-xl w-max"
                     >
                       <div
                         v-for="icon in icons"
@@ -162,6 +162,10 @@
 
 <script setup>
 import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
+
+const categoryID = route.query.groupID;
 
 const typeData = ref([]);
 const { $axios } = useNuxtApp();
@@ -180,7 +184,7 @@ const icons = ref(); //เก็บข้อมูลไอคอน
 const fetchIcon = async () => {
   //นำข้อมูลไอคอนมา
   try {
-    const response = await $axios.get(`/get_icons`);
+    const response = await $axios.get(`/get_icons/${categoryID}`);
     const data = await response.data;
     icons.value = data.data;
     console.log(icons);

@@ -225,16 +225,16 @@ const menuItems = [
     route: "/creditors",
   },
   {
-    icon: ArrowUpFromLine,
-    title: "บันทึกรายการค่าใช้จ่าย",
-    color: "text-red-500",
-    route: "/transection_expense",
-  },
-  {
     icon: HandCoins,
     title: "บันทึกรายการรายได้",
     color: "text-green-400",
     route: "/transection_income",
+  },
+  {
+    icon: ArrowUpFromLine,
+    title: "บันทึกรายการค่าใช้จ่าย",
+    color: "text-red-500",
+    route: "/transection_expense",
   },
   {
     icon: Clock,
