@@ -278,13 +278,21 @@ const updateAccountType = async () => {
   console.log(localAccountType.value.account_type_description);
   console.log(localAccountType.value.account_type_from_id);
   console.log(localAccountType.value.account_type_icon);
+
+  const removeComma = (value) => {
+    if (typeof value === "string") {
+      return value.replace(/,/g, "");
+    }
+    return value;
+  };
+
   try {
     const response = await $axios.put(
       `/account_type_update/${localAccountType.value.account_type_id}`,
       {
         account_type_name: localAccountType.value.account_type_name,
         // value
-        account_type_value: rawValue.value,
+        account_type_value: parseInt(removeComma(localAccountType.value.account_type_value)) ,
         account_type_from_id: parseInt(
           localAccountType.value.account_type_from_id
         ),
