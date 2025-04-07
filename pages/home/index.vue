@@ -16,11 +16,11 @@
         <NuxtLink
           v-for="(item, index) in menuItems"
           :key="index"
-          :to="isDisabled(item.title) ? '#' : item.route"
+          :to="isDisabled(item.title) ? item.path_name : item.route"
           :class="[
             'relative group backdrop-blur-sm',
             isDisabled(item.title)
-              ? 'opacity-60 cursor-not-allowed'
+              ? 'opacity-60 border-2 border-[#46cb79] rounded-2xl'
               : 'hover:scale-105 hover:shadow-2xl hover:shadow-cyan-900/30',
             'transition-all duration-300 ease-out',
           ]"
@@ -46,7 +46,17 @@
                 'bg-cyan-50 dark:bg-cyan-900/30',
               ]"
             >
-              <component :is="item.icon" class="w-8 h-8" />
+              <!-- Icon Component -->
+              <component
+                :is="
+                  isDisabled_icons(item.title)
+                    ? item.isDisabled_icons
+                    : item.icon
+                "
+                class="w-8 h-8"
+              />
+
+              <!-- <component :is="item.icon" class="w-8 h-8" /> -->
             </div>
 
             <!-- Title -->
@@ -57,14 +67,14 @@
             </span>
 
             <!-- Status Indicator (if needed) -->
-            <div
-              v-if="item.status"
-              :class="[
-                'absolute -top-1 -right-1',
-                'w-3 h-3 rounded-full',
-                item.status === 'active' ? 'bg-green-500' : 'bg-gray-400',
-              ]"
-            ></div>
+            <!-- <div
+                  v-if="item.status"
+                  :class="[
+                    'absolute -top-1 -right-1',
+                    'w-3 h-3 rounded-full',
+                    item.status === 'active' ? 'bg-green-500' : 'bg-gray-400',
+                  ]"
+                ></div> -->
           </div>
         </NuxtLink>
       </div>
@@ -141,25 +151,19 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import {
-  ArrowLeft,
-  Key,
-  Store,
-  Book,
   Users,
-  User,
   Clock,
-  Building,
   FolderOpen,
-  FilePlus,
-  FileMinus,
-  BarChart2,
   Landmark,
   HandCoins,
   ChartNoAxesCombined,
   Grid2x2Plus,
   ArrowUpFromLine,
+  Plus,
 } from "lucide-vue-next";
 const checkData = ref([]);
+const checkData_depter = ref([]);
+const checkData_creditor = ref([]);
 
 // by of plungins
 const { $axios } = useNuxtApp();
@@ -168,25 +172,15 @@ const fetchData = async () => {
   try {
     const response = await $axios.get("/transitions");
     checkData.value = response.data.res_transition;
+    checkData_depter.value = response.data.data[0];
+    checkData_creditor.value = response.data.data[1];
+    // console.log("checkData_depter", checkData_depter.value);
+    // console.log("checkData_creditor", checkData_creditor.value);
+    // console.log("checkData", checkData.value);
   } catch (error) {
     console.log(error);
   }
 };
-
-// const fetch_transition = async () => {
-//   try {
-//     if (!token) {
-//       throw new Error("Token missing!");
-//     }
-//     const res = await $axios.get("/transitions");
-//   } catch (err) {
-//     console.error(
-//       "Error fetching transitions:",
-//       err.response?.data || err.message
-//     );
-//   }
-// };
-
 onMounted(async () => {
   await fetchData();
 });
@@ -212,18 +206,26 @@ const menuItems = [
     color: "text-green-500",
     route: "/transitionbank",
   },
+
+  // -------
   {
     icon: Users,
     title: "ลูกหนี้",
     color: "text-yellow-500",
     route: "/debtors",
+    isDisabled_icons: Plus,
+    path_name: "/group/6",
   },
   {
     icon: Users,
     title: "เจ้าหนี้",
     color: "text-purple-500",
     route: "/creditors",
+    isDisabled_icons: Plus,
+    path_name: "/group/2",
   },
+  // -------
+
   {
     icon: HandCoins,
     title: "บันทึกรายการรายได้",
@@ -254,6 +256,20 @@ const menuItems = [
 const isDisabled = (title) => {
   if (!title) return true;
 
+  // check depter and creditor is null or 0 change route to /group/6 or /group/2
+  const depter = parseInt(checkData_depter.value.value);
+  const creditor = parseInt(checkData_creditor.value.value);
+  if (title === "ลูกหนี้") {
+    if (depter == 0 || depter === null || depter === undefined) {
+      return true; // เปลี่ยนเป็น false เพื่อให้แสดงไอคอน Plus
+    }
+  }
+  if (title === "เจ้าหนี้") {
+    if (creditor == 0 || creditor === null || creditor === undefined) {
+      return true; // เปลี่ยนเป็น false เพื่อให้แสดงไอคอน Plus
+    }
+  }
+
   const disableTitles = [
     "บันทึกรายการค่าใช้จ่าย",
     "บันทึกรายการรายได้",
@@ -268,5 +284,29 @@ const isDisabled = (title) => {
       !checkData.value[0].account_type_sum ||
       parseFloat(checkData.value[0].account_type_sum) <= 0)
   );
+};
+
+// if debtor or creditor is null change icons to plus and change path to /group/6 or /group/2
+// checkData_depter and checkData_creditor
+
+const isDisabled_icons = (title) => {
+  if (!title) return true;
+  // แยกการทำงานของลูกหนี้และเจ้าหนี้
+  // โดยใช้ checkData_depter และ checkData_creditor
+  const depter = parseInt(checkData_depter.value.value);
+  const creditor = parseInt(checkData_creditor.value.value);
+
+  if (title === "ลูกหนี้") {
+    if (depter == 0 || depter === null || depter === undefined) {
+      console.log("checkData_depter", checkData_depter);
+      return true; // เปลี่ยนเป็น false เพื่อให้แสดงไอคอน Plus
+    }
+  }
+  if (title === "เจ้าหนี้") {
+    if (creditor == 0 || creditor === null || creditor === undefined) {
+      console.log("checkData_creditor", checkData_creditor);
+      return true; // เปลี่ยนเป็น false เพื่อให้แสดงไอคอน Plus
+    }
+  }
 };
 </script>
