@@ -81,7 +81,7 @@
               </div>
 
               <!-- Type Selection -->
-              <div>
+              <div v-if="categoryID != 1">
                 <div class="text-sm font-medium text-gray-700 mb-2">
                   เลือกประเภท
                 </div>
@@ -144,13 +144,13 @@
                 class="px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors duration-200"
                 @click="close"
               >
-                Cancel
+                ยกเลิก
               </div>
               <div
                 class="px-4 py-2.5 text-sm font-medium text-white bg-yellow-500 rounded-xl cursor-pointer hover:bg-yellow-600 transition-colors duration-200"
                 @click="updateAccountType"
               >
-                Update
+                ยืนยันการแก้ไข
               </div>
             </div>
           </form>
@@ -284,7 +284,7 @@ const updateAccountType = async () => {
       {
         account_type_name: localAccountType.value.account_type_name,
         // value
-        account_type_value: rawValue.value,
+        account_type_value: localAccountType.value.account_type_value?.replace(/,/g,""),
         account_type_from_id: parseInt(
           localAccountType.value.account_type_from_id
         ),

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center px-4 py-4">
+  <div class="h-screen flex items-start mt-10 justify-center px-4">
     <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl p-8">
       <!-- Header -->
       <div class="flex items-center mb-6">
@@ -85,7 +85,6 @@
             >เลือกไอคอน</label
           >
           <div class="overflow-x-auto">
-
             <div
               class="grid grid-column-3 auto-cols-max grid-flow-col gap-3 p-4 bg-gray-50 rounded-xl w-max"
             >
@@ -184,7 +183,7 @@ const formData = ref({
 const formattedValue = computed({
   get: () => {
     let value = formData.value.account_type_value || ""; // ตรวจสอบค่าให้แน่ใจว่าไม่เป็น null/undefined
-    let numericValue = value.toString().replace(/,/g, ""); 
+    let numericValue = value.toString().replace(/,/g, "");
     return numericValue && !isNaN(numericValue)
       ? Number(numericValue).toLocaleString("en-US")
       : "";
@@ -194,9 +193,11 @@ const formattedValue = computed({
       formData.value.account_type_value = ""; // ถ้าเป็นค่าว่างให้เก็บเป็น ""
       return;
     }
-    
+
     let numericValue = newValue.toString().replace(/,/g, ""); // ตรวจสอบว่าเป็น string ก่อน replace
-    formData.value.account_type_value = !isNaN(numericValue) ? numericValue : "";
+    formData.value.account_type_value = !isNaN(numericValue)
+      ? numericValue
+      : "";
   },
 });
 // -------------------------------------------------------------------------------------
