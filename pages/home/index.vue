@@ -15,8 +15,8 @@
       >
         <NuxtLink
           v-for="(item, index) in menuItems"
-          :key="index"
-          :to="isDisabled(item.title) ? item.path_name : item.route"
+          :key="item.id"
+          :to="isDisabled(item.title) ? item.path_name || '#' : item.route"
           :class="[
             'relative group backdrop-blur-sm',
             isDisabled(item.title)
@@ -161,6 +161,7 @@ import {
   ArrowUpFromLine,
   Plus,
 } from "lucide-vue-next";
+import { computed } from "vue";
 const checkData = ref([]);
 const checkData_depter = ref([]);
 const checkData_creditor = ref([]);
@@ -187,6 +188,7 @@ onMounted(async () => {
 
 const menuItems = [
   {
+    id: 1,
     icon: FolderOpen,
     title: "จัดการหมวดหมู่",
     color: "text-gray-500",
@@ -195,12 +197,14 @@ const menuItems = [
     text: "text-gray-800",
   },
   {
+    id: 2,
     icon: Grid2x2Plus,
     title: "เปิดบัญชี",
     color: "text-green-400",
     route: "/transection",
   },
   {
+    id: 3,
     icon: Landmark,
     title: "ธนาคาร",
     color: "text-green-500",
@@ -209,6 +213,7 @@ const menuItems = [
 
   // -------
   {
+    id: 4,
     icon: Users,
     title: "ลูกหนี้",
     color: "text-yellow-500",
@@ -217,6 +222,7 @@ const menuItems = [
     path_name: "/group/6",
   },
   {
+    id: 5,
     icon: Users,
     title: "เจ้าหนี้",
     color: "text-purple-500",
@@ -227,24 +233,28 @@ const menuItems = [
   // -------
 
   {
+    id: 6,
     icon: HandCoins,
     title: "บันทึกรายการรายได้",
     color: "text-green-400",
     route: "/transection_income",
   },
   {
+    id: 7,
     icon: ArrowUpFromLine,
     title: "บันทึกรายการค่าใช้จ่าย",
     color: "text-red-500",
     route: "/transection_expense",
   },
   {
+    id: 8,
     icon: Clock,
     title: "บันทึกรายการทั่วไป",
     color: "text-gray-400",
     route: "/dashboard_submit_transition",
   },
   {
+    id: 9,
     icon: ChartNoAxesCombined,
     title: "สรุป",
     color: "text-gray-400",
@@ -252,22 +262,25 @@ const menuItems = [
   },
 ];
 
+
 // Function to check if certain items should be disabled
 const isDisabled = (title) => {
   if (!title) return true;
 
-  // check depter and creditor is null or 0 change route to /group/6 or /group/2
   const depter = parseInt(checkData_depter.value.value);
   const creditor = parseInt(checkData_creditor.value.value);
-  if (title === "ลูกหนี้") {
-    if (depter == 0 || depter === null || depter === undefined) {
-      return true; // เปลี่ยนเป็น false เพื่อให้แสดงไอคอน Plus
-    }
+
+  if (
+    title === "ลูกหนี้" &&
+    (depter == 0 || depter === null || depter === undefined)
+  ) {
+    return true;
   }
-  if (title === "เจ้าหนี้") {
-    if (creditor == 0 || creditor === null || creditor === undefined) {
-      return true; // เปลี่ยนเป็น false เพื่อให้แสดงไอคอน Plus
-    }
+  if (
+    title === "เจ้าหนี้" &&
+    (creditor == 0 || creditor === null || creditor === undefined)
+  ) {
+    return true;
   }
 
   const disableTitles = [
@@ -277,14 +290,54 @@ const isDisabled = (title) => {
     "เจ้าหนี้",
     "ธนาคาร",
   ];
+
+  if (
+    checkData.value.length &&
+    checkData.value[0].account_type_sum &&
+    parseFloat(checkData.value[0].account_type_sum) > 0
+  ) {
+    if (title === "จัดการหมวดหมู่") {
+      const item = menuItems.find((item) => item.title === "จัดการหมวดหมู่");
+      if (item) item.id = 10;
+    }
+    if (title === "เปิดบัญชี") {
+      const item = menuItems.find((item) => item.title === "เปิดบัญชี");
+      if (item) item.id = 11;
+    }
+  }
+
   return (
-    // debug account_type_sum for open account
     disableTitles.includes(title) &&
     (!checkData.value.length ||
       !checkData.value[0].account_type_sum ||
       parseFloat(checkData.value[0].account_type_sum) <= 0)
   );
 };
+
+watchEffect(() => {
+  if (
+    checkData.value.length &&
+    checkData.value[0].account_type_sum &&
+    parseFloat(checkData.value[0].account_type_sum) > 0
+  ) {
+    const manageCat = menuItems.find((item) => item.title === "จัดการหมวดหมู่");
+    if (manageCat) manageCat.id = 10;
+
+    const openAcc = menuItems.find((item) => item.title === "เปิดบัญชี");
+    if (openAcc) openAcc.id = 11;
+
+    // Resort the menuItems so updated IDs appear last
+    menuItems.sort((a, b) => a.id - b.id);
+
+    menuItems.forEach((item) => {
+      console.log("item", item.id);
+    });
+  }
+});
+
+
+
+
 
 // if debtor or creditor is null change icons to plus and change path to /group/6 or /group/2
 // checkData_depter and checkData_creditor
