@@ -5,7 +5,7 @@
     >
       <NuxtLink
         href="/"
-        class="flex flex-col items-center transition-transform duration-300 hover:scale-105"
+        class="flex flex-col items-center transition-transform duration-300 hover:scale-105 "
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -154,6 +154,12 @@
 
       <!-- Input Section -->
       <div class="bg-gray-800 p-2 rounded-lg shadow-md mb-2">
+        <p class="text-gray-400 px-2 bg-gray-700 rounded-xl my-2 py-2 ring ring-gray-600">
+          ประเภทบัญชี :
+          <span class="text-green-400 font-semibold">{{
+            selectedIcon?.account_type_name || "กรุณาเลือกประเภทบัญชี"
+          }}</span>
+        </p>
         <div class="flex gap-2">
           <input
             type="text"
@@ -348,7 +354,7 @@ const submitDifferences = async () => {
     await $axios.post(`/sumbittrantision_suminsert`, {
       account_transition_value: differences.value,
     });
-    
+
     await fetchTransition();
     groupOneTransition();
     groupTwoTransition();

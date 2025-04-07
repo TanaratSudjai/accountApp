@@ -55,17 +55,17 @@
         <div className="flex space-x-2">
           <button
             @click="deleteFormData(Type.account_type_id)"
-            className="flex items-center bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+            className="flex items-center bg-red-500 text-white px-2 py-2 rounded-lg hover:bg-red-600 transition-colors gap-1"
           >
             <Trash2 className="mr-2 w-2 h-2" />
-            Delete
+            ลบรายการ
           </button>
           <button
             @click="openUpdateModal(Type)"
-            className="flex items-center bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors"
+            className="flex items-center bg-yellow-500 text-white px-2 py-2 rounded-lg hover:bg-yellow-600 transition-colors gap-1"
           >
             <Pencil className="mr-2 w-4 h-4" />
-            Edit
+            แก้ไขรายการ
           </button>
           <UpdateTypeModal
             :show="showUpdateModal"
