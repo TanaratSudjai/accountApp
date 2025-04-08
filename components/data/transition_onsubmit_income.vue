@@ -36,7 +36,7 @@
                 <div
                   class="font-bold text-green-700 flex justify-center items-center gap-3"
                 >
-                  ฿{{ transitionData.account_transition_value || 0 }}
+                  ฿ {{ formatNumber(transitionData.account_transition_value) || 0 }}
                   <button
                     class="bg-white w-8 h-8 rounded-full"
                     @click="
@@ -115,7 +115,8 @@ const transition = ref([]); // เก็บข้อมูลธุรกรร�
 const error = ref(null); // เก็บข้อผิดพลาด (ถ้ามี)
 let intervalId; // สำหรับเก็บ ID ของ interval
 const { $axios } = useNuxtApp();
-
+// ฟังก์ชันสำหรับจัดรูปแบบตัวเลข
+const { formatNumber } = useFormatNumber();
 // ฟังก์ชันดึงข้อมูลธุรกรรม
 const fetchTransitions = async () => {
   try {
