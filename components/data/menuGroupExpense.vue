@@ -29,18 +29,24 @@
         <div
           class="h-[190px] overflow-y-auto space-y-2 shadow-sm p-2 rounded-xl border-1"
         >
-          <div v-for="(menu ,index) in menuGroup" :key="index">
-            <button @click="openUpdateModal(menu)" v-if="selectedCategory === menu.account_category_id"
+          <div v-for="(menu, index) in menuGroup" :key="index">
+            <button
+              @click="openUpdateModal(menu)"
+              v-if="selectedCategory === menu.account_category_id"
               class="w-full group flex items-center justify-between p-2 rounded-xl border border-gray-100 bg-gray-50 hover:bg-gray-100 transition-colors duration-200"
               :class="{
-                'border-gray-300 bg-gray-200 hover:bg-gray-200 cursor-not-allowed': disabledAccountTypeIds.has(menu.account_type_id)
-              }" :disabled="disabledAccountTypeIds.has(menu.account_type_id)">
+                hidden: disabledAccountTypeIds.has(menu.account_type_id),
+              }"
+              :disabled="disabledAccountTypeIds.has(menu.account_type_id)"
+            >
               <div class="flex items-center justify-between w-[80%] space-x-4">
                 <div
                   class="font-medium"
                   :class="{
                     'text-red-700': selectedCategory === 5,
-                    'text-gray-500': disabledAccountTypeIds.has(menu.account_type_id),
+                    'text-gray-500': disabledAccountTypeIds.has(
+                      menu.account_type_id
+                    ),
                   }"
                 >
                   {{ menu.account_type_name }}
@@ -49,10 +55,14 @@
                   class="font-semibold"
                   :class="{
                     'text-red-700': selectedCategory === 5,
-                    'text-gray-500': disabledAccountTypeIds.has(menu.account_type_id),
+                    'text-gray-500': disabledAccountTypeIds.has(
+                      menu.account_type_id
+                    ),
                   }"
                 >
-                  ฿{{ menu.account_type_value || 0 }}
+                  ฿ {{ formatNumber(menu.account_transition_value) }}
+
+                  <!-- {{ menu.account_type_value || 0 }} -->
                 </div>
               </div>
               <!-- <button
@@ -83,6 +93,10 @@
           @update="handleUpdate"
         />
       </div>
+    </div>
+
+    <div class="mt-4 flex justify-center w-full">
+      <ButtonDashboard />
     </div>
   </div>
 </template>
@@ -130,7 +144,7 @@ import {
   Grid2x2Plus,
   ArrowUpFromLine,
 } from "lucide-vue-next";
-
+const { formatNumber } = useFormatNumber(); // ฟังก์ชันสำหรับการจัดรูปแบบตัวเลข
 const menuGroup = ref([]); // เก็บรายการเมนู
 const showModal = ref(false); // ควบคุมการแสดง Modal
 const selectedMenu = ref(null); // เก็บข้อมูลเมนูที่เลือก
@@ -179,15 +193,12 @@ const handleUpdate = async ({
 
   try {
     // ส่งข้อมูลไปยัง API
-    const response = await $axios.post(
-      "/transition_select_expense",
-      {
-        account_type_id: formData.value.account_type_id ,
-        account_transition_value: formData.value.account_transition_value,
-        account_type_from_id: formData.value.account_type_from_id,
-        account_category_id: formData.value.account_category_id ,
-      }
-    );
+    const response = await $axios.post("/transition_select_expense", {
+      account_type_id: formData.value.account_type_id,
+      account_transition_value: formData.value.account_transition_value,
+      account_type_from_id: formData.value.account_type_from_id,
+      account_category_id: formData.value.account_category_id,
+    });
     await fetchMenuGroupData(); // ดึงข้อมูลเมนูใหม่
     // console.log("Response from API:", response);
   } catch (err) {
@@ -200,9 +211,7 @@ const handleUpdate = async ({
 // ฟังก์ชันดึงข้อมูลรายการเมนู
 const fetchMenuGroupData = async () => {
   try {
-    const menuGroup_result = await $axios.get(
-      "/getMenuGroup_expense"
-    );
+    const menuGroup_result = await $axios.get("/getMenuGroup_expense");
     menuGroup.value = menuGroup_result.data || [];
     console.log(menuGroup_result);
   } catch (err) {
@@ -219,9 +228,7 @@ onMounted(async () => {
 // ฟังก์ชันดึงข้อมูลจำนวนรายการ
 const fetchDataSelect = async () => {
   try {
-    const data = await $axios.get(
-      "/getSelect_countSelect"
-    );
+    const data = await $axios.get("/getSelect_countSelect");
     count.value = data; // เก็บค่าที่ดึงมา
   } catch (err) {
     error.value = "Error fetching count: " + err.message; // ตั้งค่า error
@@ -232,7 +239,6 @@ let interval;
 const transition = ref([]); // Original transition data
 const disabledAccountTypeIds = ref(new Set()); // A Set to store disabled account_type_ids
 
-
 const fetchTransitions = async () => {
   try {
     const response = await $axios.get("/get_expense_transition");
@@ -240,7 +246,9 @@ const fetchTransitions = async () => {
     // Ensure response.data exists and is an array
     if (Array.isArray(response.data)) {
       transition.value = response.data;
-      disabledAccountTypeIds.value = new Set(transition.value.map(item => item.account_type_id));
+      disabledAccountTypeIds.value = new Set(
+        transition.value.map((item) => item.account_type_id)
+      );
     } else {
       throw new Error("Invalid data format: Expected an array");
     }
@@ -248,7 +256,6 @@ const fetchTransitions = async () => {
     error.value = "Error fetching transitions: " + err.message;
   }
 };
-
 
 // เรียกใช้ fetchTransitions ทุกๆ 1 วินาที
 onMounted(() => {

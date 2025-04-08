@@ -38,8 +38,7 @@
               v-if="selectedCategory === menu.account_category_id"
               class="w-full group flex items-center justify-between p-2 rounded-xl border border-gray-100 bg-gray-50 hover:bg-gray-100 transition-colors duration-200"
               :class="{
-                'border-gray-300 bg-gray-200 hover:bg-gray-200 cursor-not-allowed':
-                  disabledAccountTypeIds.has(menu.account_type_id), //เรียกใช้ฟังก์ชั่น disabledAccountTypeIds เพื่อนำ account_type_id ไปเช็คว่ามีใน array หรือไม่ ถ้ามีก็ให้บล็อก
+                hidden: disabledAccountTypeIds.has(menu.account_type_id), //เรียกใช้ฟังก์ชั่น disabledAccountTypeIds เพื่อนำ account_type_id ไปเช็คว่ามีใน array หรือไม่ ถ้ามีก็ให้บล็อก
               }"
               :disabled="disabledAccountTypeIds.has(menu.account_type_id)"
             >
@@ -76,6 +75,10 @@
           @update="handleUpdate"
         />
       </div>
+    </div>
+
+    <div class="mt-4 flex justify-center w-full">
+      <ButtonDashboard />
     </div>
   </div>
 </template>
