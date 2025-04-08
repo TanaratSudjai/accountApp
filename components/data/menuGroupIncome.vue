@@ -1,6 +1,9 @@
 <template>
   <div class="">
-    <div v-if="error" class="p-6 bg-green-50 rounded-lg border border-green-200">
+    <div
+      v-if="error"
+      class="p-6 bg-green-50 rounded-lg border border-green-200"
+    >
       <div class="flex items-center space-x-3 text-green-700">
         <Icon name="lucide:alert-circle" class="w-5 h-5" />
         <p class="font-medium">{{ error }}</p>
@@ -9,27 +12,44 @@
 
     <div v-else class="max-w-3xl mx-auto space-y-2 p-4">
       <div class="w-full flex justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
-          class="size-6" color="green">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="currentColor"
+          class="size-6"
+          color="green"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+          />
         </svg>
       </div>
       <div class="bg-white rounded-xl p-1">
-        <div class="h-[190px] overflow-y-auto space-y-2 shadow-sm p-2 rounded-xl border-1">
+        <div
+          class="h-[190px] overflow-y-auto space-y-2 shadow-sm p-2 rounded-xl border-1"
+        >
           <div v-for="menu in menuGroup" :key="menu.account_type_id">
-            <button @click="openUpdateModal(menu)" v-if="selectedCategory === menu.account_category_id"
+            <button
+              @click="openUpdateModal(menu)"
+              v-if="selectedCategory === menu.account_category_id"
               class="w-full group flex items-center justify-between p-2 rounded-xl border border-gray-100 bg-gray-50 hover:bg-gray-100 transition-colors duration-200"
               :class="{
-                'border-gray-300 bg-gray-200 hover:bg-gray-200 cursor-not-allowed': disabledAccountTypeIds.has(menu.account_type_id) //เรียกใช้ฟังก์ชั่น disabledAccountTypeIds เพื่อนำ account_type_id ไปเช็คว่ามีใน array หรือไม่ ถ้ามีก็ให้บล็อก
-              }" :disabled="disabledAccountTypeIds.has(menu.account_type_id)">
+                'border-gray-300 bg-gray-200 hover:bg-gray-200 cursor-not-allowed':
+                  disabledAccountTypeIds.has(menu.account_type_id), //เรียกใช้ฟังก์ชั่น disabledAccountTypeIds เพื่อนำ account_type_id ไปเช็คว่ามีใน array หรือไม่ ถ้ามีก็ให้บล็อก
+              }"
+              :disabled="disabledAccountTypeIds.has(menu.account_type_id)"
+            >
               <div class="flex items-center justify-between w-[80%] space-x-4">
                 <div class="font-medium text-green-700">
                   {{ menu.account_type_name }}
                   {{ menu.account_type_id }}
                 </div>
                 <div class="font-semibold text-green-700">
-                  ฿{{ menu.account_type_value || 0 }}
+                  {{ formatNumber(menu.account_type_value) }}
                 </div>
               </div>
               <!-- <button @click="openUpdateModal(menu)"
@@ -44,10 +64,17 @@
           </div>
         </div>
 
-        <UpdateAccountTypeModal v-if="showModal" :show="showModal" :account_type_name="selectedMenu?.account_type_name"
-          :account_type_value="selectedMenu?.account_type_value" :account_type_id="selectedMenu?.account_type_id"
+        <UpdateAccountTypeModal
+          v-if="showModal"
+          :show="showModal"
+          :account_type_name="selectedMenu?.account_type_name"
+          :account_type_value="selectedMenu?.account_type_value"
+          :account_type_id="selectedMenu?.account_type_id"
           :account_type_from_id="selectedMenu?.account_type_from_id"
-          :account_category_id="selectedMenu?.account_category_id" @close="closeUpdateModal" @update="handleUpdate" />
+          :account_category_id="selectedMenu?.account_category_id"
+          @close="closeUpdateModal"
+          @update="handleUpdate"
+        />
       </div>
     </div>
   </div>
@@ -78,6 +105,8 @@
 import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import UpdateAccountTypeModal from "../../components/modal/ModalTransition.vue";
 
+// ฟังก์ชันสำหรับจัดรูปแบบตัวเลข
+const { formatNumber } = useFormatNumber();
 const menuGroup = ref([]); // เก็บรายการเมนู
 const showModal = ref(false); // ควบคุมการแสดง Modal
 const selectedMenu = ref(null); // เก็บข้อมูลเมนูที่เลือก
@@ -127,10 +156,10 @@ const handleUpdate = async ({
   try {
     // ส่งข้อมูลไปยัง API
     await $axios.post("/transition_select_income", {
-      account_type_id: formData.value.account_type_id ,
-        account_transition_value: formData.value.account_transition_value,
-        account_type_from_id: formData.value.account_type_from_id,
-        account_category_id: formData.value.account_category_id ,
+      account_type_id: formData.value.account_type_id,
+      account_transition_value: formData.value.account_transition_value,
+      account_type_from_id: formData.value.account_type_from_id,
+      account_category_id: formData.value.account_category_id,
     });
     await fetchMenuGroupData(); // ดึงข้อมูลเมนูใหม่
     // console.log("Response from API:", response);
@@ -144,9 +173,7 @@ const handleUpdate = async ({
 // ฟังก์ชันดึงข้อมูลรายการเมนู
 const fetchMenuGroupData = async () => {
   try {
-    const menuGroup_result = await $axios.get(
-      "/getMenuGroup_income"
-    );
+    const menuGroup_result = await $axios.get("/getMenuGroup_income");
     menuGroup.value = menuGroup_result.data || [];
     // console.log(menuGroup.value);
   } catch (err) {
@@ -164,9 +191,7 @@ onMounted(async () => {
 // ฟังก์ชันดึงข้อมูลจำนวนรายการ
 const fetchDataSelect = async () => {
   try {
-    const data = await $axios.get(
-      "/getSelect_countSelect"
-    );
+    const data = await $axios.get("/getSelect_countSelect");
     count.value = data.data; // เก็บค่าที่ดึงมา
   } catch (err) {
     error.value = "Error fetching count: " + err.message; // ตั้งค่า error
@@ -184,7 +209,9 @@ const fetchTransitions = async () => {
     // Ensure response.data exists and is an array
     if (Array.isArray(response.data)) {
       transition.value = response.data;
-      disabledAccountTypeIds.value = new Set(transition.value.map(item => item.account_type_id));
+      disabledAccountTypeIds.value = new Set(
+        transition.value.map((item) => item.account_type_id)
+      );
     } else {
       throw new Error("Invalid data format: Expected an array");
     }
@@ -192,7 +219,6 @@ const fetchTransitions = async () => {
     error.value = "Error fetching transitions: " + err.message;
   }
 };
-
 
 // เรียกใช้ fetchTransitions ทุกๆ 1 วินาที
 onMounted(() => {
