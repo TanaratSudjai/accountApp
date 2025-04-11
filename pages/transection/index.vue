@@ -325,7 +325,7 @@ const { formatNumber } = useFormatNumber();
 
 const onSubmitTransition = async () => {
   try {
-    const response = await $axios.put(`transitionsubmit`);
+    const response = await $axios.put(`/transitionsubmit`);
 
     const data = await response.data;
     console.log("Success:", data);
