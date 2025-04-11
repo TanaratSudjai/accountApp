@@ -331,7 +331,7 @@ const toggleColumnTwo = (type) => {
 };
 // formattedValue
 watch(accountTypeValue, (newValue, oldValue) => {
-  var numericValue = newValue.replace(/,/g, ""); // เอาคอมม่าออกก่อน
+  const numericValue = String(newValue).replace(/,/g, ""); // แปลงให้เป็น string ก่อน
   if (!isNaN(numericValue) && numericValue !== "") {
     accountTypeValue.value = Number(numericValue).toLocaleString("en-US");
   }
@@ -344,10 +344,10 @@ const handleOkClick = async () => {
     account_type_id: columnOneSelected.value.account_type_id,
     account_type_from_id: columnTwoSelected.value.account_type_id,
     account_transition_value: parseInt(cleanNumericValue), // Access the value directly
-    account_category_id: 1,
+    account_category_id: 7,
   };
 
-  console.log(formData.value);
+  console.log("affter : => " + typeof parseInt(cleanNumericValue));
 
   try {
     // Send data to the API
