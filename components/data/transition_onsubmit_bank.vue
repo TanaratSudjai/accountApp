@@ -339,35 +339,41 @@ watch(accountTypeValue, (newValue, oldValue) => {
 // -------------------------------------------------------------------------------------
 
 const handleOkClick = async () => {
-  const cleanNumericValue = accountTypeValue.value.replace(/,/g, "");
+  const cleanNumericValue = accountTypeValue.value.toString().replace(/,/g, "");
+
   formData.value = {
-    account_type_id: columnOneSelected.value.account_type_id,
-    account_type_from_id: columnTwoSelected.value.account_type_id,
-    account_transition_value: parseInt(cleanNumericValue), // Access the value directly
+    account_type_id: columnOneSelected.value?.account_type_id || null,
+    account_type_from_id: columnTwoSelected.value?.account_type_id || null,
+    account_transition_value: parseInt(cleanNumericValue) || 0,
     account_category_id: 7,
   };
 
-  console.log("affter : => " + typeof parseInt(cleanNumericValue));
-
   try {
-    // Send data to the API
-    const response = await $axios.post("/bank_trantisionInsert", {
-      account_type_id: formData.value.account_type_id,
-      account_type_from_id: formData.value.account_type_from_id,
-      account_category_id: formData.value.account_category_id,
-      account_transition_value: formData.value.account_transition_value,
-    });
+    const response = await $axios.post("/bank_trantisionInsert", formData.value);
 
-    if (!response.status === 200 || !response.status === 201) {
+    if (response.status !== 200 && response.status !== 201) {
       throw new Error("Network response was not ok");
+    }else
+    {
+      // Clear the form
+      console.log("Data inserted successfully:", response.data);
+      formData.value = {};
+      columnOneSelected.value = null;
+      columnTwoSelected.value = null;
+      accountTypeValue.value = 0; // Reset input field
+      bankTransition();
     }
-    await bankTransition();
-    clearcase(); // Fetch new menu data
+
+    
+
   } catch (err) {
-    err.value = "Error updating data: " + err.message; // Set error
     console.error("Error updating data:", err);
   }
 };
+
+
+
+
 
 // debug get data bank transition
 const bankTransition = async () => {
