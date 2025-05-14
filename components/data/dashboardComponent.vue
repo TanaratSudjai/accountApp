@@ -30,7 +30,7 @@
               <tr
                 v-for="transition in transition_data.filter(
                   (i) =>
-                    i.account_category_id === 4 || i.account_category_id === 5
+                     i.account_category_id === 4 || i.account_category_id === 5
                 )"
                 :key="transition.account_type_id"
                 class="hover:bg-gray-50 transition-colors duration-200 justify-center"
@@ -49,7 +49,7 @@
                     ]"
                   >
                     <span class="text-sm font-medium">
-                      {{ transition.account_type_total }}
+                      {{ transition.account_type_difference }}
                     </span>
                     
                   </div>
@@ -65,7 +65,7 @@
                     ]"
                   >
                     <span class="text-sm font-medium">
-                      {{ transition.account_type_total }}
+                      {{ transition.account_type_difference }}
                     </span>
                     
                   </div>
@@ -115,10 +115,10 @@
                   ประเภท
                 </th>
                 <th class="px-6 py-4 text-sm font-semibold text-gray-900">
-                  เพิ่ม
+                  เพิ่มเป็น
                 </th>
                 <th class="px-6 py-4 text-sm font-semibold text-gray-900">
-                  ลด
+                  ลดเหลือ
                 </th>
                 <th class="px-6 py-4 text-sm font-semibold text-gray-900">
                   แก้ไข
@@ -138,12 +138,12 @@
                   {{ transition.account_type_name }}
                 </td>
                 <td class="px-6 py-4">
-                  <div v-if="transition.account_type_total >
-                      transition.account_type_sum"
+                  <div v-if="parseInt(transition.account_type_total) >
+                      parseInt(transition.account_type_sum)"
                     :class="[
                       'flex justify-center items-center px-4 py-2 rounded-full',
-                      transition.account_type_total <
-                      transition.account_type_sum
+                      parseInt(transition.account_type_total) <
+                      parseInt(transition.account_type_sum)
                         ? 'bg-red-100 text-red-800'
                         : 'bg-green-100 text-green-800',
                     ]"
@@ -155,12 +155,12 @@
                 </td>
 
                 <td class="px-6 py-4">
-                  <div  v-if="transition.account_type_total <
-                      transition.account_type_sum"
+                  <div  v-if="parseInt(transition.account_type_total) <
+                      parseInt(transition.account_type_sum) "
                     :class="[
                       'flex justify-center items-center px-4 py-2 rounded-full',
-                      transition.account_type_total <
-                      transition.account_type_sum
+                      parseInt(transition.account_type_total) <
+                      parseInt(transition.account_type_sum) 
                         ? 'bg-red-100 text-red-800'
                         : 'bg-green-100 text-green-800',
                     ]"

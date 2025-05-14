@@ -362,6 +362,7 @@ const handleOkClick = async () => {
       columnTwoSelected.value = null;
       accountTypeValue.value = 0; // Reset input field
       bankTransition();
+      fetchCat();
     }
 
     
@@ -391,6 +392,7 @@ const deleteTransection = async (id) => {
     await $axios.patch(`/return_transition_bank`);
     //console.log(`Transaction ${id} deleted successfully`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
+    await fetchCat();
   } catch (error) {
     console.log("Error deleting transaction:", error);
   }

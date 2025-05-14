@@ -25,6 +25,7 @@
         <div class="overflow-x-auto">
           <table class="w-full border-collapse">
             <!-- Table Header -->
+            <!-- Table Header -->
             <thead>
               <tr class="bg-gray-100">
                 <th
@@ -33,34 +34,34 @@
                   รายการทั้งหมด
                 </th>
                 <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b"
+                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b text-center"
                 >
-                  DR
+                  DR (สินทรัพย์, รายจ่าย)
                 </th>
                 <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b"
+                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b text-center"
                 >
-                  CR
+                  CR (หนี้สิน, ทุน, รายได้)
                 </th>
                 <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b"
+                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b text-center"
                 >
-                  DR
+                  DR (เฉพาะสินทรัพย์)
                 </th>
                 <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b"
+                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b text-center"
                 >
-                  CR
+                  CR (เฉพาะหนี้สิน/ทุน)
                 </th>
                 <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b"
+                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b text-center"
                 >
-                  DR
+                  DR (เฉพาะรายจ่าย)
                 </th>
                 <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b"
+                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b text-center"
                 >
-                  CR
+                  CR (เฉพาะรายได้)
                 </th>
               </tr>
             </thead>
@@ -189,23 +190,45 @@
               <!-- Summary Row -->
               <tr class="bg-gray-50 border-t-2 border-gray-200">
                 <td class="px-6 py-4 font-semibold">สรุปผลบัญชี</td>
+
+                <!-- Column 1: DR สินทรัพย์/รายจ่าย -->
                 <td class="px-6 py-4 text-right font-semibold">
                   {{ sumColumn1 }}
+                  <div class="text-xs text-gray-500">
+                    รวมสินทรัพย์ + รายจ่าย
+                  </div>
                 </td>
+
+                <!-- Column 2: CR หนี้สิน/ทุน/รายได้ -->
                 <td class="px-6 py-4 text-right font-semibold">
                   {{ sumColumn2 }}
+                  <div class="text-xs text-gray-500">
+                    รวม หนี้สิน + ทุน + รายได้
+                  </div>
                 </td>
+
+                <!-- Column 3: DR เฉพาะสินทรัพย์ -->
                 <td class="px-6 py-4 text-right font-semibold">
                   {{ sumColumn3 }}
+                  <div class="text-xs text-gray-500">เฉพาะสินทรัพย์</div>
                 </td>
+
+                <!-- Column 4: CR หนี้สิน/ทุน -->
                 <td class="px-6 py-4 text-right font-semibold">
                   {{ sumColumn4 }}
+                  <div class="text-xs text-gray-500">เฉพาะหนี้สิน + ทุน</div>
                 </td>
+
+                <!-- Column 5: DR เฉพาะรายจ่าย -->
                 <td class="px-6 py-4 text-right font-semibold">
                   {{ sumColumn5 }}
+                  <div class="text-xs text-gray-500">เฉพาะรายจ่าย</div>
                 </td>
+
+                <!-- Column 6: CR เฉพาะรายได้ -->
                 <td class="px-6 py-4 text-right font-semibold">
                   {{ sumColumn6 }}
+                  <div class="text-xs text-gray-500">เฉพาะรายได้</div>
                 </td>
               </tr>
 
