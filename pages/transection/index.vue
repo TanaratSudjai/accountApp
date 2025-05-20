@@ -349,11 +349,11 @@ const router = useRouter();
 
 const submitDifferences = async () => {
   try {
-    onSubmitTransition();
-
     await $axios.post(`/sumbittrantision_suminsert`, {
       account_transition_value: differences.value,
     });
+
+    onSubmitTransition();
 
     await fetchTransition();
     groupOneTransition();

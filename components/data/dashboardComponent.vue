@@ -46,7 +46,7 @@
                       v-if="transition.account_category_id === 4"
                       :class="[
                         'flex justify-center items-center px-4 py-2 rounded-full text-sm font-medium',
-                        transition.account_type_total < transition.account_type_sum
+                        parseInt(transition.account_type_total)  < parseInt(transition.account_type_sum) 
                           ? 'bg-red-100 text-red-800'
                           : 'bg-green-100 text-green-800',
                       ]"
@@ -59,7 +59,7 @@
                       v-if="transition.account_category_id === 5"
                       :class="[
                         'flex justify-center items-center px-4 py-2 rounded-full text-sm font-medium',
-                        transition.account_type_total > transition.account_type_sum
+                        parseInt(transition.account_type_total) > parseInt(transition.account_type_sum) 
                           ? 'bg-red-100 text-red-800'
                           : 'bg-green-100 text-green-800',
                       ]"
