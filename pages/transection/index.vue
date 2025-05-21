@@ -161,6 +161,7 @@
           }}</span>
         </p>
         <div class="flex gap-2">
+
           <input
             type="text"
             placeholder="ตั้งจำนวนเงิน"
@@ -177,6 +178,7 @@
                 : 'bg-green-500 hover:bg-green-800 text-white cursor-pointer',
             ]"
           >
+
             เพิ่ม
           </button>
         </div>
