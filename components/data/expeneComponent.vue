@@ -35,7 +35,7 @@ const fetchTransitions = async () => {
   }
 };
 onMounted(() => {
-  // interval = setInterval(fetchTransitions, 1000);
+  interval = setInterval(fetchTransitions, 1000);
   fetchTransitions(); // เรียกครั้งแรกทันทีที่โหลด
 });
 
