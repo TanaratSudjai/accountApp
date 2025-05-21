@@ -34,17 +34,13 @@
           placeholder="ยืนยันรหัสผ่านอีกครั้ง" class="p-3 rounded-full w-full border-2 focus:ring-2 focus:ring-cyan-600 focus:outline-none" />
       </div>
 
-      <div v-if="error" class="text-red-500 mb-4">
-        {{ error }}
-      </div>
-
       <button type="submit" class="bg-cyan-600 text-white p-3 rounded-full hover:bg-cyan-700">
         สมัครใช้งาน
       </button>
-      <button @click="goLogin" class="text-cyan-600 px-4 py-2 rounded ">
-        เข้าสู่ระบบ
-      </button>
     </form>
+    <button @click="goLogin" class="text-cyan-600 px-4 py-2 rounded ">
+      เข้าสู่ระบบ
+    </button>
   </div>
 </template>
 

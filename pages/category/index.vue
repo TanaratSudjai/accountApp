@@ -76,10 +76,10 @@ const menuItems = ref([
     route: `/group/1`, // Replace with the appropriate account_category_id
   },
   {
-    icon: Grid2x2Plus,
-    title: "หนี้สิน",
-    color: "text-purple-400",
-    route: "/group/2",
+    icon: Landmark,
+    title: "ธนาคาร",
+    color: "text-green-500",
+    route: "/group/7",
   },
   {
     icon: Users,
@@ -87,12 +87,12 @@ const menuItems = ref([
     color: "text-yellow-500",
     route: "/group/6",
   },
-  // {
-  //   icon: FileMinus,
-  //   title: "ส่วนของเจ้าของ",
-  //   color: "text-yellow-500",
-  //   route: "/group/3",
-  // },
+  {
+    icon: Grid2x2Plus,
+    title: "หนี้สิน",
+    color: "text-purple-400",
+    route: "/group/2",
+  },
   {
     icon: HandCoins,
     title: "รายได้",
@@ -106,11 +106,12 @@ const menuItems = ref([
     route: "/group/5",
   },
   
-  {
-    icon: Landmark,
-    title: "ธนาคาร",
-    color: "text-green-500",
-    route: "/group/7",
-  },
+ 
+  // {
+  //   icon: FileMinus,
+  //   title: "ส่วนของเจ้าของ",
+  //   color: "text-yellow-500",
+  //   route: "/group/3",
+  // },
 ]);
 </script>

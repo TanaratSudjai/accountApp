@@ -38,7 +38,7 @@
             <div class="flex justify-between items-center">
               <span class="text-gray-600">ค่าเงินที่มีอยู่</span>
               <span class="font-medium text-gray-900"
-                >฿{{ AccountTypeTotal || 0 }}</span
+                >฿ {{ formatNumber(AccountTypeTotal) }}</span
               >
             </div>
           </div>
@@ -78,7 +78,7 @@
                   class="flex justify-between items-center text-sm font-medium text-gray-700"
                 >
                   {{ cat.account_type_name }}
-                  {{ cat.account_type_total }}
+                  {{ formatNumber(cat.account_type_total) }}
                 </span>
               </div>
             </div>
@@ -174,11 +174,11 @@ input[type="number"] {
 </style>
 
 <script setup>
-import { ref, defineProps, defineEmits, computed, onMounted } from "vue";
+import { ref, defineProps, defineEmits, computed, onMounted, watch } from "vue";
 
 const categorys = ref([]);
 const { $axios } = useNuxtApp();
-
+const { formatNumber } = useFormatNumber();
 // Fetch category data
 const { data: category, error } = await useAsyncData(
   "fetch transitions",
@@ -202,6 +202,7 @@ console.log(props.account_type_value);
 const emits = defineEmits(["close", "update"]);
 
 const updatedValue = ref(props.account_type_value);
+
 const updatedAccountTypeId = ref(props.account_type_from_id);
 const updatedAccountCategoryId = ref(null); // New ref to hold the selected account_category_id
 
@@ -213,7 +214,7 @@ const selectCategory = (cat) => {
 
 const AccountTypeTotal = ref(0);
 const getAccountTypeTotal = (cat) => {
-  AccountTypeTotal.value = Number(cat.account_type_total) || 0;  // Convert to number
+  AccountTypeTotal.value = Number(cat.account_type_total) || 0; // Convert to number
   console.log(AccountTypeTotal.value);
 };
 
@@ -260,4 +261,15 @@ onMounted(() => {
   );
   // Perform any actions based on the initial disabled state, if needed
 });
+
+// formattedValue updatedValue to 10,000 => 10,000.00 updatedValue input tag
+
+watch(updatedValue, (newValue, oldValue) => {
+  let numericValue = newValue.replace(/,/g, ""); // เอาคอมม่าออกก่อน
+  if (!isNaN(numericValue) && numericValue !== "") {
+    updatedValue.value = Number(numericValue).toLocaleString("en-US");
+  }
+});
+// -------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------
 </script>
