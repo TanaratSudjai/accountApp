@@ -204,7 +204,7 @@ const menuItems = [
     route: "/transection",
   },
   {
-    id: 3,
+    id: 10,
     icon: Landmark,
     title: "ธนาคาร",
     color: "text-green-500",
@@ -298,11 +298,11 @@ const isDisabled = (title) => {
   ) {
     if (title === "จัดการหมวดหมู่") {
       const item = menuItems.find((item) => item.title === "จัดการหมวดหมู่");
-      if (item) item.id = 10;
+      if (item) item.id = 12;
     }
     if (title === "เปิดบัญชี") {
       const item = menuItems.find((item) => item.title === "เปิดบัญชี");
-      if (item) item.id = 11;
+      if (item) item.id = 13;
     }
   }
 
