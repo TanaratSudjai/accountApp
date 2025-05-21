@@ -203,17 +203,25 @@ const menuItems = [
     color: "text-green-400",
     route: "/transection",
   },
-  {
-    id: 10,
-    icon: Landmark,
-    title: "ธนาคาร",
-    color: "text-green-500",
-    route: "/transitionbank",
-  },
+  
 
   // -------
   {
     id: 4,
+    icon: ArrowUpFromLine,
+    title: "บันทึกรายการค่าใช้จ่าย",
+    color: "text-red-500",
+    route: "/transection_expense",
+  },
+  {
+    id: 5,
+    icon: HandCoins,
+    title: "บันทึกรายการรายได้",
+    color: "text-green-400",
+    route: "/transection_income",
+  },
+  {
+    id: 6,
     icon: Users,
     title: "ลูกหนี้",
     color: "text-yellow-500",
@@ -222,7 +230,7 @@ const menuItems = [
     path_name: "/group/6",
   },
   {
-    id: 5,
+    id: 7,
     icon: Users,
     title: "เจ้าหนี้",
     color: "text-purple-500",
@@ -231,21 +239,7 @@ const menuItems = [
     path_name: "/group/2",
   },
   // -------
-
-  {
-    id: 6,
-    icon: HandCoins,
-    title: "บันทึกรายการรายได้",
-    color: "text-green-400",
-    route: "/transection_income",
-  },
-  {
-    id: 7,
-    icon: ArrowUpFromLine,
-    title: "บันทึกรายการค่าใช้จ่าย",
-    color: "text-red-500",
-    route: "/transection_expense",
-  },
+  
   {
     id: 8,
     icon: Clock,
@@ -259,6 +253,13 @@ const menuItems = [
     title: "สรุป",
     color: "text-gray-400",
     route: "/dasktop",
+  },
+  {
+    id: 10,
+    icon: Landmark,
+    title: "ธนาคาร",
+    color: "text-green-500",
+    route: "/transitionbank",
   },
 ];
 
