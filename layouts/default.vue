@@ -24,6 +24,7 @@
     </div>
     <div v-else class="p-2">
       <slot />
+        <NavbarComponents/>
     </div>
   </div>
 </template>
