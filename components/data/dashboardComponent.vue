@@ -21,7 +21,6 @@
                   <th class="px-6 py-3 text-sm font-semibold text-gray-800 border-b">ประเภท</th>
                   <th class="px-6 py-3 text-sm font-semibold text-gray-800 border-b">รายรับ</th>
                   <th class="px-6 py-3 text-sm font-semibold text-gray-800 border-b">รายจ่าย</th>
-                  <th class="px-6 py-3 text-sm font-semibold text-gray-800 border-b">แก้ไข</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
@@ -67,16 +66,7 @@
                       {{ transition.account_type_difference }}
                     </div>
                   </td>
-                  <td class="px-6 py-4">
-                    <div class="flex justify-center space-x-2">
-                      <button
-                        @click="goToPath(transition.account_category_id)"
-                        class="flex justify-center items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
-                      >
-                        เส้นทาง
-                      </button>
-                    </div>
-                  </td>
+                  
                 </tr>
               </tbody>
             </table>
@@ -95,7 +85,6 @@
                   <th class="px-6 py-3 text-sm font-semibold text-gray-800 border-b">ประเภท</th>
                   <th class="px-6 py-3 text-sm font-semibold text-gray-800 border-b">ยืมมา / ให้ยืม</th>
                   <th class="px-6 py-3 text-sm font-semibold text-gray-800 border-b">คืนไป / ได้คืน</th>
-                  <th class="px-6 py-3 text-sm font-semibold text-gray-800 border-b">แก้ไข</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
@@ -131,16 +120,7 @@
                       {{ Math.abs(transition.account_type_difference).toFixed(2) }}
                     </div>
                   </td>
-                  <td class="px-6 py-4">
-                    <div class="flex justify-center space-x-2">
-                      <button
-                        @click="goToPath(transition.account_category_id)"
-                        class="flex justify-center items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors duration-200"
-                      >
-                        เส้นทาง
-                      </button>
-                    </div>
-                  </td>
+                  
                 </tr>
               </tbody>
             </table>
@@ -159,7 +139,6 @@
                   <th class="px-6 py-3 text-sm font-semibold text-gray-800 border-b">ประเภท</th>
                   <th class="px-6 py-3 text-sm font-semibold text-gray-800 border-b">เพิ่มเป็น</th>
                   <th class="px-6 py-3 text-sm font-semibold text-gray-800 border-b">ลดเหลือ</th>
-                  <th class="px-6 py-3 text-sm font-semibold text-gray-800 border-b">แก้ไข</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
@@ -195,16 +174,7 @@
                       {{ transition.account_type_total }}
                     </div>
                   </td>
-                  <td class="px-6 py-4">
-                    <div class="flex justify-center space-x-2">
-                      <button
-                        @click="goToPath(transition.account_category_id)"
-                        class="flex justify-center items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-200"
-                      >
-                        เส้นทาง
-                      </button>
-                    </div>
-                  </td>
+                  
                 </tr>
               </tbody>
             </table>

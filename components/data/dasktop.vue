@@ -21,7 +21,7 @@
       </div>
 
       <!-- Main Table -->
-      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-20">
         <div class="overflow-x-auto">
           <table class="w-full border-collapse">
             <!-- Table Header -->
@@ -252,13 +252,13 @@
   <!-- ผลต่าง Column 3 vs 4 -->
   <td class="px-6 py-4 text-right">
     <div
-      v-if="sumColumn3 - sumColumn4 > 0"
+      v-if="sumColumn3 - sumColumn4 < 0"
       class="font-medium text-red-600"
     >
-      {{ sumColumn3 - sumColumn4 }}
+      {{ Math.abs(sumColumn3 - sumColumn4) }}
     </div>
     <div
-      v-if="sumColumn3 - sumColumn4 > 0"
+      v-if="sumColumn3 - sumColumn4 < 0"
       class="text-xs text-gray-500"
     >
       สินทรัพย์ - หนี้สิน/ทุน
@@ -267,13 +267,13 @@
 
   <td class="px-6 py-4 text-right">
     <div
-      v-if="sumColumn4 - sumColumn3 > 0"
+      v-if="sumColumn4 - sumColumn3 < 0"
       class="font-medium text-red-600"
     >
-      {{ sumColumn4 - sumColumn3 }}
+      {{ Math.abs(sumColumn4 - sumColumn3 )}}
     </div>
     <div
-      v-if="sumColumn4 - sumColumn3 > 0"
+      v-if="sumColumn4 - sumColumn3 < 0"
       class="text-xs text-gray-500"
     >
       หนี้สิน/ทุน - สินทรัพย์
@@ -283,13 +283,13 @@
   <!-- ผลต่าง Column 5 vs 6 -->
   <td class="px-6 py-4 text-right">
     <div
-      v-if="sumColumn5 - sumColumn6 > 0"
+      v-if="sumColumn5 - sumColumn6 < 0"
       class="font-medium text-red-600"
     >
-      {{ sumColumn5 - sumColumn6 }}
+      {{ Math.abs(sumColumn5 - sumColumn6)  }}
     </div>
     <div
-      v-if="sumColumn5 - sumColumn6 > 0"
+      v-if="sumColumn5 - sumColumn6 < 0"
       class="text-xs text-gray-500"
     >
       รายจ่าย - รายได้
@@ -298,13 +298,13 @@
 
   <td class="px-6 py-4 text-right">
     <div
-      v-if="sumColumn6 - sumColumn5 > 0"
+      v-if="sumColumn6 - sumColumn5 < 0"
       class="font-medium text-red-600"
     >
-      {{ sumColumn6 - sumColumn5 }}
+      {{ Math.abs(sumColumn6 - sumColumn5) }}
     </div>
     <div
-      v-if="sumColumn6 - sumColumn5 > 0"
+      v-if="sumColumn6 - sumColumn5 < 0"
       class="text-xs text-gray-500"
     >
       รายได้ - รายจ่าย
