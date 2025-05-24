@@ -2,11 +2,10 @@
   <client-only>
     <BackComponents></BackComponents>
   </client-only>
-  <div class="px-2">
+  <div class="mx-auto">
     <DataTransitionOnsubmitIncome />
-  </div>
-  <div class="mx-auto mb-12">
     <DataMenuGroupIncome />
   </div>
+ 
 </template>
 <script setup></script>

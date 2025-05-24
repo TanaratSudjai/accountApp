@@ -8,7 +8,7 @@
           <div class="space-y-2">
             <div class="text-sm text-green-700 font-medium">รายได้ทั้งหมด</div>
             <div class="text-2xl font-bold text-green-800">
-              ฿{{ sumvalue_extend }}
+              ฿{{ formatNumber(sumvalue_extend) }}
             </div>
           </div>
         </div>
@@ -18,6 +18,7 @@
 </template>
 
 <script setup>
+const { formatNumber } = useFormatNumber(); // นำเข้า composable สำหรับการจัดรูปแบบตัวเลข
 const error = ref(null); // สำหรับจัดการข้อผิดพลาด
 const transition = ref([]);
 const { $axios } = useNuxtApp();
