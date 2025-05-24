@@ -149,9 +149,10 @@ const handleUpdate = async ({
   account_category_id,
 }) => {
   // เตรียมข้อมูลสำหรับการอัปเดต
+  const valueAsFloat = parseFloat(account_type_value);
   formData.value = {
     account_type_id,
-    account_transition_value: account_type_value,
+    account_transition_value: valueAsFloat,
     account_type_from_id,
     account_category_id,
   };
@@ -166,6 +167,7 @@ const handleUpdate = async ({
     });
     await fetchMenuGroupData(); // ดึงข้อมูลเมนูใหม่
     // console.log("Response from API:", response);
+    console.log("Data updated successfully:", formData.value.account_transition_value);
   } catch (err) {
     error.value = "Error updating data: " + err.message; // ตั้งค่า error
     console.error("Error updating data:", err);

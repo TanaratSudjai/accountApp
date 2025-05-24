@@ -122,7 +122,7 @@
                     "
                     class="font-medium"
                   >
-                    {{ type_sum.account_type_sum }}
+                    {{ formatNumber(type_sum.account_type_sum )}}
                   </div>
                 </td>
 
@@ -135,7 +135,7 @@
                     "
                     class="font-medium"
                   >
-                    {{ type_sum.account_type_sum }}
+                    {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
 
@@ -149,7 +149,7 @@
                     "
                     class="font-medium"
                   >
-                    {{ type_sum.account_type_sum }}
+                    {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
 
@@ -162,7 +162,7 @@
                     "
                     class="font-medium"
                   >
-                    {{ type_sum.account_type_sum }}
+                    {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
 
@@ -172,7 +172,7 @@
                     v-if="type_sum.account_category_id == 5"
                     class="font-medium"
                   >
-                    {{ type_sum.account_type_sum }}
+                    {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
 
@@ -182,7 +182,7 @@
                     v-if="type_sum.account_category_id == 4"
                     class="font-medium"
                   >
-                    {{ type_sum.account_type_sum }}
+                    {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
               </tr>
@@ -193,7 +193,7 @@
 
                 <!-- Column 1: DR สินทรัพย์/รายจ่าย -->
                 <td class="px-6 py-4 text-right font-semibold">
-                  {{ sumColumn1 }}
+                  {{ formatNumber(sumColumn1) }}
                   <div class="text-xs text-gray-500">
                     รวมสินทรัพย์ + รายจ่าย
                   </div>
@@ -201,7 +201,7 @@
 
                 <!-- Column 2: CR หนี้สิน/ทุน/รายได้ -->
                 <td class="px-6 py-4 text-right font-semibold">
-                  {{ sumColumn2 }}
+                  {{ formatNumber(sumColumn2) }}
                   <div class="text-xs text-gray-500">
                     รวม หนี้สิน + ทุน + รายได้
                   </div>
@@ -209,25 +209,25 @@
 
                 <!-- Column 3: DR เฉพาะสินทรัพย์ -->
                 <td class="px-6 py-4 text-right font-semibold">
-                  {{ sumColumn3 }}
+                  {{ formatNumber(sumColumn3) }}
                   <div class="text-xs text-gray-500">เฉพาะสินทรัพย์</div>
                 </td>
 
                 <!-- Column 4: CR หนี้สิน/ทุน -->
                 <td class="px-6 py-4 text-right font-semibold">
-                  {{ sumColumn4 }}
+                  {{ formatNumber(sumColumn4) }}
                   <div class="text-xs text-gray-500">เฉพาะหนี้สิน + ทุน</div>
                 </td>
 
                 <!-- Column 5: DR เฉพาะรายจ่าย -->
                 <td class="px-6 py-4 text-right font-semibold">
-                  {{ sumColumn5 }}
+                  {{ formatNumber(sumColumn5) }}
                   <div class="text-xs text-gray-500">เฉพาะรายจ่าย</div>
                 </td>
 
                 <!-- Column 6: CR เฉพาะรายได้ -->
                 <td class="px-6 py-4 text-right font-semibold">
-                  {{ sumColumn6 }}
+                  {{ formatNumber(sumColumn6) }}
                   <div class="text-xs text-gray-500">เฉพาะรายได้</div>
                 </td>
               </tr>
@@ -235,13 +235,22 @@
               <!-- Difference Row -->
               <!-- Difference Row -->
               <tr class="bg-gray-50">
-                <td v-if="sumColumn4 - sumColumn3 < 0" class="px-6 py-4 font-semibold text-green-600">ได้กำไร</td>
-                <td v-if="sumColumn4 - sumColumn3 > 0" class="px-6 py-4 font-semibold text-red-600">ขาดทุน</td>
+                <template v-if="sumColumn4 - sumColumn3 < 0">
+                  <td class="px-6 py-4 font-semibold text-green-600">
+                    ได้กำไร
+                  </td>
+                </template>
+                <template v-else-if="sumColumn4 - sumColumn3 > 0">
+                  <td class="px-6 py-4 font-semibold text-red-600">ขาดทุน</td>
+                </template>
+                <template v-else>
+                  <td class="px-6 py-4 font-semibold">กำไร-ขาดทุน</td>
+                </template>
 
                 <!-- ผลต่าง Column 1 -->
                 <td class="px-6 py-4 text-right">
                   <div class="font-medium text-red-600">
-                    {{ sumColumn1 - sumColumn2 }}
+                    {{ formatNumber(sumColumn1 - sumColumn2) }}
                   </div>
                   <div class="text-xs text-gray-500">
                     สินทรัพย์ - หนี้สิน/ทุน/รายได้
@@ -251,7 +260,7 @@
                 <!-- ผลต่าง Column 2 -->
                 <td class="px-6 py-4 text-right">
                   <div class="font-medium text-red-600">
-                    {{ sumColumn2 - sumColumn1 }}
+                    {{ formatNumber(sumColumn2 - sumColumn1) }}
                   </div>
                   <div class="text-xs text-gray-500">
                     หนี้สิน/ทุน/รายได้ - สินทรัพย์
@@ -264,9 +273,9 @@
                     v-if="sumColumn3 - sumColumn4 < 0"
                     class="font-medium text-red-600"
                   >
-                    {{ Math.abs(sumColumn3 - sumColumn4) }}
+                    {{ formatNumber(Math.abs(sumColumn3 - sumColumn4)) }}
                   </div>
-                  
+
                   <div
                     v-if="sumColumn3 - sumColumn4 < 0"
                     class="text-xs text-gray-500"
@@ -280,7 +289,7 @@
                     v-if="sumColumn4 - sumColumn3 < 0"
                     class="font-medium text-green-600"
                   >
-                    {{ Math.abs(sumColumn4 - sumColumn3) }}
+                    {{ formatNumber(Math.abs(sumColumn4 - sumColumn3)) }}
                   </div>
                   <div
                     v-if="sumColumn4 - sumColumn3 < 0"
@@ -296,7 +305,7 @@
                     v-if="sumColumn5 - sumColumn6 < 0"
                     class="font-medium text-green-600"
                   >
-                    {{ Math.abs(sumColumn5 - sumColumn6) }}
+                    {{ formatNumber(Math.abs(sumColumn5 - sumColumn6) )}}
                   </div>
                   <div
                     v-if="sumColumn5 - sumColumn6 < 0"
@@ -311,7 +320,7 @@
                     v-if="sumColumn6 - sumColumn5 < 0"
                     class="font-medium text-red-600"
                   >
-                    {{ Math.abs(sumColumn6 - sumColumn5) }}
+                    {{ formatNumber(Math.abs(sumColumn6 - sumColumn5))  }}
                   </div>
                   <div
                     v-if="sumColumn6 - sumColumn5 < 0"
@@ -327,51 +336,55 @@
 
                 <!-- Column 1 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
-                  {{ sumColumn1 + (sumColumn1 - sumColumn2) }}
+                  {{ formatNumber(sumColumn1 + (sumColumn1 - sumColumn2))  }}
                 </td>
 
                 <!-- Column 2 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
-                  {{ sumColumn2 + (sumColumn2 - sumColumn1) }}
+                  {{ formatNumber(sumColumn2 + (sumColumn2 - sumColumn1))  }}
                 </td>
 
                 <!-- Column 3 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
                   {{
-                    sumColumn3 +
+                    formatNumber(sumColumn3 +
                     (sumColumn3 - sumColumn4 < 0
                       ? Math.abs(sumColumn3 - sumColumn4)
-                      : 0)
+                      : 0))
                   }}
                 </td>
 
                 <!-- Column 4 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
                   {{
-                    sumColumn4 +
+                    formatNumber(sumColumn4 +
                     (sumColumn4 - sumColumn3 < 0
                       ? Math.abs(sumColumn4 - sumColumn3)
-                      : 0)
+                      : 0)) 
                   }}
                 </td>
 
                 <!-- Column 5 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
                   {{
-                    sumColumn5 +
-                    (sumColumn5 - sumColumn6 < 0
-                      ? Math.abs(sumColumn5 - sumColumn6)
-                      : 0)
+                    formatNumber(
+                      sumColumn5 +
+                        (sumColumn5 - sumColumn6 < 0
+                          ? Math.abs(sumColumn5 - sumColumn6)
+                          : 0)
+                    )
                   }}
                 </td>
 
                 <!-- Column 6 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
                   {{
-                    sumColumn6 +
-                    (sumColumn6 - sumColumn5 < 0
-                      ? Math.abs(sumColumn6 - sumColumn5)
-                      : 0)
+                    formatNumber(
+                      sumColumn6 +
+                        (sumColumn6 - sumColumn5 < 0
+                          ? Math.abs(sumColumn6 - sumColumn5)
+                          : 0)
+                    )
                   }}
                 </td>
               </tr>
@@ -386,6 +399,8 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
+
+const { formatNumber } = useFormatNumber();
 const router = useRouter();
 const datatype_sum = ref([]);
 const showZeroSum = ref(true);

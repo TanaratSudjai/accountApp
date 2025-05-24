@@ -133,6 +133,7 @@ const fetchTransitions = async () => {
 
 // ฟังก์ชันลบธุรกรรม
 const deleteTransection = async (id, value) => {
+  console.log("value to delete",value);
   try {
     await $axios.put(`/delete_transition_expense/${id}`, {
       account_transition_value: value,

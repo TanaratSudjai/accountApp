@@ -413,7 +413,7 @@ const handleOkClick = async () => {
   formData.value = {
     account_type_id: columnOneSelected.value.account_type_id,
     account_type_from_id: columnTwoSelected.value.account_type_id,
-    account_transition_value: parseInt(accountTypeValue.value), // Access the value directly
+    account_transition_value: parseFloat(accountTypeValue.value), // Access the value directly
     account_category_id: 2,
   };
 
@@ -424,7 +424,7 @@ const handleOkClick = async () => {
       {
         account_type_id: columnOneSelected.value.account_type_id,
         account_type_from_id: columnTwoSelected.value.account_type_id,
-        account_transition_value: parseInt(accountTypeValue.value), // Access the value directly
+        account_transition_value: parseFloat(accountTypeValue.value), // Access the value directly
         account_category_id: 2,
       }
     );

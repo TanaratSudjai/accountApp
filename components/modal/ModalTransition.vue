@@ -96,7 +96,7 @@
                 <span class="text-gray-500">฿</span>
               </div>
               <input
-                v-model.number="updatedValue"
+                v-model="updatedValue"
                 type="number"
                 class="block w-full pl-8 pr-4 py-3 border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg shadow-sm transition-colors duration-200"
                 placeholder="0.00"
@@ -214,18 +214,20 @@ const selectCategory = (cat) => {
 
 const AccountTypeTotal = ref(0);
 const getAccountTypeTotal = (cat) => {
-  AccountTypeTotal.value = Number(cat.account_type_total) || 0; // Convert to number
+  AccountTypeTotal.value = parseFloat(cat.account_type_total) || 0; // Convert to number
   console.log(AccountTypeTotal.value);
 };
 
 const updateValue = () => {
   emits("update", {
     account_type_id: props.account_type_id,
-    account_type_value: updatedValue.value,
+    account_type_value: parseFloat(updatedValue.value.toString().replace(/,/g, "")),
     account_type_from_id: updatedAccountTypeId.value,
     account_category_id: props.account_category_id, // Include the selected account_category_id
   });
   closeModal();
+
+  console.log("Updated value:", updatedValue.value);
 };
 
 const closeModal = () => {
@@ -264,12 +266,19 @@ onMounted(() => {
 
 // formattedValue updatedValue to 10,000 => 10,000.00 updatedValue input tag
 
-watch(updatedValue, (newValue, oldValue) => {
-  let numericValue = newValue.replace(/,/g, ""); // เอาคอมม่าออกก่อน
-  if (!isNaN(numericValue) && numericValue !== "") {
-    updatedValue.value = Number(numericValue).toLocaleString("en-US");
+watch(updatedValue, (newValue) => {
+  const numericValue = newValue.replace(/,/g, "");
+  // Only update the internal value without formatting
+
+  if (/^\d+(\.\d+)?$/.test(numericValue)) {
+    updatedValue.value = Number(numericValue).toLocaleString("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    });
   }
 });
+
+
 // -------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------
 </script>

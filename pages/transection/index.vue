@@ -168,6 +168,7 @@
             placeholder="ตั้งจำนวนเงิน"
             class="flex-1 gap-2 text-white bg-gray-700 border-none text-sm border border-gray-200 px-4 py-3 rounded-xl outline-none focus:ring-2 focus:ring-green-500 transition-all"
             v-model="accountTypeValue"
+
           />
           <button
             @click="handleOkClick"
@@ -196,10 +197,7 @@
             :key="sumone_s.account_transition_id"
             class="p-3 rounded-xl border-l-4 border border-yellow-300 bg-yellow-50 font-semibold text-center"
           >
-            {{
-              Number(sum_cat_one_six_seven) +
-              Number(sumone_s.total_transition_value)
-            }}
+            {{ formatNumber(Number(sum_cat_one_six_seven) + Number(sumone_s.total_transition_value))}}
           </div>
 
           <!-- Sumtwo -->
@@ -211,10 +209,10 @@
           </div>
           <div
             v-for="sumtwo_s in sumtwo"
-            :key="sumtwo_s.total_transition_value"
+            :key="sumtwo_s.total_transition_id"
             class="p-3 rounded-xl border-l-4 border border-purple-300 bg-purple-50 font-semibold text-center"
           >
-            {{ Number(sum_cat_two) + Number(sumtwo_s.total_transition_value) }}
+            {{ formatNumber(Number(sum_cat_two) + Number(sumtwo_s.total_transition_value))  }}
           </div>
 
           <!-- Differences -->
@@ -229,7 +227,7 @@
             :key="index"
             class="p-3 rounded-xl border border-gray-200 bg-gray-50 font-semibold text-center"
           >
-            {{ Number(difference) }}
+            {{ formatNumber(Number(difference))  }}
           </div>
         </div>
       </div>
@@ -357,16 +355,14 @@ const differences = computed(() => {
   });
 });
 
-
 const router = useRouter();
 
 const submitDifferences = async () => {
   try {
-    onSubmitTransition();
-
     await $axios.post(`/sumbittrantision_suminsert`, {
       account_transition_value: differences.value,
     });
+    await onSubmitTransition();
 
     await fetchTransition();
     groupOneTransition();
@@ -388,12 +384,30 @@ const fetchsumone = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const data = await response.data;
+    const data = response.data;
+    console.log("data sum group one", data);
     sumone.value = data;
   } catch (error) {
-    console.error("Error fetching transition:", error);
+    console.error("Error fetching sum group one:", error);
   }
 };
+
+const fetchsumtwo = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await $axios.get(`/getSumGropTwo`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = response.data;
+    console.log("data sum group two", data);
+    sumtwo.value = data;
+  } catch (error) {
+    console.error("Error fetching sum group two:", error);
+  }
+};
+
 
 const fetchfund = async () => {
   try {
@@ -418,21 +432,7 @@ const fetchfund = async () => {
   }
 };
 
-const fetchsumtwo = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await $axios.get(`/getSumGropTwo`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.data;
-    // console.log("data sum group two", data);
-    sumtwo.value = data;
-  } catch (error) {
-    console.error("Error fetching transition:", error);
-  }
-};
+
 
 const fetchTransition = async () => {
   try {
@@ -480,6 +480,8 @@ const groupTwoTransition = async () => {
   }
 };
 
+
+
 const accountTypeValue = computed({
   get() {
     return selectedIcon.value ? selectedIcon.value.account_type_value : "";
@@ -492,12 +494,18 @@ const accountTypeValue = computed({
 });
 
 // formattedValue
-watch(accountTypeValue, (newValue, oldValue) => {
-  let numericValue = newValue.replace(/,/g, ""); // เอาคอมม่าออกก่อน
-  if (!isNaN(numericValue) && numericValue !== "") {
-    accountTypeValue.value = Number(numericValue).toLocaleString("en-US");
+watch(accountTypeValue, (newValue) => {
+  const numericValue = newValue.replace(/,/g, "");
+  
+  // เฉพาะกรณีที่ค่าพิมพ์สมบูรณ์เท่านั้น ค่อย format
+  if (/^\d+(\.\d+)?$/.test(numericValue)) {
+    accountTypeValue.value = Number(numericValue).toLocaleString("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    });
   }
 });
+
 // -------------------------------------------------------------------------------------
 
 const fetchIcon = async () => {
