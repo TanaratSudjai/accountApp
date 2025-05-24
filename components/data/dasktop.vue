@@ -234,84 +234,147 @@
 
               <!-- Difference Row -->
               <!-- Difference Row -->
-<tr class="bg-gray-50">
-  <td class="px-6 py-4 font-semibold">ผลต่าง</td>
+              <tr class="bg-gray-50">
+                <td v-if="sumColumn4 - sumColumn3 < 0" class="px-6 py-4 font-semibold text-green-600">ได้กำไร</td>
+                <td v-if="sumColumn4 - sumColumn3 > 0" class="px-6 py-4 font-semibold text-red-600">ขาดทุน</td>
 
-  <!-- ผลต่าง Column 1 -->
-  <td class="px-6 py-4 text-right">
-    <div class="font-medium text-red-600">{{ sumColumn1 - sumColumn2 }}</div>
-    <div class="text-xs text-gray-500">สินทรัพย์ - หนี้สิน/ทุน/รายได้</div>
-  </td>
+                <!-- ผลต่าง Column 1 -->
+                <td class="px-6 py-4 text-right">
+                  <div class="font-medium text-red-600">
+                    {{ sumColumn1 - sumColumn2 }}
+                  </div>
+                  <div class="text-xs text-gray-500">
+                    สินทรัพย์ - หนี้สิน/ทุน/รายได้
+                  </div>
+                </td>
 
-  <!-- ผลต่าง Column 2 -->
-  <td class="px-6 py-4 text-right">
-    <div class="font-medium text-red-600">{{ sumColumn2 - sumColumn1 }}</div>
-    <div class="text-xs text-gray-500">หนี้สิน/ทุน/รายได้ - สินทรัพย์</div>
-  </td>
+                <!-- ผลต่าง Column 2 -->
+                <td class="px-6 py-4 text-right">
+                  <div class="font-medium text-red-600">
+                    {{ sumColumn2 - sumColumn1 }}
+                  </div>
+                  <div class="text-xs text-gray-500">
+                    หนี้สิน/ทุน/รายได้ - สินทรัพย์
+                  </div>
+                </td>
 
-  <!-- ผลต่าง Column 3 vs 4 -->
-  <td class="px-6 py-4 text-right">
-    <div
-      v-if="sumColumn3 - sumColumn4 < 0"
-      class="font-medium text-red-600"
-    >
-      {{ Math.abs(sumColumn3 - sumColumn4) }}
-    </div>
-    <div
-      v-if="sumColumn3 - sumColumn4 < 0"
-      class="text-xs text-gray-500"
-    >
-      สินทรัพย์ - หนี้สิน/ทุน
-    </div>
-  </td>
+                <!-- ผลต่าง Column 3 vs 4 -->
+                <td class="px-6 py-4 text-right">
+                  <div
+                    v-if="sumColumn3 - sumColumn4 < 0"
+                    class="font-medium text-red-600"
+                  >
+                    {{ Math.abs(sumColumn3 - sumColumn4) }}
+                  </div>
+                  
+                  <div
+                    v-if="sumColumn3 - sumColumn4 < 0"
+                    class="text-xs text-gray-500"
+                  >
+                    สินทรัพย์ - หนี้สิน/ทุน
+                  </div>
+                </td>
 
-  <td class="px-6 py-4 text-right">
-    <div
-      v-if="sumColumn4 - sumColumn3 < 0"
-      class="font-medium text-red-600"
-    >
-      {{ Math.abs(sumColumn4 - sumColumn3 )}}
-    </div>
-    <div
-      v-if="sumColumn4 - sumColumn3 < 0"
-      class="text-xs text-gray-500"
-    >
-      หนี้สิน/ทุน - สินทรัพย์
-    </div>
-  </td>
+                <td class="px-6 py-4 text-right">
+                  <div
+                    v-if="sumColumn4 - sumColumn3 < 0"
+                    class="font-medium text-green-600"
+                  >
+                    {{ Math.abs(sumColumn4 - sumColumn3) }}
+                  </div>
+                  <div
+                    v-if="sumColumn4 - sumColumn3 < 0"
+                    class="text-xs text-gray-500"
+                  >
+                    หนี้สิน/ทุน - สินทรัพย์
+                  </div>
+                </td>
 
-  <!-- ผลต่าง Column 5 vs 6 -->
-  <td class="px-6 py-4 text-right">
-    <div
-      v-if="sumColumn5 - sumColumn6 < 0"
-      class="font-medium text-red-600"
-    >
-      {{ Math.abs(sumColumn5 - sumColumn6)  }}
-    </div>
-    <div
-      v-if="sumColumn5 - sumColumn6 < 0"
-      class="text-xs text-gray-500"
-    >
-      รายจ่าย - รายได้
-    </div>
-  </td>
+                <!-- ผลต่าง Column 5 vs 6 -->
+                <td class="px-6 py-4 text-right">
+                  <div
+                    v-if="sumColumn5 - sumColumn6 < 0"
+                    class="font-medium text-green-600"
+                  >
+                    {{ Math.abs(sumColumn5 - sumColumn6) }}
+                  </div>
+                  <div
+                    v-if="sumColumn5 - sumColumn6 < 0"
+                    class="text-xs text-gray-500"
+                  >
+                    รายจ่าย - รายได้
+                  </div>
+                </td>
 
-  <td class="px-6 py-4 text-right">
-    <div
-      v-if="sumColumn6 - sumColumn5 < 0"
-      class="font-medium text-red-600"
-    >
-      {{ Math.abs(sumColumn6 - sumColumn5) }}
-    </div>
-    <div
-      v-if="sumColumn6 - sumColumn5 < 0"
-      class="text-xs text-gray-500"
-    >
-      รายได้ - รายจ่าย
-    </div>
-  </td>
-</tr>
+                <td class="px-6 py-4 text-right">
+                  <div
+                    v-if="sumColumn6 - sumColumn5 < 0"
+                    class="font-medium text-red-600"
+                  >
+                    {{ Math.abs(sumColumn6 - sumColumn5) }}
+                  </div>
+                  <div
+                    v-if="sumColumn6 - sumColumn5 < 0"
+                    class="text-xs text-gray-500"
+                  >
+                    รายได้ - รายจ่าย
+                  </div>
+                </td>
+              </tr>
+              <!-- Total Row (Sum of Summary + Difference) -->
+              <tr class="bg-gray-100 border-t-2 border-gray-300">
+                <td class="px-6 py-4 font-semibold">รวมสุทธิ</td>
 
+                <!-- Column 1 -->
+                <td class="px-6 py-4 text-right font-bold text-blue-700">
+                  {{ sumColumn1 + (sumColumn1 - sumColumn2) }}
+                </td>
+
+                <!-- Column 2 -->
+                <td class="px-6 py-4 text-right font-bold text-blue-700">
+                  {{ sumColumn2 + (sumColumn2 - sumColumn1) }}
+                </td>
+
+                <!-- Column 3 -->
+                <td class="px-6 py-4 text-right font-bold text-blue-700">
+                  {{
+                    sumColumn3 +
+                    (sumColumn3 - sumColumn4 < 0
+                      ? Math.abs(sumColumn3 - sumColumn4)
+                      : 0)
+                  }}
+                </td>
+
+                <!-- Column 4 -->
+                <td class="px-6 py-4 text-right font-bold text-blue-700">
+                  {{
+                    sumColumn4 +
+                    (sumColumn4 - sumColumn3 < 0
+                      ? Math.abs(sumColumn4 - sumColumn3)
+                      : 0)
+                  }}
+                </td>
+
+                <!-- Column 5 -->
+                <td class="px-6 py-4 text-right font-bold text-blue-700">
+                  {{
+                    sumColumn5 +
+                    (sumColumn5 - sumColumn6 < 0
+                      ? Math.abs(sumColumn5 - sumColumn6)
+                      : 0)
+                  }}
+                </td>
+
+                <!-- Column 6 -->
+                <td class="px-6 py-4 text-right font-bold text-blue-700">
+                  {{
+                    sumColumn6 +
+                    (sumColumn6 - sumColumn5 < 0
+                      ? Math.abs(sumColumn6 - sumColumn5)
+                      : 0)
+                  }}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
