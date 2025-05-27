@@ -5,7 +5,7 @@ export const useFormatNumber = () => {
     if (isNaN(numberValue)) return "0";
 
     return new Intl.NumberFormat("en-US", {
-      minimumFractionDigits: 0,
+      minimumFractionDigits: 2,
       maximumFractionDigits: 2, // Adjust if you want more precision
     }).format(numberValue);
   };
