@@ -1,5 +1,8 @@
 <script setup>
+
 const { $axios } = useNuxtApp();
+
+const router = useRouter()
 
 const onSubmit = async () => {
   try {
@@ -8,6 +11,8 @@ const onSubmit = async () => {
       );
       if(response.status === 200 || response.status === 201){
        console.log("Submit successful");
+       router.push("/dasktop")
+
       } else {
         console.log("Submit failed");
       }

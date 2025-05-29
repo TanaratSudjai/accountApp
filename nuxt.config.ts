@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['gsap']
   },
+  
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@pinia/nuxt"],
@@ -17,8 +18,24 @@ export default defineNuxtConfig({
       isCustomElement: (tag) => tag === "Icon",
     },
   },
-  css: ["@/assets/main.css"],
-
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/index.global.min.css'
+        },
+        {
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/index.global.min.css'
+        }
+      ]
+    }
+  },
+  css: [
+    
+    '@/assets/main.css'
+  ],
   runtimeConfig: {
     public: {
       apiBaseUrl:

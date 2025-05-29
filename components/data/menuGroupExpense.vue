@@ -186,23 +186,38 @@
 </template>
 
 <style scoped>
+.custom-scrollbar {
+  display: hidden;
+}
 /* ปรับที่เลื่อนรายการธุรกรรม */
 .overflow-y-auto {
+  display: hidden;
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 transparent;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .overflow-y-auto::-webkit-scrollbar {
   width: 6px;
+  display: hidden;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .overflow-y-auto::-webkit-scrollbar-track {
   background: transparent;
+  display: hidden;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .overflow-y-auto::-webkit-scrollbar-thumb {
   background-color: #cbd5e1;
   border-radius: 3px;
+  display: hidden;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 </style>
 
