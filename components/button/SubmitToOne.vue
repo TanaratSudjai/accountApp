@@ -1,12 +1,24 @@
 <script setup>
 
+const { $axios } = useNuxtApp();
+
+const router = useRouter()
+
 const onSubmit = async () => {
   try {
-    await fetch(``);
-    console.log("Success");
-  } catch (error) {
-    console.error("Error fetching transition:", error.message);
-  }
+      const response = await $axios.put(
+        `/sumbitPerDay`
+      );
+      if(response.status === 200 || response.status === 201){
+       console.log("Submit successful");
+       router.push("/dasktop")
+
+      } else {
+        console.log("Submit failed");
+      }
+    } catch (error) {
+      console.log("error updating account important", error);
+    }
 };
 </script>
 

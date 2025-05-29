@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto max-w-4xl rounded-lg min-h-screen">
-    <div class="flex flex-col min-h-screen w-full">
+    <div class="flex flex-col min-h-screen w-full mb-[150px]">
       <!-- Header -->
       <div class="mb-2 bg-gray-800 p-1 rounded-lg text-center">
         <div class="font-medium text-green-400">การตั้งค่าเปิดบัญชี</div>
@@ -154,19 +154,21 @@
 
       <!-- Input Section -->
       <div class="bg-gray-800 p-2 rounded-lg shadow-md mb-2">
-        <p class="text-gray-400 px-2 bg-gray-700 rounded-xl my-2 py-2 ring ring-gray-600">
+        <p
+          class="text-gray-400 px-2 bg-gray-700 rounded-xl my-2 py-2 ring ring-gray-600"
+        >
           ประเภทบัญชี :
           <span class="text-green-400 font-semibold">{{
             selectedIcon?.account_type_name || "กรุณาเลือกประเภทบัญชี"
           }}</span>
         </p>
         <div class="flex gap-2">
-
           <input
             type="text"
             placeholder="ตั้งจำนวนเงิน"
             class="flex-1 gap-2 text-white bg-gray-700 border-none text-sm border border-gray-200 px-4 py-3 rounded-xl outline-none focus:ring-2 focus:ring-green-500 transition-all"
             v-model="accountTypeValue"
+
           />
           <button
             @click="handleOkClick"
@@ -178,7 +180,6 @@
                 : 'bg-green-500 hover:bg-green-800 text-white cursor-pointer',
             ]"
           >
-
             เพิ่ม
           </button>
         </div>
@@ -196,7 +197,7 @@
             :key="sumone_s.account_transition_id"
             class="p-3 rounded-xl border-l-4 border border-yellow-300 bg-yellow-50 font-semibold text-center"
           >
-            {{ formatNumber(sumone_s.total_transition_value) }}
+            {{ formatNumber(Number(sum_cat_one_six_seven) + Number(sumone_s.total_transition_value))}}
           </div>
 
           <!-- Sumtwo -->
@@ -208,10 +209,10 @@
           </div>
           <div
             v-for="sumtwo_s in sumtwo"
-            :key="sumtwo_s.total_transition_value"
+            :key="sumtwo_s.total_transition_id"
             class="p-3 rounded-xl border-l-4 border border-purple-300 bg-purple-50 font-semibold text-center"
           >
-            {{ formatNumber(sumtwo_s.total_transition_value) }}
+            {{ formatNumber(Number(sum_cat_two) + Number(sumtwo_s.total_transition_value))  }}
           </div>
 
           <!-- Differences -->
@@ -226,7 +227,7 @@
             :key="index"
             class="p-3 rounded-xl border border-gray-200 bg-gray-50 font-semibold text-center"
           >
-            {{ formatNumber(difference) }}
+            {{ formatNumber(Number(difference))  }}
           </div>
         </div>
       </div>
@@ -278,7 +279,7 @@
 
       <!-- Submit Button -->
       <button
-        class="fixed bottom-4 left-4 right-4 border border-green-400 bg-gray-700 hover:bg-gray-500 hover:text-black hover:border-black text-green-400 font-semibold py-4 rounded-xl shadow-lg transition-colors duration-300 sm:static sm:mb-8"
+        class="fixed bottom-4 left-4 right-4 border mb-20 border-green-400 bg-gray-700 hover:bg-gray-500 hover:text-black hover:border-black text-green-400 font-semibold py-4 rounded-xl shadow-lg transition-colors duration-300 sm:static sm:mb-8"
         @click="submitDifferences()"
       >
         ยืนยันการเปิดบัญชี
@@ -322,6 +323,9 @@ const groupOne = ref([]);
 const groupTwo = ref([]);
 const sumone = ref([]);
 const sumtwo = ref([]);
+const sum_cat_one_six_seven = ref([]);
+const sum_cat_two = ref([]);
+const sum_cat_three = ref([]);
 
 const { formatNumber } = useFormatNumber();
 
@@ -340,9 +344,13 @@ const onSubmitTransition = async () => {
 const differences = computed(() => {
   return sumone.value.map((sumone_s, index) => {
     const sumtwo_s = sumtwo.value[index] || { total_transition_value: 0 };
-    // Ensure values are parsed as floats
-    const sumoneValue = parseFloat(sumone_s.total_transition_value);
-    const sumtwoValue = parseFloat(sumtwo_s.total_transition_value);
+
+    const sumoneValue = parseFloat(sumone_s.total_transition_value || 0) +
+                        parseFloat(sum_cat_one_six_seven.value || 0);
+    const sumtwoValue = parseFloat(sumtwo_s.total_transition_value || 0) +
+                        parseFloat(sum_cat_two.value || 0);
+    const sumthreeValue = parseFloat(sum_cat_three.value || 0);
+
     return sumoneValue - sumtwoValue;
   });
 });
@@ -354,8 +362,7 @@ const submitDifferences = async () => {
     await $axios.post(`/sumbittrantision_suminsert`, {
       account_transition_value: differences.value,
     });
-
-    onSubmitTransition();
+    await onSubmitTransition();
 
     await fetchTransition();
     groupOneTransition();
@@ -377,10 +384,11 @@ const fetchsumone = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const data = await response.data;
+    const data = response.data;
+    console.log("data sum group one", data);
     sumone.value = data;
   } catch (error) {
-    console.error("Error fetching transition:", error);
+    console.error("Error fetching sum group one:", error);
   }
 };
 
@@ -392,13 +400,39 @@ const fetchsumtwo = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const data = await response.data;
-    // console.log("data sum group two", data);
+    const data = response.data;
+    console.log("data sum group two", data);
     sumtwo.value = data;
+  } catch (error) {
+    console.error("Error fetching sum group two:", error);
+  }
+};
+
+
+const fetchfund = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await $axios.get(`/total_fund`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = response.data; // No need to await .data
+    sum_cat_one_six_seven.value =
+      data.get_sum_cat_one_six_seven[0]?.total_owner ?? "0.00";
+    sum_cat_two.value = data.get_sum_cat_two[0]?.total_debt ?? "0.00";
+    sum_cat_three.value = data.get_sum_cat_three[0]?.total_fund ?? "0.00";
+
+    console.log("1,6,7", sum_cat_one_six_seven.value);
+    console.log("2", sum_cat_two.value);
+    console.log("3", sum_cat_three.value);
   } catch (error) {
     console.error("Error fetching transition:", error);
   }
 };
+
+
 
 const fetchTransition = async () => {
   try {
@@ -446,6 +480,8 @@ const groupTwoTransition = async () => {
   }
 };
 
+
+
 const accountTypeValue = computed({
   get() {
     return selectedIcon.value ? selectedIcon.value.account_type_value : "";
@@ -458,12 +494,18 @@ const accountTypeValue = computed({
 });
 
 // formattedValue
-watch(accountTypeValue, (newValue, oldValue) => {
-  let numericValue = newValue.replace(/,/g, ""); // เอาคอมม่าออกก่อน
-  if (!isNaN(numericValue) && numericValue !== "") {
-    accountTypeValue.value = Number(numericValue).toLocaleString("en-US");
+watch(accountTypeValue, (newValue) => {
+  const numericValue = newValue.replace(/,/g, "");
+  
+  // เฉพาะกรณีที่ค่าพิมพ์สมบูรณ์เท่านั้น ค่อย format
+  if (/^\d+(\.\d+)?$/.test(numericValue)) {
+    accountTypeValue.value = Number(numericValue).toLocaleString("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    });
   }
 });
+
 // -------------------------------------------------------------------------------------
 
 const fetchIcon = async () => {
@@ -558,6 +600,7 @@ onMounted(async () => {
     groupTwoTransition(),
     fetchsumone(),
     fetchsumtwo(),
+    fetchfund(),
   ]);
 });
 </script>

@@ -10,12 +10,16 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.17",
+    "@fullcalendar/daygrid": "^6.1.17",
+    "@fullcalendar/interaction": "^6.1.17",
+    "@fullcalendar/vue3": "^6.1.17",
     "@nuxt/image": "^1.8.1",
     "@nuxtjs/proxy": "^2.1.0",
     "@nuxtjs/pwa": "github:nuxt-community/pwa-module",
     "@pinia/nuxt": "^0.9.0",
     "axios": "^1.7.9",
-    "chart.js": "^4.4.7",
+    "chart.js": "^4.4.9",
     "cookie-universal": "^2.2.2",
     "framer-motion": "^12.6.0",
     "gsap": "^3.12.5",
