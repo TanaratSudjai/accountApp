@@ -354,7 +354,7 @@ const fetchDailyTotals = async () => {
   try {
     const { data } = await $axios.get("/daily_expense_totals");
     calendarEvents.value = data.map((day) => ({
-      title: `รายจ่าย: ${day.total}`,
+      title: `${day.total}`,
       date: day.date, // YYYY-MM-DD format
     }));
   } catch (error) {
