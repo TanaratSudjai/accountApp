@@ -207,7 +207,6 @@ const toggleSelect = (type) => {
   //เลือกและยกเลืกการเลือก account_type_id
   selected.value =
     selected.value?.account_type_id === type.account_type_id ? null : type;
-  console.log(selected.value);
 };
 
 const selectedIcon = ref(null); //เก็บ account_icon_id
@@ -215,8 +214,6 @@ const toggleSelectIcon = (icon) => {
   //เลือกและยกเลืกการเลือก account_icon_id
   selectedIcon.value =
     selectedIcon.value?.account_icon_id === icon.account_icon_id ? null : icon;
-  console.log(selectedIcon.value.account_icon_id);
-  console.log(formData);
 };
 
 watch(selected, (newVal) => {
@@ -258,7 +255,6 @@ const submitForm = async () => {
     });
 
     const result = response.data;
-    console.log("Account group created successfully:", result);
 
     // Reset formData correctly
     formData.value = {
@@ -285,7 +281,6 @@ const fetchType = async () => {
     const response = await $axios.get(`/account_type_get/${groupID}`);
     const data = await response;
     TypeData.value = data.account_type;
-    console.log(TypeData.value);
   } catch (error) {
     console.log("Error fetching group data:", error);
   }

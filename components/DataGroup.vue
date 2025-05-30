@@ -144,8 +144,6 @@ const updateImportant = async (account_group_id) => {
   const account = groupData.value.find(
     (group) => group.account_group_id === account_group_id
   );
-  console.log(account);
-
   if (account.account_type_important === 0) {
     try {
       const response = await $axios.put(
@@ -195,7 +193,6 @@ const deleteFormData = async (account_group_id) => {
       groupData.value = groupData.value.filter(
         (group) => group.account_group_id !== account_group_id
       );
-      console.log("Group deleted successfully");
       fetchGroup();
     } else {
       console.log("Failed to delete group");
