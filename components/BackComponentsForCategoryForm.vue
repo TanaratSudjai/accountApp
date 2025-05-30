@@ -52,7 +52,6 @@ const fetchGroup = async () => {
     const response = await $axios.get(`/category/${categoryID}`);
     const data = await response.data;
     GroupData.value = data;
-    console.log(GroupData.value);
   } catch (error) {
     console.log("Error fetching group data:", error);
   }

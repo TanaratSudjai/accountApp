@@ -95,10 +95,6 @@ const groupID = route.query.groupID || ""; // Retrieve groupID from query parame
 const typeID = route.params.id;
 const groupIDGroup = route.params.id;
 const { $axios } = useNuxtApp();
-console.log("this is group " + groupID);
-console.log("this is type " + typeID);
-console.log("this is groupIDGroup " + groupIDGroup)
-
 const CategoryData = ref([]);
 const GroupData = ref([]);
 const OtherGroupData = ref([])
@@ -119,7 +115,6 @@ const fetchCategory = async () => {
     const response = await $axios.get(`/category/${groupID}`);
     const data = await response.data;
     CategoryData.value = data;
-    console.log(CategoryData.value);
   } catch (error) {
     console.log("Error fetching group data:", error);
   }
@@ -130,7 +125,6 @@ const fetchGroup = async () => {
     const response = await $axios.get(`/account_group_get/${typeID}`);
     const data = await response.data;
     GroupData.value = data.account_group_by_id;
-    console.log(GroupData.value);
   } catch (error) {
     console.log("Error fetching group data:", error);
   }
@@ -141,7 +135,6 @@ const fetchOtherGroup = async () => {
     const response = await $axios.get(`/category/${groupIDGroup}`);
     const data = await response.data;
     OtherGroupData.value = data;
-    console.log(OtherGroupData.value);
   } catch (error) {
     console.log("Error fetching group data:", error);
   }
