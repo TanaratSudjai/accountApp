@@ -2,142 +2,100 @@
   <div class="mx-auto max-w-4xl rounded-lg min-h-screen">
     <div class="flex flex-col min-h-screen w-full mb-[150px]">
       <!-- Header -->
-      <div class="mb-2 bg-gray-800 p-1 rounded-lg text-center">
+      <div class="mb-2 shadow-lg p-1 rounded-lg text-center">
         <div class="font-medium text-green-400">การตั้งค่าเปิดบัญชี</div>
       </div>
       <!-- ------------------------------------------------------------------------------------------------------------------------------ -->
       <!-- Icon Selector -->
-      <div
-        class="container rounded-lg mb-2 p-2 shadow-md flex flex-col bg-gray-800"
-      >
-        <p class="text-green-400 px-2 bg-gray-700 rounded-xl my-1">สินทรัพย์</p>
+      <div class="container rounded-lg mb-2 p-2 shadow-md flex flex-col shadow-lg">
+        <p class="text-green-400 px-2 shadow-md rounded-md my-1">สินทรัพย์</p>
         <div class="flex flex-col overflow-x-auto scrollbar-hide">
           <div class="container flex justify-start p-2 space-x-4">
-            <div
-              v-for="icon in IconData.filter(
-                (i) => i.account_category_id === 1
-              )"
-              :key="icon.account_type_id"
-            >
-              <div
-                v-if="icon.account_category_id === 1"
-                :class="[
-                  'rounded-full flex items-center justify-center w-12 h-12 cursor-pointer transition-all duration-300 transform hover:scale-105',
-                  selectedIcon &&
+            <div v-for="icon in IconData.filter(
+              (i) => i.account_category_id === 1
+            )" :key="icon.account_type_id">
+              <div v-if="icon.account_category_id === 1" :class="[
+                'rounded-full flex items-center justify-center w-12 h-12 cursor-pointer transition-all duration-300 transform hover:scale-105',
+                selectedIcon &&
                   selectedIcon.account_type_id === icon.account_type_id
-                    ? 'bg-gray-400 ring-4 ring-gray-200'
-                    : icon.account_category_id === 1
+                  ? 'bg-gray-400 ring-4 ring-gray-200'
+                  : icon.account_category_id === 1
                     ? 'bg-yellow-500 ring-4 ring-yellow-300'
                     : 'bg-gray-100',
-                ]"
-                @click="toggleSelect(icon)"
-              >
-                <img
-                  :src="`/icon_folder/${icon.account_icon_name}`"
-                  alt="icon"
-                  class="w-12 h-12 rounded-full object-cover"
-                />
+              ]" @click="toggleSelect(icon)">
+                <img :src="`/icon_folder/${icon.account_icon_name}`" alt="icon"
+                  class="w-12 h-12 rounded-full object-cover" />
               </div>
             </div>
           </div>
         </div>
 
         <!-- Icon Selector -->
-        <p class="text-green-400 px-2 bg-gray-700 rounded-xl my-1">หนี้สิน</p>
+        <p class="text-green-400 px-2 shadow-md rounded-md my-1">หนี้สิน</p>
         <div class="flex overflow-x-auto scrollbar-hide">
           <div class="container flex justify-start p-2 space-x-4">
-            <div
-              v-for="icon in IconData.filter(
-                (i) => i.account_category_id === 2
-              )"
-              :key="icon.account_type_id"
-            >
-              <div
-                v-if="icon.account_category_id === 2"
-                :class="[
-                  'rounded-full flex items-center justify-center w-12 h-12 cursor-pointer transition-all duration-300 transform hover:scale-105 ',
-                  selectedIcon &&
+            <div v-for="icon in IconData.filter(
+              (i) => i.account_category_id === 2
+            )" :key="icon.account_type_id">
+              <div v-if="icon.account_category_id === 2" :class="[
+                'rounded-full flex items-center justify-center w-12 h-12 cursor-pointer transition-all duration-300 transform hover:scale-105 ',
+                selectedIcon &&
                   selectedIcon.account_type_id === icon.account_type_id
-                    ? 'bg-gray-400 ring-4 ring-gray-200'
-                    : icon.account_category_id === 1
+                  ? 'bg-gray-400 ring-4 ring-gray-200'
+                  : icon.account_category_id === 1
                     ? 'bg-yellow-500 ring-4 ring-yellow-300'
                     : icon.account_category_id === 2
-                    ? 'bg-purple-500 ring-4 ring-purple-300'
-                    : 'bg-gray-100',
-                ]"
-                @click="toggleSelect(icon)"
-              >
-                <img
-                  :src="`/icon_folder/${icon.account_icon_name}`"
-                  alt="icon"
-                  class="w-12 h-12 rounded-full object-cover"
-                />
+                      ? 'bg-purple-500 ring-4 ring-purple-300'
+                      : 'bg-gray-100',
+              ]" @click="toggleSelect(icon)">
+                <img :src="`/icon_folder/${icon.account_icon_name}`" alt="icon"
+                  class="w-12 h-12 rounded-full object-cover" />
               </div>
             </div>
           </div>
         </div>
 
         <!-- Icon Selector -->
-        <p class="text-green-400 px-2 bg-gray-700 rounded-xl my-1">ลูกหนี้</p>
+        <p class="text-green-400 px-2 shadow-md rounded-md my-1">ลูกหนี้</p>
         <div class="flex overflow-x-auto scrollbar-hide">
           <div class="container flex justify-start p-2 space-x-4">
-            <div
-              v-for="icon in IconData.filter(
-                (i) => i.account_category_id === 6
-              )"
-              :key="icon.account_type_id"
-            >
-              <div
-                v-if="icon.account_category_id === 6"
-                :class="[
-                  'rounded-full flex items-center justify-center w-12 h-12 cursor-pointer transition-all duration-300 transform hover:scale-105 ',
-                  selectedIcon &&
+            <div v-for="icon in IconData.filter(
+              (i) => i.account_category_id === 6
+            )" :key="icon.account_type_id">
+              <div v-if="icon.account_category_id === 6" :class="[
+                'rounded-full flex items-center justify-center w-12 h-12 cursor-pointer transition-all duration-300 transform hover:scale-105 ',
+                selectedIcon &&
                   selectedIcon.account_type_id === icon.account_type_id
-                    ? 'bg-gray-400 ring-4 ring-gray-200'
-                    : icon.account_category_id === 6
+                  ? 'bg-gray-400 ring-4 ring-gray-200'
+                  : icon.account_category_id === 6
                     ? 'bg-yellow-500 ring-4 ring-yellow-300'
                     : 'bg-gray-100',
-                ]"
-                @click="toggleSelect(icon)"
-              >
-                <img
-                  :src="`/icon_folder/${icon.account_icon_name}`"
-                  alt="icon"
-                  class="w-12 h-12 rounded-full object-cover"
-                />
+              ]" @click="toggleSelect(icon)">
+                <img :src="`/icon_folder/${icon.account_icon_name}`" alt="icon"
+                  class="w-12 h-12 rounded-full object-cover" />
               </div>
             </div>
           </div>
         </div>
 
         <!-- Icon Selector -->
-        <p class="text-green-400 px-2 bg-gray-700 rounded-xl my-1">ธนาคาร</p>
+        <p class="text-green-400 px-2 shadow-md rounded-md my-1">ธนาคาร</p>
         <div class="flex overflow-x-auto scrollbar-hide">
           <div class="container flex justify-start p-2 space-x-4">
-            <div
-              v-for="icon in IconData.filter(
-                (i) => i.account_category_id === 7
-              )"
-              :key="icon.account_type_id"
-            >
-              <div
-                v-if="icon.account_category_id === 7"
-                :class="[
-                  'rounded-full flex items-center justify-center w-12 h-12 cursor-pointer transition-all duration-300 transform hover:scale-105',
-                  selectedIcon &&
+            <div v-for="icon in IconData.filter(
+              (i) => i.account_category_id === 7
+            )" :key="icon.account_type_id">
+              <div v-if="icon.account_category_id === 7" :class="[
+                'rounded-full flex items-center justify-center w-12 h-12 cursor-pointer transition-all duration-300 transform hover:scale-105',
+                selectedIcon &&
                   selectedIcon.account_type_id === icon.account_type_id
-                    ? 'bg-gray-400 ring-4 ring-gray-200'
-                    : icon.account_category_id === 7
+                  ? 'bg-gray-400 ring-4 ring-gray-200'
+                  : icon.account_category_id === 7
                     ? 'bg-yellow-500 ring-4 ring-yellow-300'
                     : 'bg-gray-100',
-                ]"
-                @click="toggleSelect(icon)"
-              >
-                <img
-                  :src="`/icon_folder/${icon.account_icon_name}`"
-                  alt="icon"
-                  class="w-12 h-12 rounded-full object-cover"
-                />
+              ]" @click="toggleSelect(icon)">
+                <img :src="`/icon_folder/${icon.account_icon_name}`" alt="icon"
+                  class="w-12 h-12 rounded-full object-cover" />
               </div>
             </div>
           </div>
@@ -153,89 +111,62 @@
       </div>
 
       <!-- Input Section -->
-      <div class="bg-gray-800 p-2 rounded-lg shadow-md mb-2">
-        <p
-          class="text-gray-400 px-2 bg-gray-700 rounded-xl my-2 py-2 ring ring-gray-600"
-        >
+      <div class="bg-white p-2 rounded-lg shadow-md mb-2">
+        <p class="text-gray-400 px-2 shadow-md rounded-md my-2 py-2">
           ประเภทบัญชี :
           <span class="text-green-400 font-semibold">{{
             selectedIcon?.account_type_name || "กรุณาเลือกประเภทบัญชี"
           }}</span>
         </p>
         <div class="flex gap-2">
-          <input
-            type="text"
-            placeholder="ตั้งจำนวนเงิน"
-            class="flex-1 gap-2 text-white bg-gray-700 border-none text-sm border border-gray-200 px-4 py-3 rounded-xl outline-none focus:ring-2 focus:ring-green-500 transition-all"
-            v-model="accountTypeValue"
-
-          />
-          <button
-            @click="handleOkClick"
-            :disabled="isButtonDisabled"
-            :class="[
-              'px-6 font-semibold rounded-xl transition-colors duration-300 flex items-center justify-center bg-green-500',
-              isButtonDisabled
-                ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
-                : 'bg-green-500 hover:bg-green-800 text-white cursor-pointer',
-            ]"
-          >
+          <input type="text" placeholder="ตั้งจำนวนเงิน"
+            class="flex-1 gap-2 text-white shadow-md border-none text-sm border border-gray-200 px-4 py-3 rounded-md outline-none focus:ring-2 focus:ring-green-500 transition-all"
+            v-model="accountTypeValue" />
+          <button @click="handleOkClick" :disabled="isButtonDisabled" :class="[
+            'px-6 font-semibold rounded-md transition-colors duration-300 flex items-center justify-center bg-green-500',
+            isButtonDisabled
+              ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+              : 'bg-green-500 hover:bg-green-800 text-white cursor-pointer',
+          ]">
             เพิ่ม
           </button>
         </div>
         <!-- Summary Section -->
         <div class="grid grid-cols-3 mt-2 gap-2">
           <!-- Sumone -->
-          <div
-            v-if="sumone.length === 0"
-            class="p-3 rounded-xl border-l-4 border border-yellow-300 bg-yellow-50 font-semibold text-center"
-          >
+          <div v-if="sumone.length === 0"
+            class="p-3 rounded-md border-l-4 border border-yellow-300 bg-yellow-50 font-semibold text-center">
             0
           </div>
-          <div
-            v-for="sumone_s in sumone"
-            :key="sumone_s.account_transition_id"
-            class="p-3 rounded-xl border-l-4 border border-yellow-300 bg-yellow-50 font-semibold text-center"
-          >
-            {{ formatNumber(Number(sum_cat_one_six_seven) + Number(sumone_s.total_transition_value))}}
+          <div v-for="sumone_s in sumone" :key="sumone_s.account_transition_id"
+            class="p-3 rounded-md border-l-4 border border-yellow-300 bg-yellow-50 font-semibold text-center">
+            {{ formatNumber(Number(sum_cat_one_six_seven) + Number(sumone_s.total_transition_value)) }}
           </div>
 
           <!-- Sumtwo -->
-          <div
-            v-if="sumtwo.length === 0"
-            class="p-3 rounded-xl border-l-4 border border-purple-300 bg-purple-50 font-semibold text-center"
-          >
+          <div v-if="sumtwo.length === 0"
+            class="p-3 rounded-md border-l-4 border border-purple-300 bg-purple-50 font-semibold text-center">
             0
           </div>
-          <div
-            v-for="sumtwo_s in sumtwo"
-            :key="sumtwo_s.total_transition_id"
-            class="p-3 rounded-xl border-l-4 border border-purple-300 bg-purple-50 font-semibold text-center"
-          >
-            {{ formatNumber(Number(sum_cat_two) + Number(sumtwo_s.total_transition_value))  }}
+          <div v-for="sumtwo_s in sumtwo" :key="sumtwo_s.total_transition_id"
+            class="p-3 rounded-md border-l-4 border border-purple-300 bg-purple-50 font-semibold text-center">
+            {{ formatNumber(Number(sum_cat_two) + Number(sumtwo_s.total_transition_value)) }}
           </div>
 
           <!-- Differences -->
-          <div
-            v-if="sumtwo.length === 0 && sumone.length === 0"
-            class="p-3 rounded-xl border border-gray-200 bg-gray-50 font-semibold text-center"
-          >
+          <div v-if="sumtwo.length === 0 && sumone.length === 0"
+            class="p-3 rounded-md border border-gray-200 bg-gray-50 font-semibold text-center">
             0
           </div>
-          <div
-            v-for="(difference, index) in differences"
-            :key="index"
-            class="p-3 rounded-xl border border-gray-200 bg-gray-50 font-semibold text-center"
-          >
-            {{ formatNumber(Number(difference))  }}
+          <div v-for="(difference, index) in differences" :key="index"
+            class="p-3 rounded-md border border-gray-200 bg-gray-50 font-semibold text-center">
+            {{ formatNumber(Number(difference)) }}
           </div>
         </div>
       </div>
 
       <!-- Transactions List -->
-      <div
-        class="bg-gray-800 min-h-[200px] rounded-xl shadow-md overflow-hidden mb-2"
-      >
+      <div class="bg-white min-h-[200px] rounded-md shadow-md overflow-hidden mb-2">
         <div class="text-center p-2 font-medium text-green-400">
           รายการธุรกรรมการเปิดบัญชี
         </div>
@@ -243,11 +174,8 @@
         <!-- Group One -->
         <div class="p-4">
           <div class="space-y-3">
-            <div
-              v-for="group_one in groupOne"
-              :key="group_one.account_transition_id"
-              class="flex justify-between p-4 border-l-4 border border-yellow-300 rounded-xl bg-yellow-50 hover:shadow-md transition-shadow"
-            >
+            <div v-for="group_one in groupOne" :key="group_one.account_transition_id"
+              class="flex justify-between p-4 border-l-4 border border-yellow-300 rounded-md bg-yellow-50 hover:shadow-md transition-shadow">
               <span class="font-semibold text-gray-800">
                 {{ group_one.account_type_name }}
               </span>
@@ -261,11 +189,8 @@
         <!-- Group Two -->
         <div class="p-4">
           <div class="space-y-3">
-            <div
-              v-for="group_two in groupTwo"
-              :key="group_two.account_transition_id"
-              class="flex justify-between p-4 border-l-4 border border-purple-300 rounded-xl bg-purple-50 hover:shadow-md transition-shadow"
-            >
+            <div v-for="group_two in groupTwo" :key="group_two.account_transition_id"
+              class="flex justify-between p-4 border-l-4 border border-purple-300 rounded-md bg-purple-50 hover:shadow-md transition-shadow">
               <span class="font-semibold text-gray-800">
                 {{ group_two.account_type_name }}
               </span>
@@ -279,9 +204,8 @@
 
       <!-- Submit Button -->
       <button
-        class="fixed bottom-4 left-4 right-4 border mb-20 border-green-400 bg-gray-700 hover:bg-gray-500 hover:text-black hover:border-black text-green-400 font-semibold py-4 rounded-xl shadow-lg transition-colors duration-300 sm:static sm:mb-8"
-        @click="submitDifferences()"
-      >
+        class="fixed bottom-4 left-4 right-4 mb-20 shadow-md  bg-gray-200 text-black font-semibold py-4 rounded-md shadow-lg transition-colors duration-300 sm:static sm:mb-8"
+        @click="submitDifferences()">
         ยืนยันการเปิดบัญชี
       </button>
     </div>
@@ -346,9 +270,9 @@ const differences = computed(() => {
     const sumtwo_s = sumtwo.value[index] || { total_transition_value: 0 };
 
     const sumoneValue = parseFloat(sumone_s.total_transition_value || 0) +
-                        parseFloat(sum_cat_one_six_seven.value || 0);
+      parseFloat(sum_cat_one_six_seven.value || 0);
     const sumtwoValue = parseFloat(sumtwo_s.total_transition_value || 0) +
-                        parseFloat(sum_cat_two.value || 0);
+      parseFloat(sum_cat_two.value || 0);
     const sumthreeValue = parseFloat(sum_cat_three.value || 0);
 
     return sumoneValue - sumtwoValue;
@@ -496,7 +420,7 @@ const accountTypeValue = computed({
 // formattedValue
 watch(accountTypeValue, (newValue) => {
   const numericValue = newValue.replace(/,/g, "");
-  
+
   // เฉพาะกรณีที่ค่าพิมพ์สมบูรณ์เท่านั้น ค่อย format
   if (/^\d+(\.\d+)?$/.test(numericValue)) {
     accountTypeValue.value = Number(numericValue).toLocaleString("en-US", {

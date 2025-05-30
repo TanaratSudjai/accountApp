@@ -1,68 +1,41 @@
 <template>
   <div class="min-h-screen font-noto">
     <div class="container mx-auto px-4 py-8">
-      <!-- Dashboard Header -->
-      <div class="mb-8">
-        <h1 class="text-3xl font-bold text-white text-center mb-5">
-          หน้าเมนูของระบบบัญชี
-        </h1>
-        <div class="w-20 h-1 bg-white/30 mx-auto rounded-full"></div>
-      </div>
-
       <!-- Menu Grid -->
-      <div
-        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-5xl mx-auto"
-      >
-        <NuxtLink
-          v-for="(item, index) in menuItems"
-          :key="item.id"
-          :to="isDisabled(item.title) ? item.path_name || '#' : item.route"
-          :class="[
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-w-5xl mx-auto">
+        <NuxtLink v-for="(item, index) in filteredMenuItems" :key="item.id"
+          :to="isDisabled(item.title) ? item.path_name || '#' : item.route" :class="[
             'relative group backdrop-blur-sm',
             isDisabled(item.title)
-              ? 'opacity-60 border-2 border-[#46cb79] rounded-2xl'
-              : 'hover:scale-105 hover:shadow-2xl hover:shadow-cyan-900/30',
+              ? 'opacity-60 rounded-2xl'
+              : 'hover:scale-105 hover:shadow-2xl',
             'transition-all duration-300 ease-out',
-          ]"
-          @click="isDisabled(item.title) && $event.preventDefault()"
-        >
-          <div
-            :class="[
-              'rounded-2xl p-6',
-              'bg-white/90 dark:bg-gray-800/90',
-              'flex flex-col items-center justify-center',
-              'min-h-[140px]',
-              'border border-white/20',
-              !isDisabled(item.title) &&
-                'hover:bg-white dark:hover:bg-gray-800',
-            ]"
-          >
+          ]" @click="isDisabled(item.title) && $event.preventDefault()">
+          <div :class="[
+            'rounded-2xl p-6',
+            'bg-white shadow-md border-2 border-gray-200',
+            'flex flex-col items-center justify-center',
+            'min-h-[140px]',
+            'border border-white/20',
+            !isDisabled(item.title) &&
+            'hover:bg-white',
+          ]">
             <!-- Icon Container -->
-            <div
-              :class="[
-                'rounded-xl p-3',
-                'transition-transform duration-300 group-hover:scale-110',
-                item.color || 'text-cyan-600 dark:text-cyan-400',
-                'bg-cyan-50 dark:bg-cyan-900/30',
-              ]"
-            >
+            <div :class="[
+              'rounded-xl p-3',
+              'transition-transform duration-300 group-hover:scale-110',
+              item.color || 'text-gray-700',
+            ]">
               <!-- Icon Component -->
-              <component
-                :is="
-                  isDisabled_icons(item.title)
-                    ? item.isDisabled_icons
-                    : item.icon
-                "
-                class="w-8 h-8"
-              />
-
+              <component :is="isDisabled_icons(item.title)
+                ? item.isDisabled_icons
+                : item.icon
+                " class="w-8 h-8" />
               <!-- <component :is="item.icon" class="w-8 h-8" /> -->
             </div>
 
             <!-- Title -->
-            <span
-              class="mt-4 text-sm font-medium text-gray-700 dark:text-gray-200 text-center"
-            >
+            <span class="mt-4 text-sm font-medium text-gray-700 text-center">
               {{ item.title }}
             </span>
 
@@ -80,12 +53,8 @@
       </div>
 
       <!-- Quick Stats Section -->
-      <div
-        class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto"
-      >
-        <div
-          class="bg-white/90 dark:bg-gray-800/90 rounded-2xl p-6 backdrop-blur-sm"
-        >
+      <!-- <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+        <div class="bg-white/90 dark:bg-gray-800/90 rounded-2xl p-6 backdrop-blur-sm">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-medium text-gray-600 dark:text-gray-300">
               Today's Balance
@@ -100,9 +69,7 @@
           <p class="mt-1 text-sm text-green-600 dark:text-green-400">+2.45%</p>
         </div>
 
-        <div
-          class="bg-white/90 dark:bg-gray-800/90 rounded-2xl p-6 backdrop-blur-sm"
-        >
+        <div class="bg-white/90 dark:bg-gray-800/90 rounded-2xl p-6 backdrop-blur-sm">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-medium text-gray-600 dark:text-gray-300">
               Pending Transactions
@@ -119,9 +86,7 @@
           </p>
         </div>
 
-        <div
-          class="bg-white/90 dark:bg-gray-800/90 rounded-2xl p-6 backdrop-blur-sm"
-        >
+        <div class="bg-white/90 dark:bg-gray-800/90 rounded-2xl p-6 backdrop-blur-sm">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-medium text-gray-600 dark:text-gray-300">
               Monthly Overview
@@ -137,7 +102,7 @@
             View Report
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -165,7 +130,7 @@ import { computed } from "vue";
 const checkData = ref([]);
 const checkData_depter = ref([]);
 const checkData_creditor = ref([]);
-
+const offAccount_menu = ref(true)
 // by of plungins
 const { $axios } = useNuxtApp();
 
@@ -186,7 +151,7 @@ onMounted(async () => {
   await fetchData();
 });
 
-const menuItems = [
+const menuItems = ref([
   {
     id: 1,
     icon: FolderOpen,
@@ -203,8 +168,6 @@ const menuItems = [
     color: "text-green-400",
     route: "/transection",
   },
-  
-
   // -------
   {
     id: 4,
@@ -239,7 +202,7 @@ const menuItems = [
     path_name: "/group/2",
   },
   // -------
-  
+
   {
     id: 8,
     icon: Clock,
@@ -261,7 +224,7 @@ const menuItems = [
     color: "text-green-500",
     route: "/transitionbank",
   },
-];
+])
 
 
 // Function to check if certain items should be disabled
@@ -304,6 +267,7 @@ const isDisabled = (title) => {
     if (title === "เปิดบัญชี") {
       const item = menuItems.find((item) => item.title === "เปิดบัญชี");
       if (item) item.id = 13;
+      offAccount_menu.value = false;
     }
   }
 
@@ -336,6 +300,16 @@ watchEffect(() => {
   }
 });
 
+
+const filteredMenuItems = computed(() => {
+  return menuItems.value.filter((item) => {
+    // ถ้า title เป็น "เปิดบัญชี" และ offAccount_menu ถูกปิดอยู่ => ซ่อนไม่แสดง
+    if (item.title === "เปิดบัญชี" && offAccount_menu.value === false) {
+      return false;
+    }
+    return true;
+  });
+});
 
 
 
