@@ -213,7 +213,7 @@
 import { computed, onMounted, onUnmounted } from "vue";
 const columnOneSelected = ref(null); //จากคอลัมน์ที่ 1
 const columnTwoSelected = ref(null); //จากคอลัมน์ที่ 2
-const accountTypeValue = ref(0);
+
 const bankData = ref([]);
 const { $axios } = useNuxtApp();
 
@@ -231,10 +231,6 @@ const formData = ref({
   account_transition_value: "",
 });
 
-const value_money = (params_value_type_sum) => {
-  console.log(params_value_type_sum);
-};
-
 const columnValue = ref([]);
 
 function setColumnValue(value) {
@@ -242,21 +238,35 @@ function setColumnValue(value) {
   columnValue.value = test;
   console.log(columnValue);
 }
+const rawAccountValue = ref(null);
+
+const accountTypeValue = computed({
+  get() {
+    return rawAccountValue.value !== null
+      ? Number(rawAccountValue.value).toLocaleString("en-US")
+      : "";
+  },
+  set(val) {
+    const numericValue = String(val).replace(/,/g, "");
+    if (!isNaN(numericValue) && numericValue !== "") {
+      rawAccountValue.value = Number(numericValue);
+    } else {
+      rawAccountValue.value = null;
+    }
+  },
+});
+
 
 const isButtonDisabled = computed(() => {
   return (
     (columnOneSelected.value &&
       columnTwoSelected.value &&
-      columnOneSelected.value.account_type_id ===
-        columnTwoSelected.value.account_type_id) ||
-    accountTypeValue.value < 0 ||
-    accountTypeValue.value === 0 ||
-    accountTypeValue.value === null ||
-    accountTypeValue.value === undefined ||
-    accountTypeValue.value === "" ||
-    accountTypeValue.value > columnValue.value
+      columnOneSelected.value.account_type_id === columnTwoSelected.value.account_type_id) ||
+    rawAccountValue.value <= 0 ||
+    rawAccountValue.value > columnValue.value
   );
 });
+
 
 const fetchCat = async () => {
   try {
