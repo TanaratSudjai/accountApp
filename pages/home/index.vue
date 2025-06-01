@@ -128,8 +128,8 @@ import {
 } from "lucide-vue-next";
 import { computed } from "vue";
 const checkData = ref([]);
-const checkData_depter = ref([]);
-const checkData_creditor = ref([]);
+const checkData_depter = ref({ type: "", value: 0 });
+const checkData_creditor = ref({ type: "", value: 0 });
 const offAccount_menu = ref(true)
 // by of plungins
 const { $axios } = useNuxtApp();
@@ -140,9 +140,9 @@ const fetchData = async () => {
     checkData.value = response.data.res_transition;
     checkData_depter.value = response.data.data[0];
     checkData_creditor.value = response.data.data[1];
-    // console.log("checkData_depter", checkData_depter.value);
-    // console.log("checkData_creditor", checkData_creditor.value);
-    // console.log("checkData", checkData.value);
+    console.log("checkData_depter", checkData_depter.value);
+    console.log("checkData_creditor", checkData_creditor.value);
+    console.log("checkData", checkData.value);
   } catch (error) {
     console.log(error);
   }
@@ -231,21 +231,12 @@ const menuItems = ref([
 const isDisabled = (title) => {
   if (!title) return true;
 
-  const depter = parseInt(checkData_depter.value.value);
-  const creditor = parseInt(checkData_creditor.value.value);
+  const depter = parseFloat(checkData_depter.value.value);
+  const creditor = parseFloat(checkData_creditor.value.value);
+  const accountSum = parseFloat(checkData.value[0]?.account_type_sum || 0);
 
-  if (
-    title === "ลูกหนี้" &&
-    (depter == 0 || depter === null || depter === undefined)
-  ) {
-    return true;
-  }
-  if (
-    title === "เจ้าหนี้" &&
-    (creditor == 0 || creditor === null || creditor === undefined)
-  ) {
-    return true;
-  }
+  if (title === "ลูกหนี้" && depter <= 0) return true;
+  if (title === "เจ้าหนี้" && creditor <= 0) return true;
 
   const disableTitles = [
     "บันทึกรายการค่าใช้จ่าย",
@@ -255,29 +246,22 @@ const isDisabled = (title) => {
     "ธนาคาร",
   ];
 
-  if (
-    checkData.value.length &&
-    checkData.value[0].account_type_sum &&
-    parseFloat(checkData.value[0].account_type_sum) > 0
-  ) {
-    if (title === "จัดการหมวดหมู่") {
-      const item = menuItems.find((item) => item.title === "จัดการหมวดหมู่");
-      if (item) item.id = 12;
-    }
-    if (title === "เปิดบัญชี") {
-      const item = menuItems.find((item) => item.title === "เปิดบัญชี");
-      if (item) item.id = 13;
+  if (accountSum > 0) {
+    const manageCat = menuItems.value.find((item) => item.title === "จัดการหมวดหมู่");
+    if (manageCat) manageCat.id = 12;
+
+    const openAcc = menuItems.value.find((item) => item.title === "เปิดบัญชี");
+    if (openAcc) {
+      openAcc.id = 13;
       offAccount_menu.value = false;
     }
+
+    return false;
   }
 
-  return (
-    disableTitles.includes(title) &&
-    (!checkData.value.length ||
-      !checkData.value[0].account_type_sum ||
-      parseFloat(checkData.value[0].account_type_sum) <= 0)
-  );
+  return disableTitles.includes(title);
 };
+
 
 watchEffect(() => {
   if (
@@ -285,20 +269,21 @@ watchEffect(() => {
     checkData.value[0].account_type_sum &&
     parseFloat(checkData.value[0].account_type_sum) > 0
   ) {
-    const manageCat = menuItems.find((item) => item.title === "จัดการหมวดหมู่");
+    const manageCat = menuItems.value.find((item) => item.title === "จัดการหมวดหมู่");
     if (manageCat) manageCat.id = 10;
 
-    const openAcc = menuItems.find((item) => item.title === "เปิดบัญชี");
+    const openAcc = menuItems.value.find((item) => item.title === "เปิดบัญชี");
     if (openAcc) openAcc.id = 11;
 
     // Resort the menuItems so updated IDs appear last
-    menuItems.sort((a, b) => a.id - b.id);
+    menuItems.value.sort((a, b) => a.id - b.id);
 
-    menuItems.forEach((item) => {
+    menuItems.value.forEach((item) => {
       console.log("item", item.id);
     });
   }
 });
+
 
 
 const filteredMenuItems = computed(() => {
