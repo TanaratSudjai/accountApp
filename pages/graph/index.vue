@@ -325,7 +325,7 @@ const fetchExpensesInChart = async (year, month) => {
 
     // Only fetch and calculate totals if there's chart data
     if (data && data.length > 0) {
-      const { data: allDays } = await $axios.get("/daily_expense_totals", { params });
+      const { data: allDays } = await $axios.get("/MonthAndYear_expense_totals", { params });
       
       if (month === 0) {
         totalExpenseYear.value = allDays.reduce((sum, e) => sum + Number(e.total), 0);
@@ -386,7 +386,7 @@ const fetchIncomeInChart = async (year, month) => {
 
     // Only fetch and calculate totals if there's chart data
     if (data && data.length > 0) {
-      const { data: allDays } = await $axios.get("/daily_income_totals", { params });
+      const { data: allDays } = await $axios.get("/MonthAndYear_income_totals", { params });
       
       if (month === 0) {
         totalIncomeYear.value = allDays.reduce((sum, e) => sum + Number(e.total), 0);
@@ -600,7 +600,6 @@ const setIncome = async (year, month) => {
     totalIncomeYear.value = 0;
   }
 };
-
 
 const setExpense = async (year, month) => {
   try {
