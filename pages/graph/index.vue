@@ -644,6 +644,7 @@ const allCalendarEvents = computed(() => {
     ...calendarEventsIncome.value.map(e => ({
       ...e,
       className: 'income-event',
+     
     }))
   ];
 });
@@ -683,22 +684,33 @@ onMounted(async () => {
     fetchIncomeForDay(selectedYear.value, selectedMonth.value, selectedDay.value),
     fetchExpensesInChart(selectedYearForChart.value, selectedMonthForChart.value),
     fetchIncomeInChart(selectedYearForChart.value, selectedMonthForChart.value),
-    setIncome(selectedYearForChart.value, selectedMonthForChart.value),
-    setExpense(selectedYearForChart.value, selectedMonthForChart.value)
+    // setIncome(selectedYearForChart.value, selectedMonthForChart.value),
+    // setExpense(selectedYearForChart.value, selectedMonthForChart.value)
   ]);
 });
 </script>
 
 <style scoped>
 ::v-deep(.expense-event) {
-  background-color: #FF6F61 !important;
+  background-color: #fef2f2 !important;
+  color: red !important;
+  border: none !important;
+}
+
+::v-deep(.expense-event .fc-event-title),
+::v-deep(.expense-event .fc-list-event-title) {
+  color: #b91c1c!important;
+}
+
+::v-deep(.income-event) {
+  background-color: #f0fdf4 !important;
   color: white !important;
   border: none !important;
 }
 
-::v-deep(.income-event) {
-  background-color: #4CAF50 !important;
-  color: white !important;
-  border: none !important;
+::v-deep(.income-event .fc-event-title),
+::v-deep(.income-event .fc-list-event-title) {
+  color: #15803d !important;
 }
+
 </style>
