@@ -1,81 +1,115 @@
 <template>
-  <div class="pt-2 h-auto overflow-y-auto bg-[#111827] text-gray-200 p-4 rounded-lg ">
+  <div class="pt-6 h-auto overflow-y-auto bg-gray-50 text-gray-800 p-6 rounded-xl shadow-sm">
     <div
       v-if="!groupData || groupData.length === 0"
-      class="text-center p-8 text-gray-400 font-medium"
-    ><div class="mb-5">
-      ไม่มีกลุ่ม
-    </div>
+      class="text-center p-12 text-gray-500 font-medium"
+    >
+      <div class="mb-8">
+        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+          <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-700 mb-2">ไม่มีกลุ่ม</h3>
+        <p class="text-gray-500 text-sm">เริ่มต้นด้วยการสร้างกลุ่มแรกของคุณ</p>
+      </div>
       
       <div 
-          @click="openAddModal" 
-          class="border-2 border-dashed border-[#46cb79]/40 hover:border-[#46cb79] bg-[#1f2937] hover:bg-[#1f2937]/80 rounded-xl p-5 shadow-lg flex flex-col justify-center items-center cursor-pointer transition-all duration-300 h-full min-h-[200px]"
-        >
-          <div class="rounded-full w-16 h-16 bg-[#111827] flex justify-center items-center mb-2 shadow-lg">
-            <Plus class="w-8 h-8 text-[#46cb79]"/>
-          </div>
-          <span class="text-[#46cb79] mt-2 font-medium">เพิ่มกลุ่มใหม่</span>
+        @click="openAddModal" 
+        class="border-2 border-dashed border-emerald-200 hover:border-emerald-400 bg-white hover:bg-emerald-50 rounded-2xl p-8 shadow-sm hover:shadow-md flex flex-col justify-center items-center cursor-pointer transition-all duration-300 h-full min-h-[240px] group"
+      >
+        <div class="rounded-full w-16 h-16 bg-emerald-100 group-hover:bg-emerald-200 flex justify-center items-center mb-4 shadow-sm transition-colors duration-300">
+          <Plus class="w-8 h-8 text-emerald-600"/>
         </div>
+        <span class="text-emerald-600 font-semibold text-lg">เพิ่มกลุ่มใหม่</span>
+        <span class="text-gray-500 text-sm mt-1">คลิกเพื่อเริ่มต้น</span>
+      </div>
     </div>
 
     <div v-else>
-      <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-      >
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">รายการกลุ่ม</h2>
+        <p class="text-gray-600">จัดการและดูข้อมูลกลุ่มของคุณ</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           v-for="group in groupData"
           :key="group.account_group_id"
-          class="border border-gray-700 rounded-xl bg-[#1f2937] p-5 shadow-lg transition-all duration-300 hover:shadow-[#46cb79]/10 hover:border-[#46cb79]/40"
+          class="border border-gray-200 rounded-2xl bg-white p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:border-emerald-200 group"
         >
           <div @click="goToPath(group.account_group_id, categoryID)" class="cursor-pointer">
-            <!-- <div class="mb-3">
-              <span class="text-[#46cb79] text-sm font-medium">รหัส</span>
-              <div class="font-normal text-gray-300">{{ group.account_group_id }}</div>
-            </div> -->
-            
-            <div class="mb-3">
-              <span class="text-[#46cb79] text-sm font-medium">ชื่อ</span>
-              <div class="font-normal text-gray-300 transition-colors">
-                {{ group.account_group_name }}
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex-1">
+                <div class="flex items-center mb-2">
+                  <div class="w-3 h-3 bg-emerald-500 rounded-full mr-2"></div>
+                  <span class="text-emerald-600 text-sm font-medium uppercase tracking-wide">กลุ่ม</span>
+                </div>
+                
+                <h3 class="font-bold text-gray-800 text-lg mb-1 group-hover:text-emerald-700 transition-colors">
+                  {{ group.account_group_name }}
+                </h3>
+                
+                <div class="flex items-center text-gray-500 text-sm">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                  </svg>
+                  ID: {{ group.account_group_id }}
+                </div>
               </div>
             </div>
             
-            <div class="mb-4">
-              <span class="text-[#46cb79] text-sm font-medium">จำนวน</span>
-              <div class="font-semibold text-white">{{ group.type_count }}</div>
+            <div class="bg-gray-50 rounded-xl p-4 mb-4">
+              <div class="flex items-center justify-between">
+                <span class="text-gray-600 text-sm font-medium">จำนวนรวม</span>
+                <div class="flex items-center">
+                  <span class="text-2xl font-bold text-emerald-600">{{ group.type_count }}</span>
+                  <span class="text-gray-500 text-sm ml-1">รายการ</span>
+                </div>
+              </div>
             </div>
           </div>
           
-          <div class="flex justify-between mt-4 pt-4 border-t border-gray-700">
+          <div class="flex justify-between items-center pt-4 border-t border-gray-100">
             <div class="flex space-x-2">
               <button
-                class="bg-red-600/90 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium"
+                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md transform hover:scale-105"
                 @click="deleteFormData(group.account_group_id)"
               >
+                <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
                 ลบ
               </button>
               <button
-                class="bg-cyan-700/90 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md transform hover:scale-105"
                 @click="openUpdateModal(group)"
               >
+                <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
                 แก้ไข
               </button>
+            </div>
+            <div class="text-xs text-gray-400">
+              <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
             </div>
           </div>
         </div>
         
         <div 
           @click="openAddModal" 
-          class="border-2 border-dashed border-[#46cb79]/40 hover:border-[#46cb79] bg-[#1f2937] hover:bg-[#1f2937]/80 rounded-xl p-5 shadow-lg flex flex-col justify-center items-center cursor-pointer transition-all duration-300 h-full min-h-[200px]"
+          class="border-2 border-dashed border-emerald-200 hover:border-emerald-400 bg-white hover:bg-emerald-50 rounded-2xl p-6 shadow-sm hover:shadow-md flex flex-col justify-center items-center cursor-pointer transition-all duration-300 h-full min-h-[280px] group"
         >
-          <div class="rounded-full w-16 h-16 bg-[#111827] flex justify-center items-center mb-2 shadow-lg">
-            <Plus class="w-8 h-8 text-[#46cb79]"/>
+          <div class="rounded-full w-16 h-16 bg-emerald-100 group-hover:bg-emerald-200 flex justify-center items-center mb-4 shadow-sm transition-colors duration-300">
+            <Plus class="w-8 h-8 text-emerald-600"/>
           </div>
-          <span class="text-[#46cb79] mt-2 font-medium">เพิ่มกลุ่มใหม่</span>
+          <span class="text-emerald-600 font-semibold text-lg mb-1">เพิ่มกลุ่มใหม่</span>
+          <span class="text-gray-500 text-sm text-center">คลิกเพื่อสร้างกลุ่มใหม่</span>
         </div>
       </div>
-
-      
     </div>
   </div>
   

@@ -5,7 +5,7 @@
   <div class="flex justify-center items-center">
   
     <div class="flex items-center justify-center mb-10 w-full flex-col max-w-6xl">
-      <div class="w-full border border-gray-700 bg-[#1f2937] rounded-xl p-4 shadow-xl mt-2 mb-5 ">
+      <div class="w-full border border-gray-700 bg-gray-400 rounded-xl p-4 shadow-xl mt-2 mb-5 ">
         <div class="flex justify-center items-center mb-4 text-bold text-white">
           <GetgroupName></GetgroupName>
         </div>
