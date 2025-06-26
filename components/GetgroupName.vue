@@ -1,6 +1,6 @@
 <template>
     <div v-if="GroupData.length > 0">
-      <h1>{{ GroupData[0].account_category_name}}</h1>
+      <h1 class="text-gray-400">{{ GroupData[0].account_category_name}}</h1>
     </div>
     <div v-else></div>
   </template>

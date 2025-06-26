@@ -168,6 +168,13 @@ watch(OtherGroupData, (newData) => {
 });
 
 const goback = () => {
-  router.back();
+  const path = route.query.path || route.path;
+  console.log("Current path:", path);
+  if (path == "/category") {
+    router.push("/home");
+  } else {
+    router.back();
+  }
 };
+
 </script>
