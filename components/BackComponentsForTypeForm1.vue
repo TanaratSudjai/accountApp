@@ -169,7 +169,6 @@ watch(OtherGroupData, (newData) => {
 
 const goback = () => {
   const path = route.query.path || route.path;
-  console.log("Current path:", path);
   if (path == "/category") {
     router.push("/home");
   } else {

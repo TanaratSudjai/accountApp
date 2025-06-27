@@ -187,7 +187,6 @@ const fetchIcon = async () => {
     const response = await $axios.get(`/get_icons/${categoryID}`);
     const data = await response.data;
     icons.value = data.data;
-    console.log(icons);
   } catch (error) {
     console.log("No data", error);
   }
@@ -219,8 +218,6 @@ const toggleSelect = (type) => {
     selected.value = type;
     localAccountType.value.account_type_from_id = type.account_type_id;
   }
-  console.log(localAccountType.value.account_type_icon);
-  console.log(localAccountType.value.account_type_from_id);
 };
 watch(
   () => props.account_type_from_id,
@@ -247,7 +244,7 @@ const toggleSelectIcon = (icon) => {
   } else {
     selectedIcon.value = icon;
   }
-  console.log(selectedIcon.value?.account_icon_id); // Ensure it logs correctly
+
 };
 
 watch(selectedIcon, (newVal) => {
@@ -271,13 +268,6 @@ watch(
 // -------------------------------------------------------------------------------------
 
 const updateAccountType = async () => {
-  console.log(localAccountType.value.account_type_id);
-  console.log(localAccountType.value.account_type_name);
-  // value format
-  console.log(localAccountType.value.account_type_value);
-  console.log(localAccountType.value.account_type_description);
-  console.log(localAccountType.value.account_type_from_id);
-  console.log(localAccountType.value.account_type_icon);
 
   const removeComma = (value) => {
     if (typeof value === "string") {

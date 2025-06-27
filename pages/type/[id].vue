@@ -200,7 +200,6 @@ const submitForm = async () => {
     });
 
     const result = await response.json();
-    console.log("Account group created successfully:", result);
 
     formData.value = {
       account_type_name: "",
@@ -225,7 +224,6 @@ const fetchType = async () => {
     const response = await $axios.get(`/account_type_get/${groupID}`);
     const data = await response.data;
     TypeData.value = data.account_type;
-    console.log(TypeData.value);
   } catch (error) {
     console.error("Error fetching group data:", error);
   }
@@ -238,7 +236,6 @@ onMounted(async () => {
 });
 
 const deleteFormData = async (account_type_id) => {
-  console.log(account_type_id);
   try {
     const response = await $axios.delete(
       `/account_type_del/${account_type_id}`
@@ -248,7 +245,6 @@ const deleteFormData = async (account_type_id) => {
       TypeData.value = TypeData.value.filter(
         (Type) => Type.account_type_id !== account_type_id
       );
-      console.log("Group deleted successfully");
       fetchType();
     } else {
       console.error("Failed to delete group");
@@ -275,7 +271,6 @@ const handleUpdate = (updatedData) => {
   );
 
   formData.value.account_type_from_id = updatedData.account_type_from_id;
-  console.log("Account type updated successfully:", updatedData);
   fetchType();
 };
 </script>

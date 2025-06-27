@@ -412,12 +412,10 @@ const fetchType = async () => {
   try {
     if (showZeroSum.value) {
       const response = await $axios.get("/dasktop_data_sumtype");
-      console.log("API Response not zero:", response); // Log the response
       datatype_sum.value = response.data.account_type_sum || [];
       loading.value = false;
     } else {
       const response = await $axios.get("/dasktop_data_sumzero");
-      console.log("API Response zero:", response); // Log the response
       datatype_sum.value = response.data.account_type_sum || [];
     }
   } catch (err) {

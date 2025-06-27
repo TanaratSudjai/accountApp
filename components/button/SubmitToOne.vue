@@ -10,7 +10,6 @@ const onSubmit = async () => {
         `/sumbitPerDay`
       );
       if(response.status === 200 || response.status === 201){
-       console.log("Submit successful");
        router.push("/dasktop")
 
       } else {

@@ -250,7 +250,6 @@ const handleUpdate = (updatedData) => {
       ? updatedData
       : group
   );
-  console.log("Account type updated successfully:", updatedData);
   fetchGroup();
 };
 

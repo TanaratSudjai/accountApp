@@ -236,7 +236,6 @@ const columnValue = ref([]);
 function setColumnValue(value) {
   const test = value.account_type_total;
   columnValue.value = test;
-  console.log(columnValue);
 }
 const rawAccountValue = ref(null);
 
@@ -274,7 +273,6 @@ const fetchCat = async () => {
     if (!res.status === 200 || !res.status === 201)
       throw new Error("Network response was not ok");
     const data = await res.data;
-    // console.log(data);
     catData.value = data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -298,7 +296,6 @@ onUnmounted(() => {
 const toggleColumnOne = (type) => {
   //เลือกข้อมูลจากคอลัมน์ที่ 1 สามารถยกเลิกได้
   const test = type.account_type_total;
-  console.log(test);
   if (
     columnOneSelected.value &&
     columnOneSelected.value.account_type_id === type.account_type_id
@@ -309,14 +306,6 @@ const toggleColumnOne = (type) => {
     columnOneSelected.value = type;
     accountTypeValue.value = type.account_type_total;
   }
-  console.log(
-    "จากต้นทาง =" +
-      columnOneSelected.value?.account_type_id +
-      "ถึงปลายทาง =" +
-      columnTwoSelected.value?.account_type_id +
-      "จำนวนเงิน = " +
-      accountTypeValue.value
-  );
 };
 
 const toggleColumnTwo = (type) => {
@@ -329,15 +318,6 @@ const toggleColumnTwo = (type) => {
   } else {
     columnTwoSelected.value = type;
   }
-  console.log(columnTwoSelected.value.account_type_id);
-  console.log(
-    "จากต้นทาง =" +
-      columnOneSelected.value?.account_type_id +
-      "ถึงปลายทาง =" +
-      columnTwoSelected.value?.account_type_id +
-      "จำนวนเงิน = " +
-      accountTypeValue.value
-  );
 };
 // formattedValue
 watch(accountTypeValue, (newValue, oldValue) => {
@@ -366,7 +346,6 @@ const handleOkClick = async () => {
     }else
     {
       // Clear the form
-      console.log("Data inserted successfully:", response.data);
       formData.value = {};
       columnOneSelected.value = null;
       columnTwoSelected.value = null;
@@ -400,7 +379,6 @@ const bankTransition = async () => {
 const deleteTransection = async (id) => {
   try {
     await $axios.patch(`/return_transition_bank`);
-    //console.log(`Transaction ${id} deleted successfully`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCat();
   } catch (error) {

@@ -66,12 +66,12 @@
             สรุปรายการทางการเงิน
           </h2>
           <!-- List all transitions -->
-          <div
+          <!-- <div
             v-for="(transition, index) in transition_data"
             :key="transition.account_type_id"
           >
             {{ FormatThaiDate(transition.account_transition_datetime) }}
-          </div>
+          </div> -->
 
           <!-- Show latest transition date -->
           <div v-if="latestTransitionDate">
@@ -110,13 +110,20 @@
                     <div class="flex-shrink-0">
                       <div
                         class="w-4 h-4 rounded-full shadow-sm transition-all duration-300 group-hover:scale-110"
-                        :class="
-                          transition.account_category_id === 4
-                            ? 'bg-gradient-to-r from-green-400 to-green-600'
-                            : 'bg-gradient-to-r from-red-400 to-red-600'
-                        "
+                        :class="{
+                          'bg-gradient-to-r from-green-400 to-green-600':
+                            transition.account_category_id === 4,
+                          'bg-gradient-to-r from-red-400 to-red-600':
+                            transition.account_category_id === 5,
+                          'bg-gradient-to-r from-yellow-400 to-yellow-600': [
+                            1, 6, 7,
+                          ].includes(transition.account_category_id),
+                          'bg-gradient-to-r from-purple-400 to-purple-600':
+                            transition.account_category_id === 2,
+                        }"
                       ></div>
                     </div>
+
                     <div class="flex-1 min-w-0">
                       <p
                         class="text-base font-semibold text-gray-900 group-hover:text-indigo-700 transition-colors duration-300"
@@ -130,7 +137,9 @@
                           transition.account_category_id === 5
                         "
                       >
-                        {{ transition.account_transition_datetime }}
+                        {{
+                          FormatThaiDate(transition.last_transition_datetime)
+                        }}
                       </span>
                       <div class="flex items-center space-x-2 mt-1">
                         <span
@@ -298,6 +307,7 @@ const fetchData = async () => {
 
     const data = response.data;
     transition_data.value = data.result;
+    console.log(transition_data.value);
   } catch (error) {
     console.error("Error fetching data:", error);
   }

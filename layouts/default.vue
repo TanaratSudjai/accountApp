@@ -52,7 +52,6 @@ const getSession = async () => {
     loading.value = false;
   } catch (err) {
     console.log(err);
-
   }
 };
 

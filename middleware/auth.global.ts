@@ -7,13 +7,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   // และจัดเก็บไว้ในสถานะที่คงอยู่ทั้ง SSR และ CSR ซึ่งจะทำให้แน่ใจได้ว่าเมื่อเพจถูกไฮเดรต
   // (หลังจากกระบวนการ SSR) สถานะโทเค็นจะถูกเติมไว้แล้ว และจะไม่มีการกำหนดไว้
 
-  // Add logging to track token changes
-  console.log("Token from state:", tokenState.value);
-
   const token = tokenState.value;
 
   if (!token && to.path === "/register") {
-    // console.log("Redirecting due to missing or invalid token");
     return;
   }
 
@@ -22,17 +18,14 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   }
 
   if (!token && to.path !== "/") {
-    // console.log("Redirecting due to missing or invalid token");
     return navigateTo("/");
   }
 
   if (token && to.path === "/") {
-    // console.log("Valid token detected, redirecting to /home");
     return navigateTo("/home");
   }
 
   if (token) {
-    // console.log("Valid token detected, continuing");
     return;
   }
 });

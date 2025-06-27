@@ -99,7 +99,7 @@
   watch(
     formData,
     (newVal) => {
-      console.log("Form Data Updated:", newVal);
+
     },
     { deep: true }
   );
@@ -113,7 +113,6 @@
           account_category_id: formData.account_category_id,
         },
       );
-      console.log("Account group created successfully:", response.data);
       formData.account_group_name = "";
       emit('submitted');
       emit('close');

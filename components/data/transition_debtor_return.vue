@@ -292,16 +292,11 @@
     account_transition_value: "",
   });
   
-  const value_money = (params_value_type_sum) => {
-    console.log(params_value_type_sum);
-  };
-  
   const columnValue = ref([]);
   
   function setColumnValue(value) {
     const test = value.account_type_total;
     columnValue.value = test; 
-    console.log(columnValue)
   }
   
   const isButtonDisabled = computed(() => {
@@ -326,7 +321,6 @@
       const res = await $axios.get("/get_type_from_id");
       if (!res.status === 200 || !res.status === 201) throw new Error("Network response was not ok");
       const data = await res.data;
-      // console.log(data);
       catData.value = data.result;
     } catch (error) {
       console.error("Error fetching transition:", error);
@@ -340,7 +334,6 @@
       const res = await $axios.get("/get_debtor");
       if (!res.status === 200 || !res.status === 201) throw new Error("Network response was not ok");
       const data = await res.data;
-      console.log(data);
       debtor.value = data.result;
     } catch (error) {
       console.error("Error fetching transition:", error);
@@ -365,7 +358,6 @@
   const toggleColumnOne = (type) => {
     //เลือกข้อมูลจากคอลัมน์ที่ 1 สามารถยกเลิกได้
     const test = type.account_type_total
-    console.log(test)
     if (
       columnOneSelected.value &&
       columnOneSelected.value.account_type_id === type.account_type_id
@@ -376,14 +368,6 @@
       columnOneSelected.value = type;
       accountTypeValue.value = type.account_type_total;
     }
-    console.log(
-      "จากต้นทาง =" +
-        columnOneSelected.value?.account_type_id +
-        "ถึงปลายทาง =" +
-        columnTwoSelected.value?.account_type_id +
-        "จำนวนเงิน = " +
-        accountTypeValue.value
-    );
   };
   
   const toggleColumnTwo = (type) => {
@@ -396,15 +380,6 @@
     } else {
       columnTwoSelected.value = type;
     }
-    console.log(columnTwoSelected.value.account_type_id);
-    console.log(
-      "จากต้นทาง =" +
-        columnOneSelected.value?.account_type_id +
-        "ถึงปลายทาง =" +
-        columnTwoSelected.value?.account_type_id +
-        "จำนวนเงิน = " +
-        accountTypeValue.value
-    );
   };
   
   const handleOkClick = async () => {
@@ -453,7 +428,6 @@
   const deleteTransection = async (id) => {
   try {
     await $axios.put(`/return_debtor/${id}`);
-    //console.log(`Transaction ${id} deleted successfully`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCat(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchDebtor(); 

@@ -218,9 +218,7 @@ const fetchTransitions = async () => {
     const response = await $axios.get(
       "/get_income_transition"
     );
-    // console.log("Fetched data:", response); // ดูข้อมูลที่ถูกส่งกลับ
     transition.value = response.data || [];
-    // console.log(transition.value);
   } catch (err) {
     console.error("Error fetching transitions:", err);
     error.value = err; // เก็บข้อผิดพลาดหากมี
@@ -229,8 +227,6 @@ const fetchTransitions = async () => {
 
 // ฟังก์ชันลบธุรกรรม
 const deleteTransection = async (id, value) => {
-  console.log(value);
-  console.log(id);
   try {
     await $axios.put(`/delete_transition_income/${id}`, {
       account_transition_value: value ,

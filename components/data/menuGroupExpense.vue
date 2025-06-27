@@ -299,7 +299,6 @@ const handleUpdate = async ({
       account_category_id: formData.value.account_category_id,
     });
     await fetchMenuGroupData(); // ดึงข้อมูลเมนูใหม่
-    // console.log("Response from API:", response);
   } catch (err) {
     error.value = "Error updating data: " + err.message; // ตั้งค่า error
     console.error("Error updating data:", err);
@@ -312,7 +311,6 @@ const fetchMenuGroupData = async () => {
   try {
     const menuGroup_result = await $axios.get("/getMenuGroup_expense");
     menuGroup.value = menuGroup_result.data || [];
-    console.log(menuGroup_result);
   } catch (err) {
     error.value = "Error fetching menu group: " + err.message; // ตั้งค่า error
   }

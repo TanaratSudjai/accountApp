@@ -76,7 +76,7 @@ const formData = reactive({
 watch(
   formData,
   (newVal) => {
-    console.log("Form Data Updated:", newVal);
+
   },
   { deep: true }
 );
@@ -91,7 +91,6 @@ const submitForm = async () => {
         account_category_id: formData.account_category_id,
       },
     );
-    console.log("Account group created successfully:", response.data);
     // อัพเดท formData
     formData.account_group_name = "";
     dataGroupRef.value.fetchGroup();

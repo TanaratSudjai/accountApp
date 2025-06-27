@@ -258,7 +258,6 @@ const onSubmitTransition = async () => {
     const response = await $axios.put(`/transitionsubmit`);
 
     const data = await response.data;
-    console.log("Success:", data);
   } catch (error) {
     // console.error("Error fetching transition:", error.message);
     throw error;
@@ -309,7 +308,6 @@ const fetchsumone = async () => {
       },
     });
     const data = response.data;
-    console.log("data sum group one", data);
     sumone.value = data;
   } catch (error) {
     console.error("Error fetching sum group one:", error);
@@ -325,7 +323,6 @@ const fetchsumtwo = async () => {
       },
     });
     const data = response.data;
-    console.log("data sum group two", data);
     sumtwo.value = data;
   } catch (error) {
     console.error("Error fetching sum group two:", error);
@@ -347,10 +344,6 @@ const fetchfund = async () => {
       data.get_sum_cat_one_six_seven[0]?.total_owner ?? "0.00";
     sum_cat_two.value = data.get_sum_cat_two[0]?.total_debt ?? "0.00";
     sum_cat_three.value = data.get_sum_cat_three[0]?.total_fund ?? "0.00";
-
-    console.log("1,6,7", sum_cat_one_six_seven.value);
-    console.log("2", sum_cat_two.value);
-    console.log("3", sum_cat_three.value);
   } catch (error) {
     console.error("Error fetching transition:", error);
   }
@@ -367,7 +360,6 @@ const fetchTransition = async () => {
       },
     });
     const data = await response.data.res_transition;
-    // console.log("transition of user session : ", data);
     transition.value = data.res_transition;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -442,7 +434,6 @@ const fetchIcon = async () => {
     });
     const data = await response.data.data_menu;
     IconData.value = data;
-    console.log(IconData.value);
   } catch (error) {
     console.error("Error fetching icons:", error);
   }
@@ -466,8 +457,6 @@ const sumoneForCategory2 = computed(() => {
 
 const isButtonDisabled = computed(() => {
   const value = parseFloat(accountTypeValue.value) || 0;
-  console.log(accountTypeValue.value);
-  console.log(sumoneForCategory2.value);
   return (
     selectedIcon.value &&
     selectedIcon.value.account_category_id === 2 &&
@@ -480,9 +469,6 @@ const updateAccountTransition = async (
   accountTypeValue,
   accountCategoryID
 ) => {
-  console.log(accountTypeId);
-  console.log(accountTypeValue);
-  console.log(accountCategoryID);
   try {
     const response = await $axios.post(`/transition`, {
       account_type_id: accountTypeId,

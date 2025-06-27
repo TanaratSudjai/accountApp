@@ -22,7 +22,6 @@ const fetchGroup = async () => {
     );
     const data = await response.data;
     GroupData.value = data.account_group_by_id;
-    console.log("this is a group name",GroupData.value);
   } catch (error) {
     console.log("Error fetching group data:", error);
   }

@@ -140,9 +140,6 @@ const fetchData = async () => {
     checkData.value = response.data.res_transition;
     checkData_depter.value = response.data.data[0];
     checkData_creditor.value = response.data.data[1];
-    console.log("checkData_depter", checkData_depter.value);
-    console.log("checkData_creditor", checkData_creditor.value);
-    console.log("checkData", checkData.value);
   } catch (error) {
     console.log(error);
   }
@@ -279,7 +276,7 @@ watchEffect(() => {
     menuItems.value.sort((a, b) => a.id - b.id);
 
     menuItems.value.forEach((item) => {
-      console.log("item", item.id);
+
     });
   }
 });
@@ -311,13 +308,11 @@ const isDisabled_icons = (title) => {
 
   if (title === "ลูกหนี้") {
     if (depter == 0 || depter === null || depter === undefined) {
-      console.log("checkData_depter", checkData_depter);
       return true; // เปลี่ยนเป็น false เพื่อให้แสดงไอคอน Plus
     }
   }
   if (title === "เจ้าหนี้") {
     if (creditor == 0 || creditor === null || creditor === undefined) {
-      console.log("checkData_creditor", checkData_creditor);
       return true; // เปลี่ยนเป็น false เพื่อให้แสดงไอคอน Plus
     }
   }

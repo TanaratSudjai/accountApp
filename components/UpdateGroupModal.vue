@@ -57,8 +57,7 @@ watch(
 );
 
 const updateAccountType = async () => {
-  console.log(localAccountGroup.value.account_group_id);
-  console.log(localAccountGroup.value.account_group_name);
+
   try {
     const response = await $axios.put(
       `/account_group_update/${localAccountGroup.value.account_group_id}`,

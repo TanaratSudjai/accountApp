@@ -213,7 +213,6 @@ const { formatNumber } = useFormatNumber(); // ฟังก์ชันสำห
 const fetchTransitions = async () => {
   try {
     const response = await $axios.get("/get_expense_transition");
-    // console.log("Fetched data:", response); // ดูข้อมูลที่ถูกส่งกลับ
     transition.value = response.data || [];
   } catch (err) {
     console.error("Error fetching transitions:", err);
@@ -223,7 +222,6 @@ const fetchTransitions = async () => {
 
 // ฟังก์ชันลบธุรกรรม
 const deleteTransection = async (id, value) => {
-  console.log("value to delete",value);
   try {
     await $axios.put(`/delete_transition_expense/${id}`, {
       account_transition_value: value,
