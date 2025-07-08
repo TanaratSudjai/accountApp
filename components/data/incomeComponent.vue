@@ -1,9 +1,7 @@
 <template>
   <div class="flex gap-1 p-2 mx-2">
     <button class="w-full">
-      <div
-        class="rounded-lg bg-gradient-to-br from-green-50 to-green-100 shadow-md p-2"
-      >
+      <div class="rounded-lg bg-green-100 p-2 border border-green-200">
         <div class="flex items-center justify-between">
           <div class="space-y-2">
             <div class="text-sm text-green-700 font-medium">รายได้ทั้งหมด</div>
@@ -27,9 +25,7 @@ let interval;
 // ฟังก์ชันดึงข้อมูลการเปลี่ยนแปลง
 const fetchTransitions = async () => {
   try {
-    const data = await $axios.get(
-      "/get_income_transition"
-    );
+    const data = await $axios.get("/get_income_transition");
     transition.value = data.data;
   } catch (err) {
     error.value = "Error fetching transitions: " + err.message; // ตั้งค่า error

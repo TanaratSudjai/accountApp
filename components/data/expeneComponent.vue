@@ -1,8 +1,8 @@
 <template>
-  <div class="flex gap-1 p-2 mx-2">
+  <div class="flex gap-1 p-1 ">
     <button class="w-full">
       <div
-        class="rounded-lg bg-gradient-to-br from-red-50 to-red-100 shadow-md p-2"
+        class="rounded-md bg-gradient-to-br from-red-50 to-red-100  p-2"
       >
         <div class="flex items-center justify-between">
           <div class="space-y-2">

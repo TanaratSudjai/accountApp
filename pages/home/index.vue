@@ -11,20 +11,17 @@
           :to="isDisabled(item.title) ? item.path_name || '#' : item.route"
           :class="[
             'relative group backdrop-blur-sm',
-            isDisabled(item.title)
-              ? 'opacity-60 rounded-2xl'
-              : 'hover:scale-105 hover:shadow-2xl',
+            isDisabled(item.title) ? 'opacity-60' : 'hover:scale-105 ',
             'transition-all duration-300 ease-out',
           ]"
           @click="isDisabled(item.title) && $event.preventDefault()"
         >
           <div
             :class="[
-              'rounded-2xl p-6',
-              'bg-white shadow-md border-2 border-gray-200',
+              'border border-gray-200 p-6',
+              'bg-white ',
               'flex flex-col items-center justify-center',
               'min-h-[140px]',
-              'border border-white/20',
               !isDisabled(item.title) && 'hover:bg-white',
             ]"
           >
@@ -107,12 +104,6 @@
     </div>
   </div>
 </template>
-
-<style scoped>
-.font-noto {
-  font-family: "Noto Sans Thai", sans-serif;
-}
-</style>
 
 <script setup>
 import { ref, onMounted } from "vue";
