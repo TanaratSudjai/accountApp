@@ -1,7 +1,7 @@
 <template>
   <div
     ref="boxRef"
-    class="box p-10 md:p-15 lg:p-20 xl:p-20 rounded-2xl  border-2 flex flex-col justify-center items-center bg-gray-800 bg-white"
+    class="border border-gray-200 p-8 rounded-xl flex flex-col justify-center items-center w-full h-full"
   >
     <text class="text-4xl text-cyan-600 py-5">เข้าสู่ระบบ</text>
     <form
@@ -32,11 +32,9 @@
           class="p-3 border rounded-md w-full border-cyan-600 focus:ring-2 focus:ring-cyan-600 focus:outline-none"
         />
       </div>
-
-      <!-- <div v-if="error" class="text-red-500 mb-4">
+      <div v-if="error" class="text-red-500 mb-4">
         {{ error }}
-      </div> -->
-
+      </div>
       <button
         @click="handleLogin"
         :disabled="loading"
@@ -47,7 +45,7 @@
     </form>
     <button
       @click="goRegister"
-      class="text-white px-4 py-2 rounded flex gap-2 flex-col md:flex-row lg:flex-row xl:flex-row"
+      class="text-black px-4 py-2 rounded flex gap-2 flex-col md:flex-row lg:flex-row xl:flex-row"
     >
       <span class="text-cyan-600">มีชื่อผู้ใช้หรือยัง</span>
       สมัครใช้งาน
