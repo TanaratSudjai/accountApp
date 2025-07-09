@@ -1,23 +1,30 @@
 <template>
-  <client-only>
-    <BackComponentsForTypeForm1></BackComponentsForTypeForm1>
-  </client-only>
-  
-  <!-- Empty State -->
+  <BackComponents />
   <div
     v-if="!TypeData || TypeData.length === 0"
     class="flex flex-col items-center justify-center p-12 text-center bg-gradient-to-br from-gray-50 to-white min-h-[400px] rounded-2xl border border-gray-100 shadow-sm mx-4 mt-6"
   >
-    <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center shadow-sm">
-      <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+    <div
+      class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center shadow-sm"
+    >
+      <svg
+        class="w-12 h-12 text-gray-400"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+        ></path>
       </svg>
     </div>
     <h3 class="text-2xl font-bold text-gray-700 mb-3">ไม่มีประเภท</h3>
     <p class="text-gray-500 text-lg">เริ่มต้นด้วยการเพิ่มประเภทใหม่</p>
   </div>
 
-  <!-- Type Cards Grid -->
   <div v-else class="flex w-full justify-center mt-6 px-4">
     <div class="w-full max-w-7xl">
       <!-- Header Section -->
@@ -30,7 +37,7 @@
         <div
           v-for="Type in TypeData"
           :key="Type.account_type_id"
-          class="bg-white shadow-sm hover:shadow-xl rounded-2xl border border-gray-100 hover:border-emerald-200 p-6 transition-all duration-300 hover:-translate-y-1 group"
+          class="bg-white shadow-sm  rounded-md border border-gray-200 hover:border-emerald-200 p-6 transition-all duration-300 hover:-translate-y-1 group"
         >
           <!-- Header with Icon and Title -->
           <div class="flex items-start mb-6">
@@ -40,15 +47,31 @@
                 alt="icon"
                 class="w-16 h-16 rounded-2xl object-cover border-2 border-emerald-100 shadow-sm group-hover:scale-105 transition-transform duration-300"
               />
-              <div class="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-2 border-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div
+                class="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-2 border-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              ></div>
             </div>
             <div class="flex-1">
-              <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-emerald-700 transition-colors duration-300">
+              <h3
+                class="text-xl font-bold text-gray-800 mb-1 group-hover:text-emerald-700 transition-colors duration-300"
+              >
                 {{ Type.account_type_name }}
               </h3>
-              <div class="flex items-center text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full w-fit">
-                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+              <div
+                class="flex items-center text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full w-fit"
+              >
+                <svg
+                  class="w-3 h-3 mr-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                  ></path>
                 </svg>
                 Code: {{ Type.account_type_id }}
               </div>
@@ -58,9 +81,13 @@
           <!-- Information Cards -->
           <div class="space-y-3 mb-6">
             <!-- Value Card -->
-            <div class="bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-100 rounded-xl p-4">
+            <div
+              class="bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-100 rounded-xl p-4"
+            >
               <div class="flex justify-between items-center">
-                <span class="text-emerald-700 font-semibold text-sm">ค่าตั้งต้น</span>
+                <span class="text-emerald-700 font-semibold text-sm"
+                  >ค่าตั้งต้น</span
+                >
                 <span class="font-bold text-xl text-emerald-800">
                   {{ formatNumber(Type.account_type_value) }}
                 </span>
@@ -70,12 +97,26 @@
             <!-- Description Card -->
             <div class="bg-gray-50 border border-gray-100 rounded-xl p-4">
               <div class="flex items-start">
-                <svg class="w-4 h-4 text-gray-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                <svg
+                  class="w-4 h-4 text-gray-500 mr-2 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
                 </svg>
                 <div>
-                  <span class="text-gray-600 font-medium text-sm block mb-1">รายละเอียด</span>
-                  <span class="text-gray-800">{{ Type.account_type_description }}</span>
+                  <span class="text-gray-600 font-medium text-sm block mb-1"
+                    >รายละเอียด</span
+                  >
+                  <span class="text-gray-800">{{
+                    Type.account_type_description
+                  }}</span>
                 </div>
               </div>
             </div>
@@ -83,12 +124,26 @@
             <!-- Type Card -->
             <div class="bg-blue-50 border border-blue-100 rounded-xl p-4">
               <div class="flex items-center">
-                <svg class="w-4 h-4 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                <svg
+                  class="w-4 h-4 text-blue-500 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                  ></path>
                 </svg>
                 <div>
-                  <span class="text-blue-600 font-medium text-sm block">ประเภท</span>
-                  <span class="text-blue-800 font-semibold">{{ getAccountTypeName(Type.account_type_from_id) }}</span>
+                  <span class="text-blue-600 font-medium text-sm block"
+                    >ประเภท</span
+                  >
+                  <span class="text-blue-800 font-semibold">{{
+                    getAccountTypeName(Type.account_type_from_id)
+                  }}</span>
                 </div>
               </div>
             </div>
@@ -113,7 +168,9 @@
           </div>
 
           <!-- Hover accent line -->
-          <div class="absolute bottom-0 left-1/2 w-0 h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 group-hover:w-20 transform -translate-x-1/2 transition-all duration-300 rounded-t-full"></div>
+          <div
+            class="absolute bottom-0 left-1/2 w-0 h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 group-hover:w-20 transform -translate-x-1/2 transition-all duration-300 rounded-t-full"
+          ></div>
         </div>
       </div>
 

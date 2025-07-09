@@ -142,7 +142,7 @@
           </div>
           <button
             :class="[
-              'px-8 py-3 rounded-xl font-medium transition-all duration-200',
+              'px-8 py-3 rounded-md font-medium transition-all duration-200',
               isButtonDisabled
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',

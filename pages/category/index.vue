@@ -1,9 +1,7 @@
 <template>
-  <client-only>
-    <BackComponentsForTypeForm1 />
-  </client-only>
+  <BackComponents />
   <div class="flex-1 p-6 bg-gradient-to-br from-gray-50 to-white min-h-screen">
-    <div class="max-w-6xl mx-auto">
+    <div class="mx-auto">
       <!-- Header Section -->
       <div class="text-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800 mb-2">เมนูหลัก</h1>
@@ -16,35 +14,30 @@
           v-for="(item, index) in menuItems"
           :key="index"
           :to="item.route"
-          class="relative bg-white rounded-2xl shadow-sm hover:shadow-xl flex flex-col items-center justify-center transition-all duration-300 h-[200px] overflow-hidden group border border-gray-100 hover:border-emerald-200 hover:-translate-y-1"
+          class="relative bg-white rounded-md flex flex-col items-center justify-center transition-all duration-300 h-[200px] overflow-hidden group border border-gray-200"
         >
-          <!-- Background gradient overlay -->
-          <div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-emerald-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          
-          <!-- Decorative corner accent -->
-          <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-emerald-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          
           <!-- Icon container -->
-          <div class="relative z-10 p-5 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 shadow-sm mb-4 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:from-emerald-50 group-hover:to-emerald-100">
-            <component 
-              :is="item.icon" 
+          <div
+            class="relative z-10 p-5 rounded-md bg-gradient-to-br from-gray-50 to-gray-100 mb-4 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:from-emerald-50 group-hover:to-emerald-100"
+          >
+            <component
+              :is="item.icon"
               :class="item.color"
               class="w-10 h-10 transition-all duration-300 group-hover:scale-105"
             />
           </div>
-          
+
           <!-- Title -->
-          <span class="relative z-10 text-lg font-semibold text-gray-700 group-hover:text-emerald-700 transition-all duration-300 px-4 text-center leading-snug">
+          <span
+            class="relative z-10 text-lg font-semibold text-gray-700 group-hover:text-emerald-700 transition-all duration-300 px-4 text-center leading-snug"
+          >
             {{ item.title }}
           </span>
 
           <!-- Subtle bottom accent line -->
-          <div class="absolute bottom-0 left-1/2 w-0 h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 group-hover:w-16 transform -translate-x-1/2 transition-all duration-300 rounded-full"></div>
-          
-          <!-- Hover ripple effect -->
-          <div class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <div class="absolute top-1/2 left-1/2 w-0 h-0 bg-emerald-400/10 rounded-full group-hover:w-40 group-hover:h-40 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500"></div>
-          </div>
+          <div
+            class="absolute bottom-0 left-1/2 w-0 h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 group-hover:w-16 transform -translate-x-1/2 transition-all duration-300 rounded-full"
+          ></div>
         </NuxtLink>
       </div>
 
@@ -130,8 +123,7 @@ const menuItems = ref([
     color: "text-red-500",
     route: "/group/5",
   },
-  
- 
+
   // {
   //   icon: FileMinus,
   //   title: "ส่วนของเจ้าของ",

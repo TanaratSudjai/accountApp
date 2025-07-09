@@ -1,8 +1,8 @@
 <!-- SlidingButton.vue -->
 <template>
   <BackComponents />
-  <div class="flex justify-center w-full p-4 mb-6">
-    <div class="w-full flex justify-center max-w-4xl space-y-2">
+  <div class="flex justify-center w-full p-4">
+    <div class="w-full flex justify-center space-y-2">
       <div class="relative w-full max-w-2xl">
         <div
           class="flex border border-gray-300 rounded-lg overflow-hidden relative"
@@ -16,7 +16,6 @@
             }"
           ></div>
 
-          <!-- Buttons -->
           <button
             @click="setActive('borrow')"
             class="relative z-10 flex-1 px-4 py-2 text-center transition-colors duration-300"
@@ -41,12 +40,12 @@
   </div>
 
   <!-- Conditionally Render Components -->
-  <div class="mt-4">
+  <div class="mt-1">
     <DataTransitionDebtorBorrow v-if="activeButton === 'borrow'" />
     <DataTransitionDebtorReturn v-else />
   </div>
 
-  <div class="mt-4 flex justify-center w-full">
+  <div class="mt-1 flex justify-center w-full mb-12">
     <ButtonDashboard />
   </div>
 </template>
