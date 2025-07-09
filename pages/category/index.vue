@@ -1,6 +1,6 @@
 <template>
   <BackComponents />
-  <div class="flex-1 p-6 bg-gradient-to-br from-gray-50 to-white min-h-screen">
+  <div class="flex-1 p-6  min-h-screen">
     <div class="mx-auto">
       <!-- Header Section -->
       <div class="text-center mb-8">

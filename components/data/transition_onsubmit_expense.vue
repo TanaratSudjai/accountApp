@@ -218,7 +218,7 @@
                 class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full blur-xl opacity-20 animate-ping"
               ></div>
               <div
-                class="relative w-24 h-24 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center shadow-lg"
+                class="relative w-24 h-24 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center"
               >
                 <svg
                   class="w-12 h-12 text-gray-400"
@@ -242,11 +242,6 @@
             <p class="text-gray-500 text-center max-w-md">
               เริ่มต้นบันทึกรายการรายรับและรายจ่ายของคุณเพื่อติดตามการเงิน
             </p>
-
-            <!-- Call to action -->
-            <!-- <div class="mt-6 px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer hover:scale-105">
-              <span class="font-medium">เพิ่มรายการแรกของคุณ</span>
-            </div> -->
           </div>
         </div>
       </div>

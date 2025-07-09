@@ -4,14 +4,8 @@
       class="max-w-4xl mx-auto border border-gray-200 rounded-md bg-white overflow-hidden"
     >
       <!-- Header -->
-      <div class="py-6 px-8">
-        <h2
-          class="text-2xl font-semibold border border-gray-200 p-1 rounded-sm"
-        >
-          ลูกหนี้คืนเงิน
-        </h2>
-      </div>
 
+      <h2 class="text-2xl font-semibold p-3 rounded-sm">ลูกหนี้คืนเงิน</h2>
       <div class="p-6">
         <!-- Transfer Selection Area -->
         <div class="grid grid-cols-1 md:grid-cols-7 gap-6 mb-8">

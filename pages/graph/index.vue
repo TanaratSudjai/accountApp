@@ -1,6 +1,6 @@
 <template>
   <BackComponents />
-  <div class="min-h-screen bg-gray-50 p-4 pb-20">
+  <div class="min-h-screen  p-4 pb-20">
     <div class="max-w-7xl mx-auto">
       <!-- Main Container with responsive grid -->
       <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">

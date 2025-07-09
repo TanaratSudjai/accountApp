@@ -3,13 +3,10 @@
     <div
       class="mx-auto rounded-md bg-white border border-gray-200 overflow-hidden"
     >
-      <div class="text-black py-3 px-3">
-        <h2
-          class="text-2xl font-semibold border border-gray-200 p-1 rounded-sm"
-        >
-          ให้ลูกหนี้ยิมเงิน
-        </h2>
-      </div>
+      <h2 class="text-2xl font-semibold  p-3 rounded-sm">
+        ให้ลูกหนี้ยิมเงิน
+      </h2>
+
       <div class="p-6">
         <div class="grid grid-cols-1 md:grid-cols-7 gap-6 mb-8">
           <div class="md:col-span-3 space-y-3">

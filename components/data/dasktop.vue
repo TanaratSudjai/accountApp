@@ -6,14 +6,14 @@
         <div class="flex gap-4">
           <button
             @click="toggleZeroSumVisibility"
-            class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-sm transition-colors duration-200"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded-sm transition-colors duration-200"
           >
             {{ showZeroSum ? "ซ่อน" : "แสดง" }}
             <span class="ml-2">รายการ</span>
           </button>
           <button
             @click="gotoGrap"
-            class="inline-flex items-center px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-sm transition-colors duration-200"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded-sm transition-colors duration-200"
           >
             Graph
           </button>
@@ -21,7 +21,9 @@
       </div>
 
       <!-- Main Table -->
-      <div class="bg-white rounded-sm border border-gray-200 overflow-hidden mb-20">
+      <div
+        class="bg-white rounded-sm border border-gray-200 overflow-hidden mb-20"
+      >
         <div class="overflow-x-auto">
           <table class="w-full border-collapse">
             <!-- Table Header -->
