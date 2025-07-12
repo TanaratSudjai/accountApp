@@ -1,4 +1,5 @@
 <template>
+  <BackComponents />
   <DataDasktop></DataDasktop>
 </template>
 <!-- 

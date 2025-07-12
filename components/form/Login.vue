@@ -54,34 +54,15 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import { gsap } from "gsap";
+
 const { $axios } = useNuxtApp();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
 const error = ref("");
-
-onMounted(() => {
-  gsap.fromTo(
-    boxRef.value,
-    {
-      y: 200, // Start from below
-      opacity: 0,
-      scale: 0.5, // Start smaller
-    },
-    {
-      y: 0, // Animate to original position
-      opacity: 1,
-      scale: 1, // Return to full size
-      duration: 1,
-      ease: "elastic.out(1, 0.8)", // Bouncy easing
-      delay: 0.2, // Slight delay for anticipation
-    }
-  );
-});
 
 const formData = ref({
   account_user_username: "",
@@ -121,6 +102,7 @@ const handleLogin = async () => {
     loading.value = false;
     return;
   }
+  console.log(formData.value);
 
   try {
     const response = await $axios.post("/auth/login", {

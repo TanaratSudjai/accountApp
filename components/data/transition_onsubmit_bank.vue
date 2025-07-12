@@ -1,15 +1,13 @@
 <template>
-  <div class="min-h-screen py-8">
+  <div class="py-8">
     <div class="max-w-5xl mx-auto px-4">
       <!-- Main Card -->
-      <div class="bg-white rounded-2xl shadow-lg p-6 space-y-8">
+      <div class="bg-white p-2 space-y-8">
         <h2 class="text-2xl font-semibold text-gray-800 text-center">
           บัญชีธนาคาร
         </h2>
 
-        <!-- Transfer Selection Grid -->
         <div class="grid grid-cols-7 gap-6">
-          <!-- Source Account Column -->
           <div class="col-span-3 space-y-3">
             <h3 class="text-sm font-medium text-gray-600 mb-4">ธนาคารต้นทาง</h3>
             <div
@@ -23,7 +21,7 @@
                   'w-full transition-all duration-200 group',
                   columnOneSelected?.account_type_id === item.account_type_id
                     ? 'ring-2 ring-emerald-500'
-                    : 'hover:shadow-md',
+                    : 'hover:shadow-sm',
                 ]"
                 @click="
                   toggleColumnOne(item);
@@ -31,7 +29,7 @@
                 "
               >
                 <div
-                  class="relative overflow-hidden rounded-xl border border-gray-200 p-4"
+                  class="relative overflow-hidden rounded-md border border-gray-200 p-2"
                 >
                   <div
                     :class="[
@@ -53,10 +51,7 @@
                 </div>
               </button>
 
-              <div
-                v-else
-                class="rounded-xl border border-gray-200 p-4 bg-gray-50"
-              >
+              <div v-else class="border border-gray-200 p-4 bg-gray-50">
                 <p class="font-medium text-gray-400">
                   {{ item.account_type_name }}
                 </p>
@@ -113,7 +108,7 @@
                 @click="toggleColumnTwo(item)"
               >
                 <div
-                  class="relative overflow-hidden rounded-xl border border-gray-200 p-4"
+                  class="relative overflow-hidden rounded-md border border-gray-200 p-4"
                 >
                   <div
                     :class="[
@@ -142,12 +137,12 @@
               v-model="accountTypeValue"
               type="text"
               placeholder="Enter amount"
-              class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              class="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
             />
           </div>
           <button
             :class="[
-              'px-8 py-3 rounded-xl font-medium transition-all duration-200',
+              'px-8 py-3 rounded-md font-medium transition-all duration-200',
               isButtonDisabled
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
@@ -160,7 +155,7 @@
         </div>
 
         <!-- Transaction History -->
-        <div class="rounded-xl border border-gray-200 overflow-hidden">
+        <div class="rounded-md border border-gray-200 overflow-hidden">
           <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
             <h3 class="font-medium text-gray-800">การถ่ายโอนเงินล่าสุด</h3>
           </div>
@@ -255,17 +250,16 @@ const accountTypeValue = computed({
   },
 });
 
-
 const isButtonDisabled = computed(() => {
   return (
     (columnOneSelected.value &&
       columnTwoSelected.value &&
-      columnOneSelected.value.account_type_id === columnTwoSelected.value.account_type_id) ||
+      columnOneSelected.value.account_type_id ===
+        columnTwoSelected.value.account_type_id) ||
     rawAccountValue.value <= 0 ||
     rawAccountValue.value > columnValue.value
   );
 });
-
 
 const fetchCat = async () => {
   try {
@@ -339,12 +333,14 @@ const handleOkClick = async () => {
   };
 
   try {
-    const response = await $axios.post("/bank_trantisionInsert", formData.value);
+    const response = await $axios.post(
+      "/bank_trantisionInsert",
+      formData.value
+    );
 
     if (response.status !== 200 && response.status !== 201) {
       throw new Error("Network response was not ok");
-    }else
-    {
+    } else {
       // Clear the form
       formData.value = {};
       columnOneSelected.value = null;
@@ -353,17 +349,10 @@ const handleOkClick = async () => {
       bankTransition();
       fetchCat();
     }
-
-    
-
   } catch (err) {
     console.error("Error updating data:", err);
   }
 };
-
-
-
-
 
 // debug get data bank transition
 const bankTransition = async () => {
