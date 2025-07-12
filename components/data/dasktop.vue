@@ -399,6 +399,7 @@
         </div>
       </div>
     </div>
+    <button @click="closeAccount(sumColumn6 ,sumColumn5)">click me</button>
   </div>
 </template>
 
@@ -496,4 +497,12 @@ const sumColumn6 = computed(() =>
     .filter((type_sum) => type_sum.account_category_id === 4)
     .reduce((acc, curr) => acc + parseFloat(curr.account_type_sum || 0), 0)
 );
+
+const closeAccount = async (income,expense) => {
+  const value = income - expense;
+  console.log("Close account function called",value);
+
+  const response = await $axios.post("/ExportAccount", { value });
+
+};
 </script>
