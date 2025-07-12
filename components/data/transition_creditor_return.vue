@@ -565,25 +565,29 @@ const clearcase = () => {
 };
 
 const isButtonDisabled = computed(() => {
-  return (
-    (columnOneSelected.value &&
-      columnTwoSelected.value &&
-      columnOneSelected.value.account_type_id ===
-        columnTwoSelected.value.account_type_id) ||
-    (columnOneSelected.value &&
-      columnTwoSelected.value &&
-      columnOneSelected.value.account_type_total < accountTypeValue.value) ||
-    (columnOneSelected.value &&
-      columnTwoSelected.value &&
-      columnTwoSelected.value.account_type_total < accountTypeValue.value) ||
-    accountTypeValue.value < 0 ||
-    accountTypeValue.value === 0 ||
-    accountTypeValue.value === 0.0 ||
-    accountTypeValue.value === null ||
-    accountTypeValue.value === undefined ||
-    accountTypeValue.value === ""
-  );
+  const colOne = columnOneSelected.value;
+  const colTwo = columnTwoSelected.value;
+  const rawValue = accountTypeValue.value;
+
+  // Require both columns selected
+  if (!colOne || !colTwo) return true;
+
+  // Parse input value safely
+  const value = Number(rawValue);
+
+  // Disable if invalid or non-positive
+  if (!rawValue || isNaN(value) || value <= 0) return true;
+
+  // Disable if account types are the same
+  if (colOne.account_type_id === colTwo.account_type_id) return true;
+
+  // Disable if value exceeds either column's total
+  if (value > colOne.account_type_total || value > colTwo.account_type_total) return true;
+
+  // Passed all checks: enable button
+  return false;
 });
+
 
 const fetchCreditor = async () => {
   try {

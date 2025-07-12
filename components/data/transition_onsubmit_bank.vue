@@ -251,15 +251,24 @@ const accountTypeValue = computed({
 });
 
 const isButtonDisabled = computed(() => {
-  return (
-    (columnOneSelected.value &&
-      columnTwoSelected.value &&
-      columnOneSelected.value.account_type_id ===
-        columnTwoSelected.value.account_type_id) ||
-    rawAccountValue.value <= 0 ||
-    rawAccountValue.value > columnValue.value
-  );
+  const colOne = columnOneSelected.value;
+  const colTwo = columnTwoSelected.value;
+  const amount = rawAccountValue.value;
+  const maxAmount = columnValue.value;
+
+  // Disable if either column is not selected
+  if (!colOne || !colTwo) return true;
+
+  // Disable if both columns have the same account_type_id
+  if (colOne.account_type_id === colTwo.account_type_id) return true;
+
+  // Disable if the value is not in valid range
+  if (amount <= 0 || amount > maxAmount) return true;
+
+  // Otherwise, enable the button
+  return false;
 });
+
 
 const fetchCat = async () => {
   try {
@@ -328,7 +337,7 @@ const handleOkClick = async () => {
   formData.value = {
     account_type_id: columnOneSelected.value?.account_type_id || null,
     account_type_from_id: columnTwoSelected.value?.account_type_id || null,
-    account_transition_value: parseInt(cleanNumericValue) || 0,
+    account_transition_value: parseFloat(cleanNumericValue) || 0,
     account_category_id: 7,
   };
 
