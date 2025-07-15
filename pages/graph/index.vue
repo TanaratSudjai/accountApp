@@ -15,7 +15,7 @@
               ปฏิทิน
             </h2>
             <div class="calendar-container">
-              <FullCalendar :options="calendarOptions" />
+              <FullCalendar :options="calendarOptions" ref="calendarRef" />
             </div>
           </div>
 
@@ -406,7 +406,9 @@ const currentYear = new Date().getFullYear();
 for (let y = currentYear; y >= currentYear - 10; y--) {
   years.push(y);
 }
+const calendarRef = ref(null);
 
+// Replace the existing fetchChartData function
 const fetchChartData = async () => {
   await Promise.all([
     fetchExpensesInChart(
@@ -417,6 +419,14 @@ const fetchChartData = async () => {
     setIncome(selectedYearForChart.value, selectedMonthForChart.value),
     setExpense(selectedYearForChart.value, selectedMonthForChart.value),
   ]);
+
+  // Update calendar view when a specific month is selected
+  if (selectedMonthForChart.value !== 0 && calendarRef.value) {
+    const calendarApi = calendarRef.value.getApi();
+    calendarApi.gotoDate(
+      new Date(selectedYearForChart.value, selectedMonthForChart.value - 1, 1)
+    );
+  }
 };
 
 // Fetch expense chart data - FIXED VERSION
@@ -876,6 +886,7 @@ const calendarOptions = reactive({
   initialView: "dayGridMonth",
   events: allCalendarEvents,
   dateClick: onDateClick,
+  initialDate: new Date(selectedYearForChart.value, selectedMonthForChart.value - 1, 1),
 });
 
 // Initial load
