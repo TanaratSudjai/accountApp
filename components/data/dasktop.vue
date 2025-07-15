@@ -399,7 +399,7 @@
         </div>
       </div>
     </div>
-    <button @click="closeAccount(sumColumn6 ,sumColumn5)">click me</button>
+    <button @click="closeAccount()">click me</button>
   </div>
 </template>
 
@@ -498,11 +498,21 @@ const sumColumn6 = computed(() =>
     .reduce((acc, curr) => acc + parseFloat(curr.account_type_sum || 0), 0)
 );
 
-const closeAccount = async (income,expense) => {
-  const value = income - expense;
-  console.log("Close account function called",value);
+const closeAccount = async () => {
+  try {
+    console.log("Close account function called");
 
-  const response = await $axios.post("/ExportAccount", { value });
+    const response = await $axios.post("/ExportAccount");
 
+    if (response.status === 200) {
+      alert("ปิดบัญชีสำเร็จแล้ว");
+    } else {
+      alert("เกิดข้อผิดพลาดในการปิดบัญชี");
+    }
+  } catch (err) {
+    console.error("Error closing account:", err);
+    alert("เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์");
+  }
 };
 </script>
+
