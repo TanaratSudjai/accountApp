@@ -1,18 +1,29 @@
 <template>
-  <div class="bg-white rounded-sm border border-gray-200 overflow-hidden mb-20">
+  <div
+    class="bg-white rounded-sm border border-gray-200 overflow-hidden mb-20 p-3"
+  >
     <div class="overflow-x-auto">
       <div class="mb-4">
-        <button
-          @click="hideZeroRows = !hideZeroRows"
-          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          {{ hideZeroRows ? "แสดงทั้งหมด" : "ซ่อนแถวที่เป็นศูนย์" }}
-        </button>
+        <div class="flex gap-2">
+          <button
+            v-if="page === `report`"
+            @click="hideZeroRows = !hideZeroRows"
+            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            {{ hideZeroRows ? "แสดงทั้งหมด" : "ซ่อนแถวที่เป็นศูนย์" }}
+          </button>
+          <button
+            @click="page = page === 'report' ? 'graph' : 'report'"
+            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            {{ page === "report" ? "ดูกราฟรายงาน" : "ดูตารางรายงาน" }}
+          </button>
+        </div>
         <p class="text-sm text-gray-500 my-2">
           แสดง {{ filteredReport.length }} รายการ
         </p>
       </div>
-      <table class="w-full border-collapse">
+      <table v-if="page == 'report'" class="w-full border-collapse">
         <!-- Table Header -->
         <!-- Table Header -->
         <thead>
@@ -134,23 +145,69 @@
           </tr>
         </tbody>
       </table>
+
+      <!-- graph -->
+      <div v-else class="p-4">
+        <p class="text-gray-500">กราฟรายงานจะถูกแสดงที่นี่</p>
+
+        <div class="p-2">
+          <canvas ref="graphRef" height="300"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
+import {
+  Chart,
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
+  Title,
+  CategoryScale,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
+// ลงทะเบียน components
+Chart.register(
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
+  Title,
+  CategoryScale,
+  Tooltip,
+  Legend
+);
+const graphRef = ref(null);
+let graphInstance = null;
+
+const page = ref("report");
 const { formatNumber } = useFormatNumber();
 const report = ref([]);
 const error = ref("");
 const { $axios } = useNuxtApp();
 const loading = ref(true);
-
 const flattenedReport = ref([]);
+
+const income_graph = ref([]);
+const expense_graph = ref([]);
+const mounth_value = ref([]);
+const mounth = ref(["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย."]);
 
 const fetchReport = async () => {
   const response = await $axios.get("/getClosedAccount");
+  console.log("Response data:", response.data.account_closing_time);
+  mounth_value.value =
+    new Date(response.data[0].account_closing_time).getMonth() + 1;
+  expense_graph.value = response.data[0].account_closing_expence;
+  income_graph.value = response.data[0].account_closing_income;
+
+  // console.log(income_graph.value, expense_graph.value);
 
   const parsed = response.data.map((item) => {
     return {
@@ -200,8 +257,8 @@ const fetchReport = async () => {
   flattenedReport.value = Object.values(typeSummary);
 };
 
-const hideZeroRows = ref(false); // ปุ่มเปิดปิด
-const months = Array.from({ length: 12 }, (_, i) => i + 1); // เดือน 1-12
+const hideZeroRows = ref(false);
+const months = Array.from({ length: 12 }, (_, i) => i + 1);
 
 const filteredReport = computed(() => {
   if (!hideZeroRows.value) {
@@ -210,6 +267,7 @@ const filteredReport = computed(() => {
   }
   console.log("Filtering out zero rows");
   return flattenedReport.value.filter((row) => {
+    console.log("Checking row:", row);
     return months.some((m) => row.values[m] > 0);
   });
 });
@@ -222,4 +280,43 @@ watch(filteredReport, (newVal) => {
   console.log("Filtered rows:", newVal.length);
 });
 
+onMounted(async () => {
+  await fetchReport();
+  await nextTick();
+  const ctx = graphRef.value.getContext("2d");
+
+  chartInstance = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: mounth.value,
+      datasets: [
+        {
+          label: "รายได้",
+          data: income_graph.value,
+          borderColor: "#16a34a",
+          tension: 0.4,
+        },
+        {
+          label: "รายจ่าย",
+          data: expense_graph.value,
+          borderColor: "#dc2626",
+          tension: 0.4,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+      plugins: {
+        legend: {
+          display: true,
+        },
+      },
+    },
+  });
+});
 </script>

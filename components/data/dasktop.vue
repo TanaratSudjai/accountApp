@@ -404,14 +404,17 @@
           </table>
         </div>
       </div>
+      <button @click="closeAccount()" class="p-2 bg-red-600 text-white rounded">
+        ปิดบัญชี
+      </button>
     </div>
-    <button @click="closeAccount()">click me</button>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 const { formatNumber } = useFormatNumber();
 const router = useRouter();
@@ -420,7 +423,20 @@ const showZeroSum = ref(true);
 const error = ref("");
 const { $axios } = useNuxtApp();
 const loading = ref(true);
-
+const showAlert = (
+  title,
+  text,
+  icon = "error",
+  confirmButtonColor = "#0891b2"
+) => {
+  Swal.fire({
+    title,
+    text,
+    icon,
+    confirmButtonText: "ลองอีกครั้ง",
+    confirmButtonColor,
+  });
+};
 const fetchType = async () => {
   try {
     if (showZeroSum.value) {
@@ -514,9 +530,9 @@ const closeAccount = async () => {
     const response = await $axios.post("/ExportAccount");
 
     if (response.status === 200) {
-      alert("ปิดบัญชีสำเร็จแล้ว");
+      showAlert("ปิดบัญชีสำเร็จแล้ว", "ปิดบัญชีสำเร็จแล้ว");
     } else {
-      alert("เกิดข้อผิดพลาดในการปิดบัญชี");
+      showAlert("เกิดข้อผิดพลาดในการปิดบัญชี", "เกิดข้อผิดพลาดในการปิดบัญชี");
     }
   } catch (err) {
     console.error("Error closing account:", err);
@@ -524,4 +540,3 @@ const closeAccount = async () => {
   }
 };
 </script>
-
