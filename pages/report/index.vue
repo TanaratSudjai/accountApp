@@ -1,6 +1,17 @@
 <template>
   <div class="bg-white rounded-sm border border-gray-200 overflow-hidden mb-20">
     <div class="overflow-x-auto">
+      <div class="mb-4">
+        <button
+          @click="hideZeroRows = !hideZeroRows"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          {{ hideZeroRows ? "แสดงทั้งหมด" : "ซ่อนแถวที่เป็นศูนย์" }}
+        </button>
+        <p class="text-sm text-gray-500 my-2">
+          แสดง {{ filteredReport.length }} รายการ
+        </p>
+      </div>
       <table class="w-full border-collapse">
         <!-- Table Header -->
         <!-- Table Header -->
@@ -74,7 +85,39 @@
 
         <!-- Table Body -->
         <tbody>
-          <tr v-for="row in flattenedReport" :key="row.label">
+          <tr
+            v-for="(row, index) in filteredReport"
+            :key="row.label"
+            :class="[
+              'transition-colors duration-200',
+              {
+                'bg-yellow-50 hover:bg-yellow-100':
+                  row.catId == 1 && index % 2 === 0,
+                'bg-yellow-100 hover:bg-yellow-200':
+                  row.catId == 1 && index % 2 !== 0,
+
+                'bg-purple-50 hover:bg-purple-100':
+                  row.catId == 2 && index % 2 === 0,
+                'bg-purple-100 hover:bg-purple-200':
+                  row.catId == 2 && index % 2 !== 0,
+
+                'bg-blue-50 hover:bg-blue-100':
+                  row.catId == 3 && index % 2 === 0,
+                'bg-blue-100 hover:bg-blue-200':
+                  row.catId == 3 && index % 2 !== 0,
+
+                'bg-green-50 hover:bg-green-100':
+                  row.catId == 4 && index % 2 === 0,
+                'bg-green-100 hover:bg-green-200':
+                  row.catId == 4 && index % 2 !== 0,
+
+                'bg-pink-50 hover:bg-pink-100':
+                  row.catId == 5 && index % 2 === 0,
+                'bg-pink-100 hover:bg-pink-200':
+                  row.catId == 5 && index % 2 !== 0,
+              },
+            ]"
+          >
             <!-- Label เช่น 1_6_7+64+90 (เงินสด) -->
             <td class="px-6 py-4 border-r font-semibold">
               {{ row.label }}
@@ -137,12 +180,13 @@ const fetchReport = async () => {
           const typeName = type.type_name;
 
           const key = `${catId}+${groupId}+${typeId}`;
-          const label = `${key} (${typeName})`;
+          const label = `${typeName} (${catId})`;
 
           if (!typeSummary[key]) {
             typeSummary[key] = {
               label,
               values: {},
+              catId: catId,
             };
           }
 
@@ -156,7 +200,26 @@ const fetchReport = async () => {
   flattenedReport.value = Object.values(typeSummary);
 };
 
+const hideZeroRows = ref(false); // ปุ่มเปิดปิด
+const months = Array.from({ length: 12 }, (_, i) => i + 1); // เดือน 1-12
+
+const filteredReport = computed(() => {
+  if (!hideZeroRows.value) {
+    console.log("Showing all rows");
+    return flattenedReport.value;
+  }
+  console.log("Filtering out zero rows");
+  return flattenedReport.value.filter((row) => {
+    return months.some((m) => row.values[m] > 0);
+  });
+});
+
 onMounted(() => {
   fetchReport();
 });
+
+watch(filteredReport, (newVal) => {
+  console.log("Filtered rows:", newVal.length);
+});
+
 </script>
