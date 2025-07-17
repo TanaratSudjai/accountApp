@@ -1,5 +1,8 @@
 <template>
-  <div class="bg-white overflow-hidden mb-20 p-3">
+  <BackComponents />
+  <div
+    class="bg-white rounded-sm border border-gray-200 overflow-hidden mb-20 p-3"
+  >
     <div class="overflow-x-auto">
       <div class="mb-4">
         <div class="flex gap-2">

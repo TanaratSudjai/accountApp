@@ -1,6 +1,6 @@
 <template>
   <BackComponents />
-  <div class="min-h-screen  p-4 pb-20">
+  <div class="min-h-screen p-4 pb-20">
     <div class="max-w-7xl mx-auto">
       <!-- Main Container with responsive grid -->
       <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
@@ -144,9 +144,7 @@
                         : 'text-red-900'
                     "
                   >
-                    {{
-                      (totalIncomeDay - totalExpenseDay).toLocaleString()
-                    }}
+                    {{ (totalIncomeDay - totalExpenseDay).toLocaleString() }}
                     บาท
                   </span>
                   <span
@@ -172,9 +170,7 @@
                         : 'text-red-900'
                     "
                   >
-                    {{
-                      (totalIncomeYear - totalExpenseYear).toLocaleString()
-                    }}
+                    {{ (totalIncomeYear - totalExpenseYear).toLocaleString() }}
                     บาท
                   </span>
                 </div>
@@ -886,7 +882,11 @@ const calendarOptions = reactive({
   initialView: "dayGridMonth",
   events: allCalendarEvents,
   dateClick: onDateClick,
-  initialDate: new Date(selectedYearForChart.value, selectedMonthForChart.value - 1, 1),
+  initialDate: new Date(
+    selectedYearForChart.value,
+    selectedMonthForChart.value - 1,
+    1
+  ),
 });
 
 // Initial load
