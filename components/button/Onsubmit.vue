@@ -19,7 +19,6 @@ const onSubmit = async () => {
         },
       }
     );
-    console.log("Success");
   } catch (error) {
     console.error("Error fetching transition:", error.message);
   }

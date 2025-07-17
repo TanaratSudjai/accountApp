@@ -1,5 +1,6 @@
 <template>
   <div>
+    <BackComponents />
     <DataDashboardComponent />
   </div>
 </template>

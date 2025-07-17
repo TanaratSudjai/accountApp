@@ -197,8 +197,6 @@ const props = defineProps({
   account_category_id: Number,
 });
 
-console.log(props.account_type_value);
-
 const emits = defineEmits(["close", "update"]);
 
 const updatedValue = ref(props.account_type_value);
@@ -215,7 +213,6 @@ const selectCategory = (cat) => {
 const AccountTypeTotal = ref(0);
 const getAccountTypeTotal = (cat) => {
   AccountTypeTotal.value = parseFloat(cat.account_type_total) || 0; // Convert to number
-  console.log(AccountTypeTotal.value);
 };
 
 const updateValue = () => {
@@ -226,8 +223,6 @@ const updateValue = () => {
     account_category_id: props.account_category_id, // Include the selected account_category_id
   });
   closeModal();
-
-  console.log("Updated value:", updatedValue.value);
 };
 
 const closeModal = () => {
@@ -257,11 +252,6 @@ const isSubmitDisabledIncome = computed(() => {
 });
 
 onMounted(() => {
-  console.log(
-    "Initial disabled state of submit button:",
-    isSubmitDisabled.value
-  );
-  // Perform any actions based on the initial disabled state, if needed
 });
 
 // formattedValue updatedValue to 10,000 => 10,000.00 updatedValue input tag

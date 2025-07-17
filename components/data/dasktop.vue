@@ -6,14 +6,14 @@
         <div class="flex gap-4">
           <button
             @click="toggleZeroSumVisibility"
-            class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded-sm transition-colors duration-200"
           >
             {{ showZeroSum ? "ซ่อน" : "แสดง" }}
             <span class="ml-2">รายการ</span>
           </button>
           <button
             @click="gotoGrap"
-            class="inline-flex items-center px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors duration-200"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded-sm transition-colors duration-200"
           >
             Graph
           </button>
@@ -21,13 +21,15 @@
       </div>
 
       <!-- Main Table -->
-      <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-20">
+      <div
+        class="bg-white rounded-sm border border-gray-200 overflow-hidden mb-20"
+      >
         <div class="overflow-x-auto">
           <table class="w-full border-collapse">
             <!-- Table Header -->
             <!-- Table Header -->
             <thead>
-              <tr class="bg-gray-100">
+              <tr class="">
                 <th
                   class="px-6 py-4 text-sm font-semibold text-gray-900 border-b"
                 >
@@ -122,7 +124,7 @@
                     "
                     class="font-medium"
                   >
-                    {{ formatNumber(type_sum.account_type_sum )}}
+                    {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
 
@@ -305,7 +307,7 @@
                     v-if="sumColumn5 - sumColumn6 < 0"
                     class="font-medium text-green-600"
                   >
-                    {{ formatNumber(Math.abs(sumColumn5 - sumColumn6) )}}
+                    {{ formatNumber(Math.abs(sumColumn5 - sumColumn6)) }}
                   </div>
                   <div
                     v-if="sumColumn5 - sumColumn6 < 0"
@@ -320,7 +322,7 @@
                     v-if="sumColumn6 - sumColumn5 < 0"
                     class="font-medium text-red-600"
                   >
-                    {{ formatNumber(Math.abs(sumColumn6 - sumColumn5))  }}
+                    {{ formatNumber(Math.abs(sumColumn6 - sumColumn5)) }}
                   </div>
                   <div
                     v-if="sumColumn6 - sumColumn5 < 0"
@@ -336,31 +338,35 @@
 
                 <!-- Column 1 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
-                  {{ formatNumber(sumColumn1 + (sumColumn1 - sumColumn2))  }}
+                  {{ formatNumber(sumColumn1 + (sumColumn1 - sumColumn2)) }}
                 </td>
 
                 <!-- Column 2 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
-                  {{ formatNumber(sumColumn2 + (sumColumn2 - sumColumn1))  }}
+                  {{ formatNumber(sumColumn2 + (sumColumn2 - sumColumn1)) }}
                 </td>
 
                 <!-- Column 3 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
                   {{
-                    formatNumber(sumColumn3 +
-                    (sumColumn3 - sumColumn4 < 0
-                      ? Math.abs(sumColumn3 - sumColumn4)
-                      : 0))
+                    formatNumber(
+                      sumColumn3 +
+                        (sumColumn3 - sumColumn4 < 0
+                          ? Math.abs(sumColumn3 - sumColumn4)
+                          : 0)
+                    )
                   }}
                 </td>
 
                 <!-- Column 4 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
                   {{
-                    formatNumber(sumColumn4 +
-                    (sumColumn4 - sumColumn3 < 0
-                      ? Math.abs(sumColumn4 - sumColumn3)
-                      : 0)) 
+                    formatNumber(
+                      sumColumn4 +
+                        (sumColumn4 - sumColumn3 < 0
+                          ? Math.abs(sumColumn4 - sumColumn3)
+                          : 0)
+                    )
                   }}
                 </td>
 
@@ -412,12 +418,10 @@ const fetchType = async () => {
   try {
     if (showZeroSum.value) {
       const response = await $axios.get("/dasktop_data_sumtype");
-      console.log("API Response not zero:", response); // Log the response
       datatype_sum.value = response.data.account_type_sum || [];
       loading.value = false;
     } else {
       const response = await $axios.get("/dasktop_data_sumzero");
-      console.log("API Response zero:", response); // Log the response
       datatype_sum.value = response.data.account_type_sum || [];
     }
   } catch (err) {

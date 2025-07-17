@@ -46,7 +46,7 @@
                   <input
                     type="text"
                     v-model="localAccountType.account_type_name"
-                    class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-yellow-500/20 focus:border-yellow-500 transition-all duration-200"
+                    class="w-full px-4 py-3 rounded-md border border-gray-200 transition-all duration-200"
                     required
                   />
                 </div>
@@ -61,7 +61,7 @@
                   <input
                     type="text"
                     v-model="localAccountType.account_type_value"
-                    class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-yellow-500/20 focus:border-yellow-500 transition-all duration-200"
+                    class="w-full px-4 py-3 rounded-md border border-gray-200 transition-all duration-200"
                   />
                 </div>
               </div>
@@ -187,7 +187,6 @@ const fetchIcon = async () => {
     const response = await $axios.get(`/get_icons/${categoryID}`);
     const data = await response.data;
     icons.value = data.data;
-    console.log(icons);
   } catch (error) {
     console.log("No data", error);
   }
@@ -219,8 +218,6 @@ const toggleSelect = (type) => {
     selected.value = type;
     localAccountType.value.account_type_from_id = type.account_type_id;
   }
-  console.log(localAccountType.value.account_type_icon);
-  console.log(localAccountType.value.account_type_from_id);
 };
 watch(
   () => props.account_type_from_id,
@@ -247,7 +244,6 @@ const toggleSelectIcon = (icon) => {
   } else {
     selectedIcon.value = icon;
   }
-  console.log(selectedIcon.value?.account_icon_id); // Ensure it logs correctly
 };
 
 watch(selectedIcon, (newVal) => {
@@ -271,14 +267,6 @@ watch(
 // -------------------------------------------------------------------------------------
 
 const updateAccountType = async () => {
-  console.log(localAccountType.value.account_type_id);
-  console.log(localAccountType.value.account_type_name);
-  // value format
-  console.log(localAccountType.value.account_type_value);
-  console.log(localAccountType.value.account_type_description);
-  console.log(localAccountType.value.account_type_from_id);
-  console.log(localAccountType.value.account_type_icon);
-
   const removeComma = (value) => {
     if (typeof value === "string") {
       return value.replace(/,/g, "");
@@ -293,7 +281,10 @@ const updateAccountType = async () => {
         account_type_name: localAccountType.value.account_type_name,
         // value
 
-        account_type_value: localAccountType.value.account_type_value?.replace(/,/g,""),
+        account_type_value: localAccountType.value.account_type_value?.replace(
+          /,/g,
+          ""
+        ),
 
         account_type_from_id: parseInt(
           localAccountType.value.account_type_from_id

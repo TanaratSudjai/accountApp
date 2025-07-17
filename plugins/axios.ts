@@ -31,7 +31,6 @@ export default defineNuxtPlugin(() => {
     (response) => {
       if (response.config.url === "/auth/login" && response.data.token) {
         tokenCookie.value = response.data.token;
-        console.log("✅ Token Saved:", tokenCookie.value);
       }
       return response;
     },

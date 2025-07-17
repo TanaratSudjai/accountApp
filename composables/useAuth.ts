@@ -2,12 +2,8 @@ export const useAuth = () => {
   const token = useCookie("token");
   const user = useState("user", () => null);
 
-  // Add logging to track token changes
-  console.log("Token Value in useAuth:", token.value);
-
   const setToken = (newToken: string) => {
     token.value = newToken;
-    console.log("Token set to:", newToken);
   };
 
   const login = async (email: string, password: string) => {
