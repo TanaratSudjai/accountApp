@@ -1,6 +1,6 @@
 <template>
   <div class="p-1">
-    <div class="mx-auto space-y-8">
+    <div class="mx-auto space-y-2">
       <!-- Error/Loading State -->
       <div v-if="error" class="flex justify-center items-center min-h-[500px]">
         <div class="text-center">
@@ -9,25 +9,22 @@
         </div>
       </div>
 
-      <div v-else class="space-y-8">
+      <div v-else class="space-y-2">
         <!-- Header Card -->
-        <div class="bg-white rounded-md p-8 border border-gray-200">
+        <div class="bg-white rounded-md ">
           <div class="flex flex-col items-center text-center space-y-4">
             <!-- Icon with animated background -->
             <div class="relative">
-              <div
-                class="absolute inset-0 bg-emerald-500 rounded-xl blur-xl opacity-30 animate-pulse"
-              ></div>
-              <div class="relative bg-emerald-600 p-4">
-                <HandCoins class="w-12 h-12 text-white" />
+              <div class="absolute inset-0 bg-emerald-500 rounded-xl blur-xl opacity-30 animate-pulse"></div>
+              <div class="relative bg-emerald-600 p-4 rounded">
+                <HandCoins class="w-5 h-5 text-white" />
               </div>
             </div>
 
             <!-- Title with gradient text -->
             <div class="space-y-2">
               <h1
-                class="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent"
-              >
+                class="text-xl md:text-2xl  font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
                 บันทึกรายการรายได้
               </h1>
               <p class="text-gray-600 font-medium">
@@ -38,7 +35,7 @@
         </div>
 
         <!-- Data Input Component -->
-        <div class="bg-white rounded-md border border-gray-200 overflow-hidden">
+        <div class="bg-white rounded-md overflow-hidden">
           <DataIncomeComponent />
         </div>
 
@@ -48,14 +45,14 @@
           <div class="p-3 border-b border-gray-200">
             <div class="flex items-start justify-between space-x-3">
               <div>
-                <h2 class="text-2xl font-bold text-gray-800">รายการธุรกรรม</h2>
-                <p class="text-gray-600 text-sm mt-1">เลื่อนดูรายการทั้งหมด</p>
+                <h2 class="text-xl font-bold text-gray-800">รายการธุรกรรม</h2>
+                <p class="text-gray-600 text-xs mt-1">เลื่อนดูรายการทั้งหมด</p>
               </div>
               <!-- Transaction count badge -->
               <div v-if="transition.length > 0" class="flex items-center">
                 <span
-                  class="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-800"
-                >
+                  class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+
                   {{ transition.length }} รายการ
                 </span>
               </div>
@@ -63,21 +60,15 @@
           </div>
 
           <!-- Transactions List -->
-          <div v-if="transition.length > 0" class="p-6">
-            <div
-              class="max-h-96 overflow-y-auto space-y-4 pr-2 custom-scrollbar "
-            >
-              <TransitionGroup name="list" tag="div" class="space-y-4">
-                <div
-                  v-for="(transactionData, index) in transition"
+          <div v-if="transition.length > 0" class="p-1">
+            <div class="max-h-96 overflow-y-auto space-y-2 pr-2 custom-scrollbar ">
+              <TransitionGroup name="list" tag="div" class="space-y-2">
+                <div v-for="(transactionData, index) in transition"
                   :key="`${transactionData.account_transition_id}-${index}`"
-                  class="group transition-all duration-300 transform"
-                >
+                  class="group transition-all duration-300 transform">
                   <!-- Income Transaction -->
-                  <div
-                    v-if="transactionData.account_category_id === 4"
-                    class="relative p-6 rounded-md border-2 border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 hover:shadow-sm transition-all duration-300 hover:border-green-300"
-                  >
+                  <div v-if="transactionData.account_category_id === 4"
+                    class="relative p-6 rounded-md border-2 border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 hover:shadow-sm transition-all duration-300 hover:border-green-300">
                     <div class="relative flex justify-between items-center">
                       <div class="flex items-center space-x-4">
                         <!-- Income icon -->
@@ -102,27 +93,19 @@
                         </div>
 
                         <!-- Delete button -->
-                        <button
-                          @click="
-                            deleteTransection(
-                              transactionData.account_transition_id,
-                              transactionData.account_transition_value
-                            )
+                        <button @click="
+                          deleteTransection(
+                            transactionData.account_transition_id,
+                            transactionData.account_transition_value
+                          )
                           "
-                          class="group/btn relative w-10 h-10 bg-white hover:bg-red-50 rounded-full shadow-md hover:shadow-lg transition-all duration-300 border-2 border-transparent hover:border-red-200 focus:outline-none focus:ring-4 focus:ring-red-100"
-                        >
+                          class="group/btn relative w-10 h-10 bg-white hover:bg-red-50 rounded-full shadow-md hover:shadow-lg transition-all duration-300 border-2 border-transparent hover:border-red-200 focus:outline-none focus:ring-4 focus:ring-red-100">
                           <svg
                             class="w-5 h-5 text-gray-400 group-hover/btn:text-red-500 transition-colors duration-300 mx-auto"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            ></path>
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                            </path>
                           </svg>
                         </button>
                       </div>
@@ -130,33 +113,20 @@
                   </div>
 
                   <!-- Expense Transaction -->
-                  <div
-                    v-if="transactionData.account_category_id === 5"
-                    class="relative p-6 rounded-2xl border-2 border-red-200 bg-gradient-to-r from-red-50 to-rose-50 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-red-300"
-                  >
+                  <div v-if="transactionData.account_category_id === 5"
+                    class="relative p-6 rounded-2xl border-2 border-red-200 bg-gradient-to-r from-red-50 to-rose-50 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-red-300">
                     <!-- Background decoration -->
                     <div
-                      class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-red-200/30 to-transparent rounded-bl-full"
-                    ></div>
+                      class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-red-200/30 to-transparent rounded-bl-full">
+                    </div>
 
                     <div class="relative flex justify-between items-center">
                       <div class="flex items-center space-x-4">
                         <!-- Expense icon -->
                         <div
-                          class="w-12 h-12 bg-gradient-to-r from-red-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg"
-                        >
-                          <svg
-                            class="w-6 h-6 text-white"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M20 12H4"
-                            ></path>
+                          class="w-12 h-12 bg-gradient-to-r from-red-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg">
+                          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
                           </svg>
                         </div>
                         <div>
@@ -180,27 +150,19 @@
                         </div>
 
                         <!-- Delete button -->
-                        <button
-                          @click="
-                            deleteTransection(
-                              transactionData.account_transition_value,
-                              transactionData.account_transition_id
-                            )
+                        <button @click="
+                          deleteTransection(
+                            transactionData.account_transition_value,
+                            transactionData.account_transition_id
+                          )
                           "
-                          class="group/btn relative w-10 h-10 bg-white hover:bg-red-50 rounded-full shadow-md hover:shadow-lg transition-all duration-300 border-2 border-transparent hover:border-red-200 focus:outline-none focus:ring-4 focus:ring-red-100"
-                        >
+                          class="group/btn relative w-10 h-10 bg-white hover:bg-red-50 rounded-full shadow-md hover:shadow-lg transition-all duration-300 border-2 border-transparent hover:border-red-200 focus:outline-none focus:ring-4 focus:ring-red-100">
                           <svg
                             class="w-5 h-5 text-gray-400 group-hover/btn:text-red-500 transition-colors duration-300 mx-auto"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            ></path>
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                            </path>
                           </svg>
                         </button>
                       </div>
@@ -212,26 +174,13 @@
           </div>
 
           <!-- Empty State -->
-          <div
-            v-else
-            class="flex flex-col items-center justify-center py-16 px-8"
-          >
+          <div v-else class="flex flex-col items-center justify-center py-16 px-8">
             <div class="relative mb-6">
-              <div
-                class="relative w-24 h-24 rounded-full flex items-center justify-center"
-              >
-                <svg
-                  class="w-12 h-12 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  ></path>
+              <div class="relative w-24 h-24 rounded-full flex items-center justify-center">
+                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                  </path>
                 </svg>
               </div>
             </div>

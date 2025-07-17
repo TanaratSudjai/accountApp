@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4 py-8">
       <!-- Menu Grid -->
       <div
-        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-w-5xl mx-auto"
+        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-w-3xl mx-auto"
       >
         <NuxtLink
           v-for="(item, index) in filteredMenuItems"
@@ -18,7 +18,7 @@
         >
           <div
             :class="[
-              'border border-gray-200 p-6',
+              'border border-gray-200 p-2',
               'bg-white ',
               'flex flex-col items-center justify-center',
               'min-h-[140px]',
@@ -27,7 +27,7 @@
           >
             <div
               :class="[
-                'rounded-xl p-3',
+                'rounded-xl ',
                 'transition-transform duration-300 group-hover:scale-110',
                 item.color || 'text-gray-700',
               ]"
@@ -43,7 +43,7 @@
             </div>
 
             <!-- Title -->
-            <span class="mt-4 text-sm font-medium text-gray-700 text-center">
+            <span class="mt-4 text-xs md:text-sm font-medium text-gray-700 text-center">
               {{ item.title }}
             </span>
           </div>

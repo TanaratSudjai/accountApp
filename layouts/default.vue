@@ -1,21 +1,17 @@
 <template>
   <div class="flex flex-col font-noto bg-white min-h-screen">
     <!-- Header -->
-
     <div
-      class="flex flex-col md:flex-row gap-2 justify-center items-center w-full z-50 p-3 bg-white border border-gray-200"
-    >
+      class="flex flex-col md:flex-row gap-2 justify-center items-center w-full  p-2 bg-white border border-gray-200">
       <!-- logo stars -->
       <div class="container mx-auto">
-        <div class="font-noto text-black flex justify-between">
+        <div class="font-noto text-black flex justify-between items-center text-xs">
           <div class="">
             บัญชีของคุณ
             <span class="font-bold">{{ nameuser || "กำลังโหลด" }}</span>
           </div>
-          <button
-            @click="logout"
-            class="text-white underline-none bg-red-500 px-2 py-1 text-md rounded hover:bg-red-600 transition-all duration-200"
-          >
+          <button @click="logout"
+            class="text-white text-xs underline-none bg-red-500 px-2 py-1 text-md rounded hover:bg-red-600 transition-all duration-200">
             ออกจากระบบ
             <Icon v-if="loading" name="svg-spinners:180-ring-with-bg" />
           </button>

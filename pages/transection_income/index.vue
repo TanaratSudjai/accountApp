@@ -1,11 +1,9 @@
 <template>
-  <client-only>
-    <BackComponents></BackComponents>
-  </client-only>
+  <BackComponents></BackComponents>
   <div class="mx-auto">
     <DataTransitionOnsubmitIncome />
     <DataMenuGroupIncome />
   </div>
- 
+
 </template>
 <script setup></script>
