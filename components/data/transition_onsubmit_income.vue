@@ -1,5 +1,5 @@
 <template>
-  <div class="p-1">
+  <div class="p-1 ">
     <div class="mx-auto space-y-2">
       <!-- Error/Loading State -->
       <div v-if="error" class="flex justify-center items-center min-h-[500px]">

@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen p-2">
+  <div class="min-h-screen p-2 ">
     <div class=" mx-auto">
       <!-- Header Section -->
       <div class="text-center">

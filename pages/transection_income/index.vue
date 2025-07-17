@@ -1,6 +1,6 @@
 <template>
   <BackComponents></BackComponents>
-  <div class="mx-auto">
+  <div class="mx-auto max-w-4xl">
     <DataTransitionOnsubmitIncome />
     <DataMenuGroupIncome />
   </div>

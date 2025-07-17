@@ -37,7 +37,7 @@
         <div
           v-for="Type in TypeData"
           :key="Type.account_type_id"
-          class="bg-white shadow-sm  rounded-md border border-gray-200 hover:border-emerald-200 p-6 transition-all duration-300 hover:-translate-y-1 group"
+          class="bg-white shadow-sm rounded-md border border-gray-200 hover:border-emerald-200 p-6 transition-all duration-300 hover:-translate-y-1 group"
         >
           <!-- Header with Icon and Title -->
           <div class="flex items-start mb-6">
@@ -172,6 +172,21 @@
             class="absolute bottom-0 left-1/2 w-0 h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 group-hover:w-20 transform -translate-x-1/2 transition-all duration-300 rounded-t-full"
           ></div>
         </div>
+
+        <NuxtLink
+        :to="`/type/addType/${groupID}`"
+          class="border-2 border-dashed border-emerald-200 hover:border-emerald-400 bg-white hover:bg-emerald-50 rounded-2xl p-8 shadow-sm hover:shadow-md flex flex-col justify-center items-center cursor-pointer transition-all duration-300 h-full min-h-[240px] group"
+        >
+          <div
+            class="rounded-full w-16 h-16 bg-emerald-100 group-hover:bg-emerald-200 flex justify-center items-center mb-4 shadow-sm transition-colors duration-300"
+          >
+            <Plus class="w-8 h-8 text-emerald-600" />
+          </div>
+          <span class="text-emerald-600 font-semibold text-lg"
+            >เพิ่มประเภมใหม่</span
+          >
+          <span class="text-gray-500 text-sm mt-1">คลิกเพื่อเริ่มต้น</span>
+        </NuxtLink>
       </div>
 
       <!-- Modal Component -->
@@ -188,7 +203,7 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { ref, onMounted, watch } from "vue";
-import { Pencil, Trash2 } from "lucide-vue-next";
+import { Pencil, Trash2, Plus } from "lucide-vue-next";
 const route = useRoute();
 const groupID = route.params.id;
 const { $axios } = useNuxtApp();

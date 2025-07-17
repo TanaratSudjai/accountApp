@@ -41,7 +41,7 @@
   </div>
 
   <!-- Conditionally Render Components -->
-  <div class="mt-4">
+  <div class="mt-4 mx-auto max-w-4xl">
     <DataTransitionCreditorBorrow v-if="activeButton === 'borrow'" />
     <DataTransitionCreditorReturn v-else />
   </div>
