@@ -14,7 +14,7 @@
           </div>
           <button
             @click="logout"
-            class="text-white underline-none bg-red-500 px-2 py-1 text-md rounded-sm hover:bg-red-600 transition-all duration-200"
+            class="text-white underline-none bg-red-500 px-2 py-1 text-md rounded hover:bg-red-600 transition-all duration-200"
           >
             ออกจากระบบ
             <Icon v-if="loading" name="svg-spinners:180-ring-with-bg" />

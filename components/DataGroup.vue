@@ -99,7 +99,7 @@
               </div>
             </div>
 
-            <div class="bg-gray-50 rounded-sm p-4 mb-4">
+            <div class="bg-gray-50 rounded p-4 mb-4">
               <div class="flex items-center justify-between">
                 <span class="text-gray-600 text-sm font-medium">จำนวนรวม</span>
                 <div class="flex items-center">

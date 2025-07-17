@@ -21,7 +21,7 @@
           <Transition name="slide-up">
             <div
               v-if="show"
-              class="relative transform overflow-hidden rounded-sm bg-white text-left transition-all sm:my-8 sm:w-full sm:max-w-lg"
+              class="relative transform overflow-hidden rounded bg-white text-left transition-all sm:my-8 sm:w-full sm:max-w-lg"
             >
               <div class="p-5 flex justify-between items-center">
                 <h3 class="text-lg font-medium text-[#1f2937]">

@@ -5,7 +5,7 @@
     >
       <!-- Header -->
 
-      <h2 class="text-2xl font-semibold p-3 rounded-sm">ลูกหนี้คืนเงิน</h2>
+      <h2 class="text-2xl font-semibold p-3 rounded">ลูกหนี้คืนเงิน</h2>
       <div class="p-6">
         <!-- Transfer Selection Area -->
         <div class="grid grid-cols-1 md:grid-cols-7 gap-6 mb-8">

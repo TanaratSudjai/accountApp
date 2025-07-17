@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="bg-white rounded-sm border border-gray-200 overflow-hidden mb-20 p-3"
-  >
+  <div class="bg-white overflow-hidden mb-20 p-3">
     <div class="overflow-x-auto">
       <div class="mb-4">
         <div class="flex gap-2">
@@ -19,7 +17,7 @@
             {{ page === "report" ? "ดูกราฟรายงาน" : "ดูตารางรายงาน" }}
           </button>
         </div>
-        <p class="text-sm text-gray-500 my-2">
+        <p v-if="page == 'report'" class="text-sm text-gray-500 my-2">
           แสดง {{ filteredReport.length }} รายการ
         </p>
       </div>
@@ -151,63 +149,53 @@
         <p class="text-gray-500">กราฟรายงานจะถูกแสดงที่นี่</p>
 
         <div class="p-2">
-          <canvas ref="graphRef" height="300"></canvas>
+          <data-graph-report
+            :income="income_graph"
+            :expense="expense_graph"
+            :mounth="mounth_value"
+          >
+          </data-graph-report>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import {
-  Chart,
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
-  Title,
-  CategoryScale,
-  Tooltip,
-  Legend,
-} from "chart.js";
 
-// ลงทะเบียน components
-Chart.register(
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
-  Title,
-  CategoryScale,
-  Tooltip,
-  Legend
-);
-const graphRef = ref(null);
-let graphInstance = null;
-
-const page = ref("report");
 const { formatNumber } = useFormatNumber();
 const report = ref([]);
 const error = ref("");
 const { $axios } = useNuxtApp();
 const loading = ref(true);
 const flattenedReport = ref([]);
-
-const income_graph = ref([]);
-const expense_graph = ref([]);
-const mounth_value = ref([]);
-const mounth = ref(["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย."]);
+const income_graph = ref<number[]>(Array(12).fill(0));
+const expense_graph = ref<number[]>(Array(12).fill(0));
+const mounth_value = ref<number[]>([]);
+const page = ref("report");
 
 const fetchReport = async () => {
   const response = await $axios.get("/getClosedAccount");
-  console.log("Response data:", response.data.account_closing_time);
-  mounth_value.value =
-    new Date(response.data[0].account_closing_time).getMonth() + 1;
-  expense_graph.value = response.data[0].account_closing_expence;
-  income_graph.value = response.data[0].account_closing_income;
 
-  // console.log(income_graph.value, expense_graph.value);
+  income_graph.value = Array(12).fill(0);
+  expense_graph.value = Array(12).fill(0);
+  mounth_value.value = [];
+
+  response.data.forEach((item: any) => {
+    const monthIndex = new Date(item.account_closing_time).getMonth();
+
+    income_graph.value[monthIndex] = item.account_closing_income;
+    expense_graph.value[monthIndex] = item.account_closing_expence;
+
+    if (!mounth_value.value.includes(monthIndex + 1)) {
+      mounth_value.value.push(monthIndex + 1);
+    }
+  });
+
+  console.log("รายได้:", income_graph.value);
+  console.log("รายจ่าย:", expense_graph.value);
+  console.log("เดือนที่มีข้อมูล:", mounth_value.value);
 
   const parsed = response.data.map((item) => {
     return {
@@ -278,45 +266,5 @@ onMounted(() => {
 
 watch(filteredReport, (newVal) => {
   console.log("Filtered rows:", newVal.length);
-});
-
-onMounted(async () => {
-  await fetchReport();
-  await nextTick();
-  const ctx = graphRef.value.getContext("2d");
-
-  chartInstance = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: mounth.value,
-      datasets: [
-        {
-          label: "รายได้",
-          data: income_graph.value,
-          borderColor: "#16a34a",
-          tension: 0.4,
-        },
-        {
-          label: "รายจ่าย",
-          data: expense_graph.value,
-          borderColor: "#dc2626",
-          tension: 0.4,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-      plugins: {
-        legend: {
-          display: true,
-        },
-      },
-    },
-  });
 });
 </script>

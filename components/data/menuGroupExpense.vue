@@ -88,7 +88,7 @@
                       hidden: disabledAccountTypeIds.has(menu.account_type_id),
                     }"
                     :disabled="disabledAccountTypeIds.has(menu.account_type_id)"
-                    class="w-full relative p-6 rounded-sm border-2 border-gray-200 bg-gradient-to-r from-white to-gray-50 hover:from-red-50 hover:to-rose-50 hover:border-red-300 transition-all duration-300 transform focus:outline-none focus:ring-4 focus:ring-red-100"
+                    class="w-full relative p-6 rounded border-2 border-gray-200 bg-gradient-to-r from-white to-gray-50 hover:from-red-50 hover:to-rose-50 hover:border-red-300 transition-all duration-300 transform focus:outline-none focus:ring-4 focus:ring-red-100"
                   >
                     <!-- Background decoration -->
                     <div

@@ -3,7 +3,7 @@
     <div
       class="mx-auto rounded-md bg-white border border-gray-200 overflow-hidden"
     >
-      <h2 class="text-2xl font-semibold  p-3 rounded-sm">
+      <h2 class="text-2xl font-semibold  p-3 rounded">
         ให้ลูกหนี้ยิมเงิน
       </h2>
 

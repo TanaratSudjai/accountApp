@@ -139,7 +139,7 @@
                   >
                     <div
                       :class="[
-                        'p-1.5 text-xs md:text-sm font-semibold rounded-sm transition-all duration-300 hover:shadow-md min-w-[100px]',
+                        'p-1.5 text-xs md:text-sm font-semibold rounded transition-all duration-300 hover:shadow-md min-w-[100px]',
                         parseFloat(transition.account_type_total) <
                         parseFloat(transition.account_type_sum)
                           ? 'bg-red-100 border border-red-200 '

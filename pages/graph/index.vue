@@ -186,7 +186,7 @@
         <!-- Chart Section -->
         <div class="w-full">
           <div
-            class="bg-white rounded-sm border border-gray-200 p-4 sm:p-6 transition-shadow"
+            class="bg-white rounded border border-gray-200 p-4 sm:p-6 transition-shadow"
           >
             <div
               class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6"

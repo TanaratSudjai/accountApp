@@ -4,7 +4,7 @@
       class="mx-auto rounded-md bg-white border border-gray-200 overflow-hidden"
     >
       
-      <h2 class="text-2xl font-semibold p-3 rounded-sm">ยืมเงินจากเจ้าหนี้</h2>
+      <h2 class="text-2xl font-semibold p-3 rounded">ยืมเงินจากเจ้าหนี้</h2>
       <div class="p-6">
         <!-- Transfer Selection Area -->
         <div class="grid grid-cols-1 md:grid-cols-7 gap-6 mb-8">

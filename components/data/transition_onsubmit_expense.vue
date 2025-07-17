@@ -147,7 +147,7 @@
                   <!-- Expense Transaction -->
                   <div
                     v-if="transactionData.account_category_id === 5"
-                    class="relative p-6 rounded-sm border-2 border-red-200 bg-gradient-to-r from-red-50 to-rose-50 transition-all duration-300 hover:border-red-300"
+                    class="relative p-6 rounded border-2 border-red-200 bg-gradient-to-r from-red-50 to-rose-50 transition-all duration-300 hover:border-red-300"
                   >
                     <div
                       class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-red-200/30 to-transparent rounded-bl-full"

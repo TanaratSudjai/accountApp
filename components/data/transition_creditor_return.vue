@@ -3,7 +3,7 @@
     <div
       class="mx-auto rounded-md bg-white border border-gray-200 overflow-hidden"
     >
-      <h2 class="text-2xl font-semibold p-3 rounded-sm">คืนเงินให้เจ้าหนี้</h2>
+      <h2 class="text-2xl font-semibold p-3 rounded">คืนเงินให้เจ้าหนี้</h2>
       <div class="p-6">
         <div class="grid grid-cols-1 md:grid-cols-7 gap-6 mb-8">
           <div class="md:col-span-3 space-y-3">
