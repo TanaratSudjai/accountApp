@@ -23,7 +23,7 @@
           <div class="flex flex-col items-center m-[20px] text-black">
             <h2 class="opacity-90 text-base">ยอดเงินรวมทั้งหมด</h2>
             <div class="text-3xl md:text-4xl font-bold m-[10px]">
-              {{ checkCheck_open.value }} บาท
+               {{ formatNumber(checkCheck_open.value) }} บาท
             </div>
           </div>
         </div>
@@ -140,7 +140,8 @@
                   class="object-cover text-purple-500 w-5 h-5 md:w-6 md:h-6"
                 />
                 <ArrowLeftRight
-                  v-else-if="transaction.account_category_id === 1 && transaction.account_category_from_id === 1"
+                  v-else-if="(transaction.account_category_id === 1 && transaction.account_category_from_id === 1) || 
+                    (transaction.account_category_id === 7 && transaction.account_category_from_id === 1)"
                   class="object-cover text-blue-500 w-5 h-5 md:w-6 md:h-6"
                 />
                 
@@ -164,7 +165,8 @@
                       ? transaction.account_type_name
                       : transaction.account_category_from_id === 2
                       ? transaction.account_type_name
-                      : transaction.account_category_id === 1 && transaction.account_category_from_id === 1
+                      : (transaction.account_category_id === 1 && transaction.account_category_from_id === 1) || 
+                    (transaction.account_category_id === 7 && transaction.account_category_from_id === 1)
                       ? transaction.account_type_name
                       : "เปิดบัญชี"
                   }}
@@ -185,7 +187,8 @@
                         ? "ให้คืน"
                         : transaction.account_category_id === 2
                         ? "ยืมมา"
-                        : transaction.account_category_id === 1 && transaction.account_category_from_id === 1
+                        : (transaction.account_category_id === 1 && transaction.account_category_from_id === 1) || 
+                    (transaction.account_category_id === 7 && transaction.account_category_from_id === 1)
                         ? "สลับบัญชี"
                         
                         : "เปิดบัญชี"
@@ -216,7 +219,8 @@
                     ? 'text-green-500': 
                     transaction.account_category_id === 2
                     ? 'text-green-500':
-                    transaction.account_category_id === 1 && transaction.account_category_from_id === 1
+                    (transaction.account_category_id === 1 && transaction.account_category_from_id === 1) || 
+                    (transaction.account_category_id === 7 && transaction.account_category_from_id === 1)
                     ? 'text-blue-500'
                     : 'text-red-500',
                 ]"
@@ -227,7 +231,8 @@
                 transaction.account_category_id === 5 ? "-" : 
                 transaction.account_category_id === 6 ? "+" : 
                 transaction.account_category_id === 2 ? "+" : 
-                transaction.account_category_id === 1 && transaction.account_category_from_id === 1 ? "" : 
+                (transaction.account_category_id === 1 && transaction.account_category_from_id === 1) || 
+                    (transaction.account_category_id === 7 && transaction.account_category_from_id === 1) ? "" : 
                 "-" }}
                 {{ formatCurrency(transaction.account_transition_value) }}
               </div>
@@ -268,6 +273,7 @@ const checkData_depter = ref({ type: "", value: 0 });
 const checkData_creditor = ref({ type: "", value: 0 });
 const offAccount_menu = ref(true);
 let nameuser = ref("");
+const { formatNumber } = useFormatNumber();
 
 const { $axios } = useNuxtApp();
 
@@ -294,7 +300,7 @@ const formatCurrency = (value) => {
 const formatDateTime = (datetime) => {
   const date = new Date(datetime);
   const now = new Date();
-  const diffInMinutes = Math.floor((now - date) / (1000 * 60));
+  const diffInMinutes = Math.floor((now + date) / (1000 * 60));
 
   if (diffInMinutes < 1) {
     return "เมื่อสักครู่";

@@ -23,6 +23,20 @@
     </div>
     <h3 class="text-2xl font-bold text-gray-700 mb-3">ไม่มีประเภท</h3>
     <p class="text-gray-500 text-lg">เริ่มต้นด้วยการเพิ่มประเภทใหม่</p>
+    <NuxtLink
+        :to="`/type/addType/${typeID}?groupID=${groupIDforAdd}`"
+          class="border-2 border-dashed border-emerald-200 hover:border-emerald-400 bg-white hover:bg-emerald-50 rounded-2xl p-8 shadow-sm hover:shadow-md flex flex-col justify-center items-center cursor-pointer transition-all duration-300 h-full min-h-[240px] group"
+        >
+          <div
+            class="rounded-full w-16 h-16 bg-emerald-100 group-hover:bg-emerald-200 flex justify-center items-center mb-4 shadow-sm transition-colors duration-300"
+          >
+            <Plus class="w-8 h-8 text-emerald-600" />
+          </div>
+          <span class="text-emerald-600 font-semibold text-lg"
+            >เพิ่มประเภทใหม่</span
+          >
+          <span class="text-gray-500 text-sm mt-1">คลิกเพื่อเริ่มต้น</span>
+        </NuxtLink>
   </div>
 
   <div v-else class="flex w-full justify-center mt-6 px-4">
@@ -174,7 +188,7 @@
         </div>
 
         <NuxtLink
-        :to="`/type/addType/${groupID}`"
+        :to="`/type/addType/${typeID}?groupID=${groupIDforAdd}`"
           class="border-2 border-dashed border-emerald-200 hover:border-emerald-400 bg-white hover:bg-emerald-50 rounded-2xl p-8 shadow-sm hover:shadow-md flex flex-col justify-center items-center cursor-pointer transition-all duration-300 h-full min-h-[240px] group"
         >
           <div
@@ -183,7 +197,7 @@
             <Plus class="w-8 h-8 text-emerald-600" />
           </div>
           <span class="text-emerald-600 font-semibold text-lg"
-            >เพิ่มประเภมใหม่</span
+            >เพิ่มประเภทใหม่</span
           >
           <span class="text-gray-500 text-sm mt-1">คลิกเพื่อเริ่มต้น</span>
         </NuxtLink>
@@ -207,6 +221,8 @@ import { Pencil, Trash2, Plus } from "lucide-vue-next";
 const route = useRoute();
 const groupID = route.params.id;
 const { $axios } = useNuxtApp();
+const typeID = route.params.id;
+const groupIDforAdd = route.query.groupID || "";
 
 // formattedValue form composables
 const { formatNumber } = useFormatNumber();
