@@ -13,7 +13,7 @@
                 <UserRound class="w-10 h-10 text-black" />
               </div>
             </div>
-            <div class="flex-1 ">
+            <div class="flex-1">
               <h1 class="text-xl md:text-2xl mb-[5px]">
                 สวัสดี, คุณ {{ nameuser || "กำลังโหลด" }}
               </h1>
@@ -21,15 +21,14 @@
             </div>
             <div @click="openModifyFundModal()" class="cursor-pointer">
               <h1 class="text-xl md:text-2xl mb-[5px] flex items-center gap-2">
-                <Settings/>
+                <Settings />
               </h1>
-             
             </div>
           </div>
           <div class="flex flex-col items-center m-[20px] text-black">
             <h2 class="opacity-90 text-base">ยอดเงินรวมทั้งหมด</h2>
             <div class="text-3xl md:text-4xl font-bold m-[10px]">
-               {{ formatNumber(checkCheck_open.value) }} บาท
+              {{ formatNumber(checkCheck_open.value) }} บาท
             </div>
           </div>
         </div>
@@ -91,7 +90,7 @@
 
           <div v-if="checkData && checkData.length > 0">
             <div
-              v-for="(transaction, index) in checkData"
+              v-for="(transaction, index) in displayedTransactions"
               :key="transaction.account_transition_id"
               class="flex p-[15px] items-center border-b-2 last:border-b-0"
             >
@@ -115,12 +114,11 @@
                     : 'bg-blue-100',
                 ]"
               >
-              
                 <Plus
                   v-if="transaction.account_category_id === 4"
                   class="object-cover text-green-500 w-5 h-5 md:w-6 md:h-6"
                 />
-                
+
                 <Minus
                   v-else-if="transaction.account_category_id === 5"
                   class="object-cover text-red-500 w-5 h-5 md:w-6 md:h-6"
@@ -146,12 +144,14 @@
                   class="object-cover text-purple-500 w-5 h-5 md:w-6 md:h-6"
                 />
                 <ArrowLeftRight
-                  v-else-if="(transaction.account_category_id === 1 && transaction.account_category_from_id === 1) || 
-                    (transaction.account_category_id === 7 && transaction.account_category_from_id === 1)"
+                  v-else-if="
+                    (transaction.account_category_id === 1 &&
+                      transaction.account_category_from_id === 1) ||
+                    (transaction.account_category_id === 7 &&
+                      transaction.account_category_from_id === 1)
+                  "
                   class="object-cover text-blue-500 w-5 h-5 md:w-6 md:h-6"
                 />
-                
-                
               </div>
 
               <div class="flex-1">
@@ -171,8 +171,10 @@
                       ? transaction.account_type_name
                       : transaction.account_category_from_id === 2
                       ? transaction.account_type_name
-                      : (transaction.account_category_id === 1 && transaction.account_category_from_id === 1) || 
-                    (transaction.account_category_id === 7 && transaction.account_category_from_id === 1)
+                      : (transaction.account_category_id === 1 &&
+                          transaction.account_category_from_id === 1) ||
+                        (transaction.account_category_id === 7 &&
+                          transaction.account_category_from_id === 1)
                       ? transaction.account_type_name
                       : "เปิดบัญชี"
                   }}
@@ -183,20 +185,21 @@
                         ? "รายได้"
                         : transaction.account_category_id === 5
                         ? "รายจ่าย"
-                        : transaction.account_category_from_id === 6 
+                        : transaction.account_category_from_id === 6
                         ? "ให้ยืม"
                         : transaction.account_category_from_id === 2
                         ? "คืนไป"
-                        : transaction.account_category_from_id === null 
+                        : transaction.account_category_from_id === null
                         ? "เปิดบัญชี"
-                        : transaction.account_category_id === 6 
+                        : transaction.account_category_id === 6
                         ? "ให้คืน"
                         : transaction.account_category_id === 2
                         ? "ยืมมา"
-                        : (transaction.account_category_id === 1 && transaction.account_category_from_id === 1) || 
-                    (transaction.account_category_id === 7 && transaction.account_category_from_id === 1)
+                        : (transaction.account_category_id === 1 &&
+                            transaction.account_category_from_id === 1) ||
+                          (transaction.account_category_id === 7 &&
+                            transaction.account_category_from_id === 1)
                         ? "สลับบัญชี"
-                        
                         : "เปิดบัญชี"
                     }}
                   </span>
@@ -216,32 +219,51 @@
                 :class="[
                   'font-bold text-base md:text-lg',
                   transaction.account_category_id === 4
-                    ? 'text-green-500': 
-                    transaction.account_category_from_id === null
-                    ? 'text-blue-500':
-                    transaction.account_category_id === 5
-                    ? 'text-red-500': 
-                    transaction.account_category_id === 6
-                    ? 'text-green-500': 
-                    transaction.account_category_id === 2
-                    ? 'text-green-500':
-                    (transaction.account_category_id === 1 && transaction.account_category_from_id === 1) || 
-                    (transaction.account_category_id === 7 && transaction.account_category_from_id === 1)
+                    ? 'text-green-500'
+                    : transaction.account_category_from_id === null
+                    ? 'text-blue-500'
+                    : transaction.account_category_id === 5
+                    ? 'text-red-500'
+                    : transaction.account_category_id === 6
+                    ? 'text-green-500'
+                    : transaction.account_category_id === 2
+                    ? 'text-green-500'
+                    : (transaction.account_category_id === 1 &&
+                        transaction.account_category_from_id === 1) ||
+                      (transaction.account_category_id === 7 &&
+                        transaction.account_category_from_id === 1)
                     ? 'text-blue-500'
                     : 'text-red-500',
                 ]"
               >
-                {{ transaction.account_category_id === 4 ? "+" : 
-                transaction.account_category_from_id === null
-                    ? '':
-                transaction.account_category_id === 5 ? "-" : 
-                transaction.account_category_id === 6 ? "+" : 
-                transaction.account_category_id === 2 ? "+" : 
-                (transaction.account_category_id === 1 && transaction.account_category_from_id === 1) || 
-                    (transaction.account_category_id === 7 && transaction.account_category_from_id === 1) ? "" : 
-                "-" }}
+                {{
+                  transaction.account_category_id === 4
+                    ? "+"
+                    : transaction.account_category_from_id === null
+                    ? ""
+                    : transaction.account_category_id === 5
+                    ? "-"
+                    : transaction.account_category_id === 6
+                    ? "+"
+                    : transaction.account_category_id === 2
+                    ? "+"
+                    : (transaction.account_category_id === 1 &&
+                        transaction.account_category_from_id === 1) ||
+                      (transaction.account_category_id === 7 &&
+                        transaction.account_category_from_id === 1)
+                    ? ""
+                    : "-"
+                }}
                 {{ formatCurrency(transaction.account_transition_value) }}
               </div>
+            </div>
+            <div v-if="checkData.length > 5" class="text-center mt-4">
+              <button
+                @click="showAllTransactions = !showAllTransactions"
+                class="px-4 py-2 bg-gray-100 text-sm rounded hover:bg-gray-200 transition"
+              >
+                {{ showAllTransactions ? "แสดงน้อยลง" : "แสดงทั้งหมด" }}
+              </button>
             </div>
           </div>
 
@@ -276,7 +298,6 @@ import {
   UserRound,
   Settings,
   ArrowLeftRight,
-
 } from "lucide-vue-next";
 import { computed } from "vue";
 import ModifyFund from "@/components/modal/ModifyFund.vue";
@@ -289,6 +310,7 @@ const offAccount_menu = ref(true);
 let nameuser = ref("");
 const { formatNumber } = useFormatNumber();
 const { $axios } = useNuxtApp();
+const showAllTransactions = ref(false);
 
 const showModifyFund = ref(false);
 const openModifyFundModal = () => {
@@ -314,6 +336,11 @@ const formatCurrency = (value) => {
   }).format(parseFloat(value));
 };
 
+const displayedTransactions = computed(() => {
+  return showAllTransactions.value
+    ? checkData.value
+    : checkData.value.slice(0, 5);
+});
 // Helper function to format datetime
 const formatDateTime = (datetime) => {
   const date = new Date(datetime);
