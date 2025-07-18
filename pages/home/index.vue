@@ -13,11 +13,17 @@
                 <UserRound class="w-10 h-10 text-black" />
               </div>
             </div>
-            <div>
+            <div class="flex-1 ">
               <h1 class="text-xl md:text-2xl mb-[5px]">
                 สวัสดี, คุณ {{ nameuser || "กำลังโหลด" }}
               </h1>
               <p class="opacity-90 text-sm">ข้อมูลการเงินของคุณ</p>
+            </div>
+            <div @click="openModifyFundModal()" class="cursor-pointer">
+              <h1 class="text-xl md:text-2xl mb-[5px] flex items-center gap-2">
+                <Settings/>
+              </h1>
+             
             </div>
           </div>
           <div class="flex flex-col items-center m-[20px] text-black">
@@ -246,6 +252,12 @@
       </div>
     </div>
   </div>
+
+  <ModifyFund
+    :show="showModifyFund"
+    @close="showModifyFund = false"
+    @update="fetchData()"
+  />
 </template>
 
 <script setup>
@@ -267,6 +279,8 @@ import {
 
 } from "lucide-vue-next";
 import { computed } from "vue";
+import ModifyFund from "@/components/modal/ModifyFund.vue";
+
 const checkData = ref([]);
 const checkCheck_open = ref({ type: "", value: 0 });
 const checkData_depter = ref({ type: "", value: 0 });
@@ -274,8 +288,12 @@ const checkData_creditor = ref({ type: "", value: 0 });
 const offAccount_menu = ref(true);
 let nameuser = ref("");
 const { formatNumber } = useFormatNumber();
-
 const { $axios } = useNuxtApp();
+
+const showModifyFund = ref(false);
+const openModifyFundModal = () => {
+  showModifyFund.value = true;
+};
 
 const fetchData = async () => {
   try {
