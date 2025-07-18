@@ -48,16 +48,16 @@
                     "
                     class="ml-2 text-red-900 font-bold"
                   >
-                    {{ totalExpenseDay.toLocaleString() }} บาท
+                    {{ (totalExpenseDay ?? 0 ).toLocaleString()  }} บาท
                   </span>
                   <span
                     v-else-if="selectedDay === 'ทั้งเดือน'"
                     class="ml-2 text-red-900 font-bold"
                   >
-                    {{ totalExpenseMonth.toLocaleString() }} บาท
+                    {{ (totalExpenseMonth ?? 0 ).toLocaleString()  }} บาท
                   </span>
                   <span v-else class="ml-2 text-red-900 font-bold">
-                    {{ totalExpenseYear.toLocaleString() }} บาท
+                    {{ (totalExpenseYear ?? 0 ).toLocaleString()  }} บาท
                   </span>
                 </div>
               </div>
@@ -102,16 +102,16 @@
                     "
                     class="ml-2 text-green-900 font-bold"
                   >
-                    {{ totalIncomeDay.toLocaleString() }} บาท
+                    {{ (totalIncomeDay ?? 0).toLocaleString()  }} บาท
                   </span>
                   <span
                     v-else-if="selectedDay === 'ทั้งเดือน'"
                     class="ml-2 text-green-900 font-bold"
                   >
-                    {{ totalIncomeMonth.toLocaleString() }} บาท
+                    {{ (totalIncomeMonth ?? 0).toLocaleString() ?? 0 }} บาท
                   </span>
                   <span v-else class="ml-2 text-green-900 font-bold">
-                    {{ totalIncomeYear.toLocaleString() }} บาท
+                    {{ (totalIncomeYear ?? 0).toLocaleString() ?? 0 }} บาท
                   </span>
                 </div>
               </div>
@@ -144,7 +144,7 @@
                         : 'text-red-900'
                     "
                   >
-                    {{ (totalIncomeDay - totalExpenseDay).toLocaleString() }}
+                    {{ ((totalIncomeDay - totalExpenseDay) ?? 0).toLocaleString()  }}
                     บาท
                   </span>
                   <span
@@ -157,7 +157,7 @@
                     "
                   >
                     {{
-                      (totalIncomeMonth - totalExpenseMonth).toLocaleString()
+                      ((totalIncomeMonth - totalExpenseMonth) ?? 0).toLocaleString() 
                     }}
                     บาท
                   </span>
@@ -170,7 +170,7 @@
                         : 'text-red-900'
                     "
                   >
-                    {{ (totalIncomeYear - totalExpenseYear).toLocaleString() }}
+                    {{ ((totalIncomeYear - totalExpenseYear) ?? 0).toLocaleString()  }}
                     บาท
                   </span>
                 </div>

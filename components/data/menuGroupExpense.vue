@@ -148,7 +148,7 @@
 
         <!-- Modal -->
         <UpdateAccountTypeModal v-if="showModal" :show="showModal" :account_type_name="selectedMenu?.account_type_name"
-          :account_type_value="selectedMenu?.account_type_value" :account_type_id="selectedMenu?.account_type_id"
+          :account_type_value="parseFloat(selectedMenu?.account_type_value)" :account_type_id="selectedMenu?.account_type_id"
           :account_type_from_id="selectedMenu?.account_type_from_id"
           :account_category_id="selectedMenu?.account_category_id" @close="closeUpdateModal" @update="handleUpdate" />
       </div>
