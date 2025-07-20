@@ -28,7 +28,7 @@
           <div class="flex flex-col items-center m-[20px] text-black">
             <h2 class="opacity-90 text-base">ยอดเงินรวมทั้งหมด</h2>
             <div class="text-3xl md:text-4xl font-bold m-[10px]">
-              {{ formatNumber(checkCheck_open.value) }} บาท
+              {{ formatNumber(amount.value) }} บาท
             </div>
           </div>
         </div>
@@ -304,6 +304,7 @@ import ModifyFund from "@/components/modal/ModifyFund.vue";
 
 const checkData = ref([]);
 const checkCheck_open = ref({ type: "", value: 0 });
+const amount = ref({ type: "", value: 0 });
 const checkData_depter = ref({ type: "", value: 0 });
 const checkData_creditor = ref({ type: "", value: 0 });
 const offAccount_menu = ref(true);
@@ -324,6 +325,7 @@ const fetchData = async () => {
     checkData_depter.value = response.data.data[0];
     checkData_creditor.value = response.data.data[1];
     checkCheck_open.value = response.data.data[2];
+    amount.value = response.data.data[3];
   } catch (error) {
     console.log(error);
   }
