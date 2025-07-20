@@ -533,11 +533,11 @@ let intervalId;
 onMounted(async () => {
   await Promise.all([fetchCat(), bankTransition(), fetchCreditor()]);
 
-  intervalId = setInterval(() => {
-    fetchCat();
-    fetchCreditor();
-    bankTransition();
-  }, 1000);
+  // intervalId = setInterval(() => {
+  //   fetchCat();
+  //   fetchCreditor();
+  //   bankTransition();
+  // }, 1000);
 });
 
 onUnmounted(() => {

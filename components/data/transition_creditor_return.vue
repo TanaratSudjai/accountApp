@@ -624,26 +624,26 @@ const fetchCat = async () => {
 onMounted(async () => {
   await Promise.all([fetchCat(), bankTransition(), fetchCreditor()]);
 
-  intervalId = setInterval(() => {
-    fetchCat();
-    fetchCreditor();
-  }, 3000);
+  // intervalId = setInterval(() => {
+  //   fetchCat();
+  //   fetchCreditor();
+  // }, 3000);
 });
 
-onMounted(() => {
-  fetchCat();
-  bankTransition();
-  fetchCreditor();
-  startInterval();
+// onMounted(() => {
+//   fetchCat();
+//   bankTransition();
+//   fetchCreditor();
+//   startInterval();
 
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      stopInterval();
-    } else {
-      startInterval();
-    }
-  });
-});
+//   document.addEventListener("visibilitychange", () => {
+//     if (document.hidden) {
+//       stopInterval();
+//     } else {
+//       startInterval();
+//     }
+//   });
+// });
 
 onBeforeUnmount(() => {
   stopInterval();
