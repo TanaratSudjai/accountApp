@@ -1,40 +1,40 @@
 <template>
   <div ref="boxRegister"
-    class="  p-12 sm:p-12 md:p-20 lg:p-20  rounded-2xl shadow-lg  flex flex-col justify-center items-center bg-gray-800">
-    <text class="text-4xl text-cyan-600 py-1">สมัครใช้งานระบบ</text>
-    <form @submit.prevent="handleLogin" class="rounded-md w-full flex flex-col justify-center bg">
-      <div class="mb-4">
-        <label for="username" class="block text-white font-medium mb-2">
+    class="  p-2 px-4  rounded flex flex-col justify-center items-center border border-gray-200">
+    <text class="text-xl text-cyan-600 py-1">สมัครใช้งานระบบ</text>
+    <form @submit.prevent="handleLogin" class="rounded w-full flex flex-col gap-2 justify-center ">
+      <div class="">
+        <label for="username" class="block text-white font-medium ">
           ชื่อบัญชี
         </label>
         <input v-model="formData.account_user_name" id="name" type="text" placeholder="ชื่อผู้ใช้"
-          class="p-3 rounded-full w-full border-2 focus:ring-2 focus:ring-cyan-600 focus:outline-none" />
+          class="p-2 rounded-md w-full border-2 focus:ring-2 focus:ring-cyan-600 focus:outline-none" />
       </div>
 
-      <div class="mb-4">
-        <label for="username" class="block text-white font-medium mb-2">
+      <div class="">
+        <label for="username" class="block text-white font-medium ">
           ชื่อผู้ใช้
         </label>
         <input v-model="formData.account_user_username" id="username" type="email" placeholder="ชื่อผู้ใช้"
-          class="p-3 rounded-full w-full border-2 focus:ring-2 focus:ring-cyan-600 focus:outline-none" />
+          class="p-2 rounded-md w-full border-2 focus:ring-2 focus:ring-cyan-600 focus:outline-none" />
       </div>
 
-      <div class="mb-4">
-        <label for="password" class="block text-white font-medium mb-2">
+      <div class="">
+        <label for="password" class="block text-white font-medium ">
           รหัสผ่าน
         </label>
         <input v-model="formData.account_user_password" id="password" type="password" placeholder="รหัสผ่าน"
-          class="p-3 rounded-full w-full border-2 focus:ring-2 focus:ring-cyan-600 focus:outline-none" />
+          class="p-2 rounded-md w-full border-2 focus:ring-2 focus:ring-cyan-600 focus:outline-none" />
       </div>
-      <div class="mb-4">
-        <label for="password" class="block text-white font-medium mb-2">
+      <div class="">
+        <label for="password" class="block text-white font-medium ">
           ยืนยันรหัสผ่านอีกครั้ง
         </label>
         <input v-model="formData.account_user_confirmpassword" id="password" type="password"
-          placeholder="ยืนยันรหัสผ่านอีกครั้ง" class="p-3 rounded-full w-full border-2 focus:ring-2 focus:ring-cyan-600 focus:outline-none" />
+          placeholder="ยืนยันรหัสผ่านอีกครั้ง" class="p-2 rounded-md w-full border-2 focus:ring-2 focus:ring-cyan-600 focus:outline-none" />
       </div>
 
-      <button type="submit" class="bg-cyan-600 text-white p-3 rounded-full hover:bg-cyan-700">
+      <button type="submit" class="bg-cyan-600 text-white p-2 rounded-md hover:bg-cyan-700">
         สมัครใช้งาน
       </button>
     </form>
