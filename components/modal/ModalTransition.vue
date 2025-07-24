@@ -13,7 +13,7 @@
 
       <!-- Modal -->
       <div
-        class="inline-block w-full max-w-md p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
+        class="inline-block w-full max-w-md p-3 my-4 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
         @click.stop
       >
         <!-- Header -->

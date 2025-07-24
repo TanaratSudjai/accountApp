@@ -85,7 +85,7 @@
       <div
         class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2 max-w-4xl mx-auto"
       >
-        <div class="bg-white rounded-[20px] p-4 md:p-6 mt-[25px] shadow-md">
+        <div class="bg-white rounded-[20px] p-4 md:p-6 mt-[25px] border border-gray-200">
           <h2 class="mb-[20px] text-xl md:text-2xl font-bold">รายการล่าสุด</h2>
 
           <div v-if="checkData && checkData.length > 0">
