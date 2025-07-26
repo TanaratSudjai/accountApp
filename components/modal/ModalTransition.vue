@@ -38,7 +38,7 @@
             <div class="flex justify-between items-center">
               <span class="text-gray-600">ค่าเงินที่มีอยู่</span>
               <span class="font-medium text-gray-900"
-                >฿ {{ formatNumber(AccountTypeTotal) }}</span
+                >฿ {{ formatNumber(computedAccountTypeTotal) }}</span
               >
             </div>
           </div>
@@ -110,7 +110,7 @@
           <div>
             <span
               v-if="
-                account_category_id === 5 && updatedValue > AccountTypeTotal
+                account_category_id === 5 && updatedValue > computedAccountTypeTotal
               "
               class="text-red-500 text-sm"
             >
@@ -237,7 +237,7 @@ const isSubmitDisabled = computed(() => {
     updatedValue.value === undefined ||
     updatedValue.value === "" ||
     updatedAccountTypeId.value === null ||
-    updatedValue.value > AccountTypeTotal.value // Disable if updatedValue is greater than AccountTypeTotal
+    updatedValue.value > computedAccountTypeTotal.value // Disable if updatedValue is greater than AccountTypeTotal
   );
 });
 const isSubmitDisabledIncome = computed(() => {
@@ -256,17 +256,30 @@ onMounted(() => {
 
 // formattedValue updatedValue to 10,000 => 10,000.00 updatedValue input tag
 
-watch(updatedValue, (newValue) => {
-  const numericValue = newValue.replace(/,/g, "");
-  // Only update the internal value without formatting
+// watch(updatedValue, (newCats) => {
+//   const defaultCat = newCats.find(
+//     (cat) => cat.account_type_id === props.account_type_from_id
+//   );
+//   if (defaultCat) {
+//     AccountTypeTotal.value = parseFloat(defaultCat.account_type_total) || 0;
+//     updatedAccountCategoryId.value = defaultCat.account_category_id;
+//   }
+//   // const numericValue = newValue.replace(/,/g, "");
+//   // // Only update the internal value without formatting
 
-  if (/^\d+(\.\d+)?$/.test(numericValue)) {
-    updatedValue.value = Number(numericValue).toLocaleString("en-US", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    });
-  }
+//   // if (/^\d+(\.\d+)?$/.test(numericValue)) {
+//   //   updatedValue.value = Number(numericValue).toLocaleString("en-US", {
+//   //     minimumFractionDigits: 0,
+//   //     maximumFractionDigits: 2,
+//   //   });
+//   // }
+// });
+
+const computedAccountTypeTotal = computed(() => {
+  const selectedCat = categorys.value.find(
+    (cat) => cat.account_type_id === updatedAccountTypeId.value
+  );
+  return parseFloat(selectedCat?.account_type_total) || 0;
 });
-
 
 </script>
