@@ -4,7 +4,7 @@
       class="mx-auto rounded-md bg-white border border-gray-200 overflow-hidden"
     >
       
-      <h2 class="text-2xl font-semibold p-3 rounded-sm">ยืมเงินจากเจ้าหนี้</h2>
+      <h2 class="text-2xl font-semibold p-3 rounded">ยืมเงินจากเจ้าหนี้</h2>
       <div class="p-6">
         <!-- Transfer Selection Area -->
         <div class="grid grid-cols-1 md:grid-cols-7 gap-6 mb-8">
@@ -479,19 +479,28 @@ function setColumnValue(value) {
 }
 
 const isButtonDisabled = computed(() => {
-  return (
-    (columnOneSelected.value &&
-      columnTwoSelected.value &&
-      columnOneSelected.value.account_type_id ===
-        columnTwoSelected.value.account_type_id) ||
-    accountTypeValue.value < 0 ||
-    accountTypeValue.value === 0 ||
-    accountTypeValue.value === 0.0 ||
-    accountTypeValue.value === null ||
-    accountTypeValue.value === undefined ||
-    accountTypeValue.value === ""
-  );
+  const colOne = columnOneSelected.value;
+  const colTwo = columnTwoSelected.value;
+  const value = accountTypeValue.value;
+
+  // Disable if either column is not selected
+  if (!colOne || !colTwo) return true;
+
+  // Disable if same account_type_id
+  if (colOne.account_type_id === colTwo.account_type_id) return true;
+
+  // Disable if value is null, undefined, empty string, or NaN
+  if (value === null || value === undefined || value === '' || isNaN(Number(value))) return true;
+
+  const numValue = Number(value);
+
+  // Disable if value <= 0
+  if (numValue <= 0) return true;
+
+  // Enable otherwise
+  return false;
 });
+
 
 const fetchCat = async () => {
   try {
@@ -524,11 +533,11 @@ let intervalId;
 onMounted(async () => {
   await Promise.all([fetchCat(), bankTransition(), fetchCreditor()]);
 
-  intervalId = setInterval(() => {
-    fetchCat();
-    fetchCreditor();
-    bankTransition();
-  }, 1000);
+  // intervalId = setInterval(() => {
+  //   fetchCat();
+  //   fetchCreditor();
+  //   bankTransition();
+  // }, 1000);
 });
 
 onUnmounted(() => {

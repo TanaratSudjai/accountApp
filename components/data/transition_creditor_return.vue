@@ -3,7 +3,7 @@
     <div
       class="mx-auto rounded-md bg-white border border-gray-200 overflow-hidden"
     >
-      <h2 class="text-2xl font-semibold p-3 rounded-sm">คืนเงินให้เจ้าหนี้</h2>
+      <h2 class="text-2xl font-semibold p-3 rounded">คืนเงินให้เจ้าหนี้</h2>
       <div class="p-6">
         <div class="grid grid-cols-1 md:grid-cols-7 gap-6 mb-8">
           <div class="md:col-span-3 space-y-3">
@@ -565,25 +565,29 @@ const clearcase = () => {
 };
 
 const isButtonDisabled = computed(() => {
-  return (
-    (columnOneSelected.value &&
-      columnTwoSelected.value &&
-      columnOneSelected.value.account_type_id ===
-        columnTwoSelected.value.account_type_id) ||
-    (columnOneSelected.value &&
-      columnTwoSelected.value &&
-      columnOneSelected.value.account_type_total < accountTypeValue.value) ||
-    (columnOneSelected.value &&
-      columnTwoSelected.value &&
-      columnTwoSelected.value.account_type_total < accountTypeValue.value) ||
-    accountTypeValue.value < 0 ||
-    accountTypeValue.value === 0 ||
-    accountTypeValue.value === 0.0 ||
-    accountTypeValue.value === null ||
-    accountTypeValue.value === undefined ||
-    accountTypeValue.value === ""
-  );
+  const colOne = columnOneSelected.value;
+  const colTwo = columnTwoSelected.value;
+  const rawValue = accountTypeValue.value;
+
+  // Require both columns selected
+  if (!colOne || !colTwo) return true;
+
+  // Parse input value safely
+  const value = Number(rawValue);
+
+  // Disable if invalid or non-positive
+  if (!rawValue || isNaN(value) || value <= 0) return true;
+
+  // Disable if account types are the same
+  if (colOne.account_type_id === colTwo.account_type_id) return true;
+
+  // Disable if value exceeds either column's total
+  if (value > colOne.account_type_total || value > colTwo.account_type_total) return true;
+
+  // Passed all checks: enable button
+  return false;
 });
+
 
 const fetchCreditor = async () => {
   try {
@@ -620,26 +624,26 @@ const fetchCat = async () => {
 onMounted(async () => {
   await Promise.all([fetchCat(), bankTransition(), fetchCreditor()]);
 
-  intervalId = setInterval(() => {
-    fetchCat();
-    fetchCreditor();
-  }, 3000);
+  // intervalId = setInterval(() => {
+  //   fetchCat();
+  //   fetchCreditor();
+  // }, 3000);
 });
 
-onMounted(() => {
-  fetchCat();
-  bankTransition();
-  fetchCreditor();
-  startInterval();
+// onMounted(() => {
+//   fetchCat();
+//   bankTransition();
+//   fetchCreditor();
+//   startInterval();
 
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      stopInterval();
-    } else {
-      startInterval();
-    }
-  });
-});
+//   document.addEventListener("visibilitychange", () => {
+//     if (document.hidden) {
+//       stopInterval();
+//     } else {
+//       startInterval();
+//     }
+//   });
+// });
 
 onBeforeUnmount(() => {
   stopInterval();

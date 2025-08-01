@@ -5,7 +5,7 @@
     >
       <!-- Header -->
 
-      <h2 class="text-2xl font-semibold p-3 rounded-sm">ลูกหนี้คืนเงิน</h2>
+      <h2 class="text-2xl font-semibold p-3 rounded">ลูกหนี้คืนเงิน</h2>
       <div class="p-6">
         <!-- Transfer Selection Area -->
         <div class="grid grid-cols-1 md:grid-cols-7 gap-6 mb-8">
@@ -476,19 +476,28 @@ function setColumnValue(value) {
   columnValue.value = test;
 }
 
+
 const isButtonDisabled = computed(() => {
-  return (
-    (columnOneSelected.value &&
-      columnTwoSelected.value &&
-      columnOneSelected.value.account_type_id ===
-        columnTwoSelected.value.account_type_id) ||
-    accountTypeValue.value < 0 ||
-    accountTypeValue.value === 0 ||
-    accountTypeValue.value === null ||
-    accountTypeValue.value === undefined ||
-    accountTypeValue.value === "" ||
-    accountTypeValue.value > columnValue.value
-  );
+  const colOne = columnOneSelected.value;
+  const colTwo = columnTwoSelected.value;
+  const value = accountTypeValue.value;
+  const max = columnValue.value;
+
+  // Disable if either column is not selected
+  if (!colOne || !colTwo) return true;
+
+  // Disable if both columns have the same account_type_id
+  if (colOne.account_type_id === colTwo.account_type_id) return true;
+
+  // Disable if value is not a valid positive number
+  if (value === null || value === undefined || value === '' || isNaN(value)) return true;
+
+  const numericValue = Number(value);
+
+  if (numericValue <= 0 || numericValue > max) return true;
+
+  // Enable otherwise
+  return false;
 });
 
 const fetchCat = async () => {

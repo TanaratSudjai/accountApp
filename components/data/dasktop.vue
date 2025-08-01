@@ -6,23 +6,29 @@
         <div class="flex gap-4">
           <button
             @click="toggleZeroSumVisibility"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded-sm transition-colors duration-200"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200"
           >
             {{ showZeroSum ? "ซ่อน" : "แสดง" }}
             <span class="ml-2">รายการ</span>
           </button>
           <button
             @click="gotoGrap"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded-sm transition-colors duration-200"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200"
           >
             Graph
+          </button>
+          <button
+            @click="gotoReport"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200"
+          >
+            Report
           </button>
         </div>
       </div>
 
       <!-- Main Table -->
       <div
-        class="bg-white rounded-sm border border-gray-200 overflow-hidden mb-20"
+        class="bg-white rounded border border-gray-200 overflow-hidden mb-20"
       >
         <div class="overflow-x-auto">
           <table class="w-full border-collapse">
@@ -398,6 +404,9 @@
           </table>
         </div>
       </div>
+      <button @click="closeAccount()" class="p-2 bg-red-600 text-white rounded">
+        ปิดบัญชี
+      </button>
     </div>
   </div>
 </template>
@@ -405,6 +414,7 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 const { formatNumber } = useFormatNumber();
 const router = useRouter();
@@ -413,7 +423,20 @@ const showZeroSum = ref(true);
 const error = ref("");
 const { $axios } = useNuxtApp();
 const loading = ref(true);
-
+const showAlert = (
+  title,
+  text,
+  icon = "error",
+  confirmButtonColor = "#0891b2"
+) => {
+  Swal.fire({
+    title,
+    text,
+    icon,
+    confirmButtonText: "ลองอีกครั้ง",
+    confirmButtonColor,
+  });
+};
 const fetchType = async () => {
   try {
     if (showZeroSum.value) {
@@ -431,6 +454,9 @@ const fetchType = async () => {
 
 const gotoGrap = async () => {
   router.push("/graph");
+};
+const gotoReport = async () => {
+  router.push("/report");
 };
 
 onMounted(() => {
@@ -496,4 +522,21 @@ const sumColumn6 = computed(() =>
     .filter((type_sum) => type_sum.account_category_id === 4)
     .reduce((acc, curr) => acc + parseFloat(curr.account_type_sum || 0), 0)
 );
+
+const closeAccount = async () => {
+  try {
+    console.log("Close account function called");
+
+    const response = await $axios.post("/ExportAccount");
+
+    if (response.status === 200) {
+      showAlert("ปิดบัญชีสำเร็จแล้ว", "ปิดบัญชีสำเร็จแล้ว");
+    } else {
+      showAlert("เกิดข้อผิดพลาดในการปิดบัญชี", "เกิดข้อผิดพลาดในการปิดบัญชี");
+    }
+  } catch (err) {
+    console.error("Error closing account:", err);
+    alert("เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์");
+  }
+};
 </script>

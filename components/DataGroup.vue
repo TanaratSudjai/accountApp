@@ -45,9 +45,9 @@
     </div>
 
     <div v-else>
-      <div class="mb-6">
+      <div class="mb-2">
         <span
-          class="text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2"
+          class="text-2xl font-bold text-gray-800  flex items-center gap-2"
         >
           <span>รายการกลุ่ม</span> <GetgroupName />
         </span>
@@ -58,13 +58,13 @@
         <div
           v-for="group in groupData"
           :key="group.account_group_id"
-          class="border border-gray-200 rounded-md bg-white p-6 hover:shadow-sm transition-all duration-300 hover:border-emerald-200 group"
+          class="border border-gray-200 rounded-md bg-white p-2 hover:shadow-sm transition-all duration-300 hover:border-emerald-200 group"
         >
           <div
             @click="goToPath(group.account_group_id, categoryID)"
             class="cursor-pointer"
           >
-            <div class="flex items-start justify-between mb-4">
+            <div class="flex items-start justify-between mb-2">
               <div class="flex-1">
                 <div class="flex items-center mb-2">
                   <div class="w-3 h-3 bg-emerald-500 rounded-full mr-2"></div>
@@ -99,7 +99,7 @@
               </div>
             </div>
 
-            <div class="bg-gray-50 rounded-sm p-4 mb-4">
+            <div class="bg-gray-50 rounded p-2 ">
               <div class="flex items-center justify-between">
                 <span class="text-gray-600 text-sm font-medium">จำนวนรวม</span>
                 <div class="flex items-center">
@@ -113,11 +113,11 @@
           </div>
 
           <div
-            class="flex justify-between items-center pt-4 border-t border-gray-100"
+            class="flex justify-between items-center  border-t border-gray-100"
           >
             <div class="flex space-x-2">
               <button
-                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-all duration-200 text-sm font-medium transform"
+                class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md transition-all duration-200 text-xs md:text-sm font-medium transform"
                 @click="deleteFormData(group.account_group_id)"
               >
                 <svg
@@ -136,7 +136,7 @@
                 ลบ
               </button>
               <button
-                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-all duration-200 text-sm font-medium transform"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded-md transition-all duration-200 text-xs md:text-sm font-medium transform"
                 @click="openUpdateModal(group)"
               >
                 <svg
@@ -175,17 +175,17 @@
 
         <div
           @click="openAddModal"
-          class="border-2 border-dashed border-emerald-200 hover:border-emerald-400 bg-white hover:bg-emerald-50 rounded-2xl p-6 shadow-sm hover:shadow-md flex flex-col justify-center items-center cursor-pointer transition-all duration-300 h-full min-h-[280px] group"
+          class="border-2 border-dashed border-emerald-200 hover:border-emerald-400 bg-white hover:bg-emerald-50 rounded-2xl p-2 shadow-sm hover:shadow-md flex flex-col justify-center items-center cursor-pointer transition-all duration-300 h-full min-h-[280px] group"
         >
           <div
-            class="rounded-full w-16 h-16 bg-emerald-100 group-hover:bg-emerald-200 flex justify-center items-center mb-4 shadow-sm transition-colors duration-300"
+            class="rounded-full w-8 h-8 bg-emerald-100 group-hover:bg-emerald-200 flex justify-center items-center mb-4 shadow-sm transition-colors duration-300"
           >
-            <Plus class="w-8 h-8 text-emerald-600" />
+            <Plus class="w-4 h-4 text-emerald-600" />
           </div>
-          <span class="text-emerald-600 font-semibold text-lg mb-1"
+          <span class="text-emerald-600 font-semibold text-sm md:text-xl mb-1"
             >เพิ่มกลุ่มใหม่</span
           >
-          <span class="text-gray-500 text-sm text-center"
+          <span class="text-gray-500 text-xs text-center"
             >คลิกเพื่อสร้างกลุ่มใหม่</span
           >
         </div>

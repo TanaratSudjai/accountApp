@@ -1,6 +1,6 @@
 <template>
   <BackComponents />
-  <div class="min-h-screen  p-4 pb-20">
+  <div class="min-h-screen p-4 pb-20">
     <div class="max-w-7xl mx-auto">
       <!-- Main Container with responsive grid -->
       <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
@@ -15,7 +15,7 @@
               ปฏิทิน
             </h2>
             <div class="calendar-container">
-              <FullCalendar :options="calendarOptions" />
+              <FullCalendar :options="calendarOptions" ref="calendarRef" />
             </div>
           </div>
 
@@ -48,16 +48,16 @@
                     "
                     class="ml-2 text-red-900 font-bold"
                   >
-                    {{ totalExpenseDay.toLocaleString() }} บาท
+                    {{ (totalExpenseDay ?? 0 ).toLocaleString()  }} บาท
                   </span>
                   <span
                     v-else-if="selectedDay === 'ทั้งเดือน'"
                     class="ml-2 text-red-900 font-bold"
                   >
-                    {{ totalExpenseMonth.toLocaleString() }} บาท
+                    {{ (totalExpenseMonth ?? 0 ).toLocaleString()  }} บาท
                   </span>
                   <span v-else class="ml-2 text-red-900 font-bold">
-                    {{ totalExpenseYear.toLocaleString() }} บาท
+                    {{ (totalExpenseYear ?? 0 ).toLocaleString()  }} บาท
                   </span>
                 </div>
               </div>
@@ -102,16 +102,16 @@
                     "
                     class="ml-2 text-green-900 font-bold"
                   >
-                    {{ totalIncomeDay.toLocaleString() }} บาท
+                    {{ (totalIncomeDay ?? 0).toLocaleString()  }} บาท
                   </span>
                   <span
                     v-else-if="selectedDay === 'ทั้งเดือน'"
                     class="ml-2 text-green-900 font-bold"
                   >
-                    {{ totalIncomeMonth.toLocaleString() }} บาท
+                    {{ (totalIncomeMonth ?? 0).toLocaleString() ?? 0 }} บาท
                   </span>
                   <span v-else class="ml-2 text-green-900 font-bold">
-                    {{ totalIncomeYear.toLocaleString() }} บาท
+                    {{ (totalIncomeYear ?? 0).toLocaleString() ?? 0 }} บาท
                   </span>
                 </div>
               </div>
@@ -144,9 +144,7 @@
                         : 'text-red-900'
                     "
                   >
-                    {{
-                      (totalIncomeDay - totalExpenseDay).toLocaleString()
-                    }}
+                    {{ ((totalIncomeDay - totalExpenseDay) ?? 0).toLocaleString()  }}
                     บาท
                   </span>
                   <span
@@ -159,7 +157,7 @@
                     "
                   >
                     {{
-                      (totalIncomeMonth - totalExpenseMonth).toLocaleString()
+                      ((totalIncomeMonth - totalExpenseMonth) ?? 0).toLocaleString() 
                     }}
                     บาท
                   </span>
@@ -172,9 +170,7 @@
                         : 'text-red-900'
                     "
                   >
-                    {{
-                      (totalIncomeYear - totalExpenseYear).toLocaleString()
-                    }}
+                    {{ ((totalIncomeYear - totalExpenseYear) ?? 0).toLocaleString()  }}
                     บาท
                   </span>
                 </div>
@@ -186,7 +182,7 @@
         <!-- Chart Section -->
         <div class="w-full">
           <div
-            class="bg-white rounded-sm border border-gray-200 p-4 sm:p-6 transition-shadow"
+            class="bg-white rounded border border-gray-200 p-4 sm:p-6 transition-shadow"
           >
             <div
               class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6"
@@ -406,7 +402,9 @@ const currentYear = new Date().getFullYear();
 for (let y = currentYear; y >= currentYear - 10; y--) {
   years.push(y);
 }
+const calendarRef = ref(null);
 
+// Replace the existing fetchChartData function
 const fetchChartData = async () => {
   await Promise.all([
     fetchExpensesInChart(
@@ -417,6 +415,14 @@ const fetchChartData = async () => {
     setIncome(selectedYearForChart.value, selectedMonthForChart.value),
     setExpense(selectedYearForChart.value, selectedMonthForChart.value),
   ]);
+
+  // Update calendar view when a specific month is selected
+  if (selectedMonthForChart.value !== 0 && calendarRef.value) {
+    const calendarApi = calendarRef.value.getApi();
+    calendarApi.gotoDate(
+      new Date(selectedYearForChart.value, selectedMonthForChart.value - 1, 1)
+    );
+  }
 };
 
 // Fetch expense chart data - FIXED VERSION
@@ -876,6 +882,11 @@ const calendarOptions = reactive({
   initialView: "dayGridMonth",
   events: allCalendarEvents,
   dateClick: onDateClick,
+  initialDate: new Date(
+    selectedYearForChart.value,
+    selectedMonthForChart.value - 1,
+    1
+  ),
 });
 
 // Initial load

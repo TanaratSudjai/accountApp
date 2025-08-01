@@ -1,6 +1,6 @@
 <template>
   <BackComponents />
-  <div class="flex-1 p-6  min-h-screen">
+  <div class="flex-1 p-6  min-h-screen max-w-4xl mx-auto">
     <div class="mx-auto">
       <!-- Header Section -->
       <div class="text-center mb-8">
@@ -9,7 +9,7 @@
       </div>
 
       <!-- Menu Grid -->
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         <NuxtLink
           v-for="(item, index) in menuItems"
           :key="index"

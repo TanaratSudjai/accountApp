@@ -1,11 +1,11 @@
 <template>
-  <div class="flex gap-1 p-2 mx-2">
+  <div class="flex gap-1 p-1 ">
     <button class="w-full">
-      <div class="rounded-lg bg-green-100 p-2 border border-green-200">
+      <div class="rounded-lg bg-green-100 p-2 ">
         <div class="flex items-center justify-between">
           <div class="space-y-2">
             <div class="text-sm text-green-700 font-medium">รายได้ทั้งหมด</div>
-            <div class="text-2xl font-bold text-green-800">
+            <div class="text-xl font-bold text-green-800">
               ฿{{ formatNumber(sumvalue_extend) }}
             </div>
           </div>
