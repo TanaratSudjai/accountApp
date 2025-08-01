@@ -22,7 +22,7 @@ const onSubmit = async () => {
     <div class="flex w-full gap-2 justify-center">
       <button
         @click="onSubmit"
-        class="bg-blue-400 p-2 text-white rounded-md w-full font-bold text-xs md:text-sm lg:text-md hover:bg-blue-400 transition-colors duration-200"
+        class="bg-sky-600 p-2 text-white rounded-md w-full font-bold text-xs md:text-sm lg:text-md hover:bg-blue-400 transition-colors duration-200"
       >
         ยืนยันการทำรายการ
       </button>

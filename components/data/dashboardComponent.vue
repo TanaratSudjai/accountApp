@@ -3,10 +3,10 @@
     <div class=" mx-auto">
       <!-- Header Section -->
       <div class="text-center">
-        <h1 class="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-2">
+        <h1 class="text-xl font-bold mb-2 text-sky-600">
           ตรวจสอบความถูกต้อง
         </h1>
-        <p class="text-xm md:text-md text-gray-600 font-medium py-2">
+        <p class="text-xm md:text-md text-sky-600 font-medium py-2">
           รายงานสรุปทางการเงิน
         </p>
       </div>
@@ -138,7 +138,7 @@
               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
             </path>
           </svg>
-          <p class="text-gray-500 text-lg">ไม่พบข้อมูลทางการเงิน</p>
+          <p class="text-sky-500 text-lg">ไม่พบข้อมูลทางการเงิน</p>
         </div>
       </div>
 

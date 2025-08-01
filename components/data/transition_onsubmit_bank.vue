@@ -3,7 +3,7 @@
     <div class="max-w-5xl mx-auto px-4">
       <!-- Main Card -->
       <div class="bg-white p-2 space-y-8">
-        <h2 class="text-2xl font-semibold text-gray-800 text-center">
+        <h2 class="text-2xl font-semibold text-sky-600 text-center">
           บัญชีธนาคาร
         </h2>
 
@@ -20,7 +20,7 @@
                 :class="[
                   'w-full transition-all duration-200 group',
                   columnOneSelected?.account_type_id === item.account_type_id
-                    ? 'ring-2 ring-emerald-500'
+                    ? 'ring-2 ring-sky-500'
                     : 'hover:shadow-sm',
                 ]"
                 @click="
@@ -36,15 +36,15 @@
                       'absolute inset-0 transition-colors duration-200',
                       columnOneSelected?.account_type_id ===
                       item.account_type_id
-                        ? 'bg-emerald-50'
+                        ? 'bg-sky-50'
                         : 'group-hover:bg-gray-50',
                     ]"
                   />
                   <div class="relative">
-                    <p class="font-medium text-gray-900">
+                    <p class="font-medium text-xs md:text-sm  text-gray-900">
                       {{ item.account_type_name }}
                     </p>
-                    <p class="text-sm text-gray-600 mt-1">
+                    <p class="text-xs md:text-sm  text-gray-600">
                       ยอดเงินที่มี {{ formatNumber(item.account_type_total) }}
                     </p>
                   </div>
@@ -52,10 +52,10 @@
               </button>
 
               <div v-else class="border border-gray-200 p-4 bg-gray-50">
-                <p class="font-medium text-gray-400">
+                <p class="font-medium text-xs md:text-sm  text-gray-400">
                   {{ item.account_type_name }}
                 </p>
-                <p class="text-sm text-gray-400 mt-1">ไม่มียอดเงิน</p>
+                <p class="text-xs md:text-sm   text-gray-400">ไม่มียอดเงิน</p>
               </div>
             </div>
           </div>
@@ -99,7 +99,7 @@
                       item.account_type_id,
                   },
                   columnTwoSelected?.account_type_id === item.account_type_id
-                    ? 'ring-2 ring-blue-500'
+                    ? 'ring-2 ring-sky-500'
                     : 'hover:shadow-md',
                 ]"
                 :disabled="
@@ -115,7 +115,7 @@
                       'absolute inset-0 transition-colors duration-200',
                       columnTwoSelected?.account_type_id ===
                       item.account_type_id
-                        ? 'bg-blue-50'
+                        ? 'bg-sky-50'
                         : 'group-hover:bg-gray-50',
                     ]"
                   />

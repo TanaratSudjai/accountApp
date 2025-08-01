@@ -1,14 +1,15 @@
 <template>
-  <div class="mx-auto max-w-4xl rounded-lg min-h-screen">
-    <div class="flex flex-col min-h-screen w-full mb-[150px]">
+  <BackComponents />
+  <div class="container mx-auto  rounded-lg min-h-screen">
+    <div class="flex flex-col items-center w-full min-h-screen w-full mb-[150px]">
       <!-- Header -->
-      <div class="mb-2 shadow-lg p-1 rounded-lg text-center">
-        <div class="font-medium text-green-400">การตั้งค่าเปิดบัญชี</div>
+      <div class="mb-2  p-1  text-center border-b border-gray-200  w-full">
+        <div class="font-medium text-sky-600">การตั้งค่าเปิดบัญชี</div>
       </div>
       <!-- ------------------------------------------------------------------------------------------------------------------------------ -->
       <!-- Icon Selector -->
-      <div class="container rounded-lg mb-2 p-2 shadow-md flex flex-col shadow-lg">
-        <p class="text-green-400 px-2 shadow-md rounded-md my-1">สินทรัพย์</p>
+      <div class="container mx-auto mb-2 p-2  flex flex-col border border-gray-200 rounded-lg ">
+        <p class="text-sky-600 px-2  border-b border-gray-200  my-1">สินทรัพย์</p>
         <div class="flex flex-col overflow-x-auto scrollbar-hide">
           <div class="container flex justify-start p-2 space-x-4">
             <div v-for="icon in IconData.filter(
@@ -31,7 +32,7 @@
         </div>
 
         <!-- Icon Selector -->
-        <p class="text-green-400 px-2 shadow-md rounded-md my-1">หนี้สิน</p>
+        <p class="text-sky-600 px-2 border-b border-gray-200 my-1">หนี้สิน</p>
         <div class="flex overflow-x-auto scrollbar-hide">
           <div class="container flex justify-start p-2 space-x-4">
             <div v-for="icon in IconData.filter(
@@ -56,7 +57,7 @@
         </div>
 
         <!-- Icon Selector -->
-        <p class="text-green-400 px-2 shadow-md rounded-md my-1">ลูกหนี้</p>
+        <p class="text-sky-600 px-2  border-b border-gray-200  my-1">ลูกหนี้</p>
         <div class="flex overflow-x-auto scrollbar-hide">
           <div class="container flex justify-start p-2 space-x-4">
             <div v-for="icon in IconData.filter(
@@ -79,7 +80,7 @@
         </div>
 
         <!-- Icon Selector -->
-        <p class="text-green-400 px-2 shadow-md rounded-md my-1">ธนาคาร</p>
+        <p class="text-sky-600 px-2  border-b border-gray-200  my-1">ธนาคาร</p>
         <div class="flex overflow-x-auto scrollbar-hide">
           <div class="container flex justify-start p-2 space-x-4">
             <div v-for="icon in IconData.filter(
@@ -111,28 +112,28 @@
       </div>
 
       <!-- Input Section -->
-      <div class="bg-white p-2 rounded-lg shadow-md mb-2">
-        <p class="text-gray-400 px-2 shadow-md rounded-md my-2 py-2">
+      <div class="bg-white p-2  mb-2 w-full">
+        <p class="text-gray-400 px-2  rounded-md my-2 py-2">
           ประเภทบัญชี :
-          <span class="text-green-400 font-semibold">{{
+          <span class="text-sky-600 font-semibold">{{
             selectedIcon?.account_type_name || "กรุณาเลือกประเภทบัญชี"
           }}</span>
         </p>
         <div class="flex gap-2">
           <input type="text" placeholder="ตั้งจำนวนเงิน"
-            class="flex-1 gap-2 text-black shadow-md border-none text-sm border border-gray-200 px-4 py-3 rounded-md outline-none focus:ring-2 focus:ring-green-500 transition-all"
+            class="flex-1 gap-2 text-black  text-sm border border-gray-200 px-4 py-3 rounded-md outline-none focus:ring-2 focus:ring-sky-500 transition-all"
             v-model="accountTypeValue" />
           <button @click="handleOkClick" :disabled="isButtonDisabled" :class="[
-            'px-6 font-semibold rounded-md transition-colors duration-300 flex items-center justify-center bg-green-500',
+            'px-6 font-semibold rounded-md transition-colors duration-300 flex items-center justify-center bg-sky-500',
             isButtonDisabled
               ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
-              : 'bg-green-500 hover:bg-green-800 text-white cursor-pointer',
+              : 'bg-sky-500 hover:bg-sky-800 text-white cursor-pointer',
           ]">
             เพิ่ม
           </button>
         </div>
         <!-- Summary Section -->
-        <div class="grid grid-cols-3 mt-2 gap-2">
+        <div class="grid grid-cols-3 mt-2 gap-2 w-full">
           <!-- Sumone -->
           <div v-if="sumone.length === 0"
             class="p-3 rounded-md border-l-4 border border-yellow-300 bg-yellow-50 font-semibold text-center">
@@ -166,8 +167,8 @@
       </div>
 
       <!-- Transactions List -->
-      <div class="bg-white min-h-[200px] rounded-md shadow-md overflow-hidden mb-2">
-        <div class="text-center p-2 font-medium text-green-400">
+      <div class="bg-white min-h-[200px] border rounded-lg border-gray-200 overflow-hidden mb-2 w-full">
+        <div class="text-center p-2 font-medium text-sky-600">
           รายการธุรกรรมการเปิดบัญชี
         </div>
 
@@ -200,11 +201,12 @@
             </div>
           </div>
         </div>
+
       </div>
 
       <!-- Submit Button -->
       <button
-        class="fixed bottom-4 left-4 right-4 mb-20 shadow-md  bg-gray-200 text-black font-semibold py-4 rounded-md shadow-lg transition-colors duration-300 sm:static sm:mb-8"
+        class="bg-sky-500 text-white bottom-4 w-full left-4 right-4 mb-20 shadow-md  bg-gray-200 text-black font-semibold py-4 rounded-md shadow-lg transition-colors duration-300 sm:static sm:mb-8"
         @click="submitDifferences()">
         ยืนยันการเปิดบัญชี
       </button>

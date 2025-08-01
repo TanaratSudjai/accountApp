@@ -4,40 +4,30 @@
     <div class="mx-auto">
       <!-- Header Section -->
       <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">เมนูหลัก</h1>
+        <h1 class="text-3xl font-bold text-sky-600 mb-2">เมนูหลัก</h1>
         <p class="text-gray-600">เลือกเมนูที่คุณต้องการใช้งาน</p>
       </div>
 
       <!-- Menu Grid -->
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-        <NuxtLink
-          v-for="(item, index) in menuItems"
-          :key="index"
-          :to="item.route"
-          class="relative bg-white rounded-md flex flex-col items-center justify-center transition-all duration-300 h-[200px] overflow-hidden group border border-gray-200"
-        >
+        <NuxtLink v-for="(item, index) in menuItems" :key="index" :to="item.route"
+          class="relative bg-white p-5 rounded-md space-y-2 flex flex-col items-center justify-center transition-all duration-300  overflow-hidden group border border-gray-200">
           <!-- Icon container -->
-          <div
-            class="relative z-10 p-5 rounded-md bg-gradient-to-br from-gray-50 to-gray-100 mb-4 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:from-emerald-50 group-hover:to-emerald-100"
-          >
-            <component
-              :is="item.icon"
-              :class="item.color"
-              class="w-10 h-10 transition-all duration-300 group-hover:scale-105"
-            />
+          <div class="relative z-10  rounded-md  transition-all duration-300">
+            <component :is="item.icon" :class="item.color"
+              class="w-10 h-10 transition-all duration-300 group-hover:scale-105" />
           </div>
 
           <!-- Title -->
           <span
-            class="relative z-10 text-lg font-semibold text-gray-700 group-hover:text-emerald-700 transition-all duration-300 px-4 text-center leading-snug"
-          >
+            class="relative z-10 text-lg font-semibold text-gray-700 group-hover:text-sky-500 transition-all duration-300 px-4 text-center leading-snug">
             {{ item.title }}
           </span>
 
           <!-- Subtle bottom accent line -->
           <div
-            class="absolute bottom-0 left-1/2 w-0 h-1 bg-gradient-to-r from-emerald-400 to-emerald-600 group-hover:w-16 transform -translate-x-1/2 transition-all duration-300 rounded-full"
-          ></div>
+            class="absolute bottom-0 left-1/2 w-0 h-1 bg-gradient-to-r from-sky-400 to-sky-600 group-hover:w-16 transform -translate-x-1/2 transition-all duration-300 rounded-full">
+          </div>
         </NuxtLink>
       </div>
 
@@ -90,37 +80,37 @@ const menuItems = ref([
   {
     icon: Wallet,
     title: "สินทรัพย์",
-    color: "text-yellow-400",
+    color: "text-sky-900",
     route: `/group/1`, // Replace with the appropriate account_category_id
   },
   {
     icon: Landmark,
     title: "ธนาคาร",
-    color: "text-green-500",
+    color: "text-sky-900",
     route: "/group/7",
   },
   {
     icon: Users,
     title: "ลูกหนี้",
-    color: "text-yellow-500",
+    color: "text-sky-900",
     route: "/group/6",
   },
   {
     icon: Grid2x2Plus,
     title: "หนี้สิน",
-    color: "text-purple-400",
+    color: "text-sky-900",
     route: "/group/2",
   },
   {
     icon: HandCoins,
     title: "รายได้",
-    color: "text-green-500",
+    color: "text-sky-900",
     route: "/group/4",
   },
   {
     icon: CircleDollarSign,
     title: "ค่าใช้จ่าย",
-    color: "text-red-500",
+    color: "text-sky-900",
     route: "/group/5",
   },
 
