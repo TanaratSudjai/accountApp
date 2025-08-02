@@ -1,7 +1,8 @@
 <template>
-  <ClientOnly>
+  <!-- <ClientOnly>
     <AddTypeComponents></AddTypeComponents>
-  </ClientOnly>
+  </ClientOnly> -->
+  <BackComponents/>
   <AddType></AddType>
 </template>
 

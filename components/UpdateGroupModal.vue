@@ -1,21 +1,21 @@
 <template>
-  <div v-if="show" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white/90 p-4 rounded-lg shadow-lg w-[60%] mx-5 md:w-[60%]">
+  <div v-if="show" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
+    <div class="bg-white p-4 rounded-lg shadow-lg  w-[60%] md:w-[300px]">
       <h2 class="text-lg text-sky-600 font-semibold mb-4">แก้ไขหรืออัพเดตกลุ่มบัญชี</h2>
       <form @submit.prevent="updateAccountType">
         <label class="block text-sm text-gray-600">
           ชื่อกลุ่ม
         </label>
         <input type="text" v-model="localAccountGroup.account_group_name"
-          class="mt-1 w-full border border-gray-300 px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+          class="w-full px-2 py-1 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none "
           required />
 
         <div class="mt-4 flex justify-end">
-          <button type="button" class="mr-2 bg-gray-500 hover:bg-gray-600 text-white px-2 py-1 md:px-3 md:py-2 rounded"
+          <button type="button" class="mr-2 bg-gray-500 hover:bg-gray-600 text-white px-2 py-1 md:px-3 md:py-2 rounded-lg"
             @click="close">
             ยกเลิก
           </button>
-          <button type="submit" class="bg-sky-600 hover:bg-sky-700 text-white px-2 py-1 md:px-3 md:py-2 rounded">
+          <button type="submit" class="bg-sky-600 hover:bg-sky-700 text-white px-2 py-1 md:px-3 md:py-2 rounded-lg">
             <SquarePen class="inline-block mr-2 w-4 h-4" />
             อัพเดต
           </button>
@@ -27,7 +27,7 @@
 
 <script setup>
 import {
-  SquarePen 
+  SquarePen
 } from "lucide-vue-next";
 import { ref, watch } from "vue";
 const { $axios } = useNuxtApp();

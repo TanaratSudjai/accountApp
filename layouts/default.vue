@@ -32,7 +32,6 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 const { $axios } = useNuxtApp();
 let nameuser = ref("");
 const loading = ref(false);

@@ -30,13 +30,14 @@
                     <label for="account_group_name"
                       class="block text-sm text-gray-600 font-medium mb-2">ชื่อกลุ่ม</label>
                     <input id="account_group_name" v-model="formData.account_group_name" type="text"
-                      class="w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-black focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                      class="w-full px-2 py-1 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none "
                       placeholder="กรุณากรอกชื่อกลุ่ม" />
                   </div>
 
                   <div class="mb-4">
                     <label class="block text-sm text-gray-600 font-medium mb-2">ประเภท</label>
-                    <div class="bg-white rounded-md border border-gray-200 px-3 py-2 text-gray-300">
+                    <div
+                      class="w-full px-2 py-1 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none ">
                       <GetgroupName :category-id="formData.account_category_id" />
                     </div>
                   </div>
