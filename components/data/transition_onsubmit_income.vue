@@ -69,7 +69,7 @@
           <!-- Transactions List -->
           <div v-if="transition.length > 0" class="">
             <div class="max-h-40 overflow-y-auto space-y-2 pr-2 custom-scrollbar border-b border-gray-200 py-2">
-              <TransitionGroup name="list" tag="div" class=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
+              <TransitionGroup name="list" tag="div" class=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-1">
                 <div v-for="(transactionData, index) in transition"
                   :key="`${transactionData.account_transition_id}-${index}`"
                   class="group transition-all duration-300 transform">
@@ -143,7 +143,7 @@
             <h3 class="text-sm md:text-md lg:text-lg font-bold text-gray-600 mb-2">
               ไม่มีรายการธุรกรรม
             </h3>
-            <p class="text-gray-500 text-center max-w-md text-sm md:text-md lg:text-lg">
+            <p class="text-gray-500 text-center max-w-md text-xs md:text-xs lg:text-sm">
               เริ่มต้นบันทึกรายการรายรับและรายจ่ายของคุณเพื่อติดตามการเงิน
             </p>
           </div>

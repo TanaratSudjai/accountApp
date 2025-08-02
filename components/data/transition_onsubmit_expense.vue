@@ -68,7 +68,7 @@
           <!-- Transactions List -->
           <div v-if="transition.length > 0" class="">
             <div class="max-h-40 overflow-y-auto space-y-2 pr-2 custom-scrollbar border-b border-gray-200 py-2">
-              <TransitionGroup name="list" tag="div" class=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
+              <TransitionGroup name="list" tag="div" class=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols- gap-1">
                 <div v-for="(transactionData, index) in transition"
                   :key="`${transactionData.account_transition_id}-${index}`"
                   class="group transition-all duration-300 transform ">
@@ -79,7 +79,7 @@
                     <div class="relative flex justify-between items-center">
                       <div class="flex items-center ">
                         <div>
-                          <span class="font-semibold text-red-800 text-xs md:text-md lg:text-lg">
+                          <span class="font-semibold text-red-800 text-xs md:text-sm lg:text-md">
                             {{ transactionData.account_type_name }}
                           </span>
                           <div class="text-sm text-red-600 ">รายจ่าย</div>
@@ -88,7 +88,7 @@
 
                       <div class="flex items-center gap-2">
                         <div class="text-right">
-                          <div class="font-bold text-red-700 text-xs md:text-md lg:text-lg">
+                          <div class="font-bold text-red-700 text-xs md:text-sm lg:text-md">
                             ฿{{
                               formatNumber(
                                 transactionData.account_transition_value
@@ -142,7 +142,7 @@
             <h3 class="text-sm md:text-md lg:text-lg font-bold text-gray-600 mb-2">
               ไม่มีรายการธุรกรรม
             </h3>
-            <p class="text-gray-500 text-center max-w-md text-sm md:text-md lg:text-lg">
+            <p class="text-gray-500 text-center max-w-md text-xs md:text-xs lg:text-sm">
               เริ่มต้นบันทึกรายการรายรับและรายจ่ายของคุณเพื่อติดตามการเงิน
             </p>
           </div>
