@@ -13,19 +13,19 @@
           </div>
           <div>
             <h3 class="font-semibold text-green-800 text-lg">แจ้งเตือน</h3>
-            <p class="text-green-700 mt-1">{{ error }}</p>
+            <p class="text-green-700 mt-1">เกิดข้อผิดพลาด กรุณาลองอีกครั้งในภายหลัง</p>
           </div>
         </div>
       </div>
 
-      <div v-else class="space-y-2">
+      <div v-else class="">
         <!-- Account List Section -->
-        <div class="bg-white rounded-md border border-gray-200 overflow-hidden">
+        <div class="bg-white  border-b border-gray-200 ">
           <!-- Section Header -->
-          <div class="px-2 py-3 border-b border-gray-200">
+          <div class="p-1 border-b border-gray-200">
             <div class="flex items-center justify-between">
-              <div class="flex items-center space-x-2">
-                <div class="w-2 h-10 bg-gradient-to-b from-red-300 to-red-400 rounded-full"></div>
+              <div class="flex items-center space-x-4">
+                <div class="w-1 h-10 bg-gradient-to-b from-red-300 to-red-400 rounded-full"></div>
 
                 <div>
                   <h2 class="text-xl font-bold text-gray-800">รายการบัญชี</h2>
@@ -37,7 +37,7 @@
               <!-- Account count badge -->
               <div class="flex items-center space-x-2">
                 <span
-                  class="inline-flex items-center px-4 py-2 rounded-full text-xs  bg-gradient-to-r from-red-100 to-rose-100 text-red-800 border border-green-200">
+                  class="inline-flex items-center px-2 py-1 rounded-full text-xs  bg-gradient-to-r from-red-100 to-rose-100 text-red-800 border border-green-200">
                   <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
@@ -58,13 +58,14 @@
 
           <!-- Account Cards -->
           <div class="p-2">
-            <div class="max-h-96 overflow-y-auto space-y-2 pr-2 custom-scrollbar">
-              <TransitionGroup name="account-list" tag="div" class="space-y-2">
+            <div class="max-h-60 overflow-y-auto space-y-4 pr-2 custom-scrollbar">
+              <TransitionGroup name="account-list" tag="div"
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
                 <div v-for="menu in menuGroup" :key="menu.account_type_id" class="group">
                   <button v-if="selectedCategory === menu.account_category_id" @click="openUpdateModal(menu)" :class="{
                     hidden: disabledAccountTypeIds.has(menu.account_type_id),
                   }" :disabled="disabledAccountTypeIds.has(menu.account_type_id)"
-                    class="w-full relative p-2 rounded border-2 border-gray-200 bg-gradient-to-r from-white to-gray-50 hover:from-red-50 hover:to-rose-50 hover:border-red-300 transition-all duration-300 transform focus:outline-none focus:ring-4 focus:ring-red-100">
+                    class="w-full relative p-1 rounded border-2 border-gray-200 bg-gradient-to-r from-white to-gray-50 hover:from-red-50 hover:to-rose-50 hover:border-red-300 transition-all duration-300 transform focus:outline-none focus:ring-4 focus:ring-red-100">
                     <!-- Background decoration -->
                     <div
                       class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-red-200/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -86,23 +87,23 @@
                             class="font-bold text-gray-800 text-lg group-hover:text-red-700 transition-colors duration-300">
                             {{ menu.account_type_name }}
                           </h3>
-                          <div class="flex items-center space-x-2 mt-1">
-                            <span
+                          <div class="flex items-center space-x-2">
+                            <!-- <span
                               class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-600">
                               ID: {{ menu.account_type_id }}
-                            </span>
-                            <span class="text-xs text-gray-500">• คลิกเพื่อแก้ไข</span>
+                            </span> -->
+                            <span class="text-xs text-gray-500">คลิกเพื่อเพิ่ม</span>
                           </div>
                         </div>
                       </div>
 
                       <!-- Right section with value -->
-                      <div class="text-right space-y-2">
+                      <div class="text-right ">
                         <div
-                          class="text-xl font-bold text-gray-800 group-hover:text-red-700 transition-colors duration-300">
+                          class="text-md font-bold text-gray-800 group-hover:text-red-700 transition-colors duration-300">
                           ฿{{ formatNumber(menu.account_type_value) }}
                         </div>
-                        <div class="text-sm text-gray-500">ค่าเริ่มต้น</div>
+                        <div class="text-xs text-gray-500">ค่าเริ่มต้น</div>
                       </div>
 
                       <!-- Edit indicator -->
@@ -148,13 +149,13 @@
 
         <!-- Modal -->
         <UpdateAccountTypeModal v-if="showModal" :show="showModal" :account_type_name="selectedMenu?.account_type_name"
-          :account_type_value="parseFloat(selectedMenu?.account_type_value)" :account_type_id="selectedMenu?.account_type_id"
-          :account_type_from_id="selectedMenu?.account_type_from_id"
+          :account_type_value="parseFloat(selectedMenu?.account_type_value)"
+          :account_type_id="selectedMenu?.account_type_id" :account_type_from_id="selectedMenu?.account_type_from_id"
           :account_category_id="selectedMenu?.account_category_id" @close="closeUpdateModal" @update="handleUpdate" />
       </div>
-      <div class="p-4 mb-4 flex justify-center">
-        <ButtonDashboard />
-      </div>
+    </div>
+    <div class="p-4 mb-4 flex justify-center">
+      <ButtonDashboard />
     </div>
   </div>
 </template>
