@@ -32,6 +32,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { checkSession } from '../composables/session';
 const { $axios } = useNuxtApp();
 let nameuser = ref("");
 const loading = ref(false);
@@ -43,10 +44,21 @@ const getSession = async () => {
   loading.value = true;
   try {
     const response = await $axios.get("auth/get_session");
-    nameuser.value = response.data.data_user.account_user_name;
-    loading.value = false;
+    // console.log("status", response.status);
+
+    if (response.data) {
+      nameuser.value = response.data.data_user.account_user_name || "ไม่พบชื่อผู้ใช้";
+      loading.value = false;
+    } else {
+      nameuser.value = "ไม่พบชื่อผู้ใช้";
+    }
   } catch (err) {
     console.log(err);
+    if (err.response?.status === 401) {
+      console.error("Unauthorized access. Please login again.");
+    } else {
+      console.error("Failed to fetch session data:", err.message);
+    }
   }
 };
 
@@ -71,7 +83,11 @@ const logout = async () => {
 };
 
 onMounted(() => {
-  getSession();
+  if (checkSession()) {
+    getSession();
+  } else {
+    window.location.href = "/";
+  }
 });
 </script>
 <style scoped>

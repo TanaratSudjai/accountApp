@@ -85,11 +85,11 @@
 
           <!-- Right Column: To Accounts -->
           <div class="md:col-span-3 space-y-3">
-            <h3 class="text-sm md:text-md  font-medium text-gray-700 mb-3 flex items-center">
+            <span class="text-sm md:text-md  font-medium text-gray-700 mb-3 flex items-center">
               <span
                 class="inline-flex items-center justify-center bg-blue-100 w-6 h-6 rounded-full mr-2 text-blue-600 text-sm">2</span>
               ไปยังลูกหนี้
-            </h3>
+            </span>
             <div class="grid grid-cols-2 md:grid-cols-1 gap-2">
               <div v-for="item in debtor" :key="item.account_type_id" class="transition-all duration-200">
                 <button :class="[
@@ -223,7 +223,7 @@
                     <span class="font-semibold">{{
                       bankDatas.account_type_name
                     }}
-                  </span>
+                    </span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                       class="w-4 h-4 mx-1 text-gray-400">
                       <path fill-rule="evenodd"

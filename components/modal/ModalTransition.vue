@@ -121,7 +121,7 @@
           <div class="flex space-x-3">
             <button
               @click="closeModal"
-              class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
+              class="px-4 py-2 text-sm font-medium text-white bg-gray-600 border border-gray-300 rounded-lg  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
             >
               ยกเลิก
             </button>
@@ -129,10 +129,10 @@
               v-if="account_category_id === 5"
               @click="updateValue"
               :class="{
-                'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200': true,
+                'bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200': true,
                 'bg-gray-400 text-gray-600 cursor-not-allowed opacity-50':
                   account_category_id === 5 && isSubmitDisabled,
-                'bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500':
+                'bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500':
                   !isSubmitDisabled,
               }"
               :disabled="account_category_id === 5 && isSubmitDisabled"
@@ -143,10 +143,10 @@
               v-if="account_category_id === 4"
               @click="updateValue"
               :class="{
-                'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200': true,
+                'bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200': true,
                 'bg-gray-400 text-gray-600 cursor-not-allowed opacity-50':
                   isSubmitDisabledIncome,
-                'bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500':
+                'bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500':
                   !isSubmitDisabledIncome,
               }"
               :disabled="isSubmitDisabledIncome"
