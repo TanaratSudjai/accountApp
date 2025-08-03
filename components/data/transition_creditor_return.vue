@@ -284,7 +284,9 @@ const bankData = ref([]);
 const { $axios } = useNuxtApp();
 
 const maxAccountTypeId = computed(() => {
-  return Math.max(...bankData.value.map((item) => item.account_transition_id));
+  // ป้องกัน bankData ไม่ใช่ array
+  const arr = Array.isArray(bankData.value) ? bankData.value : [];
+  return arr.length ? Math.max(...arr.map((item) => item.account_transition_id)) : null;
 });
 
 const catData = ref([]);
