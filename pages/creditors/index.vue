@@ -1,18 +1,18 @@
 <!-- SlidingButton.vue -->
 <template>
   <BackComponents />
-  <div class="flex justify-center w-full p-4 mb-6">
-    <div class="w-full flex justify-center max-w-4xl space-y-2">
-      <div class="relative w-full max-w-2xl">
+  <div class="max-w-2xl container mx-auto">
+    <div class="w-full flex justify-center space-y-2w-full flex justify-center space-y-2">
+      <div class="relative w-full">
         <div
-          class="flex border border-gray-300 rounded-lg overflow-hidden relative"
+          class="flex border-b border-gray-300  overflow-hidden relative"
         >
           <!-- Background Slider -->
           <div
             class="absolute top-0 bottom-0 w-1/2 transition-transform duration-300"
             :class="{
-              'bg-purple-300 translate-x-0': activeButton === 'borrow',
-              'bg-yellow-200 translate-x-full': activeButton === 'return',
+              'border-b-2 border-purple-300 translate-x-0': activeButton === 'borrow',
+              'border-b-2 border-yellow-200 translate-x-full': activeButton === 'return',
             }"
           ></div>
 
