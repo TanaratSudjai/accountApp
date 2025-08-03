@@ -22,7 +22,7 @@
             class="text-xs mt-1 font-medium"
             :class="$route.path === '/dashboard_submit_transition' ? 'text-orange-600' : 'text-gray-500 group-hover:text-gray-700'"
           >
-            Pending
+            ตรวจสอบ
           </span>
         </NuxtLink>
         <!-- Income -->
@@ -40,7 +40,7 @@
             class="text-xs mt-1 font-medium"
             :class="$route.path === '/transection_income' ? 'text-green-600' : 'text-gray-500 group-hover:text-gray-700'"
           >
-            Income
+            รายได้
           </span>
         </NuxtLink>
 
@@ -59,7 +59,7 @@
             class="text-xs mt-1 font-medium"
             :class="$route.path === '/home' ? 'text-sky-600' : 'text-gray-500 group-hover:text-gray-700'"
           >
-            Home
+            หน้าหลัก
           </span>
         </NuxtLink>
 
@@ -78,7 +78,7 @@
             class="text-xs mt-1 font-medium"
             :class="$route.path === '/transection_expense' ? 'text-red-600' : 'text-gray-500 group-hover:text-gray-700'"
           >
-            Expense
+            รายจ่าย
           </span>
         </NuxtLink>
 
@@ -97,7 +97,7 @@
             class="text-xs mt-1 font-medium"
             :class="$route.path === '/transitionbank' ? 'text-purple-600' : 'text-gray-500 group-hover:text-gray-700'"
           >
-            Bank
+            ธนาคาร
           </span>
         </NuxtLink>
 
