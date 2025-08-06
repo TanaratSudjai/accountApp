@@ -29,6 +29,7 @@
     "motion": "^12.6.0",
     "nuxt": "^3.13.0",
     "nuxt-charts": "^0.1.11",
+    "pinia": "^3.0.3",
     "sweetalert2": "^11.17.2",
     "vue": "latest",
     "vue-chartjs": "^5.3.2",

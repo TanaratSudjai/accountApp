@@ -155,42 +155,14 @@
 
 <script setup>
 import { ref } from "vue";
-import {
-  ArrowLeft,
-  Key,
-  Store,
-  Book,
-  Users,
-  User,
-  Clock,
-  Building,
-  FolderOpen,
-  FilePlus,
-  FileMinus,
-  BarChart2,
-  Landmark,
-  HandCoins,
-  ChartNoAxesCombined,
-  Grid2x2Plus,
-  ArrowUpFromLine,
-} from "lucide-vue-next";
-
-const transition = ref([]); // เก็บข้อมูลธุรกรรม
+import { HandCoins } from "lucide-vue-next";
+import { storeToRefs } from "pinia";
+import { useIncomeTransitionStore } from "~/stores/incomeTransition";
+const store = useIncomeTransitionStore();
+const { transition } = storeToRefs(store);
 const error = ref(null); // เก็บข้อผิดพลาด (ถ้ามี)
-let intervalId; // สำหรับเก็บ ID ของ interval
 const { $axios } = useNuxtApp();
-// ฟังก์ชันสำหรับจัดรูปแบบตัวเลข
-const { formatNumber } = useFormatNumber();
-// ฟังก์ชันดึงข้อมูลธุรกรรม
-const fetchTransitions = async () => {
-  try {
-    const response = await $axios.get("/get_income_transition");
-    transition.value = response.data || [];
-  } catch (err) {
-    console.error("Error fetching transitions:", err);
-    error.value = err; // เก็บข้อผิดพลาดหากมี
-  }
-};
+const { formatNumber } = useFormatNumber(); // ฟังก์ชันสำหรับการจัดรูปแบบตัวเลข
 
 // ฟังก์ชันลบธุรกรรม
 const deleteTransection = async (id, value) => {
@@ -198,24 +170,13 @@ const deleteTransection = async (id, value) => {
     await $axios.put(`/delete_transition_income/${id}`, {
       account_transition_value: value,
     });
-    await fetchTransitions(); // Fetch updated data after deletion
+    await store.fetchTransitions(); // Refresh the store data
   } catch (error) {
     console.error("Error deleting transaction:", error);
   }
 };
 
-// เรียกใช้ฟังก์ชันดึงข้อมูลเมื่อ Component ถูก mounted
 onMounted(() => {
-  fetchTransitions(); // ดึงข้อมูลเริ่มต้น
-  intervalId = setInterval(fetchTransitions, 1000); // เรียก fetchTransitions ทุก ๆ 5 วินาที
-});
-onBeforeUnmount(() => {
-  clearInterval(intervalId);
+  store.fetchTransitions();
 });
 </script>
-
-<style scoped>
-.custom-scrollbar {
-  display: hidden;
-}
-</style>

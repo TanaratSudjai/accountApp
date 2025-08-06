@@ -145,7 +145,6 @@ const fetchFundData = async () => {
   try {
     const response = await $axios.get("/getLastedFund");
     fundData.value = response.data;
-    console.log("Fund data fetched:", fundData.value);
   } catch (error) {
     console.error("Error fetching fund data:", error);
   }

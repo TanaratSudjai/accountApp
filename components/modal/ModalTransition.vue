@@ -174,8 +174,7 @@ input[type="number"] {
 </style>
 
 <script setup>
-import { ref, defineProps, defineEmits, computed, onMounted, watch } from "vue";
-
+import { ref, defineProps, defineEmits, computed, onMounted } from "vue";
 const categorys = ref([]);
 const { $axios } = useNuxtApp();
 const { formatNumber } = useFormatNumber();
@@ -225,7 +224,7 @@ const updateValue = () => {
   closeModal();
 };
 
-const closeModal = () => {
+const closeModal = async () => {
   emits("close");
 };
 

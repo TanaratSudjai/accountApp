@@ -197,6 +197,11 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import UpdateAccountTypeModal from "../../components/modal/ModalTransition.vue";
+import { storeToRefs } from "pinia";
+import { useIncomeTransitionStore } from "~/stores/incomeTransition";
+
+const store = useIncomeTransitionStore();
+const { disabledAccountTypeIds } = storeToRefs(store); // 👈 ทำให้ reactive
 
 // ฟังก์ชันสำหรับจัดรูปแบบตัวเลข
 const { formatNumber } = useFormatNumber();
@@ -207,11 +212,6 @@ const count = ref(null); // เก็บจำนวนรายการ
 const selectedCategory = ref(4); // เก็บประเภทที่เลือก
 const error = ref(null); // สำหรับจัดการข้อผิดพลาด
 const { $axios } = useNuxtApp();
-
-// ฟังก์ชันสำหรับแสดงประเภท
-function showCategory(categoryId) {
-  selectedCategory.value = categoryId;
-}
 
 // ฟังก์ชันเปิด Modal สำหรับการอัปเดต
 const openUpdateModal = (menu) => {
@@ -260,7 +260,8 @@ const handleUpdate = async ({
     error.value = "Error updating data: " + err.message; // ตั้งค่า error
     console.error("Error updating data:", err);
   }
-  showModal.value = false; // ปิด Modal หลังจากอัปเดต
+  showModal.value = false; // ปิด Modal หลังจากอัปเดต\
+  await store.fetchTransitions();
 };
 
 // ฟังก์ชันดึงข้อมูลรายการเมนู
@@ -273,13 +274,6 @@ const fetchMenuGroupData = async () => {
   }
 };
 
-// เรียกใช้ฟังก์ชันดึงข้อมูลเมื่อ Component ถูก mounted
-onMounted(async () => {
-  await fetchMenuGroupData();
-  await fetchDataSelect(); // เรียกข้อมูลจำนวนรายการ
-  await fetchTransitions();
-});
-
 // ฟังก์ชันดึงข้อมูลจำนวนรายการ
 const fetchDataSelect = async () => {
   try {
@@ -290,58 +284,10 @@ const fetchDataSelect = async () => {
   }
 };
 
-let interval;
-const transition = ref([]); // Original transition data
-const disabledAccountTypeIds = ref(new Set()); // A Set to store disabled account_type_ids
-
-const fetchTransitions = async () => {
-  try {
-    const response = await $axios.get("/get_income_transition");
-
-    // Ensure response.data exists and is an array
-    if (Array.isArray(response.data)) {
-      transition.value = response.data;
-      disabledAccountTypeIds.value = new Set(
-        transition.value.map((item) => item.account_type_id)
-      );
-    } else {
-      throw new Error("Invalid data format: Expected an array");
-    }
-  } catch (err) {
-    error.value = "Error fetching transitions: " + err.message;
-  }
-};
-
-// เรียกใช้ fetchTransitions ทุกๆ 1 วินาที
-onMounted(() => {
-  interval = setInterval(fetchTransitions, 1000);
-  fetchTransitions(); // เรียกครั้งแรกทันทีที่โหลด
+// เรียกใช้ฟังก์ชันดึงข้อมูลเมื่อ Component ถูก mounted
+onMounted(async () => {
+  await fetchMenuGroupData();
+  await fetchDataSelect(); 
+  store.fetchTransitions();
 });
-
-// ล้าง interval เมื่อ Component ถูกทำลาย
-onBeforeUnmount(() => {
-  clearInterval(interval);
-});
-
-// // คำนวณรายได้ทั้งหมด
-// const sumvalue_income = computed(() => {
-//   return transition.value
-//     .filter((item) => item.account_category_id === 4)
-//     .reduce((total, item) => {
-//       const value = parseFloat(item.account_transition_value);
-//       return total + (isNaN(value) ? 0 : value);
-//     }, 0)
-//     .toFixed(2);
-// });
-
-// // คำนวณรายจ่ายทั้งหมด
-// const sumvalue_extend = computed(() => {
-//   return transition.value
-//     .filter((item) => item.account_category_id === 5)
-//     .reduce((total, item) => {
-//       const value = parseFloat(item.account_transition_value);
-//       return total + (isNaN(value) ? 0 : value);
-//     }, 0)
-//     .toFixed(2);
-// });
 </script>

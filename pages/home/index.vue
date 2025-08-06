@@ -46,7 +46,7 @@
         class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-w-4xl mx-auto"
       >
         <NuxtLink
-          v-for="(item, index) in filteredMenuItems"
+          v-for="(item, index) in sortedMenuItems"
           :key="item.id"
           :to="isDisabled(item.title) ? item.path_name || '#' : item.route"
           :class="[
@@ -530,26 +530,26 @@ const isDisabled = (title) => {
   return disableTitles.includes(title);
 };
 
-watchEffect(() => {
-  if (
-    checkData.value.length &&
-    checkData.value[0].account_type_sum &&
-    parseFloat(checkData.value[0].account_type_sum) > 0
-  ) {
-    const manageCat = menuItems.value.find(
-      (item) => item.title === "จัดการหมวดหมู่"
-    );
-    if (manageCat) manageCat.id = 10;
+watch(
+  () => checkData.value[0]?.account_type_sum,
+  (sum) => {
+    if (sum && parseFloat(sum) > 0) {
+      const manageCat = menuItems.value.find(
+        (item) => item.title === "จัดการหมวดหมู่"
+      );
+      if (manageCat) manageCat.id = 10;
 
-    const openAcc = menuItems.value.find((item) => item.title === "เปิดบัญชี");
-    if (openAcc) openAcc.id = 11;
+      const openAcc = menuItems.value.find((item) => item.title === "เปิดบัญชี");
+      if (openAcc) openAcc.id = 11;
 
-    // Resort the menuItems so updated IDs appear last
-    menuItems.value.sort((a, b) => a.id - b.id);
+      // ถ้าจำเป็นต้อง sort menuItems, ให้ clone ก่อนแล้วค่อยเปลี่ยน
+      const sorted = [...menuItems.value].sort((a, b) => a.id - b.id);
+      menuItems.value = sorted;
+    }
+  },
+  { immediate: true }
+);
 
-    menuItems.value.forEach((item) => {});
-  }
-});
 
 const filteredMenuItems = computed(() => {
   return menuItems.value.filter((item) => {
@@ -579,4 +579,19 @@ const isDisabled_icons = (title) => {
     }
   }
 };
+
+const sortedMenuItems = computed(() => {
+  const items = [...menuItems.value];
+
+  const accountTypeSum = checkData.value[0]?.account_type_sum;
+  if (accountTypeSum && parseFloat(accountTypeSum) > 0) {
+    const manageCat = items.find((item) => item.title === "จัดการหมวดหมู่");
+    if (manageCat) manageCat.id = 10;
+
+    const openAcc = items.find((item) => item.title === "เปิดบัญชี");
+    if (openAcc) openAcc.id = 11;
+  }
+
+  return items.sort((a, b) => a.id - b.id);
+});
 </script>

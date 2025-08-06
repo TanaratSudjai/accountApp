@@ -1,0 +1,35 @@
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import { useNuxtApp } from '#app'
+
+export const useIncomeTransitionStore = defineStore('incomeTransition', () => {
+  const { $axios } = useNuxtApp()
+
+  const transition = ref([])
+  const disabledAccountTypeIds = ref(new Set())
+  const error = ref(null)
+
+  const fetchTransitions = async () => {
+    console.log("Fetching transitions...")
+    try {
+      const res = await $axios.get('/get_income_transition')
+      if (Array.isArray(res.data)) {
+        transition.value = res.data
+        disabledAccountTypeIds.value = new Set(
+          res.data.map((item) => item.account_type_id)
+        )
+      } else {
+        throw new Error('Invalid data format')
+      }
+    } catch (err) {
+      error.value = 'Error fetching transitions: ' + (err?.message || String(err))
+    }
+  }
+
+  return {
+    transition,
+    disabledAccountTypeIds,
+    error,
+    fetchTransitions,
+  }
+})
