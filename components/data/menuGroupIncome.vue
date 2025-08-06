@@ -1,6 +1,6 @@
 <template>
   <div class="p-4">
-    <div class="mx-auto max-w-4xl space-y-2">
+    <div class="max-w-4xl mx-auto space-y-2">
 
       <!-- error -->
       <div v-if="error"

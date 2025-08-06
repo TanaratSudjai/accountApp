@@ -172,6 +172,10 @@
                     {{ bankDatas.account_type_from_name }}
                   </p>
                   <p class="text-sm text-gray-500">
+                    {{ formatDateTime(bankDatas.account_transition_datetime) }} 
+                    
+                  </p>
+                  <p class="text-sm text-gray-500">
                     {{ bankDatas.account_transition_value }}
                   </p>
                 </div>
@@ -213,6 +217,7 @@ const bankData = ref([]);
 const { $axios } = useNuxtApp();
 
 const { formatNumber } = useFormatNumber();
+const { formatDateTime } = useFormatDateTime(); // or adjust path
 
 const maxAccountTypeId = computed(() => {
   // ป้องกัน bankData ไม่ใช่ array
@@ -284,18 +289,9 @@ const fetchCat = async () => {
   }
 };
 
-let intervalId;
-
 onMounted(async () => {
   await Promise.all([fetchCat(), bankTransition()]);
 
-  intervalId = setInterval(() => {
-    fetchCat();
-  }, 1000);
-});
-
-onUnmounted(() => {
-  clearInterval(intervalId);
 });
 
 const toggleColumnOne = (type) => {

@@ -234,6 +234,9 @@
                       bankDatas.account_type_from_name
                     }}</span>
                   </p>
+                  <span class="text-xs text-gray-500 ml-2">
+                    Date Time #{{ formatDateTime(bankDatas.account_transition_datetime) }}
+                  </span>
                   <div class="flex items-center mt-1">
                     <span
                       class="inline-flex items-center text-sm font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded">
@@ -242,6 +245,7 @@
                     <span class="text-xs text-gray-500 ml-2">
                       Transaction #{{ bankDatas.account_transition_id }}
                     </span>
+                    
                   </div>
                 </div>
               </div>
@@ -284,6 +288,8 @@ const columnTwoSelected = ref(null); //จากคอลัมน์ที่ 2
 const accountTypeValue = ref(0);
 const bankData = ref([]);
 const { $axios } = useNuxtApp();
+
+const { formatDateTime } = useFormatDateTime();
 
 const maxAccountTypeId = computed(() => {
   // ป้องกัน bankData ไม่ใช่ array
@@ -356,20 +362,15 @@ const fetchDebtor = async () => {
   }
 };
 
-let intervalId;
+// let intervalId;
 
 onMounted(async () => {
   await Promise.all([fetchCat(), bankTransition(), fetchDebtor()]);
-
-  intervalId = setInterval(() => {
-    fetchCat();
-    fetchDebtor();
-  }, 1000);
 });
 
-onUnmounted(() => {
-  clearInterval(intervalId);
-});
+// onUnmounted(() => {
+//   clearInterval(intervalId);
+// });
 
 const toggleColumnOne = (type) => {
   //เลือกข้อมูลจากคอลัมน์ที่ 1 สามารถยกเลิกได้

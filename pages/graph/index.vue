@@ -21,7 +21,7 @@
 
           <!-- Selected Date Display -->
           <div
-            v-if="selectedDay && selectedMonth && selectedYear"
+            v-if="selectedDay && selectedYear"
             class="mt-4 space-y-4"
           >
             <!-- Expense Display -->
@@ -110,7 +110,7 @@
                   >
                     {{ (totalIncomeMonth ?? 0).toLocaleString() ?? 0 }} บาท
                   </span>
-                  <span v-else class="ml-2 text-green-900 font-bold">
+                  <span v-else-if="selectedDay === 'ทั้งปี'" class="ml-2 text-green-900 font-bold">
                     {{ (totalIncomeYear ?? 0).toLocaleString() ?? 0 }} บาท
                   </span>
                 </div>
@@ -406,6 +406,17 @@ const calendarRef = ref(null);
 
 // Replace the existing fetchChartData function
 const fetchChartData = async () => {
+  // Set selectedDay for chart context
+  if (selectedMonthForChart.value === 0) {
+    selectedDay.value = "ทั้งปี";
+    selectedMonth.value = null;
+    selectedYear.value = selectedYearForChart.value;
+  } else {
+    selectedDay.value = "ทั้งเดือน";
+    selectedMonth.value = selectedMonthForChart.value;
+    selectedYear.value = selectedYearForChart.value;
+  }
+
   await Promise.all([
     fetchExpensesInChart(
       selectedYearForChart.value,
@@ -428,8 +439,9 @@ const fetchChartData = async () => {
 // Fetch expense chart data - FIXED VERSION
 const fetchExpensesInChart = async (year, month) => {
   try {
-    const params = month === 0 ? { year } : { year, month };
-    const { data } = await $axios.get("/expense_chart", { params });
+    // Only send month if not "ทั้งปี"
+    const paramsChart = month === 0 ? { year } : { year, month };
+    const { data } = await $axios.get("/expense_chart", { params: paramsChart });
 
     // Check if there's any data
     if (data && data.length > 0) {
@@ -479,7 +491,7 @@ const fetchExpensesInChart = async (year, month) => {
     if (data && data.length > 0) {
       const { data: allDays } = await $axios.get(
         "/MonthAndYear_expense_totals",
-        { params }
+        { params: paramsChart }
       );
 
       if (month === 0) {
@@ -512,8 +524,9 @@ const fetchExpensesInChart = async (year, month) => {
 // Fetch income chart data - FIXED VERSION
 const fetchIncomeInChart = async (year, month) => {
   try {
-    const params = month === 0 ? { year } : { year, month };
-    const { data } = await $axios.get("/income_chart", { params });
+    // Only send month if not "ทั้งปี"
+    const paramsChart = month === 0 ? { year } : { year, month };
+    const { data } = await $axios.get("/income_chart", { params: paramsChart });
 
     // Check if there's any data
     if (data && data.length > 0) {
@@ -558,7 +571,7 @@ const fetchIncomeInChart = async (year, month) => {
     if (data && data.length > 0) {
       const { data: allDays } = await $axios.get(
         "/MonthAndYear_income_totals",
-        { params }
+        { params: paramsChart }
       );
 
       if (month === 0) {
@@ -770,6 +783,7 @@ const setIncome = async (year, month) => {
     const params = {};
     if (selectedDay.value === "ทั้งปี") {
       params.year = year;
+      // Do NOT set params.month
     } else if (selectedDay.value === "ทั้งเดือน") {
       params.year = year;
       params.month = month;
@@ -812,6 +826,7 @@ const setExpense = async (year, month) => {
     const params = {};
     if (selectedDay.value === "ทั้งปี") {
       params.year = year;
+      // Do NOT set params.month
     } else if (selectedDay.value === "ทั้งเดือน") {
       params.year = year;
       params.month = month;
