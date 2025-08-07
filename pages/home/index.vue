@@ -46,7 +46,7 @@
         class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-w-4xl mx-auto"
       >
         <NuxtLink
-          v-for="(item, index) in sortedMenuItems"
+          v-for="(item, index) in filteredMenuItems"
           :key="item.id"
           :to="isDisabled(item.title) ? item.path_name || '#' : item.route"
           :class="[

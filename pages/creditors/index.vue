@@ -2,17 +2,19 @@
 <template>
   <BackComponents />
   <div class="max-w-2xl container mx-auto">
-    <div class="w-full flex justify-center space-y-2w-full flex justify-center space-y-2">
+    <div
+      class="w-full flex justify-center space-y-2w-full flex justify-center space-y-2"
+    >
       <div class="relative w-full">
-        <div
-          class="flex border-b border-gray-300  overflow-hidden relative"
-        >
+        <div class="flex border-b border-gray-300 overflow-hidden relative">
           <!-- Background Slider -->
           <div
             class="absolute top-0 bottom-0 w-1/2 transition-transform duration-300"
             :class="{
-              'border-b-2 border-purple-300 translate-x-0': activeButton === 'borrow',
-              'border-b-2 border-yellow-200 translate-x-full': activeButton === 'return',
+              'border-b-2 border-purple-300 translate-x-0':
+                activeButton === 'borrow',
+              'border-b-2 border-yellow-200 translate-x-full':
+                activeButton === 'return',
             }"
           ></div>
 
@@ -41,11 +43,11 @@
   </div>
 
   <!-- Conditionally Render Components -->
-  <div class="mt-4 mx-auto max-w-4xl">
+  <div class="mx-auto max-w-2xl">
     <DataTransitionCreditorBorrow v-if="activeButton === 'borrow'" />
     <DataTransitionCreditorReturn v-else />
   </div>
-  <div class="mt-4 flex justify-center w-full">
+  <div class="flex justify-center w-full mb-12">
     <ButtonDashboard />
   </div>
 </template>

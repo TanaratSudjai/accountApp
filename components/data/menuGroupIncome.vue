@@ -58,50 +58,67 @@
           </div>
 
           <!-- Account Cards -->
-          <div class="p-1">
-            <div class="max-h-60 overflow-y-auto space-y-4 pr-2 custom-scrollbar">
-              <TransitionGroup name="account-list" tag="div"
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
-                <div v-for="menu in menuGroup" :key="menu.account_type_id" class="group">
-                  <button v-if="selectedCategory === menu.account_category_id" @click="openUpdateModal(menu)" :class="{
-                    hidden: disabledAccountTypeIds.has(menu.account_type_id),
-                  }" :disabled="disabledAccountTypeIds.has(menu.account_type_id)"
-                    class="w-full relative p-1 rounded-lg border-2 border-gray-200 bg-gradient-to-r from-white to-gray-50 hover:from-green-50 hover:to-emerald-50 hover:border-green-300 transition-all duration-300 hover:shadow-sm transform focus:outline-none focus:ring-4 focus:ring-green-100">
-                    <div class="relative flex items-center justify-between">
-                      <!-- Left section with icon and name -->
-                      <div class="flex items-center space-x-2">
-                        <div class="text-left">
-                          <h3
-                            class="font-bold text-gray-800 text-md group-hover:text-green-700 transition-colors duration-300">
-                            {{ menu.account_type_name }}
-                          </h3>
-                          <div class="flex items-center space-x-2">
-                            <!-- <span
-                              class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-600">
-                              ID: {{ menu.account_type_id }}
-                            </span> -->
-                            <span class="text-xs text-gray-500">คลิกเพื่อเพิ่ม</span>
-                          </div>
-                        </div>
-                      </div>
+          <div class="p-2">
+            <div
+              class="max-h-60 overflow-y-auto space-y-2 sm:space-y-4 pr-2 custom-scrollbar"
+            >
+              <TransitionGroup
+                name="account-list"
+                tag="div"
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3"
+              >
+                <div
+                  v-for="menu in menuGroup"
+                  :key="menu.account_type_id"
+                  class="group"
+                >
+                  <button
+                    v-if="selectedCategory === menu.account_category_id"
+                    @click="openUpdateModal(menu)"
+                    :class="{
+                      hidden: disabledAccountTypeIds.has(menu.account_type_id),
+                    }"
+                    :disabled="disabledAccountTypeIds.has(menu.account_type_id)"
+                    class="w-full relative p-3 rounded-lg border-2 border-gray-200 bg-gradient-to-r from-white to-gray-50 hover:from-green-50 hover:to-emerald-50 hover:border-green-300 hover:shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-100"
+                  >
+                    <!-- Background decoration -->
+                    <div
+                      class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-200/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    ></div>
 
-                      <!-- Right section with value -->
-                      <div class="text-right ">
+                    <!-- Main content container - Horizontal layout -->
+                    <div class="relative flex items-center space-x-3">
+                      <!-- Account icon - Left side -->
+                      <div class="flex-shrink-0">
                         <div
-                          class="text-md font-bold text-gray-800 group-hover:text-green-700 transition-colors duration-300">
-                          ฿{{ formatNumber(menu.account_type_value) }}
+                          class="w-10 h-10 p-2 bg-gradient-to-br from-gray-100 to-gray-200 group-hover:from-green-100 group-hover:to-emerald-200 rounded-lg transition-all duration-300 flex items-center justify-center"
+                        >
+                          <img
+                            :src="`/icon_folder/${menu.account_icon_name}`"
+                            :alt="menu.account_icon_name"
+                            class="w-6 h-6 object-cover rounded group-hover:scale-110 transition-transform duration-300"
+                          />
                         </div>
-                        <div class="text-xs text-gray-500">ค่าเริ่มต้น</div>
                       </div>
 
-                      <!-- Edit indicator -->
-                      <!-- <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
-                          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                          </svg>
+                      <!-- Text content - Right side -->
+                      <div class="flex-grow min-w-0">
+                        <!-- Account name -->
+                        <h3
+                          class="font-semibold text-gray-800 text-sm leading-tight group-hover:text-green-700 transition-colors duration-300 truncate"
+                        >
+                          {{ menu.account_type_name }}
+                        </h3>
+
+                        <!-- Account value -->
+                        <div class="mt-1">
+                          <span
+                            class="inline-flex items-center px-2 py-0.5 bg-gray-100 group-hover:bg-green-100 rounded text-xs font-medium text-gray-700 group-hover:text-green-800 transition-colors duration-300"
+                          >
+                            ฿{{ formatNumber(menu.account_type_value) }}
+                          </span>
                         </div>
-                      </div> -->
+                      </div>
                     </div>
                   </button>
                 </div>
@@ -109,28 +126,44 @@
             </div>
 
             <!-- Empty state -->
-            <div v-if="
-              menuGroup.filter(
-                (menu) =>
-                  selectedCategory === menu.account_category_id &&
-                  !disabledAccountTypeIds.has(menu.account_type_id)
-              ).length === 0
-            " class="text-center p-2">
-              <div class="relative inline-flex items-center justify-center mb-6">
+            <div
+              v-if="
+                menuGroup.filter(
+                  (menu) =>
+                    selectedCategory === menu.account_category_id &&
+                    !disabledAccountTypeIds.has(menu.account_type_id)
+                ).length === 0
+              "
+              class="text-center p-8"
+            >
+              <div
+                class="relative inline-flex items-center justify-center mb-6"
+              >
                 <div
-                  class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full blur-xl opacity-20 animate-ping">
-                </div>
+                  class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full blur-xl opacity-20 animate-ping"
+                ></div>
                 <div
-                  class="relative w-12 h-12 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center ">
-                  <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
-                    </path>
+                  class="relative w-16 h-16 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center"
+                >
+                  <svg
+                    class="w-8 h-8 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                    ></path>
                   </svg>
                 </div>
               </div>
               <h3 class="text-lg font-bold text-gray-600 mb-2">ไม่พบบัญชี</h3>
-              <p class="text-gray-500 text-xs">ไม่มีบัญชีที่สามารถแก้ไขได้ในขณะนี้</p>
+              <p class="text-gray-500 text-sm">
+                ไม่มีบัญชีที่สามารถแก้ไขได้ในขณะนี้
+              </p>
             </div>
           </div>
         </div>

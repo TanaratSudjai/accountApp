@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-1 p-1 ">
+  <div class="flex gap-1">
     <button class="w-full">
       <div class="">
         <div class="flex flex-col items-end justify-start">
