@@ -113,12 +113,15 @@ const breadcrumbsForGroup = ref([
 const fetchCategory = async () => {
   try {
     const response = await $axios.get(`/category/${groupID}`);
-    const data = await response.data;
-    CategoryData.value = data;
+    CategoryData.value = response.data;
   } catch (error) {
-    console.log("Error fetching group data:", error);
+    if (process.env.NODE_ENV !== 'production') {
+      console.error("Error fetching group data:", error);
+    }
+
   }
 };
+
 
 const fetchGroup = async () => {
   try {

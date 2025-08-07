@@ -273,6 +273,30 @@
             </div>
           </div>
         </div>
+        <!-- Pagination Controls -->
+        <div class="mt-4 flex justify-center items-center gap-2">
+          <button
+            class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50"
+            :disabled="page === 1"
+            @click="
+              page--;
+              bankTransition();
+            "
+          >
+            ก่อนหน้า
+          </button>
+          <span>หน้า {{ page }} / {{ totalPages }}</span>
+          <button
+            class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50"
+            @click="
+              page++;
+              bankTransition();
+            "
+            :disabled="bankData.length < limit"
+          >
+            ถัดไป
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -286,6 +310,9 @@ const accountTypeValue = ref(0);
 const bankData = ref([]);
 const { $axios } = useNuxtApp();
 const { formatDateTime } = useFormatDateTime();
+const page = ref(1);
+const limit = ref(5);
+const totalPages = ref(1);
 
 const maxAccountTypeId = computed(() => {
   // ป้องกัน bankData ไม่ใช่ array
@@ -382,9 +409,12 @@ const handleOkClick = async () => {
 
 const bankTransition = async () => {
   try {
-    const response = await $axios.get(`/creditor_transition`);
+    const response = await $axios.get(`/creditor_transition`, {
+      params: { page: page.value, limit: limit.value }
+    });
     const data = await response.data;
-    bankData.value = data.data_transition_bank;
+    bankData.value = data.data;
+    totalPages.value = data.total_page || 1; 
   } catch (error) {
     console.error("Error fetching transition group One:", error);
   }

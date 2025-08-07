@@ -31,7 +31,4 @@ const sumvalue_extend = computed(() => {
     .toFixed(2);
 });
 
-onMounted(() => {
-  store.fetchTransitions();
-});
 </script>

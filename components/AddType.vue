@@ -94,7 +94,7 @@ const fetchIcon = async () => {
     const data = await response.data;
     icons.value = data.data;
   } catch (error) {
-    console.log("No data", error);
+    
   }
 };
 
@@ -162,7 +162,9 @@ const fetchTypeData = async () => {
     const data = await response.data;
     typeData.value = data.account_type;
   } catch (error) {
-    console.error("Error fetching icons:", error);
+    if (process.env.NODE_ENV !== 'production') {
+      console.error("Error fetching icons:", error);
+    }
   }
 };
 
@@ -200,7 +202,7 @@ const submitForm = async () => {
     selectedIcon.value = null;
     fetchType();
   } catch (error) {
-    console.log("Error creating account group:", error.response?.data || error);
+    console.error("Error creating account group:");
   }
 };
 
@@ -211,7 +213,7 @@ const fetchType = async () => {
     const data = await response;
     TypeData.value = data.account_type;
   } catch (error) {
-    console.log("Error fetching group data:", error);
+    console.error("Error fetching group data:");
   }
 };
 

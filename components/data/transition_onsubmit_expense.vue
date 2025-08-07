@@ -213,7 +213,4 @@ const deleteTransection = async (id, value) => {
   }
 };
 
-onMounted(() => {
-  store.fetchTransitions();
-});
 </script>

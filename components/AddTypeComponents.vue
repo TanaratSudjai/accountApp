@@ -74,7 +74,7 @@ const fetchCategory = async () => {
     const data = await response.data;
     CategoryData.value = data;
   } catch (error) {
-    console.log("Error fetching group data:", error);
+    console.error("Error fetching group data:");
   }
 };
 
@@ -84,7 +84,7 @@ const fetchGroup = async () => {
     const data = await response.data;
     GroupData.value = data.account_group_by_id;
   } catch (error) {
-    console.log("Error fetching group data:", error);
+    console.error("Error fetching group data:");
   }
 };
 

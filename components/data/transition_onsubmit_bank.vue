@@ -41,10 +41,10 @@
                     ]"
                   />
                   <div class="relative">
-                    <p class="font-medium text-xs md:text-sm  text-gray-900">
+                    <p class="font-medium text-xs md:text-sm text-gray-900">
                       {{ item.account_type_name }}
                     </p>
-                    <p class="text-xs md:text-sm  text-gray-600">
+                    <p class="text-xs md:text-sm text-gray-600">
                       ยอดเงินที่มี {{ formatNumber(item.account_type_total) }}
                     </p>
                   </div>
@@ -52,10 +52,10 @@
               </button>
 
               <div v-else class="border border-gray-200 p-4 bg-gray-50">
-                <p class="font-medium text-xs md:text-sm  text-gray-400">
+                <p class="font-medium text-xs md:text-sm text-gray-400">
                   {{ item.account_type_name }}
                 </p>
-                <p class="text-xs md:text-sm   text-gray-400">ไม่มียอดเงิน</p>
+                <p class="text-xs md:text-sm text-gray-400">ไม่มียอดเงิน</p>
               </div>
             </div>
           </div>
@@ -172,8 +172,7 @@
                     {{ bankDatas.account_type_from_name }}
                   </p>
                   <p class="text-sm text-gray-500">
-                    {{ formatDateTime(bankDatas.account_transition_datetime) }} 
-                    
+                    {{ formatDateTime(bankDatas.account_transition_datetime) }}
                   </p>
                   <p class="text-sm text-gray-500">
                     {{ bankDatas.account_transition_value }}
@@ -203,6 +202,30 @@
             </div>
           </div>
         </div>
+        <!-- Pagination Controls -->
+        <div class="mt-4 flex justify-center items-center gap-2">
+          <button
+            class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50"
+            :disabled="page === 1"
+            @click="
+              page--;
+              bankTransition();
+            "
+          >
+            ก่อนหน้า
+          </button>
+          <span>หน้า {{ page }} / {{ totalPages }}</span>
+          <button
+            class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50"
+            @click="
+              page++;
+              bankTransition();
+            "
+            :disabled="bankData.length < limit"
+          >
+            ถัดไป
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -219,10 +242,16 @@ const { $axios } = useNuxtApp();
 const { formatNumber } = useFormatNumber();
 const { formatDateTime } = useFormatDateTime(); // or adjust path
 
+const page = ref(1);
+const limit = ref(5);
+const totalPages = ref(1);
+
 const maxAccountTypeId = computed(() => {
   // ป้องกัน bankData ไม่ใช่ array
   const arr = Array.isArray(bankData.value) ? bankData.value : [];
-  return arr.length ? Math.max(...arr.map((item) => item.account_transition_id)) : null;
+  return arr.length
+    ? Math.max(...arr.map((item) => item.account_transition_id))
+    : null;
 });
 
 const catData = ref([]);
@@ -276,7 +305,6 @@ const isButtonDisabled = computed(() => {
   return false;
 });
 
-
 const fetchCat = async () => {
   try {
     const res = await $axios.get("/get_type_from_id");
@@ -291,7 +319,6 @@ const fetchCat = async () => {
 
 onMounted(async () => {
   await Promise.all([fetchCat(), bankTransition()]);
-
 });
 
 const toggleColumnOne = (type) => {
@@ -364,9 +391,12 @@ const handleOkClick = async () => {
 // debug get data bank transition
 const bankTransition = async () => {
   try {
-    const response = await $axios.get(`/transition_bank`);
+    const response = await $axios.get(`/transition_bank`, {
+      params: { page: page.value, limit: limit.value }
+    });
     const data = await response.data;
-    bankData.value = data.data_transition_bank;
+    bankData.value = data.data;
+    totalPages.value = data.total_page || 1;
   } catch (error) {
     console.error("Error fetching transition group One:", error);
   }

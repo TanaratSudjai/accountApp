@@ -53,7 +53,7 @@ const fetchGroup = async () => {
     const data = await response.data;
     GroupData.value = data;
   } catch (error) {
-    console.log("Error fetching group data:", error);
+    console.error("Error fetching group data:");
   }
 };
 

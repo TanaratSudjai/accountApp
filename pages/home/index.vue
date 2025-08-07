@@ -104,7 +104,7 @@
 
           <div v-if="checkData && checkData.length > 0">
             <div
-              v-for="(transaction, index) in paginatedTransactions"
+              v-for="(transaction, index) in checkData"
               :key="transaction.account_transition_id"
               class="flex p-[15px] items-center border-b-2 last:border-b-0"
             >
@@ -271,23 +271,21 @@
                 {{ formatCurrency(transaction.account_transition_value) }}
               </div>
             </div>
+            <!-- Pagination Controls -->
+            <!-- Pagination Controls -->
             <div class="mt-4 flex justify-center items-center gap-2">
               <button
-                @click="currentPage--"
-                :disabled="currentPage === 1"
                 class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50"
+                :disabled="page === 1"
+                @click="page > 1 && (page--, fetchData())"
               >
                 ก่อนหน้า
               </button>
-
-              <span class="text-sm"
-                >หน้า {{ currentPage }} / {{ totalPages }}</span
-              >
-
+              <span>หน้า {{ page }} / {{ totalPages }}</span>
               <button
-                @click="currentPage++"
-                :disabled="currentPage === totalPages"
                 class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50"
+                :disabled="page === totalPages"
+                @click="page < totalPages && (page++, fetchData())"
               >
                 ถัดไป
               </button>
@@ -342,6 +340,9 @@ let nameuser = ref("");
 const { formatNumber } = useFormatNumber();
 const { $axios } = useNuxtApp();
 const showAllTransactions = ref(false);
+const page = ref(1);
+const limit = ref(5);
+const totalPages = ref(1);
 
 const showModifyFund = ref(false);
 const openModifyFundModal = () => {
@@ -350,12 +351,18 @@ const openModifyFundModal = () => {
 
 const fetchData = async () => {
   try {
-    const response = await $axios.get("/transitions");
-    checkData.value = response.data.res_transition;
-    checkData_depter.value = response.data.data[0];
-    checkData_creditor.value = response.data.data[1];
-    checkCheck_open.value = response.data.data[2];
-    amount.value = response.data.data[3];
+    const response = await $axios.get("/transitions", {
+      params: { page: page.value, limit: limit.value },
+    });
+    // Use response.data.data for transactions
+    checkData.value = response.data.data;
+    // Use response.data.summary for summary values
+    checkData_depter.value = response.data.summary[0];
+    checkData_creditor.value = response.data.summary[1];
+    checkCheck_open.value = response.data.summary[2];
+    amount.value = response.data.summary[3];
+    // Set totalPages from backend
+    totalPages.value = response.data.total_page || 1;
   } catch (error) {
     console.log(error);
   }
@@ -367,19 +374,6 @@ const formatCurrency = (value) => {
     maximumFractionDigits: 2,
   }).format(parseFloat(value));
 };
-
-const currentPage = ref(1);
-const itemsPerPage = 5;
-
-const totalPages = computed(() => {
-  return Math.ceil(checkData.value.length / itemsPerPage);
-});
-
-const paginatedTransactions = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  return checkData.value.slice(start, end);
-});
 
 // Helper function to format datetime
 const formatDateTime = (datetime) => {
@@ -539,7 +533,9 @@ watch(
       );
       if (manageCat) manageCat.id = 10;
 
-      const openAcc = menuItems.value.find((item) => item.title === "เปิดบัญชี");
+      const openAcc = menuItems.value.find(
+        (item) => item.title === "เปิดบัญชี"
+      );
       if (openAcc) openAcc.id = 11;
 
       // ถ้าจำเป็นต้อง sort menuItems, ให้ clone ก่อนแล้วค่อยเปลี่ยน
@@ -549,7 +545,6 @@ watch(
   },
   { immediate: true }
 );
-
 
 const filteredMenuItems = computed(() => {
   return menuItems.value.filter((item) => {
@@ -579,19 +574,4 @@ const isDisabled_icons = (title) => {
     }
   }
 };
-
-const sortedMenuItems = computed(() => {
-  const items = [...menuItems.value];
-
-  const accountTypeSum = checkData.value[0]?.account_type_sum;
-  if (accountTypeSum && parseFloat(accountTypeSum) > 0) {
-    const manageCat = items.find((item) => item.title === "จัดการหมวดหมู่");
-    if (manageCat) manageCat.id = 10;
-
-    const openAcc = items.find((item) => item.title === "เปิดบัญชี");
-    if (openAcc) openAcc.id = 11;
-  }
-
-  return items.sort((a, b) => a.id - b.id);
-});
 </script>
