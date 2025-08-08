@@ -2,7 +2,7 @@
   <BackComponents />
   <div class="flex justify-center items-center">
     <div
-      class="flex items-center justify-center mb-10 w-full flex-col max-w-6xl"
+      class="flex items-center justify-center mb-10 w-full flex-col max-w-3xl"
     >
       <div class="rounded-2xl w-full">
         <DataGroup ref="dataGroupRef"></DataGroup>

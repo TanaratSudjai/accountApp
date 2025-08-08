@@ -1,7 +1,7 @@
 <template>
   <BackComponents />
   <div v-if="!TypeData || TypeData.length === 0"
-    class="flex flex-col items-center justify-center p-12 text-center  mx-4 mt-6">
+    class="flex flex-col items-center justify-center p-12 text-center  mx-4 mt-6 ">
     <div
       class="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center shadow-sm">
       <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -23,15 +23,15 @@
     </NuxtLink>
   </div>
 
-  <div v-else class="flex w-full justify-center mt-3 px-4">
-    <div class="w-full ">
+  <div v-else class="flex w-full justify-center mt-3 px-4 ">
+    <div class="w-full max-w-6xl">
       <!-- Header Section -->
       <div class="text-center mb-8">
         <h1 class="text-lg md:text-2xl lg:text-3xl font-bold text-sky-600 mb-2">รายการประเภท</h1>
         <p class="text-gray-600">จัดการและดูข้อมูลประเภทบัญชีของคุณ</p>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-1">
         <div v-for="Type in TypeData" :key="Type.account_type_id"
           class="bg-white rounded-lg border border-gray-200 hover:border-sky-200 p-3 transition-all duration-300 hover:-translate-y-1 group">
           <!-- Header with Icon and Title -->
@@ -44,10 +44,11 @@
               </div>
             </div>
             <div class="flex-1">
-              <h3 class="text-xl font-bold text-sky-600 mb-1 group-hover:text-sky-700 transition-colors duration-300">
+              <h3
+                class="text-md md:text-lg lg:text-xl font-bold text-sky-600 mb-1 group-hover:text-sky-700 transition-colors duration-300">
                 {{ Type.account_type_name }}
               </h3>
-              <div class="flex items-center text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full w-fit">
+              <div class="flex items-center text-xs text-gray-500 bg-gray-50 rounded-full w-fit">
                 <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z">
@@ -63,8 +64,8 @@
             <!-- Value Card -->
             <div class="bg-gradient-to-r from-sky-50 to-sky-50 border border-sky-100 rounded-xl p-2">
               <div class="flex justify-between items-center">
-                <span class="text-sky-700 font-semibold text-sm">ค่าตั้งต้น</span>
-                <span class="font-bold text-xl text-sky-800">
+                <span class="text-sky-700 font-semibold text-xs sm:text-md md:text-lg lg:text-xl">ค่าตั้งต้น</span>
+                <span class="font-bold text-xs sm:text-md md:text-lg lg:text-xl text-sky-800">
                   {{ formatNumber(Type.account_type_value) }}
                 </span>
               </div>
@@ -79,8 +80,9 @@
                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <div>
-                  <span class="text-gray-600 font-medium text-sm block mb-1">รายละเอียด</span>
-                  <span class="text-gray-800">{{
+                  <span
+                    class="text-gray-600 font-medium text-xs sm:text-md md:text-lg lg:text-xl block">รายละเอียด</span>
+                  <span class="text-gray-800 text-xs sm:text-md md:text-lg lg:text-xl">{{
                     Type.account_type_description
                   }}</span>
                 </div>
@@ -96,8 +98,8 @@
                   </path>
                 </svg>
                 <div>
-                  <span class="text-blue-600 font-medium text-xs md:text-sm lg:text-base block">ประเภท</span>
-                  <span class="text-blue-800 font-semibold text-xs md:text-sm lg:text-base">{{
+                  <span class="text-blue-600 font-medium text-xs sm:text-md md:text-lg lg:text-xl block">ประเภท</span>
+                  <span class="text-blue-800 font-semibold text-xs sm:text-md md:text-lg lg:text-xl">{{
                     getAccountTypeName(Type.account_type_from_id)
                   }}</span>
                 </div>
@@ -106,14 +108,14 @@
           </div>
 
           <!-- Action Buttons -->
-          <div class="flex space-x-3 mt-1  border-t border-gray-100">
+          <div class="flex gap-1 mt-2 border-t border-gray-100">
             <button @click="deleteFormData(Type.account_type_id)"
-              class="flex items-center justify-center bg-gray-500 hover:bg-gray-600 text-white px-2 py-1 rounded-lg transition-all duration-200 font-medium shadow-sm hover:shadow-md transform hover:scale-105 flex-1">
+              class=" text-md md:text-lg lg:text-xl flex items-center justify-center bg-gray-500 hover:bg-gray-600 text-white px-2 py-1 rounded-lg transition-all duration-200 font-medium shadow-sm hover:shadow-md transform hover:scale-105 flex-1">
               <Trash2 class="w-4 h-4 mr-2" />
               ลบ
             </button>
             <button @click="openUpdateModal(Type)"
-              class="flex items-center justify-center bg-sky-500 hover:bg-sky-600 text-white px-2 py-1 rounded-lg transition-all duration-200 font-medium shadow-sm hover:shadow-md transform hover:scale-105 flex-1">
+              class=" text-md md:text-lg lg:text-xl flex items-center justify-center bg-sky-500 hover:bg-sky-600 text-white px-2 py-1 rounded-lg transition-all duration-200 font-medium shadow-sm hover:shadow-md transform hover:scale-105 flex-1">
               <Pencil class="w-4 h-4 mr-2" />
               แก้ไข
             </button>
@@ -131,8 +133,8 @@
             class="rounded-full w-16 h-16 bg-sky-100 group-hover:bg-sky-200 flex justify-center items-center mb-4 shadow-sm transition-colors duration-300">
             <Plus class="w-8 h-8 text-sky-600" />
           </div>
-          <span class="text-sky-600 font-semibold text-lg">เพิ่มประเภทใหม่</span>
-          <span class="text-gray-500 text-sm mt-1">คลิกเพื่อเริ่มต้น</span>
+          <span class="text-sky-600 font-semibold text-xs sm:text-md md:text-lg lg:text-xl">เพิ่มประเภทใหม่</span>
+          <span class="text-gray-500 text-xs sm:text-md md:text-lg lg:text-xl mt-1">คลิกเพื่อเริ่มต้น</span>
         </NuxtLink>
       </div>
 
@@ -151,23 +153,7 @@ const groupID = route.params.id;
 const { $axios } = useNuxtApp();
 const typeID = route.params.id;
 const groupIDforAdd = route.query.groupID || "";
-
-// formattedValue form composables
 const { formatNumber } = useFormatNumber();
-// -------------------------------------------------------------------------------------
-const selected = ref(null);
-const toggleSelect = (type) => {
-  if (
-    selected.value &&
-    selected.value.account_type_id === type.account_type_id
-  ) {
-    selected.value = null;
-    formData.value.account_type_from_id = "";
-  } else {
-    selected.value = type;
-    formData.value.account_type_from_id = type.account_type_id;
-  }
-};
 
 const getAccountTypeName = (id) => {
   const account = typeDataID.value.find((type) => type.account_type_id === id);
@@ -184,71 +170,33 @@ const formData = ref({
 });
 
 const typeData = ref([]);
-const fetchTypeData = async () => {
+const typeDataID = ref([]);
+const TypeData = ref([]);
+
+const FetchTypeDataAndDataId = async () => {
   try {
     const response = await $axios.get(`/account_type_get`);
     const data = await response.data;
+    console.log(data.account_type);
+    typeDataID.value = data.account_type;
     typeData.value = data.account_type;
   } catch (error) {
     console.error("Error fetching icons:", error);
   }
 };
-
-const typeDataID = ref([]);
-const fetchTypeDataID = async () => {
-  try {
-    const response = await $axios.get(`/account_type_get`);
-    const data = await response.data;
-    typeDataID.value = data.account_type;
-  } catch (error) {
-    console.error("Error fetching icons:", error);
-  }
-};
-
-const submitForm = async () => {
-  try {
-    const response = await $axios.post("/account_type_create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData.value),
-    });
-
-    const result = await response.json();
-
-    formData.value = {
-      account_type_name: "",
-      account_type_value: "",
-      account_type_description: "",
-      account_type_from_id: "",
-      account_type_icon: "",
-      account_group_id: "",
-    };
-
-    selected.value = null;
-    fetchType();
-  } catch (error) {
-    console.log("Error creating account group:", error);
-  }
-};
-
-const TypeData = ref([]);
-
 const fetchType = async () => {
   try {
     const response = await $axios.get(`/account_type_get/${groupID}`);
     const data = await response.data;
     TypeData.value = data.account_type;
+
   } catch (error) {
     console.error("Error fetching group data:", error);
   }
 };
-
 onMounted(async () => {
   fetchType();
-  fetchTypeData();
-  fetchTypeDataID();
+  FetchTypeDataAndDataId();
 });
 
 const deleteFormData = async (account_type_id) => {
@@ -269,10 +217,6 @@ const deleteFormData = async (account_type_id) => {
     console.error("Error deleting group:", error);
   }
 };
-
-import UpdateTypeModal from "../../components/UpdateTypeModal.vue";
-import BackComponentsForTypeForm1 from "~/components/BackComponentsForTypeForm1.vue";
-
 const showUpdateModal = ref(false);
 const selectedAccountType = ref({});
 

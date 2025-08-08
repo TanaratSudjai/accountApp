@@ -1,14 +1,10 @@
 <template>
   <div class="min-h-screen font-noto">
     <div class="container mx-auto p-4">
-      <div
-        class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2 max-w-4xl mx-auto"
-      >
+      <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2 max-w-4xl mx-auto">
         <div class="p-1 rounded-lg mb-6 border border-gray-200">
           <div class="flex items-center mb-[20px] text-black">
-            <div
-              class="w-[60px] h-[60px] rounded-full bg-[#fff] flex items-center justify-center"
-            >
+            <div class="w-[60px] h-[60px] rounded-full bg-[#fff] flex items-center justify-center">
               <div class="text-3xl text-black">
                 <UserRound class="w-10 h-10 text-sky-600" />
               </div>
@@ -23,10 +19,7 @@
                     }}</span>
                   </h1>
                 </div>
-                <span
-                  @click="openModifyFundModal()"
-                  class="text-xl md:text-2xl flex items-center gap-2"
-                >
+                <span @click="openModifyFundModal()" class="text-xl md:text-2xl flex items-center gap-2">
                   <Settings class="text-sky-600" />
                 </span>
               </div>
@@ -42,130 +35,87 @@
           </div>
         </div>
       </div>
-      <div
-        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-w-4xl mx-auto"
-      >
-        <NuxtLink
-          v-for="(item, index) in filteredMenuItems"
-          :key="item.id"
-          :to="isDisabled(item.title) ? item.path_name || '#' : item.route"
-          :class="[
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-w-4xl mx-auto">
+        <NuxtLink v-for="(item, index) in filteredMenuItems" :key="item.id"
+          :to="isDisabled(item.title) ? item.path_name || '#' : item.route" :class="[
             'relative group backdrop-blur-sm hover:text-sky-600',
             isDisabled(item.title) ? 'opacity-60' : 'hover:scale-105 ',
             'transition-all duration-300 ease-out',
-          ]"
-          @click="isDisabled(item.title) && $event.preventDefault()"
-        >
-          <div
-            :class="[
-              'border border-gray-200 rounded-lg',
-              'bg-sky-600 text-white',
-              'flex flex-col items-center justify-center',
-              'min-h-[140px]',
-              !isDisabled(item.title) &&
-                ' border-gray-200 hover:border-sky-300 hover:text-sky-600',
-            ]"
-          >
-            <div
-              :class="[
-                'rounded-xl ',
-                'transition-transform duration-300 group-hover:scale-110',
-                item.color || 'text-white',
-              ]"
-            >
+          ]" @click="isDisabled(item.title) && $event.preventDefault()">
+          <div :class="[
+            'border border-gray-200 rounded-lg',
+            'bg-sky-600 text-white',
+            'flex flex-col items-center justify-center',
+            'min-h-[140px]',
+            !isDisabled(item.title) &&
+            ' border-gray-200 hover:border-sky-300 hover:text-sky-600',
+          ]">
+            <div :class="[
+              'rounded-xl ',
+              'transition-transform duration-300 group-hover:scale-110',
+              item.color || 'text-white',
+            ]">
               <div class="bg-white rounded-full p-2">
-                <component
-                  :is="
-                    isDisabled_icons(item.title)
-                      ? item.isDisabled_icons
-                      : item.icon
-                  "
-                  class="w-8 h-8"
-                />
+                <component :is="isDisabled_icons(item.title)
+                  ? item.isDisabled_icons
+                  : item.icon
+                  " class="w-8 h-8" />
               </div>
             </div>
 
             <!-- Title -->
-            <span
-              class="mt-4 text-xs md:text-sm font-medium text-white text-center"
-            >
+            <span class="mt-4 text-xs md:text-sm font-medium text-white text-center">
               {{ item.title }}
             </span>
           </div>
         </NuxtLink>
       </div>
-      <div
-        class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2 max-w-4xl mx-auto"
-      >
-        <div
-          class="bg-white rounded-lg p-4 md:p-6 mt-[25px] border border-gray-200"
-        >
+      <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2 max-w-4xl mx-auto">
+        <div class="bg-white rounded-lg p-4 md:p-6 mt-[25px] border border-gray-200">
           <h2 class="mb-[20px] text-xl md:text-2xl font-bold">รายการล่าสุด</h2>
 
           <div v-if="checkData && checkData.length > 0">
-            <div
-              v-for="(transaction, index) in checkData"
-              :key="transaction.account_transition_id"
-              class="flex p-[15px] items-center border-b-2 last:border-b-0"
-            >
-              <div
-                :class="[
-                  'w-10 h-10 md:w-12 md:h-12 rounded-full flex justify-center items-center mr-[15px]',
-                  transaction.account_category_id === 4
-                    ? 'bg-green-100'
-                    : transaction.account_category_id === 5
+            <div v-for="(transaction, index) in checkData" :key="transaction.account_transition_id"
+              class="flex p-[15px] items-center border-b-2 last:border-b-0">
+              <div :class="[
+                'w-10 h-10 md:w-12 md:h-12 rounded-full flex justify-center items-center mr-[15px]',
+                transaction.account_category_id === 4
+                  ? 'bg-green-100'
+                  : transaction.account_category_id === 5
                     ? 'bg-red-100'
                     : transaction.account_category_from_id === null
-                    ? 'bg-blue-100'
-                    : transaction.account_category_from_id === 6
-                    ? 'bg-yellow-100'
-                    : transaction.account_category_id === 6
-                    ? 'bg-yellow-100'
-                    : transaction.account_category_from_id === 2
-                    ? 'bg-purple-100'
-                    : transaction.account_category_id === 2
-                    ? 'bg-purple-100'
-                    : 'bg-blue-100',
-                ]"
-              >
-                <Plus
-                  v-if="transaction.account_category_id === 4"
-                  class="object-cover text-green-500 w-5 h-5 md:w-6 md:h-6"
-                />
+                      ? 'bg-blue-100'
+                      : transaction.account_category_from_id === 6
+                        ? 'bg-yellow-100'
+                        : transaction.account_category_id === 6
+                          ? 'bg-yellow-100'
+                          : transaction.account_category_from_id === 2
+                            ? 'bg-purple-100'
+                            : transaction.account_category_id === 2
+                              ? 'bg-purple-100'
+                              : 'bg-blue-100',
+              ]">
+                <Plus v-if="transaction.account_category_id === 4"
+                  class="object-cover text-green-500 w-5 h-5 md:w-6 md:h-6" />
 
-                <Minus
-                  v-else-if="transaction.account_category_id === 5"
-                  class="object-cover text-red-500 w-5 h-5 md:w-6 md:h-6"
-                />
-                <Settings
-                  v-else-if="transaction.account_category_from_id === null"
-                  class="object-cover text-blue-500 w-5 h-5 md:w-6 md:h-6"
-                />
-                <Users
-                  v-else-if="transaction.account_category_from_id === 6"
-                  class="object-cover text-yellow-500 w-5 h-5 md:w-6 md:h-6"
-                />
-                <Users
-                  v-else-if="transaction.account_category_id === 6"
-                  class="object-cover text-yellow-500 w-5 h-5 md:w-6 md:h-6"
-                />
-                <Users
-                  v-else-if="transaction.account_category_from_id === 2"
-                  class="object-cover text-purple-500 w-5 h-5 md:w-6 md:h-6"
-                />
-                <Users
-                  v-else-if="transaction.account_category_id === 2"
-                  class="object-cover text-purple-500 w-5 h-5 md:w-6 md:h-6"
-                />
-                <ArrowLeftRight
-                  v-else-if="
-                    (transaction.account_category_id === 1 &&
-                      transaction.account_category_from_id === 1) ||
-                    (transaction.account_category_id === 7 &&
-                      transaction.account_category_from_id === 1)
-                  "
-                  class="object-cover text-blue-500 w-5 h-5 md:w-6 md:h-6"
-                />
+                <Minus v-else-if="transaction.account_category_id === 5"
+                  class="object-cover text-red-500 w-5 h-5 md:w-6 md:h-6" />
+                <Settings v-else-if="transaction.account_category_from_id === null"
+                  class="object-cover text-blue-500 w-5 h-5 md:w-6 md:h-6" />
+                <Users v-else-if="transaction.account_category_from_id === 6"
+                  class="object-cover text-yellow-500 w-5 h-5 md:w-6 md:h-6" />
+                <Users v-else-if="transaction.account_category_id === 6"
+                  class="object-cover text-yellow-500 w-5 h-5 md:w-6 md:h-6" />
+                <Users v-else-if="transaction.account_category_from_id === 2"
+                  class="object-cover text-purple-500 w-5 h-5 md:w-6 md:h-6" />
+                <Users v-else-if="transaction.account_category_id === 2"
+                  class="object-cover text-purple-500 w-5 h-5 md:w-6 md:h-6" />
+                <ArrowLeftRight v-else-if="
+                  (transaction.account_category_id === 1 &&
+                    transaction.account_category_from_id === 1) ||
+                  (transaction.account_category_id === 7 &&
+                    transaction.account_category_from_id === 1)
+                " class="object-cover text-blue-500 w-5 h-5 md:w-6 md:h-6" />
               </div>
 
               <div class="flex-1">
@@ -174,23 +124,23 @@
                     transaction.account_category_id === 4
                       ? transaction.account_type_name
                       : transaction.account_category_id === 5
-                      ? transaction.account_type_name
-                      : transaction.account_category_from_id === null
-                      ? transaction.account_type_name
-                      : transaction.account_category_id === 6
-                      ? transaction.account_type_name
-                      : transaction.account_category_from_id === 6
-                      ? transaction.account_type_name
-                      : transaction.account_category_id === 2
-                      ? transaction.account_type_name
-                      : transaction.account_category_from_id === 2
-                      ? transaction.account_type_name
-                      : (transaction.account_category_id === 1 &&
-                          transaction.account_category_from_id === 1) ||
-                        (transaction.account_category_id === 7 &&
-                          transaction.account_category_from_id === 1)
-                      ? transaction.account_type_name
-                      : "เปิดบัญชี"
+                        ? transaction.account_type_name
+                        : transaction.account_category_from_id === null
+                          ? transaction.account_type_name
+                          : transaction.account_category_id === 6
+                            ? transaction.account_type_name
+                            : transaction.account_category_from_id === 6
+                              ? transaction.account_type_name
+                              : transaction.account_category_id === 2
+                                ? transaction.account_type_name
+                                : transaction.account_category_from_id === 2
+                                  ? transaction.account_type_name
+                                  : (transaction.account_category_id === 1 &&
+                                    transaction.account_category_from_id === 1) ||
+                                    (transaction.account_category_id === 7 &&
+                                      transaction.account_category_from_id === 1)
+                                    ? transaction.account_type_name
+                                    : "เปิดบัญชี"
                   }}
 
                   <span class="text-xs text-gray-500">
@@ -198,23 +148,23 @@
                       transaction.account_category_id === 4
                         ? "รายได้"
                         : transaction.account_category_id === 5
-                        ? "รายจ่าย"
-                        : transaction.account_category_from_id === 6
-                        ? "ให้ยืม"
-                        : transaction.account_category_from_id === 2
-                        ? "คืนไป"
-                        : transaction.account_category_from_id === null
-                        ? "เปิดบัญชี"
-                        : transaction.account_category_id === 6
-                        ? "ให้คืน"
-                        : transaction.account_category_id === 2
-                        ? "ยืมมา"
-                        : (transaction.account_category_id === 1 &&
-                            transaction.account_category_from_id === 1) ||
-                          (transaction.account_category_id === 7 &&
-                            transaction.account_category_from_id === 1)
-                        ? "สลับบัญชี"
-                        : "เปิดบัญชี"
+                          ? "รายจ่าย"
+                          : transaction.account_category_from_id === 6
+                            ? "ให้ยืม"
+                            : transaction.account_category_from_id === 2
+                              ? "คืนไป"
+                              : transaction.account_category_from_id === null
+                                ? "เปิดบัญชี"
+                                : transaction.account_category_id === 6
+                                  ? "ให้คืน"
+                                  : transaction.account_category_id === 2
+                                    ? "ยืมมา"
+                                    : (transaction.account_category_id === 1 &&
+                                      transaction.account_category_from_id === 1) ||
+                                      (transaction.account_category_id === 7 &&
+                                        transaction.account_category_from_id === 1)
+                                      ? "สลับบัญชี"
+                                      : "เปิดบัญชี"
                     }}
                   </span>
                 </h3>
@@ -222,51 +172,46 @@
                 <p class="text-xs md:text-sm text-gray-600">
                   {{ formatDateTime(transaction.account_transition_datetime) }}
                 </p>
-                <p
-                  v-if="transaction.account_type_description"
-                  class="text-xs text-gray-500"
-                >
+                <p v-if="transaction.account_type_description" class="text-xs text-gray-500">
                   {{ transaction.account_type_description }}
                 </p>
               </div>
-              <div
-                :class="[
-                  'font-bold text-base md:text-lg',
-                  transaction.account_category_id === 4
-                    ? 'text-green-500'
-                    : transaction.account_category_from_id === null
+              <div :class="[
+                'font-bold text-base md:text-lg',
+                transaction.account_category_id === 4
+                  ? 'text-green-500'
+                  : transaction.account_category_from_id === null
                     ? 'text-blue-500'
                     : transaction.account_category_id === 5
-                    ? 'text-red-500'
-                    : transaction.account_category_id === 6
-                    ? 'text-green-500'
-                    : transaction.account_category_id === 2
-                    ? 'text-green-500'
-                    : (transaction.account_category_id === 1 &&
-                        transaction.account_category_from_id === 1) ||
-                      (transaction.account_category_id === 7 &&
-                        transaction.account_category_from_id === 1)
-                    ? 'text-blue-500'
-                    : 'text-red-500',
-                ]"
-              >
+                      ? 'text-red-500'
+                      : transaction.account_category_id === 6
+                        ? 'text-green-500'
+                        : transaction.account_category_id === 2
+                          ? 'text-green-500'
+                          : (transaction.account_category_id === 1 &&
+                            transaction.account_category_from_id === 1) ||
+                            (transaction.account_category_id === 7 &&
+                              transaction.account_category_from_id === 1)
+                            ? 'text-blue-500'
+                            : 'text-red-500',
+              ]">
                 {{
                   transaction.account_category_id === 4
                     ? "+"
                     : transaction.account_category_from_id === null
-                    ? ""
-                    : transaction.account_category_id === 5
-                    ? "-"
-                    : transaction.account_category_id === 6
-                    ? "+"
-                    : transaction.account_category_id === 2
-                    ? "+"
-                    : (transaction.account_category_id === 1 &&
-                        transaction.account_category_from_id === 1) ||
-                      (transaction.account_category_id === 7 &&
-                        transaction.account_category_from_id === 1)
-                    ? ""
-                    : "-"
+                      ? ""
+                      : transaction.account_category_id === 5
+                        ? "-"
+                        : transaction.account_category_id === 6
+                          ? "+"
+                          : transaction.account_category_id === 2
+                            ? "+"
+                            : (transaction.account_category_id === 1 &&
+                              transaction.account_category_from_id === 1) ||
+                              (transaction.account_category_id === 7 &&
+                                transaction.account_category_from_id === 1)
+                              ? ""
+                              : "-"
                 }}
                 {{ formatCurrency(transaction.account_transition_value) }}
               </div>
@@ -274,19 +219,13 @@
             <!-- Pagination Controls -->
             <!-- Pagination Controls -->
             <div class="mt-4 flex justify-center items-center gap-2">
-              <button
-                class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50"
-                :disabled="page === 1"
-                @click="page > 1 && (page--, fetchData())"
-              >
+              <button class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50" :disabled="page === 1"
+                @click="page > 1 && (page--, fetchData())">
                 ก่อนหน้า
               </button>
               <span>หน้า {{ page }} / {{ totalPages }}</span>
-              <button
-                class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50"
-                :disabled="page === totalPages"
-                @click="page < totalPages && (page++, fetchData())"
-              >
+              <button class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50"
+                :disabled="page === totalPages" @click="page < totalPages && (page++, fetchData())">
                 ถัดไป
               </button>
             </div>
@@ -300,11 +239,7 @@
     </div>
   </div>
 
-  <ModifyFund
-    :show="showModifyFund"
-    @close="showModifyFund = false"
-    @update="fetchData()"
-  />
+  <ModifyFund :show="showModifyFund" @close="showModifyFund = false" @update="fetchData()" />
 </template>
 
 <script setup>
@@ -354,14 +289,15 @@ const fetchData = async () => {
     const response = await $axios.get("/transitions", {
       params: { page: page.value, limit: limit.value },
     });
-    // Use response.data.data for transactions
     checkData.value = response.data.data;
-    // Use response.data.summary for summary values
-    checkData_depter.value = response.data.summary[0];
-    checkData_creditor.value = response.data.summary[1];
-    checkCheck_open.value = response.data.summary[2];
-    amount.value = response.data.summary[3];
-    // Set totalPages from backend
+    console.log("checkData:", checkData.value);
+
+    // ป้องกัน summary undefined
+    const summary = Array.isArray(response.data.summary) ? response.data.summary : [];
+    checkData_depter.value = summary[0] || { type: "", value: 0 };
+    checkData_creditor.value = summary[1] || { type: "", value: 0 };
+    checkCheck_open.value = summary[2] || { type: "", value: 0 };
+    amount.value = summary[3] || { type: "", value: 0 };
     totalPages.value = response.data.total_page || 1;
   } catch (error) {
     console.log(error);

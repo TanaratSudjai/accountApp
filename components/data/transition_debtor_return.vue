@@ -17,15 +17,15 @@
             <div class="grid grid-cols-2 md:grid-cols-1 gap-2">
               <div v-for="item in debtor" :key="item.account_type_id" class="transition-all duration-200">
                 <button :class="[
-                  'w-full transition-all duration-200 border rounded-md overflow-hidden shadow-sm  focus:outline-none',
+                  'w-full transition-all duration-200 border rounded-md overflow-hidden   focus:outline-none',
                   columnOneSelected &&
                     columnOneSelected.account_type_id === item.account_type_id
                     ? 'border-green-500 ring-2 ring-green-200'
                     : 'border-gray-200 hover:border-green-300',
                 ]" @click="
-                    toggleColumnOne(item);
-                  setColumnValue(item);
-                  ">
+                  toggleColumnOne(item);
+                setColumnValue(item);
+                ">
                   <div class="flex items-center p-1">
                     <div class="flex-shrink-0 mr-4">
                       <div :class="[
@@ -43,8 +43,8 @@
                         </svg>
                       </div>
                     </div>
-                    <div class="flex justify-between flex-1">
-                      <p class="font-medium text-xs md:text-sm">{{ item.account_type_name }}</p>
+                    <div class="flex items-center p-1 gap-1">
+                      <p class="font-medium text-xs md:text-sm text-nowrap">{{ item.account_type_name }}</p>
                       <p :class="[
                         'text-xs md:text-sm lg:text-md font-semibold',
                         columnOneSelected &&
@@ -87,13 +87,13 @@
           <div class="md:col-span-3 space-y-3">
             <span class="text-sm md:text-md  font-medium text-gray-700 mb-3 flex items-center">
               <span
-                class="inline-flex items-center justify-center bg-blue-100 w-6 h-6 rounded-full mr-2 text-blue-600 text-sm">2</span>
+                class="inline-flex items-center justify-center bg-blue-100 w-6 h-6 rounded-full mr-2 text-blue-600 text-xs">2</span>
               ไปยังบัญชี
             </span>
             <div class="grid grid-cols-2 md:grid-cols-1 gap-2">
               <div v-for="item in catData" :key="item.account_type_id" class="transition-all duration-200">
                 <button :class="[
-                  'w-full transition-all duration-200 border rounded-xl overflow-hidden shadow-sm focus:outline-none',
+                  'w-full transition-all duration-200 border rounded-xl overflow-hidden shadow-sm focus:outline-none ',
                   columnTwoSelected &&
                     columnTwoSelected.account_type_id === item.account_type_id
                     ? 'border-blue-500 ring-2 ring-blue-200'
@@ -103,10 +103,10 @@
                       ? 'border-gray-200 bg-gray-100 cursor-not-allowed opacity-60'
                       : 'border-gray-200 hover:border-blue-300 ',
                 ]" @click="toggleColumnTwo(item)" :disabled="columnOneSelected &&
-                    columnOneSelected.account_type_id === item.account_type_id
-                    ">
-                  <div class="flex items-center ">
-                    <div class="flex-shrink-0 p-1">
+                  columnOneSelected.account_type_id === item.account_type_id
+                  ">
+                  <div class="flex items-center p-1">
+                    <div class="flex-shrink-0 mr-4">
                       <div :class="[
                         'w-8 h-8 rounded-full flex items-center justify-center',
                         columnTwoSelected &&
@@ -126,14 +126,14 @@
                         </svg>
                       </div>
                     </div>
-                    <div class="flex justify-between items-center flex-1">
-                      <p class="font-medium">{{ item.account_type_name }}</p>
+                    <div class="flex items-center p-1 gap-2">
+                      <p class="font-medium text-xs md:text-sm">{{ item.account_type_name }}</p>
                       <p :class="[
                         'text-xs md:text-sm lg:text-md font-semibold',
                         columnTwoSelected &&
                           columnTwoSelected.account_type_id ===
                           item.account_type_id
-                          ? 'text-blue-600'
+                          ? 'text-blue-600 '
                           : columnOneSelected &&
                             columnOneSelected.account_type_id ===
                             item.account_type_id
@@ -238,8 +238,8 @@
                     }}</span>
                   </p>
                   <span class="text-xs text-gray-500 ml-2">
-                      Date Time #{{ formatDateTime(bankDatas.account_transition_datetime) }}
-                    </span>
+                    Date Time #{{ formatDateTime(bankDatas.account_transition_datetime) }}
+                  </span>
                   <div class="flex items-center mt-1">
                     <span
                       class="inline-flex items-center text-sm font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded">
@@ -280,25 +280,18 @@
         </div>
         <!-- Pagination Controls -->
         <div class="mt-4 flex justify-center items-center gap-2">
-          <button
-            class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50"
-            :disabled="page === 1"
+          <button class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50" :disabled="page === 1"
             @click="
               page--;
-              bankTransition();
-            "
-          >
+            bankTransition();
+            ">
             ก่อนหน้า
           </button>
           <span>หน้า {{ page }} / {{ totalPages }}</span>
-          <button
-            class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50"
-            @click="
-              page++;
-              bankTransition();
-            "
-            :disabled="bankData.length < limit"
-          >
+          <button class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 disabled:opacity-50" @click="
+            page++;
+          bankTransition();
+          " :disabled="bankData.length < limit">
             ถัดไป
           </button>
         </div>
@@ -460,7 +453,7 @@ const bankTransition = async () => {
     });
     const data = await response.data;
     bankData.value = data.data;
-    totalPages.value = data.total_page || 1; 
+    totalPages.value = data.total_page || 1;
   } catch (error) {
     console.error("Error fetching transition group One:", error);
   }

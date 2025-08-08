@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-6 bg-white h-auto overflow-y-auto text-gray-800 p-6 rounded-md">
+  <div class="pt-6 bg-white h-auto overflow-y-auto text-gray-800 p-2 rounded-md">
     <div v-if="!groupData || groupData.length === 0" class="text-center p-12 text-gray-500 font-medium">
       <div class="mb-8">
         <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center">
@@ -33,7 +33,7 @@
         <p class="text-gray-600">จัดการและดูข้อมูลกลุ่มของคุณ</p>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-1">
         <div v-for="group in groupData" :key="group.account_group_id"
           class="border border-gray-200 rounded-lg bg-white p-2 transition-all duration-300 hover:border-sky-200 group">
           <div @click="goToPath(group.account_group_id, categoryID)" class="cursor-pointer">
@@ -77,7 +77,7 @@
               <button
                 class="bg-gray-500 hover:bg-gray-600 text-white px-2 py-1 md:px-3 md:py-2 rounded-md transition-all duration-200 text-sm font-medium transform"
                 @click="deleteFormData(group.account_group_id)">
-                <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-2 h-2 md:w-3 md:h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
                   </path>
@@ -87,7 +87,7 @@
               <button
                 class="bg-sky-500 hover:bg-sky-600 text-white px-2 py-1 md:px-3 md:py-2 rounded-md transition-all duration-200 text-sm font-medium transform"
                 @click="openUpdateModal(group)">
-                <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-2 h-2 md:w-3 md:h-3 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                   </path>

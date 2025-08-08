@@ -1,6 +1,5 @@
 <template>
-  <div ref="boxRegister"
-    class="  p-2 px-12  rounded-xl flex flex-col justify-center items-center border border-gray-200">
+  <div ref="boxRegister" class="  p-2 px-12  rounded-xl flex flex-col justify-center items-center">
     <div class="my-3 flex flex-col justify-center items-center gap-4">
       <NuxtImg src="./logo.png" alt="" width="80" />
       <text class="text-xl text-sky-600 py-1">สมัครใช้งานระบบ</text>

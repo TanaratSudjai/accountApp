@@ -1,6 +1,6 @@
 <template>
   <div ref="boxRef"
-    class="border border-gray-200 p-8 rounded-xl flex flex-col justify-center items-center w-full h-full">
+    class="border border-gray-100 p-8 rounded-xl flex flex-col justify-center items-center w-full h-full">
     <div class="my-3 flex flex-col justify-center items-center gap-4">
       <NuxtImg src="./logo.png" alt="" width="80" />
       <text class="text-xl text-sky-600 py-1">เข้าสู่ระบบ</text>

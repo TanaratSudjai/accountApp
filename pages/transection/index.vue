@@ -1,6 +1,6 @@
 <template>
   <BackComponents />
-  <div class="container mx-auto  rounded-lg min-h-screen">
+  <div class="container mx-auto max-w-3xl   rounded-lg min-h-screen">
     <div class="flex flex-col items-center w-full min-h-screen w-full mb-[150px]">
       <!-- Header -->
       <div class="mb-2  p-1  text-center border-b border-gray-200  w-full">
@@ -304,11 +304,7 @@ const submitDifferences = async () => {
 const fetchsumone = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await $axios.get(`/getSumGropOne`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await $axios.get(`/getSumGropOne`);
     const data = response.data;
     sumone.value = data;
   } catch (error) {
@@ -319,11 +315,7 @@ const fetchsumone = async () => {
 const fetchsumtwo = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await $axios.get(`/getSumGropTwo`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await $axios.get(`/getSumGropTwo`);
     const data = response.data;
     sumtwo.value = data;
   } catch (error) {
@@ -332,20 +324,16 @@ const fetchsumtwo = async () => {
 };
 
 
+
 const fetchfund = async () => {
   try {
-    const token = localStorage.getItem("token");
-    const response = await $axios.get(`/total_fund`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await $axios.get(`/total_fund`);
 
-    const data = response.data; // No need to await .data
+    const data = response.data;
     sum_cat_one_six_seven.value =
-      data.get_sum_cat_one_six_seven[0]?.total_owner ?? "0.00";
-    sum_cat_two.value = data.get_sum_cat_two[0]?.total_debt ?? "0.00";
-    sum_cat_three.value = data.get_sum_cat_three[0]?.total_fund ?? "0.00";
+      data.get_sum_cat_one_six_seven?.[0]?.total_owner ?? "0.00";
+    sum_cat_two.value = data.get_sum_cat_two?.[0]?.total_debt ?? "0.00";
+    sum_cat_three.value = data.get_sum_cat_three?.[0]?.total_fund ?? "0.00";
   } catch (error) {
     console.error("Error fetching transition:", error);
   }
@@ -361,8 +349,8 @@ const fetchTransition = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const data = await response.data.res_transition;
-    transition.value = data.res_transition;
+    const data = await response.data.data;
+    transition.value = data.data;
   } catch (error) {
     console.error("Error fetching transition:", error);
   }

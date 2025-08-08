@@ -4,71 +4,49 @@
       <!-- Header Controls -->
       <div class="mb-6 flex justify-between items-center">
         <div class="flex gap-4">
-          <button
-            @click="toggleZeroSumVisibility"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200"
-          >
+          <button @click="toggleZeroSumVisibility"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200">
             {{ showZeroSum ? "ซ่อน" : "แสดง" }}
             <span class="ml-2">รายการ</span>
           </button>
-          <button
-            @click="gotoGrap"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200"
-          >
+          <button @click="gotoGrap"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200">
             Graph
           </button>
-          <button
-            @click="gotoReport"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200"
-          >
+          <button @click="gotoReport"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200">
             Report
           </button>
         </div>
       </div>
 
       <!-- Main Table -->
-      <div
-        class="bg-white rounded border border-gray-200 overflow-hidden mb-20"
-      >
+      <div class="bg-white rounded border border-gray-200 overflow-hidden mb-20">
         <div class="overflow-x-auto">
           <table class="w-full border-collapse">
             <!-- Table Header -->
             <!-- Table Header -->
             <thead>
               <tr class="">
-                <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b"
-                >
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b">
                   รายการทั้งหมด
                 </th>
-                <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b text-center"
-                >
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
                   DR (สินทรัพย์, รายจ่าย)
                 </th>
-                <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b text-center"
-                >
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
                   CR (หนี้สิน, ทุน, รายได้)
                 </th>
-                <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b text-center"
-                >
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
                   DR (เฉพาะสินทรัพย์)
                 </th>
-                <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b text-center"
-                >
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
                   CR (เฉพาะหนี้สิน/ทุน)
                 </th>
-                <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b text-center"
-                >
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
                   DR (เฉพาะรายจ่าย)
                 </th>
-                <th
-                  class="px-6 py-4 text-sm font-semibold text-gray-900 border-b text-center"
-                >
+                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
                   CR (เฉพาะรายได้)
                 </th>
               </tr>
@@ -76,120 +54,96 @@
 
             <!-- Table Body -->
             <tbody>
-              <tr
-                v-for="(type_sum, index) in datatype_sum"
-                :key="type_sum.account_type_name"
-                :class="[
-                  'transition-colors duration-200',
-                  {
-                    'bg-yellow-50 hover:bg-yellow-100':
-                      [1, 6, 7].includes(type_sum.account_category_id) &&
-                      index % 2 === 0,
-                    'bg-yellow-100 hover:bg-yellow-200':
-                      [1, 6, 7].includes(type_sum.account_category_id) &&
-                      index % 2 !== 0,
-                    'bg-purple-50 hover:bg-purple-100':
-                      type_sum.account_category_id == 2 && index % 2 === 0,
-                    'bg-purple-100 hover:bg-purple-200':
-                      type_sum.account_category_id == 2 && index % 2 !== 0,
-                    'bg-blue-50 hover:bg-blue-100':
-                      type_sum.account_category_id == 3 && index % 2 === 0,
-                    'bg-blue-100 hover:bg-blue-200':
-                      type_sum.account_category_id == 3 && index % 2 !== 0,
-                    'bg-green-50 hover:bg-green-100':
-                      type_sum.account_category_id == 4 && index % 2 === 0,
-                    'bg-green-100 hover:bg-green-200':
-                      type_sum.account_category_id == 4 && index % 2 !== 0,
-                    'bg-pink-50 hover:bg-pink-100':
-                      type_sum.account_category_id == 5 && index % 2 === 0,
-                    'bg-pink-100 hover:bg-pink-200':
-                      type_sum.account_category_id == 5 && index % 2 !== 0,
-                  },
-                ]"
-              >
+              <tr v-for="(type_sum, index) in datatype_sum" :key="type_sum.account_type_name" :class="[
+                'transition-colors duration-200',
+                {
+                  'bg-yellow-50 hover:bg-yellow-100':
+                    [1, 6, 7].includes(type_sum.account_category_id) &&
+                    index % 2 === 0,
+                  'bg-yellow-100 hover:bg-yellow-200':
+                    [1, 6, 7].includes(type_sum.account_category_id) &&
+                    index % 2 !== 0,
+                  'bg-purple-50 hover:bg-purple-100':
+                    type_sum.account_category_id == 2 && index % 2 === 0,
+                  'bg-purple-100 hover:bg-purple-200':
+                    type_sum.account_category_id == 2 && index % 2 !== 0,
+                  'bg-blue-50 hover:bg-blue-100':
+                    type_sum.account_category_id == 3 && index % 2 === 0,
+                  'bg-blue-100 hover:bg-blue-200':
+                    type_sum.account_category_id == 3 && index % 2 !== 0,
+                  'bg-green-50 hover:bg-green-100':
+                    type_sum.account_category_id == 4 && index % 2 === 0,
+                  'bg-green-100 hover:bg-green-200':
+                    type_sum.account_category_id == 4 && index % 2 !== 0,
+                  'bg-pink-50 hover:bg-pink-100':
+                    type_sum.account_category_id == 5 && index % 2 === 0,
+                  'bg-pink-100 hover:bg-pink-200':
+                    type_sum.account_category_id == 5 && index % 2 !== 0,
+                },
+              ]">
                 <!-- Account Name Column -->
-                <td class="px-6 py-4 border-r">
+                <td class="px-6 py-4 border-r text-nowrap">
                   <div class="flex items-center">
                     <span class="font-medium">{{
                       type_sum.account_type_name
                     }}</span>
-                    <span class="ml-2 text-sm text-gray-500"
-                      >({{ type_sum.account_category_id }})</span
-                    >
+                    <span class="ml-2 text-sm text-gray-500">({{ type_sum.account_category_id }})</span>
                   </div>
                 </td>
 
                 <!-- DR Column 1 -->
-                <td class="px-6 py-4 border-r text-right">
-                  <div
-                    v-if="
-                      type_sum.account_category_id == 1 ||
-                      type_sum.account_category_id == 5 ||
-                      type_sum.account_category_id == 6 ||
-                      type_sum.account_category_id == 7
-                    "
-                    class="font-medium"
-                  >
+                <td class="px-6 py-4 border-r text-nowrap text-right">
+                  <div v-if="
+                    type_sum.account_category_id == 1 ||
+                    type_sum.account_category_id == 5 ||
+                    type_sum.account_category_id == 6 ||
+                    type_sum.account_category_id == 7
+                  " class="font-medium">
                     {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
 
                 <!-- CR Column 1 -->
-                <td class="px-6 py-4 border-r text-right">
-                  <div
-                    v-if="
-                      type_sum.account_category_id >= 2 &&
-                      type_sum.account_category_id <= 4
-                    "
-                    class="font-medium"
-                  >
+                <td class="px-6 py-4 border-r text-nowrap text-right">
+                  <div v-if="
+                    type_sum.account_category_id >= 2 &&
+                    type_sum.account_category_id <= 4
+                  " class="font-medium">
                     {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
 
                 <!-- DR Column 2 -->
-                <td class="px-6 py-4 border-r text-right">
-                  <div
-                    v-if="
-                      type_sum.account_category_id == 1 ||
-                      type_sum.account_category_id == 6 ||
-                      type_sum.account_category_id == 7
-                    "
-                    class="font-medium"
-                  >
+                <td class="px-6 py-4 border-r text-nowrap text-right">
+                  <div v-if="
+                    type_sum.account_category_id == 1 ||
+                    type_sum.account_category_id == 6 ||
+                    type_sum.account_category_id == 7
+                  " class="font-medium">
                     {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
 
                 <!-- CR Column 2 -->
-                <td class="px-6 py-4 border-r text-right">
-                  <div
-                    v-if="
-                      type_sum.account_category_id == 2 ||
-                      type_sum.account_category_id == 3
-                    "
-                    class="font-medium"
-                  >
+                <td class="px-6 py-4 border-r text-nowrap text-right">
+                  <div v-if="
+                    type_sum.account_category_id == 2 ||
+                    type_sum.account_category_id == 3
+                  " class="font-medium">
                     {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
 
                 <!-- DR Column 3 -->
-                <td class="px-6 py-4 border-r text-right">
-                  <div
-                    v-if="type_sum.account_category_id == 5"
-                    class="font-medium"
-                  >
+                <td class="px-6 py-4 border-r text-nowrap text-right">
+                  <div v-if="type_sum.account_category_id == 5" class="font-medium">
                     {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
 
                 <!-- CR Column 3 -->
-                <td class="px-6 py-4 border-r text-right">
-                  <div
-                    v-if="type_sum.account_category_id == 4"
-                    class="font-medium"
-                  >
+                <td class="px-6 py-4 border-r text-nowrap text-right">
+                  <div v-if="type_sum.account_category_id == 4" class="font-medium">
                     {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
@@ -277,63 +231,39 @@
 
                 <!-- ผลต่าง Column 3 vs 4 -->
                 <td class="px-6 py-4 text-right">
-                  <div
-                    v-if="sumColumn3 - sumColumn4 < 0"
-                    class="font-medium text-red-600"
-                  >
+                  <div v-if="sumColumn3 - sumColumn4 < 0" class="font-medium text-red-600">
                     {{ formatNumber(Math.abs(sumColumn3 - sumColumn4)) }}
                   </div>
 
-                  <div
-                    v-if="sumColumn3 - sumColumn4 < 0"
-                    class="text-xs text-gray-500"
-                  >
+                  <div v-if="sumColumn3 - sumColumn4 < 0" class="text-xs text-gray-500">
                     สินทรัพย์ - หนี้สิน/ทุน
                   </div>
                 </td>
 
                 <td class="px-6 py-4 text-right">
-                  <div
-                    v-if="sumColumn4 - sumColumn3 < 0"
-                    class="font-medium text-green-600"
-                  >
+                  <div v-if="sumColumn4 - sumColumn3 < 0" class="font-medium text-green-600">
                     {{ formatNumber(Math.abs(sumColumn4 - sumColumn3)) }}
                   </div>
-                  <div
-                    v-if="sumColumn4 - sumColumn3 < 0"
-                    class="text-xs text-gray-500"
-                  >
+                  <div v-if="sumColumn4 - sumColumn3 < 0" class="text-xs text-gray-500">
                     หนี้สิน/ทุน - สินทรัพย์
                   </div>
                 </td>
 
                 <!-- ผลต่าง Column 5 vs 6 -->
                 <td class="px-6 py-4 text-right">
-                  <div
-                    v-if="sumColumn5 - sumColumn6 < 0"
-                    class="font-medium text-green-600"
-                  >
+                  <div v-if="sumColumn5 - sumColumn6 < 0" class="font-medium text-green-600">
                     {{ formatNumber(Math.abs(sumColumn5 - sumColumn6)) }}
                   </div>
-                  <div
-                    v-if="sumColumn5 - sumColumn6 < 0"
-                    class="text-xs text-gray-500"
-                  >
+                  <div v-if="sumColumn5 - sumColumn6 < 0" class="text-xs text-gray-500">
                     รายจ่าย - รายได้
                   </div>
                 </td>
 
                 <td class="px-6 py-4 text-right">
-                  <div
-                    v-if="sumColumn6 - sumColumn5 < 0"
-                    class="font-medium text-red-600"
-                  >
+                  <div v-if="sumColumn6 - sumColumn5 < 0" class="font-medium text-red-600">
                     {{ formatNumber(Math.abs(sumColumn6 - sumColumn5)) }}
                   </div>
-                  <div
-                    v-if="sumColumn6 - sumColumn5 < 0"
-                    class="text-xs text-gray-500"
-                  >
+                  <div v-if="sumColumn6 - sumColumn5 < 0" class="text-xs text-gray-500">
                     รายได้ - รายจ่าย
                   </div>
                 </td>
@@ -357,48 +287,28 @@
                   {{
                     formatNumber(
                       sumColumn3 +
-                        (sumColumn3 - sumColumn4 < 0
-                          ? Math.abs(sumColumn3 - sumColumn4)
-                          : 0)
-                    )
-                  }}
-                </td>
+                      (sumColumn3 - sumColumn4 < 0 ? Math.abs(sumColumn3 - sumColumn4) : 0)) }} </td>
 
-                <!-- Column 4 -->
+                    <!-- Column 4 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
                   {{
                     formatNumber(
                       sumColumn4 +
-                        (sumColumn4 - sumColumn3 < 0
-                          ? Math.abs(sumColumn4 - sumColumn3)
-                          : 0)
-                    )
-                  }}
-                </td>
+                      (sumColumn4 - sumColumn3 < 0 ? Math.abs(sumColumn4 - sumColumn3) : 0)) }} </td>
 
-                <!-- Column 5 -->
+                    <!-- Column 5 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
                   {{
                     formatNumber(
                       sumColumn5 +
-                        (sumColumn5 - sumColumn6 < 0
-                          ? Math.abs(sumColumn5 - sumColumn6)
-                          : 0)
-                    )
-                  }}
-                </td>
+                      (sumColumn5 - sumColumn6 < 0 ? Math.abs(sumColumn5 - sumColumn6) : 0)) }} </td>
 
-                <!-- Column 6 -->
+                    <!-- Column 6 -->
                 <td class="px-6 py-4 text-right font-bold text-blue-700">
                   {{
                     formatNumber(
                       sumColumn6 +
-                        (sumColumn6 - sumColumn5 < 0
-                          ? Math.abs(sumColumn6 - sumColumn5)
-                          : 0)
-                    )
-                  }}
-                </td>
+                      (sumColumn6 - sumColumn5 < 0 ? Math.abs(sumColumn6 - sumColumn5) : 0)) }} </td>
               </tr>
             </tbody>
           </table>
