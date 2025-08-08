@@ -1,20 +1,20 @@
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="min-h-screen bg-gray-50 py-2">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-2">
       <!-- Header Controls -->
-      <div class="mb-6 flex justify-between items-center">
-        <div class="flex gap-4">
+      <div class="flex justify-between items-center">
+        <div class="flex gap-1">
           <button @click="toggleZeroSumVisibility"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200">
+            class="inline-flex items-center px-2 py-1 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200">
             {{ showZeroSum ? "ซ่อน" : "แสดง" }}
             <span class="ml-2">รายการ</span>
           </button>
           <button @click="gotoGrap"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200">
+            class="inline-flex items-center px-2 py-1 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200">
             Graph
           </button>
           <button @click="gotoReport"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200">
+            class="inline-flex items-center px-2 py-1 border border-gray-300 text-gray-700 hover:bg-gray-20 hover:text-black rounded transition-colors duration-200">
             Report
           </button>
         </div>
@@ -28,25 +28,31 @@
             <!-- Table Header -->
             <thead>
               <tr class="">
-                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b">
+                <th class="p-1 md:p-2 lg:p-3 text-xs md:text-sm font-semibold text-gray-900 text-nowrap border-b">
                   รายการทั้งหมด
                 </th>
-                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
+                <th
+                  class="p-1 md:p-2 lg:p-3 text-xs md:text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
                   DR (สินทรัพย์, รายจ่าย)
                 </th>
-                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
+                <th
+                  class="p-1 md:p-2 lg:p-3 text-xs md:text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
                   CR (หนี้สิน, ทุน, รายได้)
                 </th>
-                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
+                <th
+                  class="p-1 md:p-2 lg:p-3 text-xs md:text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
                   DR (เฉพาะสินทรัพย์)
                 </th>
-                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
+                <th
+                  class="p-1 md:p-2 lg:p-3 text-xs md:text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
                   CR (เฉพาะหนี้สิน/ทุน)
                 </th>
-                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
+                <th
+                  class="p-1 md:p-2 lg:p-3 text-xs md:text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
                   DR (เฉพาะรายจ่าย)
                 </th>
-                <th class="px-6 py-4 text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
+                <th
+                  class="p-1 md:p-2 lg:p-3 text-xs md:text-sm font-semibold text-gray-900 text-nowrap border-b text-center">
                   CR (เฉพาะรายได้)
                 </th>
               </tr>
@@ -82,17 +88,17 @@
                 },
               ]">
                 <!-- Account Name Column -->
-                <td class="px-6 py-4 border-r text-nowrap">
+                <td class="p-1 md:p-2 lg:p-3 border-r text-nowrap">
                   <div class="flex items-center">
                     <span class="font-medium">{{
                       type_sum.account_type_name
                     }}</span>
-                    <span class="ml-2 text-sm text-gray-500">({{ type_sum.account_category_id }})</span>
+                    <span class="ml-2 text-xs md:text-sm text-gray-500">({{ type_sum.account_category_id }})</span>
                   </div>
                 </td>
 
                 <!-- DR Column 1 -->
-                <td class="px-6 py-4 border-r text-nowrap text-right">
+                <td class="p-1 md:p-2 lg:p-3 border-r text-nowrap text-right">
                   <div v-if="
                     type_sum.account_category_id == 1 ||
                     type_sum.account_category_id == 5 ||
@@ -104,7 +110,7 @@
                 </td>
 
                 <!-- CR Column 1 -->
-                <td class="px-6 py-4 border-r text-nowrap text-right">
+                <td class="p-1 md:p-2 lg:p-3 border-r text-nowrap text-right">
                   <div v-if="
                     type_sum.account_category_id >= 2 &&
                     type_sum.account_category_id <= 4
@@ -114,7 +120,7 @@
                 </td>
 
                 <!-- DR Column 2 -->
-                <td class="px-6 py-4 border-r text-nowrap text-right">
+                <td class="p-1 md:p-2 lg:p-3 border-r text-nowrap text-right">
                   <div v-if="
                     type_sum.account_category_id == 1 ||
                     type_sum.account_category_id == 6 ||
@@ -125,7 +131,7 @@
                 </td>
 
                 <!-- CR Column 2 -->
-                <td class="px-6 py-4 border-r text-nowrap text-right">
+                <td class="p-1 md:p-2 lg:p-3 border-r text-nowrap text-right">
                   <div v-if="
                     type_sum.account_category_id == 2 ||
                     type_sum.account_category_id == 3
@@ -135,14 +141,14 @@
                 </td>
 
                 <!-- DR Column 3 -->
-                <td class="px-6 py-4 border-r text-nowrap text-right">
+                <td class="p-1 md:p-2 lg:p-3 border-r text-nowrap text-right">
                   <div v-if="type_sum.account_category_id == 5" class="font-medium">
                     {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
                 </td>
 
                 <!-- CR Column 3 -->
-                <td class="px-6 py-4 border-r text-nowrap text-right">
+                <td class="p-1 md:p-2 lg:p-3 border-r text-nowrap text-right">
                   <div v-if="type_sum.account_category_id == 4" class="font-medium">
                     {{ formatNumber(type_sum.account_type_sum) }}
                   </div>
@@ -151,10 +157,10 @@
 
               <!-- Summary Row -->
               <tr class="bg-gray-50 border-t-2 border-gray-200">
-                <td class="px-6 py-4 font-semibold">สรุปผลบัญชี</td>
+                <td class="p-1 md:p-2 lg:p-3 font-semibold">สรุปผลบัญชี</td>
 
                 <!-- Column 1: DR สินทรัพย์/รายจ่าย -->
-                <td class="px-6 py-4 text-right font-semibold">
+                <td class="p-1 md:p-2 lg:p-3 text-right font-semibold">
                   {{ formatNumber(sumColumn1) }}
                   <div class="text-xs text-gray-500">
                     รวมสินทรัพย์ + รายจ่าย
@@ -162,7 +168,7 @@
                 </td>
 
                 <!-- Column 2: CR หนี้สิน/ทุน/รายได้ -->
-                <td class="px-6 py-4 text-right font-semibold">
+                <td class="p-1 md:p-2 lg:p-3 text-right font-semibold">
                   {{ formatNumber(sumColumn2) }}
                   <div class="text-xs text-gray-500">
                     รวม หนี้สิน + ทุน + รายได้
@@ -170,25 +176,25 @@
                 </td>
 
                 <!-- Column 3: DR เฉพาะสินทรัพย์ -->
-                <td class="px-6 py-4 text-right font-semibold">
+                <td class="p-1 md:p-2 lg:p-3 text-right font-semibold">
                   {{ formatNumber(sumColumn3) }}
                   <div class="text-xs text-gray-500">เฉพาะสินทรัพย์</div>
                 </td>
 
                 <!-- Column 4: CR หนี้สิน/ทุน -->
-                <td class="px-6 py-4 text-right font-semibold">
+                <td class="p-1 md:p-2 lg:p-3 text-right font-semibold">
                   {{ formatNumber(sumColumn4) }}
                   <div class="text-xs text-gray-500">เฉพาะหนี้สิน + ทุน</div>
                 </td>
 
                 <!-- Column 5: DR เฉพาะรายจ่าย -->
-                <td class="px-6 py-4 text-right font-semibold">
+                <td class="p-1 md:p-2 lg:p-3 text-right font-semibold">
                   {{ formatNumber(sumColumn5) }}
                   <div class="text-xs text-gray-500">เฉพาะรายจ่าย</div>
                 </td>
 
                 <!-- Column 6: CR เฉพาะรายได้ -->
-                <td class="px-6 py-4 text-right font-semibold">
+                <td class="p-1 md:p-2 lg:p-3 text-right font-semibold">
                   {{ formatNumber(sumColumn6) }}
                   <div class="text-xs text-gray-500">เฉพาะรายได้</div>
                 </td>
@@ -198,19 +204,19 @@
               <!-- Difference Row -->
               <tr class="bg-gray-50">
                 <template v-if="sumColumn4 - sumColumn3 < 0">
-                  <td class="px-6 py-4 font-semibold text-green-600">
+                  <td class="p-1 md:p-2 lg:p-3 font-semibold text-green-600">
                     ได้กำไร
                   </td>
                 </template>
                 <template v-else-if="sumColumn4 - sumColumn3 > 0">
-                  <td class="px-6 py-4 font-semibold text-red-600">ขาดทุน</td>
+                  <td class="p-1 md:p-2 lg:p-3 font-semibold text-red-600">ขาดทุน</td>
                 </template>
                 <template v-else>
-                  <td class="px-6 py-4 font-semibold">กำไร-ขาดทุน</td>
+                  <td class="p-1 md:p-2 lg:p-3 font-semibold">กำไร-ขาดทุน</td>
                 </template>
 
                 <!-- ผลต่าง Column 1 -->
-                <td class="px-6 py-4 text-right">
+                <td class="p-1 md:p-2 lg:p-3 text-right">
                   <div class="font-medium text-red-600">
                     {{ formatNumber(sumColumn1 - sumColumn2) }}
                   </div>
@@ -220,7 +226,7 @@
                 </td>
 
                 <!-- ผลต่าง Column 2 -->
-                <td class="px-6 py-4 text-right">
+                <td class="p-1 md:p-2 lg:p-3 text-right">
                   <div class="font-medium text-red-600">
                     {{ formatNumber(sumColumn2 - sumColumn1) }}
                   </div>
@@ -230,7 +236,7 @@
                 </td>
 
                 <!-- ผลต่าง Column 3 vs 4 -->
-                <td class="px-6 py-4 text-right">
+                <td class="p-1 md:p-2 lg:p-3 text-right">
                   <div v-if="sumColumn3 - sumColumn4 < 0" class="font-medium text-red-600">
                     {{ formatNumber(Math.abs(sumColumn3 - sumColumn4)) }}
                   </div>
@@ -240,7 +246,7 @@
                   </div>
                 </td>
 
-                <td class="px-6 py-4 text-right">
+                <td class="p-1 md:p-2 lg:p-3 text-right">
                   <div v-if="sumColumn4 - sumColumn3 < 0" class="font-medium text-green-600">
                     {{ formatNumber(Math.abs(sumColumn4 - sumColumn3)) }}
                   </div>
@@ -250,7 +256,7 @@
                 </td>
 
                 <!-- ผลต่าง Column 5 vs 6 -->
-                <td class="px-6 py-4 text-right">
+                <td class="p-1 md:p-2 lg:p-3 text-right">
                   <div v-if="sumColumn5 - sumColumn6 < 0" class="font-medium text-green-600">
                     {{ formatNumber(Math.abs(sumColumn5 - sumColumn6)) }}
                   </div>
@@ -259,7 +265,7 @@
                   </div>
                 </td>
 
-                <td class="px-6 py-4 text-right">
+                <td class="p-1 md:p-2 lg:p-3 text-right">
                   <div v-if="sumColumn6 - sumColumn5 < 0" class="font-medium text-red-600">
                     {{ formatNumber(Math.abs(sumColumn6 - sumColumn5)) }}
                   </div>
@@ -270,41 +276,41 @@
               </tr>
               <!-- Total Row (Sum of Summary + Difference) -->
               <tr class="bg-gray-100 border-t-2 border-gray-300">
-                <td class="px-6 py-4 font-semibold">รวมสุทธิ</td>
+                <td class="p-1 md:p-2 lg:p-3 font-semibold">รวมสุทธิ</td>
 
                 <!-- Column 1 -->
-                <td class="px-6 py-4 text-right font-bold text-blue-700">
+                <td class="p-1 md:p-2 lg:p-3 text-right font-bold text-blue-700">
                   {{ formatNumber(sumColumn1 + (sumColumn1 - sumColumn2)) }}
                 </td>
 
                 <!-- Column 2 -->
-                <td class="px-6 py-4 text-right font-bold text-blue-700">
+                <td class="p-1 md:p-2 lg:p-3 text-right font-bold text-blue-700">
                   {{ formatNumber(sumColumn2 + (sumColumn2 - sumColumn1)) }}
                 </td>
 
                 <!-- Column 3 -->
-                <td class="px-6 py-4 text-right font-bold text-blue-700">
+                <td class="p-1 md:p-2 lg:p-3 text-right font-bold text-blue-700">
                   {{
                     formatNumber(
                       sumColumn3 +
                       (sumColumn3 - sumColumn4 < 0 ? Math.abs(sumColumn3 - sumColumn4) : 0)) }} </td>
 
                     <!-- Column 4 -->
-                <td class="px-6 py-4 text-right font-bold text-blue-700">
+                <td class="p-1 md:p-2 lg:p-3 text-right font-bold text-blue-700">
                   {{
                     formatNumber(
                       sumColumn4 +
                       (sumColumn4 - sumColumn3 < 0 ? Math.abs(sumColumn4 - sumColumn3) : 0)) }} </td>
 
                     <!-- Column 5 -->
-                <td class="px-6 py-4 text-right font-bold text-blue-700">
+                <td class="p-1 md:p-2 lg:p-3 text-right font-bold text-blue-700">
                   {{
                     formatNumber(
                       sumColumn5 +
                       (sumColumn5 - sumColumn6 < 0 ? Math.abs(sumColumn5 - sumColumn6) : 0)) }} </td>
 
                     <!-- Column 6 -->
-                <td class="px-6 py-4 text-right font-bold text-blue-700">
+                <td class="p-1 md:p-2 lg:p-3 text-right font-bold text-blue-700">
                   {{
                     formatNumber(
                       sumColumn6 +
@@ -314,7 +320,7 @@
           </table>
         </div>
       </div>
-      <button @click="closeAccount()" class="p-2 bg-red-600 text-white rounded">
+      <button @click="closeAccount()" class="p-2 bg-sky-600 text-white rounded">
         ปิดบัญชี
       </button>
     </div>
