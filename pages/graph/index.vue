@@ -132,11 +132,11 @@
             </div>
 
             <!-- Filter Controls -->
-            <div class="flex flex-col sm:flex-row gap-3 mb-6 items-end">
+            <div class="flex flex-row gap-1 mb-6 items-end">
               <div class="flex-1">
                 <label class="block text-sm font-medium text-gray-700 mb-1">เดือน</label>
                 <select v-model="selectedMonthForChart"
-                  class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                  class="w-full border border-gray-300 rounded-lg px-1.5 py-1 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                   <option v-for="month in months" :key="month.value" :value="month.value">
                     {{ month.name }}
                   </option>
@@ -146,7 +146,7 @@
               <div class="flex-1">
                 <label class="block text-sm font-medium text-gray-700 mb-1">ปี</label>
                 <select v-model="selectedYearForChart"
-                  class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                  class="w-full border border-gray-300 rounded-lg px-1.5 py-1 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                   <option v-for="year in years" :key="year" :value="year">
                     {{ year }}
                   </option>
@@ -155,7 +155,7 @@
 
               <div class="flex-1">
                 <button @click="fetchChartData"
-                  class="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                  class="w-full bg-sky-600 text-white px-2 py-1.5 rounded-lg hover:bg-sky-700 transition-colors">
                   ค้นหา
                 </button>
               </div>
@@ -209,6 +209,7 @@
 </template>
 
 <script setup>
+
 import { ref, reactive, onMounted, watch, computed } from "vue";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -827,7 +828,31 @@ onMounted(async () => {
   ]);
 });
 </script>
+
 <style scoped>
+::v-deep(.expense-event) {
+  background-color: #fef2f2 !important;
+  color: red !important;
+  border: none !important;
+}
+
+::v-deep(.expense-event .fc-event-title),
+::v-deep(.expense-event .fc-list-event-title) {
+  color: #b91c1c !important;
+}
+
+::v-deep(.income-event) {
+  background-color: #f0fdf4 !important;
+  color: white !important;
+  border: none !important;
+}
+
+::v-deep(.income-event .fc-event-title),
+::v-deep(.income-event .fc-list-event-title) {
+  color: #15803d !important;
+}
+
+
 /* ปรับขนาดปกติสำหรับ desktop */
 :deep(.fc-button) {
   font-size: 0.875rem;
