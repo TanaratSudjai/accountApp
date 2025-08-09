@@ -300,7 +300,7 @@ const submitDifferences = async () => {
 const fetchDataTransitionOpen = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await $axios.get(`/transition-summary`);
+    const response = await $axios.get(`/data_transition_open`);
     const data = response.data.data;
 
     // Set all data from single API response
