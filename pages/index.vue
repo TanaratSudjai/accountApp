@@ -24,8 +24,24 @@
         {{ error }}
       </div> -->
       <button @click="handleLogin" :disabled="loading"
-        class="bg-sky-600 text-white px-2 py-2 rounded-md hover:bg-sky-500">
-        {{ loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ" }}
+        class="bg-sky-600 text-white px-2 py-2 rounded-md hover:bg-sky-500 flex justify-center items-center">
+        <span v-if="loading">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+              <circle cx="3" cy="12" r="2" fill="currentColor" />
+              <circle cx="21" cy="12" r="2" fill="currentColor" />
+              <circle cx="12" cy="21" r="2" fill="currentColor" />
+              <circle cx="12" cy="3" r="2" fill="currentColor" />
+              <circle cx="5.64" cy="5.64" r="2" fill="currentColor" />
+              <circle cx="18.36" cy="18.36" r="2" fill="currentColor" />
+              <circle cx="5.64" cy="18.36" r="2" fill="currentColor" />
+              <circle cx="18.36" cy="5.64" r="2" fill="currentColor" />
+              <animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate"
+                values="0 12 12;360 12 12" />
+            </g>
+          </svg>
+        </span>
+        <span v-else>เข้าสู่ระบบ</span>
       </button>
     </form>
     <button @click="goRegister"
@@ -39,68 +55,45 @@
 definePageMeta({
   layout: "login",
 });
+
+// import 
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import Swal from "sweetalert2";
+import { useAlert } from "~/composables/showAlert";
 
+// resigter state
+const { showAlert } = useAlert();
 const { $axios } = useNuxtApp();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
 const error = ref("");
 
+
+// state form
 const formData = ref({
   account_user_username: "",
   account_user_password: "",
 });
 
-const showAlert = (
-  title,
-  text,
-  icon = "error",
-  confirmButtonColor = "#0891b2"
-) => {
-  Swal.fire({
-    title,
-    text,
-    icon,
-    confirmButtonText: "ลองอีกครั้ง",
-    confirmButtonColor,
-    customClass: {
-      popup: "bg-white text-gt-gray-600 rounded-md shadow-md",
-      title: "text-lg font-normal",
-      content: "text-sm",
-      confirmButton: "px-2 py-2 rounded-md",
-    },
-  });
-};
 
+// function method
 const handleLogin = async () => {
   if (loading.value) return;
-
   loading.value = true;
-  error.value = "";
-
-  // ตรวจสอบว่าผู้ใช้กรอกข้อมูลครบหรือไม่
   if (!formData.value.account_user_username.trim()) {
     showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ กรุณากรอกชื่อผู้ใช้", "ไม่สามารถเว้นว่างได้ หรือกรอกข้อมูลไม่ถูกต้อง");
-    loading.value = false;
     return;
   }
-
   if (!formData.value.account_user_password.trim()) {
     showAlert("กรุณากรอกรหัสผ่าน", "รหัสผ่านไม่สามารถเว้นว่างได้");
-    loading.value = false;
     return;
   }
-  console.log(formData.value);
-
   try {
     const response = await $axios.post("/auth/login", {
       account_user_username: formData.value.account_user_username,
       account_user_password: formData.value.account_user_password,
     });
-
     const token = response.data.token;
     localStorage.setItem("token", token);
     await router.push("/home");
@@ -114,6 +107,7 @@ const handleLogin = async () => {
   }
 };
 
+// function class
 const goRegister = async () => {
   router.push("/register");
 };
