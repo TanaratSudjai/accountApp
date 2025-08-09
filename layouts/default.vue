@@ -10,9 +10,25 @@
             <span class="font-bold">{{ nameuser || "กำลังโหลด" }}</span>
           </div>
           <button @click="logout"
-            class="text-white text-xs md:text-sm lg:text-base underline-none bg-sky-600 px-2 py-1 text-md rounded hover:bg-red-600 transition-all duration-200">
-            ออกจากระบบ
-            <Icon v-if="loading" name="svg-spinners:180-ring-with-bg" />
+            class="text-white text-xs md:text-sm lg:text-base underline-none bg-sky-600 px-2 py-1 text-md rounded hover:bg-sky-400 transition-all duration-200">
+
+            <span v-if="loading">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <g>
+                  <circle cx="3" cy="12" r="2" fill="currentColor" />
+                  <circle cx="21" cy="12" r="2" fill="currentColor" />
+                  <circle cx="12" cy="21" r="2" fill="currentColor" />
+                  <circle cx="12" cy="3" r="2" fill="currentColor" />
+                  <circle cx="5.64" cy="5.64" r="2" fill="currentColor" />
+                  <circle cx="18.36" cy="18.36" r="2" fill="currentColor" />
+                  <circle cx="5.64" cy="18.36" r="2" fill="currentColor" />
+                  <circle cx="18.36" cy="5.64" r="2" fill="currentColor" />
+                  <animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate"
+                    values="0 12 12;360 12 12" />
+                </g>
+              </svg>
+            </span>
+            <span v-else>ออกจากระบบ</span>
           </button>
         </div>
       </div>
@@ -44,15 +60,17 @@ const { $axios } = useNuxtApp();
 
 // api call logout
 const logout = async () => {
-  loading.value = true;
   try {
+    loading.value = true;
     await $axios.post("/auth/logout");
+    setInterval(() => {
+      loading.value = false;
+    }, 3000)
     localStorage.removeItem("token");
     sessionStorage.clear();
     const tokenCookie = useCookie("token");
     tokenCookie.value = null;
     window.location.reload();
-    loading.value = false;
   } catch (err) {
     if (err.response?.status === 401) {
       console.error("Unauthorized access. Please login again.");
