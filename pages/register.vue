@@ -9,7 +9,7 @@
         <label for="username" class="block text-sky-600 font-medium ">
           ชื่อบัญชี
         </label>
-        <input v-model="formData.account_user_name" id="name" type="text" placeholder="ชื่อผู้ใช้"
+        <input v-model="formData.account_user_name" id="name" type="text" placeholder="ชื่อบัญชี"
           class="p-2 rounded-lg w-full border-sky-600 focus:ring-2 focus:ring-sky-600 focus:outline-none border" />
       </div>
 
