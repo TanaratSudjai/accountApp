@@ -16,7 +16,7 @@
                     สวัสดี, คุณ
                     <span class="text-sky-600 font-bold">{{
                       loading ? "กำลังโหลด" : nameuser
-                    }}</span>
+                      }}</span>
                   </h1>
                 </div>
                 <span @click="openModifyFundModal()" class="text-xl md:text-2xl flex items-center gap-2">
@@ -71,14 +71,14 @@
         </NuxtLink>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-2 max-w-4xl mx-auto">
-        <div class="bg-white rounded-lg p-4 md:p-6 mt-[25px] border border-gray-200">
+        <div class="bg-white rounded-lg p-1 md:p-6 mt-[25px]">
           <h2 class="mb-[20px] text-xl md:text-2xl font-bold">รายการล่าสุด</h2>
 
           <div v-if="checkData && checkData.length > 0">
             <div v-for="(transaction, index) in checkData" :key="transaction.account_transition_id"
-              class="flex p-[15px] items-center border-b-2 last:border-b-0">
+              class="flex p-1 items-center border-b-2 ">
               <div :class="[
-                'w-10 h-10 md:w-12 md:h-12 rounded-full flex justify-center items-center mr-[15px]',
+                'w-8 h-8 md:w-10 md:h-10 rounded-full flex justify-center items-center mr-[15px]',
                 transaction.account_category_id === 4
                   ? 'bg-green-100'
                   : transaction.account_category_id === 5
@@ -356,22 +356,18 @@ const menuItems = ref([
     route: "/transitionbank",
   },
 ]);
-
 // function class open modal edit
 const openModifyFundModal = () => {
   showModifyFund.value = true;
 };
-
 // function method fetch data transitions
 const fetchData = async () => {
   try {
     const { data } = await $axios.get("/transitions", {
       params: { page: page.value, limit: limit.value },
     });
-
     checkData.value = data.data || [];
     const summary = Array.isArray(data.summary) ? data.summary : [];
-
     checkData_depter.value = summary[0] ?? { type: "", value: 0 };
     checkData_creditor.value = summary[1] ?? { type: "", value: 0 };
     checkCheck_open.value = summary[2] ?? { type: "", value: 0 };
@@ -411,7 +407,6 @@ const formatDateTime = (datetime) => {
     });
   }
 };
-
 // Helper function to check if a title is disabled
 const isDisabled = (title) => {
   if (!title) return true;
