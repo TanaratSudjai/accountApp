@@ -381,7 +381,7 @@
                     }}</span>
                   </p>
                   <span class="text-xs text-gray-500 ml-2">
-                    Date Time #{{
+                    วันที่/เวลา #{{
                       formatDateTime(bankDatas.account_transition_datetime)
                     }}
                   </span>

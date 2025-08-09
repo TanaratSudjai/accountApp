@@ -236,7 +236,7 @@
                     }}</span>
                   </p>
                   <span class="text-xs text-gray-500 ml-2">
-                    Date Time #{{ formatDateTime(bankDatas.account_transition_datetime) }}
+                    วันที่/เวลา #{{ formatDateTime(bankDatas.account_transition_datetime) }}
                   </span>
                   <div class="flex items-center mt-1">
                     <span
