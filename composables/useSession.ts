@@ -8,7 +8,7 @@ export function useSession() {
   const getSession = async () => {
     loading.value = true;
     try {
-      const response = await $axios.get("auth/get_session");
+      const response = await $axios.get("/auth/get_session");
 
       if (response.data) {
         nameuser.value =

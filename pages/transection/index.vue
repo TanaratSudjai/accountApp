@@ -288,12 +288,8 @@ const submitDifferences = async () => {
       account_transition_value: differences.value,
     });
     await onSubmitTransition();
-
     await fetchTransition();
-    groupOneTransition();
-    groupTwoTransition();
-    fetchsumone();
-    fetchsumtwo();
+    await fetchDataTransitionOpen();
     router.push({ path: "/" });
   } catch (error) {
     console.error("Error submitting data:", error);
@@ -301,91 +297,40 @@ const submitDifferences = async () => {
 };
 // -------------------------------------------------------------------------------------
 
-const fetchsumone = async () => {
+const fetchDataTransitionOpen = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await $axios.get(`/getSumGropOne`);
-    const data = response.data;
-    sumone.value = data;
+    const response = await $axios.get(`/data_transition_open`);
+    const data = response.data.data;
+
+    // Set all data from single API response
+    groupOne.value = data.groupOneTransitions;
+    groupTwo.value = data.groupTwoTransitions;
+    sumone.value = [{ total_transition_value: data.sumGroupOne }];
+    sumtwo.value = [{ total_transition_value: data.sumGroupTwo }];
+    IconData.value = data.menuData;
+
+    // Set fund summary data
+    sum_cat_one_six_seven.value = data.threeTypeSummary.total_owner;
+    sum_cat_two.value = data.threeTypeSummary.total_debt;
+    sum_cat_three.value = data.threeTypeSummary.total_fund;
+
   } catch (error) {
-    console.error("Error fetching sum group one:", error);
+    console.error("Error fetching transition data:", error);
   }
 };
-
-const fetchsumtwo = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await $axios.get(`/getSumGropTwo`);
-    const data = response.data;
-    sumtwo.value = data;
-  } catch (error) {
-    console.error("Error fetching sum group two:", error);
-  }
-};
-
-
-
-const fetchfund = async () => {
-  try {
-    const response = await $axios.get(`/total_fund`);
-
-    const data = response.data;
-    sum_cat_one_six_seven.value =
-      data.get_sum_cat_one_six_seven?.[0]?.total_owner ?? "0.00";
-    sum_cat_two.value = data.get_sum_cat_two?.[0]?.total_debt ?? "0.00";
-    sum_cat_three.value = data.get_sum_cat_three?.[0]?.total_fund ?? "0.00";
-  } catch (error) {
-    console.error("Error fetching transition:", error);
-  }
-};
-
 
 
 const fetchTransition = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await $axios.get(`/transitions`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await $axios.get(`/transitions`);
     const data = await response.data.data;
     transition.value = data.data;
   } catch (error) {
     console.error("Error fetching transition:", error);
   }
 };
-
-const groupOneTransition = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await $axios.get(`/getGropOne`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.data;
-    groupOne.value = data;
-  } catch (error) {
-    console.error("Error fetching transition group One:", error);
-  }
-};
-
-const groupTwoTransition = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await $axios.get(`/getGropTwo`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.data;
-    groupTwo.value = data;
-  } catch (error) {
-    console.error("Error fetching transition group Two:", error);
-  }
-};
-
 
 
 const accountTypeValue = computed({
@@ -414,20 +359,7 @@ watch(accountTypeValue, (newValue) => {
 
 // -------------------------------------------------------------------------------------
 
-const fetchIcon = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await $axios.get(`/menu_icon`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.data.data_menu;
-    IconData.value = data;
-  } catch (error) {
-    console.error("Error fetching icons:", error);
-  }
-};
+
 
 const toggleSelect = (icon) => {
   if (
@@ -468,10 +400,8 @@ const updateAccountTransition = async (
     if (!response.status === 200 || !response.status === 201) {
       throw new Error("Network response was not ok");
     }
-    fetchTransition(), groupOneTransition();
-    groupTwoTransition();
-    fetchsumone();
-    fetchsumtwo();
+    await fetchTransition();
+    await fetchDataTransitionOpen();
   } catch (error) {
     console.log("Error updating account transition:", error);
   }
@@ -494,13 +424,8 @@ const handleOkClick = () => {
 
 onMounted(async () => {
   await Promise.all([
-    fetchIcon(),
+    fetchDataTransitionOpen(),
     fetchTransition(),
-    groupOneTransition(),
-    groupTwoTransition(),
-    fetchsumone(),
-    fetchsumtwo(),
-    fetchfund(),
   ]);
 });
 </script>
