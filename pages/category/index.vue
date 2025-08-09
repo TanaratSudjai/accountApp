@@ -114,11 +114,6 @@ const menuItems = ref([
     route: "/group/5",
   },
 
-  // {
-  //   icon: FileMinus,
-  //   title: "ส่วนของเจ้าของ",
-  //   color: "text-yellow-500",
-  //   route: "/group/3",
-  // },
+
 ]);
 </script>

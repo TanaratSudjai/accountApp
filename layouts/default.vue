@@ -1,8 +1,6 @@
 <template>
   <div class="flex flex-col font-noto bg-white min-h-screen">
-    <!-- Header -->
     <div class="flex flex md:flex-row gap-2 justify-center items-center w-full  p-2 bg-white border border-gray-200">
-      <!-- logo stars -->
       <NuxtImg src="/logo.png" width="40" height="40" class="mx-auto" alt="Logo" />
       <div class="container mx-auto">
 
@@ -31,36 +29,18 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
-import { checkSession } from '../composables/session';
-const { $axios } = useNuxtApp();
-let nameuser = ref("");
-const loading = ref(false);
 definePageMeta({
   middleware: ["auth"],
 });
 
-const getSession = async () => {
-  loading.value = true;
-  try {
-    const response = await $axios.get("auth/get_session");
-    // console.log("status", response.status);
+// import
+import { useSession } from "~/composables/useSession";
 
-    if (response.data) {
-      nameuser.value = response.data.data_user.account_user_name || "ไม่พบชื่อผู้ใช้";
-      loading.value = false;
-    } else {
-      nameuser.value = "ไม่พบชื่อผู้ใช้";
-    }
-  } catch (err) {
-    console.log(err);
-    if (err.response?.status === 401) {
-      console.error("Unauthorized access. Please login again.");
-    } else {
-      console.error("Failed to fetch session data:", err.message);
-    }
-  }
-};
+// composables state
+const { loading, nameuser, getSession } = useSession();
+const { $axios } = useNuxtApp();
+
+
 
 // api call logout
 const logout = async () => {
@@ -82,12 +62,9 @@ const logout = async () => {
   }
 };
 
+// api call getSession
 onMounted(() => {
-  if (checkSession()) {
-    getSession();
-  } else {
-    window.location.href = "/";
-  }
+  getSession();
 });
 </script>
 <style scoped>

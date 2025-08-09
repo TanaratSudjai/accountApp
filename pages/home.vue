@@ -15,7 +15,7 @@
                   <h1 class="text-xl md:text-2xl">
                     สวัสดี, คุณ
                     <span class="text-sky-600 font-bold">{{
-                      nameuser || "กำลังโหลด"
+                      loading ? "กำลังโหลด" : nameuser
                     }}</span>
                   </h1>
                 </div>
@@ -43,7 +43,7 @@
             'transition-all duration-300 ease-out',
           ]" @click="isDisabled(item.title) && $event.preventDefault()">
           <div :class="[
-            'border border-gray-200 rounded-lg',
+            'border border-gray-200 rounded-lg p-3',
             'bg-sky-600 text-white',
             'flex flex-col items-center justify-center',
             'min-h-[140px]',
@@ -243,6 +243,7 @@
 </template>
 
 <script setup>
+// import dependencies
 import { ref, onMounted } from "vue";
 import {
   Users,
@@ -264,90 +265,22 @@ import {
 } from "lucide-vue-next";
 import { computed } from "vue";
 import ModifyFund from "@/components/modal/ModifyFund.vue";
+import { useSession } from "~/composables/useSession";
 
+// register state
+const { loading, nameuser, getSession } = useSession();
 const checkData = ref([]);
 const checkCheck_open = ref({ type: "", value: 0 });
 const amount = ref({ type: "", value: 0 });
 const checkData_depter = ref({ type: "", value: 0 });
 const checkData_creditor = ref({ type: "", value: 0 });
 const offAccount_menu = ref(true);
-let nameuser = ref("");
 const { formatNumber } = useFormatNumber();
 const { $axios } = useNuxtApp();
-const showAllTransactions = ref(false);
 const page = ref(1);
 const limit = ref(5);
 const totalPages = ref(1);
-
 const showModifyFund = ref(false);
-const openModifyFundModal = () => {
-  showModifyFund.value = true;
-};
-
-const fetchData = async () => {
-  try {
-    const response = await $axios.get("/transitions", {
-      params: { page: page.value, limit: limit.value },
-    });
-    checkData.value = response.data.data;
-    console.log("checkData:", checkData.value);
-
-    // ป้องกัน summary undefined
-    const summary = Array.isArray(response.data.summary) ? response.data.summary : [];
-    checkData_depter.value = summary[0] || { type: "", value: 0 };
-    checkData_creditor.value = summary[1] || { type: "", value: 0 };
-    checkCheck_open.value = summary[2] || { type: "", value: 0 };
-    amount.value = summary[3] || { type: "", value: 0 };
-    totalPages.value = response.data.total_page || 1;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const formatCurrency = (value) => {
-  return new Intl.NumberFormat("th-TH", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(parseFloat(value));
-};
-
-// Helper function to format datetime
-const formatDateTime = (datetime) => {
-  const date = new Date(datetime);
-  const now = new Date();
-  const diffInMinutes = Math.floor((now + date) / (1000 * 60));
-
-  if (diffInMinutes < 1) {
-    return "เมื่อสักครู่";
-  } else if (diffInMinutes < 60) {
-    return `${diffInMinutes} นาทีที่แล้ว`;
-  } else if (diffInMinutes < 1440) {
-    const hours = Math.floor(diffInMinutes / 60);
-    return `${hours} ชั่วโมงที่แล้ว`;
-  } else {
-    return date.toLocaleDateString("th-TH", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  }
-};
-
-const getSession = async () => {
-  try {
-    const response = await $axios.get("auth/get_session");
-    nameuser.value = response.data.data_user.account_user_name;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-onMounted(async () => {
-  await fetchData();
-  await getSession();
-});
 
 const menuItems = ref([
   {
@@ -424,6 +357,62 @@ const menuItems = ref([
   },
 ]);
 
+// function class open modal edit
+const openModifyFundModal = () => {
+  showModifyFund.value = true;
+};
+
+// function method fetch data transitions
+const fetchData = async () => {
+  try {
+    const { data } = await $axios.get("/transitions", {
+      params: { page: page.value, limit: limit.value },
+    });
+
+    checkData.value = data.data || [];
+    const summary = Array.isArray(data.summary) ? data.summary : [];
+
+    checkData_depter.value = summary[0] ?? { type: "", value: 0 };
+    checkData_creditor.value = summary[1] ?? { type: "", value: 0 };
+    checkCheck_open.value = summary[2] ?? { type: "", value: 0 };
+    amount.value = summary[3] ?? { type: "", value: 0 };
+    totalPages.value = data.total_page || 1;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+// Helper function to format currency
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat("th-TH", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(parseFloat(value));
+};
+// Helper function to format datetime
+const formatDateTime = (datetime) => {
+  const date = new Date(datetime);
+  const now = new Date();
+  const diffInMinutes = Math.floor((now + date) / (1000 * 60));
+
+  if (diffInMinutes < 1) {
+    return "เมื่อสักครู่";
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes} นาทีที่แล้ว`;
+  } else if (diffInMinutes < 1440) {
+    const hours = Math.floor(diffInMinutes / 60);
+    return `${hours} ชั่วโมงที่แล้ว`;
+  } else {
+    return date.toLocaleDateString("th-TH", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+};
+
+// Helper function to check if a title is disabled
 const isDisabled = (title) => {
   if (!title) return true;
 
@@ -460,6 +449,7 @@ const isDisabled = (title) => {
   return disableTitles.includes(title);
 };
 
+// Helper function to check if a title is disabled
 watch(
   () => checkData.value[0]?.account_type_sum,
   (sum) => {
@@ -482,6 +472,7 @@ watch(
   { immediate: true }
 );
 
+// Helper function to filter menu items
 const filteredMenuItems = computed(() => {
   return menuItems.value.filter((item) => {
     // ถ้า title เป็น "เปิดบัญชี" และ offAccount_menu ถูกปิดอยู่ => ซ่อนไม่แสดง
@@ -492,6 +483,7 @@ const filteredMenuItems = computed(() => {
   });
 });
 
+// Helper function to check if a title is disabled
 const isDisabled_icons = (title) => {
   if (!title) return true;
   // แยกการทำงานของลูกหนี้และเจ้าหนี้
@@ -510,4 +502,10 @@ const isDisabled_icons = (title) => {
     }
   }
 };
+
+// เรียกใช้ฟังก์ชันดึงข้อมูลเมื่อ Component ถูก mounted
+onMounted(async () => {
+  await getSession();
+  await fetchData();
+});
 </script>
