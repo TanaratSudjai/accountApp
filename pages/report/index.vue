@@ -180,12 +180,13 @@ const page = ref("report");
 
 const fetchReport = async () => {
   const response = await $api("/getClosedAccount");
+  console.log("Response data:", response);
 
   income_graph.value = Array(12).fill(0);
   expense_graph.value = Array(12).fill(0);
   mounth_value.value = [];
 
-  response.data.forEach((item: any) => {
+  response.forEach((item: any) => {
     const monthIndex = new Date(item.account_closing_time).getMonth();
 
     income_graph.value[monthIndex] = item.account_closing_income;
@@ -200,7 +201,7 @@ const fetchReport = async () => {
   console.log("รายจ่าย:", expense_graph.value);
   console.log("เดือนที่มีข้อมูล:", mounth_value.value);
 
-  const parsed = response.data.map((item) => {
+  const parsed = response.map((item) => {
     return {
       ...item,
       parsed_data: JSON.parse(item.account_closing_data),

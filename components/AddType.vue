@@ -79,7 +79,10 @@ import { useRoute } from "vue-router";
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import { Rewind, DiamondPlus } from "lucide-vue-next";
+import { useAlert } from "~/composables/showAlert";
 
+// resigter state
+const { showAlert } = useAlert();
 const router = useRouter();
 const route = useRoute();
 const groupID = route.params.id;
@@ -199,6 +202,7 @@ const submitForm = async () => {
 
     selected.value = null;
     selectedIcon.value = null;
+    showAlert(`เพิ่มเรียบร้อยแล้ว`, "ท่านสามารถเช็คได้โดยการกดกลัยบไปที่หน้าหมวดหมู่", `success`);
     fetchType();
   } catch (error) {
     console.error("Error creating account group:");

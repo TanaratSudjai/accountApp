@@ -1,6 +1,6 @@
 <template>
   <BackComponents />
-  <div class="flex-1 p-6  min-h-screen max-w-4xl mx-auto">
+  <div class="flex-1 p-6   max-w-4xl mx-auto">
     <div class="mx-auto">
       <!-- Header Section -->
       <div class="text-center mb-8">
