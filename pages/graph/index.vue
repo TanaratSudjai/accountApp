@@ -389,7 +389,7 @@ const years = [];
 const currentYear = new Date().getFullYear();
 for (let y = currentYear; y >= currentYear - 10; y--) years.push(y);
 
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 async function fetchDashboardData(year, month, day = null) {
   try {
@@ -406,7 +406,7 @@ async function fetchDashboardData(year, month, day = null) {
       } else {
         selectedDay.value = day;
       }
-    const { data } = await $axios.get("/get_dashboard_data", { params });
+    const data = await $api("/get_dashboard_data", { params });
 
     // Calendar events
     calendarEvents.value = (data.dailyExpenseTotals || []).map((day) => ({

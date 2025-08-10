@@ -80,7 +80,7 @@ import { useAlert } from "~/composables/showAlert";
 
 // register state 
 const { showAlert } = useAlert();
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 const loading = ref(false);
 const error = ref("");
 const router = useRouter();
@@ -114,10 +114,13 @@ const handleRegister = async () => {
       showAlert("เกิดข้อผิดพลาดในการสมัครสมาชิก", "รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน");
       return;
     }
-    await $axios.post("/auth/register", {
-      account_user_name,
-      account_user_username,
-      account_user_password,
+    await $api("/auth/register", {
+      method: "POST",
+      body: {
+        account_user_name,
+        account_user_username,
+        account_user_password,
+      },
     });
     showAlert("สมัครสำเร็จ!", "คุณสามารถเข้าสู่ระบบได้ทันที");
     await router.push("/");

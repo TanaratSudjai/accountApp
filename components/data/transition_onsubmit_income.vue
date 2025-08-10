@@ -92,7 +92,7 @@
                         <!-- Income icon -->
                         <div>
                           <span
-                            class="font-semibold text-green-800 text-xs md:text-md lg:text-lg"
+                            class="font-semibold text-green-800 text-xs md:text-sm lg:text-md"
                           >
                             {{ transactionData.account_type_name }}
                           </span>
@@ -103,7 +103,7 @@
                       <div class="flex items-center gap-2">
                         <div class="text-right">
                           <div
-                            class="font-bold text-green-700 text-xs md:text-md lg:text-lg"
+                             class="font-bold text-green-700 text-xs md:text-sm lg:text-md"
                           >
                             ฿{{
                               formatNumber(
@@ -197,14 +197,17 @@ import { useIncomeTransitionStore } from "~/stores/incomeTransition";
 const store = useIncomeTransitionStore();
 const { transition } = storeToRefs(store);
 const error = ref(null); // เก็บข้อผิดพลาด (ถ้ามี)
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 const { formatNumber } = useFormatNumber(); // ฟังก์ชันสำหรับการจัดรูปแบบตัวเลข
 
 // ฟังก์ชันลบธุรกรรม
 const deleteTransection = async (id, value) => {
   try {
-    await $axios.put(`/delete_transition_income/${id}`, {
-      account_transition_value: value,
+    await $api(`/delete_transition_income/${id}`, {
+      method: "PUT",
+      body: {
+        account_transition_value: value,
+      },
     });
     await store.fetchTransitions(); // Refresh the store data
   } catch (error) {

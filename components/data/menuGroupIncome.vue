@@ -59,45 +59,27 @@
 
           <!-- Account Cards -->
           <div class="p-2">
-            <div
-              class="max-h-60 overflow-y-auto space-y-2 sm:space-y-4 pr-2 custom-scrollbar"
-            >
-              <TransitionGroup
-                name="account-list"
-                tag="div"
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3"
-              >
-                <div
-                  v-for="menu in menuGroup"
-                  :key="menu.account_type_id"
-                  class="group"
-                >
-                  <button
-                    v-if="selectedCategory === menu.account_category_id"
-                    @click="openUpdateModal(menu)"
-                    :class="{
-                      hidden: disabledAccountTypeIds.has(menu.account_type_id),
-                    }"
-                    :disabled="disabledAccountTypeIds.has(menu.account_type_id)"
-                    class="w-full relative p-3 rounded-lg border-2 border-gray-200 bg-gradient-to-r from-white to-gray-50 hover:from-green-50 hover:to-emerald-50 hover:border-green-300 hover:shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-100"
-                  >
+            <div class="max-h-60 overflow-y-auto space-y-2 sm:space-y-4 pr-2 custom-scrollbar">
+              <TransitionGroup name="account-list" tag="div"
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
+                <div v-for="menu in menuGroup" :key="menu.account_type_id" class="group">
+                  <button v-if="selectedCategory === menu.account_category_id" @click="openUpdateModal(menu)" :class="{
+                    hidden: disabledAccountTypeIds.has(menu.account_type_id),
+                  }" :disabled="disabledAccountTypeIds.has(menu.account_type_id)"
+                    class="w-full relative p-3 rounded-lg border-2 border-gray-200 bg-gradient-to-r from-white to-gray-50 hover:from-green-50 hover:to-emerald-50 hover:border-green-300 hover:shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-100">
                     <!-- Background decoration -->
                     <div
-                      class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-200/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    ></div>
+                      class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-200/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    </div>
 
                     <!-- Main content container - Horizontal layout -->
                     <div class="relative flex items-center space-x-3">
                       <!-- Account icon - Left side -->
                       <div class="flex-shrink-0">
                         <div
-                          class="w-10 h-10 p-2 bg-gradient-to-br from-gray-100 to-gray-200 group-hover:from-green-100 group-hover:to-emerald-200 rounded-lg transition-all duration-300 flex items-center justify-center"
-                        >
-                          <img
-                            :src="`/icon_folder/${menu.account_icon_name}`"
-                            :alt="menu.account_icon_name"
-                            class="w-6 h-6 object-cover rounded group-hover:scale-110 transition-transform duration-300"
-                          />
+                          class="w-10 h-10 p-2 bg-gradient-to-br from-gray-100 to-gray-200 group-hover:from-green-100 group-hover:to-emerald-200 rounded-lg transition-all duration-300 flex items-center justify-center">
+                          <img :src="`/icon_folder/${menu.account_icon_name}`" :alt="menu.account_icon_name"
+                            class="w-6 h-6 object-cover rounded group-hover:scale-110 transition-transform duration-300" />
                         </div>
                       </div>
 
@@ -105,16 +87,14 @@
                       <div class="flex-grow min-w-0">
                         <!-- Account name -->
                         <h3
-                          class="font-semibold text-gray-800 text-sm leading-tight group-hover:text-green-700 transition-colors duration-300 truncate"
-                        >
+                          class="font-semibold text-gray-800 text-sm leading-tight group-hover:text-green-700 transition-colors duration-300 truncate">
                           {{ menu.account_type_name }}
                         </h3>
 
                         <!-- Account value -->
                         <div class="mt-1">
                           <span
-                            class="inline-flex items-center px-2 py-0.5 bg-gray-100 group-hover:bg-green-100 rounded text-xs font-medium text-gray-700 group-hover:text-green-800 transition-colors duration-300"
-                          >
+                            class="inline-flex items-center px-2 py-0.5 bg-gray-100 group-hover:bg-green-100 rounded text-xs font-medium text-gray-700 group-hover:text-green-800 transition-colors duration-300">
                             ฿{{ formatNumber(menu.account_type_value) }}
                           </span>
                         </div>
@@ -126,37 +106,23 @@
             </div>
 
             <!-- Empty state -->
-            <div
-              v-if="
-                menuGroup.filter(
-                  (menu) =>
-                    selectedCategory === menu.account_category_id &&
-                    !disabledAccountTypeIds.has(menu.account_type_id)
-                ).length === 0
-              "
-              class="text-center p-8"
-            >
-              <div
-                class="relative inline-flex items-center justify-center mb-6"
-              >
+            <div v-if="
+              menuGroup.filter(
+                (menu) =>
+                  selectedCategory === menu.account_category_id &&
+                  !disabledAccountTypeIds.has(menu.account_type_id)
+              ).length === 0
+            " class="text-center p-8">
+              <div class="relative inline-flex items-center justify-center mb-6">
                 <div
-                  class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full blur-xl opacity-20 animate-ping"
-                ></div>
+                  class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full blur-xl opacity-20 animate-ping">
+                </div>
                 <div
-                  class="relative w-16 h-16 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center"
-                >
-                  <svg
-                    class="w-8 h-8 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                    ></path>
+                  class="relative w-16 h-16 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center">
+                  <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                    </path>
                   </svg>
                 </div>
               </div>
@@ -244,7 +210,7 @@ const selectedMenu = ref(null); // เก็บข้อมูลเมนูท
 const count = ref(null); // เก็บจำนวนรายการ
 const selectedCategory = ref(4); // เก็บประเภทที่เลือก
 const error = ref(null); // สำหรับจัดการข้อผิดพลาด
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 // ฟังก์ชันเปิด Modal สำหรับการอัปเดต
 const openUpdateModal = (menu) => {
@@ -282,11 +248,14 @@ const handleUpdate = async ({
 
   try {
     // ส่งข้อมูลไปยัง API
-    await $axios.post("/transition_select_income", {
-      account_type_id: formData.value.account_type_id,
-      account_transition_value: formData.value.account_transition_value,
-      account_type_from_id: formData.value.account_type_from_id,
-      account_category_id: formData.value.account_category_id,
+    await $api("/transition_select_income", {
+      method: "POST",
+      body: {
+        account_type_id: formData.value.account_type_id,
+        account_transition_value: formData.value.account_transition_value,
+        account_type_from_id: formData.value.account_type_from_id,
+        account_category_id: formData.value.account_category_id,
+      },
     });
     await fetchMenuGroupData(); // ดึงข้อมูลเมนูใหม่
   } catch (err) {
@@ -300,8 +269,8 @@ const handleUpdate = async ({
 // ฟังก์ชันดึงข้อมูลรายการเมนู
 const fetchMenuGroupData = async () => {
   try {
-    const menuGroup_result = await $axios.get("/getMenuGroup_income");
-    menuGroup.value = menuGroup_result.data || [];
+    const menuGroup_result = await $api("/getMenuGroup_income");
+    menuGroup.value = menuGroup_result || [];
   } catch (err) {
     error.value = "Error fetching menu group: " + err.message; // ตั้งค่า error
   }
@@ -310,8 +279,8 @@ const fetchMenuGroupData = async () => {
 // ฟังก์ชันดึงข้อมูลจำนวนรายการ
 const fetchDataSelect = async () => {
   try {
-    const data = await $axios.get("/getSelect_countSelect");
-    count.value = data.data; // เก็บค่าที่ดึงมา
+    const data = await $api("/getSelect_countSelect");
+    count.value = data; // เก็บค่าที่ดึงมา
   } catch (err) {
     error.value = "Error fetching count: " + err.message; // ตั้งค่า error
   }
@@ -320,7 +289,7 @@ const fetchDataSelect = async () => {
 // เรียกใช้ฟังก์ชันดึงข้อมูลเมื่อ Component ถูก mounted
 onMounted(async () => {
   await fetchMenuGroupData();
-  await fetchDataSelect(); 
+  await fetchDataSelect();
   store.fetchTransitions();
 });
 </script>

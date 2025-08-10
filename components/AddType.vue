@@ -84,14 +84,13 @@ const router = useRouter();
 const route = useRoute();
 const groupID = route.params.id;
 const categoryID = route.query.groupID;
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 const icons = ref(); //เก็บข้อมูลไอคอน
 const fetchIcon = async () => {
   //นำข้อมูลไอคอนมา
   try {
-    const response = await $axios.get(`/get_icons/${categoryID}`);
-    const data = await response.data;
+    const data = await $api(`/get_icons/${categoryID}`);
     icons.value = data.data;
   } catch (error) {
     
@@ -158,8 +157,7 @@ const typeData = ref([]); //เก็บข้อมูล type ไว้ใช�
 const fetchTypeData = async () => {
   //นำข้อมูล account_type มา
   try {
-    const response = await $axios.get(`/account_type_get`);
-    const data = await response.data;
+    const data = await $api(`/account_type_get`);
     typeData.value = data.account_type;
   } catch (error) {
     if (process.env.NODE_ENV !== 'production') {
@@ -175,17 +173,18 @@ const goBack = () => {
 
 const submitForm = async () => {
   try {
-    const response = await $axios.post("/account_type_create", {
-      account_type_name: formData.value.account_type_name,
-      account_type_value: formData.value.account_type_value,
-      account_type_description: formData.value.account_type_description,
-      account_type_from_id: formData.value.account_type_from_id,
-      account_type_icon: formData.value.account_type_icon,
-      account_group_id: formData.value.account_group_id,
-      account_category_id: formData.value.account_category_id,
+    const result = await $api("/account_type_create", {
+      method: "POST",
+      body: {
+        account_type_name: formData.value.account_type_name,
+        account_type_value: formData.value.account_type_value,
+        account_type_description: formData.value.account_type_description,
+        account_type_from_id: formData.value.account_type_from_id,
+        account_type_icon: formData.value.account_type_icon,
+        account_group_id: formData.value.account_group_id,
+        account_category_id: formData.value.account_category_id,
+      },
     });
-
-    const result = response.data;
 
     // Reset formData correctly
     formData.value = {
@@ -209,8 +208,7 @@ const submitForm = async () => {
 const TypeData = ref([]);
 const fetchType = async () => {
   try {
-    const response = await $axios.get(`/account_type_get/${groupID}`);
-    const data = await response;
+    const data = await $api(`/account_type_get/${groupID}`);
     TypeData.value = data.account_type;
   } catch (error) {
     console.error("Error fetching group data:");

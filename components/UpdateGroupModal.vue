@@ -30,7 +30,7 @@ import {
   SquarePen
 } from "lucide-vue-next";
 import { ref, watch } from "vue";
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 const props = defineProps({
   show: Boolean,
@@ -51,19 +51,15 @@ watch(
 const updateAccountType = async () => {
 
   try {
-    const response = await $axios.put(
-      `/account_group_update/${localAccountGroup.value.account_group_id}`,
-      {
-        account_group_name: localAccountGroup.value.account_group_name, // ✅ Fix property
-      }
-    );
+    const response = await $api(`/account_group_update/${localAccountGroup.value.account_group_id}`, {
+      method: "PUT",
+      body: {
+        account_group_name: localAccountGroup.value.account_group_name,
+      },
+    });
 
-    if (response.status === 200 || response.status === 201) { // ✅ Use status instead of `ok`
-      emit("update", response.data); // ✅ Use `response.data`, no need for `.json()`
-      close();
-    } else {
-      console.log("Error updating account type");
-    }
+    emit("update", response);
+    close();
   } catch (error) {
     console.log("Error:", error);
   }

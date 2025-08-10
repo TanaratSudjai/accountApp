@@ -129,12 +129,11 @@ const route = useRoute();
 const categoryID = route.query.groupID;
 
 const typeData = ref([]);
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 const fetchTypeData = async () => {
   try {
-    const response = await $axios.get(`/account_type_get`);
-    const data = await response.data;
+    const data = await $api(`/account_type_get`);
     typeData.value = data.account_type;
   } catch (error) {
     console.log("Error fetching icons:", error);
@@ -145,8 +144,7 @@ const icons = ref(); //เก็บข้อมูลไอคอน
 const fetchIcon = async () => {
   //นำข้อมูลไอคอนมา
   try {
-    const response = await $axios.get(`/get_icons/${categoryID}`);
-    const data = await response.data;
+    const data = await $api(`/get_icons/${categoryID}`);
     icons.value = data.data;
   } catch (error) {
     console.log("No data", error);
@@ -236,17 +234,14 @@ const updateAccountType = async () => {
   };
 
   try {
-    const response = await $axios.put(
-      `/account_type_update/${localAccountType.value.account_type_id}`,
-      {
+    await $api(`/account_type_update/${localAccountType.value.account_type_id}`, {
+      method: "PUT",
+      body: {
         account_type_name: localAccountType.value.account_type_name,
-        // value
-
         account_type_value: localAccountType.value.account_type_value?.replace(
           /,/g,
           ""
         ),
-
         account_type_from_id: parseInt(
           localAccountType.value.account_type_from_id
         ),
@@ -255,20 +250,16 @@ const updateAccountType = async () => {
         account_type_icon: localAccountType.value.account_type_icon
           ? parseInt(localAccountType.value.account_type_icon)
           : null,
-      }
-    );
+      },
+    });
 
-    if (response.status === 200 || response.status === 201) {
-      emit("update", {
-        ...localAccountType.value,
-        account_type_from_id: localAccountType.value.account_type_from_id, // Include updated account_type_from_id
-      });
-      selected.value = null;
-      selectedIcon.value = null;
-      close();
-    } else {
-      console.log("Error updating account type");
-    }
+    emit("update", {
+      ...localAccountType.value,
+      account_type_from_id: localAccountType.value.account_type_from_id, // Include updated account_type_from_id
+    });
+    selected.value = null;
+    selectedIcon.value = null;
+    close();
   } catch (error) {
     console.log("Error:", error);
   }

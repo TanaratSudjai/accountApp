@@ -241,7 +241,7 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 const IconData = ref([]);
 const transition = ref([]);
 const selectedIcon = ref(null);
@@ -257,9 +257,9 @@ const { formatNumber } = useFormatNumber();
 
 const onSubmitTransition = async () => {
   try {
-    const response = await $axios.put(`/transitionsubmit`);
-
-    const data = await response.data;
+    const data = await $api(`/transitionsubmit`, {
+      method: "PUT",
+    });
   } catch (error) {
     // console.error("Error fetching transition:", error.message);
     throw error;
@@ -284,8 +284,11 @@ const router = useRouter();
 
 const submitDifferences = async () => {
   try {
-    await $axios.post(`/sumbittrantision_suminsert`, {
-      account_transition_value: differences.value,
+    await $api(`/sumbittrantision_suminsert`, {
+      method: "POST",
+      body: {
+        account_transition_value: differences.value,
+      },
     });
     await onSubmitTransition();
     await fetchTransition();
@@ -299,9 +302,8 @@ const submitDifferences = async () => {
 
 const fetchDataTransitionOpen = async () => {
   try {
-    const token = localStorage.getItem("token");
-    const response = await $axios.get(`/data_transition_open`);
-    const data = response.data.data;
+    const response = await $api(`/data_transition_open`);
+    const data = response.data;
 
     // Set all data from single API response
     groupOne.value = data.groupOneTransitions;
@@ -323,9 +325,8 @@ const fetchDataTransitionOpen = async () => {
 
 const fetchTransition = async () => {
   try {
-    const token = localStorage.getItem("token");
-    const response = await $axios.get(`/transitions`);
-    const data = await response.data.data;
+    const response = await $api(`/transitions`);
+    const data = response.data;
     transition.value = data.data;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -392,14 +393,14 @@ const updateAccountTransition = async (
   accountCategoryID
 ) => {
   try {
-    const response = await $axios.post(`/transition`, {
-      account_type_id: accountTypeId,
-      account_transition_value: accountTypeValue,
-      account_category_from_id: accountCategoryID,
+    await $api(`/transition`, {
+      method: "POST",
+      body: {
+        account_type_id: accountTypeId,
+        account_transition_value: accountTypeValue,
+        account_category_from_id: accountCategoryID,
+      },
     });
-    if (!response.status === 200 || !response.status === 201) {
-      throw new Error("Network response was not ok");
-    }
     await fetchTransition();
     await fetchDataTransitionOpen();
   } catch (error) {

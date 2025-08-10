@@ -159,18 +159,12 @@ const router = useRouter();
 const { FormatThaiDate } = useFormatThaiDate();
 const transition_data = ref([]);
 const loading = ref(true);
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 const fetchData = async () => {
   loading.value = true;
   try {
-    const response = await $axios.get("/dashboard");
-
-    if (response.status !== 200 && response.status !== 201) {
-      throw new Error("Network response was not ok");
-    }
-
-    const data = response.data;
+    const data = await $api("/dashboard");
     transition_data.value = data.result;
     console.log(transition_data.value);
   } catch (error) {

@@ -337,7 +337,7 @@ const router = useRouter();
 const datatype_sum = ref([]);
 const showZeroSum = ref(true);
 const error = ref("");
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 const loading = ref(true);
 const showAlert = (
   title,
@@ -356,12 +356,12 @@ const showAlert = (
 const fetchType = async () => {
   try {
     if (showZeroSum.value) {
-      const response = await $axios.get("/dasktop_data_sumtype");
-      datatype_sum.value = response.data.account_type_sum || [];
+      const response = await $api("/dasktop_data_sumtype");
+      datatype_sum.value = response.account_type_sum || [];
       loading.value = false;
     } else {
-      const response = await $axios.get("/dasktop_data_sumzero");
-      datatype_sum.value = response.data.account_type_sum || [];
+      const response = await $api("/dasktop_data_sumzero");
+      datatype_sum.value = response.account_type_sum || [];
     }
   } catch (err) {
     error.value = "Error fetching transitions: " + err.message;
@@ -443,16 +443,14 @@ const closeAccount = async () => {
   try {
     console.log("Close account function called");
 
-    const response = await $axios.post("/ExportAccount");
+    await $api("/ExportAccount", {
+      method: "POST",
+    });
 
-    if (response.status === 200) {
-      showAlert("ปิดบัญชีสำเร็จแล้ว", "ปิดบัญชีสำเร็จแล้ว");
-    } else {
-      showAlert("เกิดข้อผิดพลาดในการปิดบัญชี", "เกิดข้อผิดพลาดในการปิดบัญชี");
-    }
+    showAlert("ปิดบัญชีสำเร็จแล้ว", "ปิดบัญชีสำเร็จแล้ว");
   } catch (err) {
     console.error("Error closing account:", err);
-    alert("เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์");
+    showAlert("เกิดข้อผิดพลาดในการปิดบัญชี", "เกิดข้อผิดพลาดในการปิดบัญชี");
   }
 };
 </script>

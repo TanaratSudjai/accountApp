@@ -257,7 +257,7 @@ const selectedMenu = ref(null); // เก็บข้อมูลเมนูท
 const count = ref(null); // เก็บจำนวนรายการ
 const selectedCategory = ref(5); // เก็บประเภทที่เลือก
 const error = ref(null); // สำหรับจัดการข้อผิดพลาด
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 import { storeToRefs } from "pinia";
 import { useExpenseTransitionStore } from "~/stores/expenseTransition";
@@ -300,11 +300,14 @@ const handleUpdate = async ({
 
   try {
     // ส่งข้อมูลไปยัง API
-    const response = await $axios.post("/transition_select_expense", {
-      account_type_id: formData.value.account_type_id,
-      account_transition_value: formData.value.account_transition_value,
-      account_type_from_id: formData.value.account_type_from_id,
-      account_category_id: formData.value.account_category_id,
+    await $api("/transition_select_expense", {
+      method: "POST",
+      body: {
+        account_type_id: formData.value.account_type_id,
+        account_transition_value: formData.value.account_transition_value,
+        account_type_from_id: formData.value.account_type_from_id,
+        account_category_id: formData.value.account_category_id,
+      },
     });
     await fetchMenuGroupData(); // ดึงข้อมูลเมนูใหม่
   } catch (err) {
@@ -318,8 +321,8 @@ const handleUpdate = async ({
 // ฟังก์ชันดึงข้อมูลรายการเมนู
 const fetchMenuGroupData = async () => {
   try {
-    const menuGroup_result = await $axios.get("/getMenuGroup_expense");
-    menuGroup.value = menuGroup_result.data || [];
+    const menuGroup_result = await $api("/getMenuGroup_expense");
+    menuGroup.value = menuGroup_result || [];
   } catch (err) {
     error.value = "Error fetching menu group: " + err.message; // ตั้งค่า error
   }
@@ -328,7 +331,7 @@ const fetchMenuGroupData = async () => {
 // ฟังก์ชันดึงข้อมูลจำนวนรายการ
 const fetchDataSelect = async () => {
   try {
-    const data = await $axios.get("/getSelect_countSelect");
+    const data = await $api("/getSelect_countSelect");
     count.value = data; // เก็บค่าที่ดึงมา
   } catch (err) {
     error.value = "Error fetching count: " + err.message; // ตั้งค่า error

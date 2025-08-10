@@ -187,7 +187,7 @@ import { computed, onMounted } from "vue";
 const columnOneSelected = ref(null); //จากคอลัมน์ที่ 1
 const columnTwoSelected = ref(null); //จากคอลัมน์ที่ 2
 const bankData = ref([]);
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 const { formatNumber } = useFormatNumber();
 const { formatDateTime } = useFormatDateTime(); // or adjust path
 const page = ref(1);
@@ -205,10 +205,7 @@ const formData = ref({
 // function method fetch data category
 const fetchCat = async () => {
   try {
-    const res = await $axios.get("/get_type_from_id");
-    if (!res.status === 200 || !res.status === 201)
-      throw new Error("Network response was not ok");
-    const data = await res.data;
+    const data = await $api("/get_type_from_id");
     catData.value = data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -218,10 +215,9 @@ const fetchCat = async () => {
 // function method fetch data transitions 
 const bankTransition = async () => {
   try {
-    const response = await $axios.get(`/transition_bank`, {
+    const data = await $api(`/transition_bank`, {
       params: { page: page.value, limit: limit.value }
     });
-    const data = await response.data;
     bankData.value = data.data;
     totalPages.value = data.total_page || 1;
   } catch (error) {
@@ -241,22 +237,18 @@ const handleOkClick = async () => {
   };
 
   try {
-    const response = await $axios.post(
-      "/bank_trantisionInsert",
-      formData.value
-    );
+    await $api("/bank_trantisionInsert", {
+      method: "POST",
+      body: formData.value,
+    });
 
-    if (response.status !== 200 && response.status !== 201) {
-      throw new Error("Network response was not ok");
-    } else {
-      // Clear the form
-      formData.value = {};
-      columnOneSelected.value = null;
-      columnTwoSelected.value = null;
-      accountTypeValue.value = 0; // Reset input field
-      bankTransition();
-      fetchCat();
-    }
+    // Clear the form
+    formData.value = {};
+    columnOneSelected.value = null;
+    columnTwoSelected.value = null;
+    accountTypeValue.value = 0; // Reset input field
+    bankTransition();
+    fetchCat();
   } catch (err) {
     console.error("Error updating data:", err);
   }
@@ -265,7 +257,9 @@ const handleOkClick = async () => {
 // function method delete data
 const deleteTransection = async (id) => {
   try {
-    await $axios.patch(`/return_transition_bank`);
+    await $api(`/return_transition_bank`, {
+      method: "PATCH",
+    });
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCat();
   } catch (error) {

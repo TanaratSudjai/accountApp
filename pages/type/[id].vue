@@ -83,7 +83,7 @@
                   <span
                     class="text-gray-600 font-medium text-xs sm:text-md md:text-lg lg:text-xl block">รายละเอียด</span>
                   <span class="text-gray-800 text-xs sm:text-md md:text-lg lg:text-xl">{{
-                    Type.account_type_description
+                    Type.account_type_description || "ไม่มีรายละเอียด"
                   }}</span>
                 </div>
               </div>
@@ -150,7 +150,7 @@ import { ref, onMounted, watch } from "vue";
 import { Pencil, Trash2, Plus } from "lucide-vue-next";
 const route = useRoute();
 const groupID = route.params.id;
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 const typeID = route.params.id;
 const groupIDforAdd = route.query.groupID || "";
 const { formatNumber } = useFormatNumber();
@@ -175,8 +175,7 @@ const TypeData = ref([]);
 
 const FetchTypeDataAndDataId = async () => {
   try {
-    const response = await $axios.get(`/account_type_get`);
-    const data = await response.data;
+    const data = await $api(`/account_type_get`);
     console.log(data.account_type);
     typeDataID.value = data.account_type;
     typeData.value = data.account_type;
@@ -186,8 +185,7 @@ const FetchTypeDataAndDataId = async () => {
 };
 const fetchType = async () => {
   try {
-    const response = await $axios.get(`/account_type_get/${groupID}`);
-    const data = await response.data;
+    const data = await $api(`/account_type_get/${groupID}`);
     TypeData.value = data.account_type;
 
   } catch (error) {
@@ -201,18 +199,14 @@ onMounted(async () => {
 
 const deleteFormData = async (account_type_id) => {
   try {
-    const response = await $axios.delete(
-      `/account_type_del/${account_type_id}`
-    );
+    await $api(`/account_type_del/${account_type_id}`, {
+      method: "DELETE",
+    });
 
-    if (response.status == 200 || response.status == 201) {
-      TypeData.value = TypeData.value.filter(
-        (Type) => Type.account_type_id !== account_type_id
-      );
-      fetchType();
-    } else {
-      console.error("Failed to delete group");
-    }
+    TypeData.value = TypeData.value.filter(
+      (Type) => Type.account_type_id !== account_type_id
+    );
+    fetchType();
   } catch (error) {
     console.error("Error deleting group:", error);
   }

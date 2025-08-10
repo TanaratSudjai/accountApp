@@ -276,7 +276,7 @@ const checkData_depter = ref({ type: "", value: 0 });
 const checkData_creditor = ref({ type: "", value: 0 });
 const offAccount_menu = ref(true);
 const { formatNumber } = useFormatNumber();
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 const page = ref(1);
 const limit = ref(5);
 const totalPages = ref(1);
@@ -363,7 +363,7 @@ const openModifyFundModal = () => {
 // function method fetch data transitions
 const fetchData = async () => {
   try {
-    const { data } = await $axios.get("/transitions", {
+    const data = await $api("/transitions", {
       params: { page: page.value, limit: limit.value },
     });
     checkData.value = data.data || [];

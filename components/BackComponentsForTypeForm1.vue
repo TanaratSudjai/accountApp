@@ -94,7 +94,7 @@ const router = useRouter();
 const groupID = route.query.groupID || ""; // Retrieve groupID from query parameters
 const typeID = route.params.id;
 const groupIDGroup = route.params.id;
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 const CategoryData = ref([]);
 const GroupData = ref([]);
 const OtherGroupData = ref([])
@@ -112,8 +112,8 @@ const breadcrumbsForGroup = ref([
 
 const fetchCategory = async () => {
   try {
-    const response = await $axios.get(`/category/${groupID}`);
-    CategoryData.value = response.data;
+    const data = await $api(`/category/${groupID}`);
+    CategoryData.value = data;
   } catch (error) {
     if (process.env.NODE_ENV !== 'production') {
       console.error("Error fetching group data:", error);
@@ -125,8 +125,7 @@ const fetchCategory = async () => {
 
 const fetchGroup = async () => {
   try {
-    const response = await $axios.get(`/account_group_get/${typeID}`);
-    const data = await response.data;
+    const data = await $api(`/account_group_get/${typeID}`);
     GroupData.value = data.account_group_by_id;
   } catch (error) {
     console.log("Error fetching group data:", error);
@@ -135,8 +134,7 @@ const fetchGroup = async () => {
 
 const fetchOtherGroup = async () => {
   try {
-    const response = await $axios.get(`/category/${groupIDGroup}`);
-    const data = await response.data;
+    const data = await $api(`/category/${groupIDGroup}`);
     OtherGroupData.value = data;
   } catch (error) {
     console.log("Error fetching group data:", error);

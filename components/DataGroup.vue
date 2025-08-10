@@ -147,7 +147,7 @@ import {
 } from "lucide-vue-next";
 
 import { onMounted, onBeforeUnmount } from "vue";
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 const route = useRoute();
 const categoryID = route.params.id;
 
@@ -160,8 +160,8 @@ const openAddModal = () => {
 
 const fetchGroup = async () => {
   try {
-    const response = await $axios.get(`/account_group_counttype/${categoryID}`);
-    groupData.value = response.data.count_type_at_group;
+    const response = await $api(`/account_group_counttype/${categoryID}`);
+    groupData.value = response.count_type_at_group;
   } catch (error) {
     console.error("Error fetching group data:", error);
   }
@@ -173,23 +173,19 @@ const updateImportant = async (account_group_id) => {
   );
   if (account.account_type_important === 0) {
     try {
-      const response = await $axios.put(
-        `/account_type_important_one_update/${account_group_id}`
-      );
-      if (response.status === 200 || response.status === 201) {
-        fetchGroup();
-      }
+      await $api(`/account_type_important_one_update/${account_group_id}`, {
+        method: "PUT",
+      });
+      fetchGroup();
     } catch (error) {
       console.log("error updating account important", error);
     }
   } else {
     try {
-      const response = await $axios.put(
-        `/account_type_important_zero_update/${account_group_id}`
-      );
-      if (response.status === 200 || response.status === 201) {
-        fetchGroup();
-      }
+      await $api(`/account_type_important_zero_update/${account_group_id}`, {
+        method: "PUT",
+      });
+      fetchGroup();
     } catch (error) {
       console.log("error updating account important", error);
     }
@@ -213,17 +209,13 @@ onMounted(() => {
 
 const deleteFormData = async (account_group_id) => {
   try {
-    const response = await $axios.delete(
-      `/account_group_del/${account_group_id}`
+    await $api(`/account_group_del/${account_group_id}`, {
+      method: "DELETE",
+    });
+    groupData.value = groupData.value.filter(
+      (group) => group.account_group_id !== account_group_id
     );
-    if (response.status === 200 || response.status === 201) {
-      groupData.value = groupData.value.filter(
-        (group) => group.account_group_id !== account_group_id
-      );
-      fetchGroup();
-    } else {
-      console.log("Failed to delete group");
-    }
+    fetchGroup();
   } catch (error) {
     console.log("Error deleting group:", error);
   }

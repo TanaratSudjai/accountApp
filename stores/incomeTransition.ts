@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { useNuxtApp } from '#app'
 
 export const useIncomeTransitionStore = defineStore('incomeTransition', () => {
-  const { $axios } = useNuxtApp()
+  const { $api } = useApi()
 
   const transition = ref([])
   const disabledAccountTypeIds = ref(new Set())
@@ -12,11 +11,11 @@ export const useIncomeTransitionStore = defineStore('incomeTransition', () => {
   const fetchTransitions = async () => {
     console.log("Fetching transitions...")
     try {
-      const res = await $axios.get('/get_income_transition')
-      if (Array.isArray(res.data)) {
-        transition.value = res.data
+      const res = await $api('/get_income_transition')
+      if (Array.isArray(res)) {
+        transition.value = res
         disabledAccountTypeIds.value = new Set(
-          res.data.map((item) => item.account_type_id)
+          res.map((item) => item.account_type_id)
         )
       } else {
         throw new Error('Invalid data format')

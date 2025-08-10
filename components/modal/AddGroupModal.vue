@@ -84,7 +84,7 @@ const props = defineProps({
 
 const emit = defineEmits(["close", "submitted"]);
 
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 const formData = reactive({
   account_group_name: "",
@@ -95,9 +95,12 @@ watch(formData, (newVal) => { }, { deep: true });
 
 const submitForm = async () => {
   try {
-    const response = await $axios.post("/account_group_create", {
-      account_group_name: formData.account_group_name,
-      account_category_id: formData.account_category_id,
+    await $api("/account_group_create", {
+      method: "POST",
+      body: {
+        account_group_name: formData.account_group_name,
+        account_category_id: formData.account_category_id,
+      },
     });
     formData.account_group_name = "";
     emit("submitted");

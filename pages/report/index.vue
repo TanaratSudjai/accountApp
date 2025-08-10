@@ -170,7 +170,7 @@ import { ref, onMounted, computed } from "vue";
 const { formatNumber } = useFormatNumber();
 const report = ref([]);
 const error = ref("");
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 const loading = ref(true);
 const flattenedReport = ref([]);
 const income_graph = ref<number[]>(Array(12).fill(0));
@@ -179,7 +179,7 @@ const mounth_value = ref<number[]>([]);
 const page = ref("report");
 
 const fetchReport = async () => {
-  const response = await $axios.get("/getClosedAccount");
+  const response = await $api("/getClosedAccount");
 
   income_graph.value = Array(12).fill(0);
   expense_graph.value = Array(12).fill(0);

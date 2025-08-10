@@ -63,7 +63,7 @@ import { useAlert } from "~/composables/showAlert";
 
 // resigter state
 const { showAlert } = useAlert();
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
@@ -90,17 +90,20 @@ const handleLogin = async () => {
     return;
   }
   try {
-    const response = await $axios.post("/auth/login", {
-      account_user_username: formData.value.account_user_username,
-      account_user_password: formData.value.account_user_password,
+    const response = await $api("/auth/login", {
+      method: "POST",
+      body: {
+        account_user_username: formData.value.account_user_username,
+        account_user_password: formData.value.account_user_password,
+      },
     });
-    const token = response.data.token;
+    const token = response.token;
     localStorage.setItem("token", token);
     await router.push("/home");
     window.location.reload();
   } catch (err) {
     error.value =
-      err.response?.data?.message || "เกิดข้อผิดพลาดในการเข้าสู่ระบบ";
+      err.data?.message || "เกิดข้อผิดพลาดในการเข้าสู่ระบบ";
     showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ", "ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง");
   } finally {
     loading.value = false;

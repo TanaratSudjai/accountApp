@@ -54,7 +54,7 @@ import { useSession } from "~/composables/useSession";
 
 // composables state
 const { loading, nameuser, getSession } = useSession();
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 
 
@@ -62,7 +62,9 @@ const { $axios } = useNuxtApp();
 const logout = async () => {
   try {
     loading.value = true;
-    await $axios.post("/auth/logout");
+    await $api("/auth/logout", {
+      method: "POST",
+    });
     setInterval(() => {
       loading.value = false;
     }, 3000)
@@ -72,7 +74,7 @@ const logout = async () => {
     tokenCookie.value = null;
     window.location.reload();
   } catch (err) {
-    if (err.response?.status === 401) {
+    if (err.status === 401) {
       console.error("Unauthorized access. Please login again.");
     } else {
       console.error("Logout failed:", err.message);

@@ -1,16 +1,14 @@
 <script setup>
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 const router = useRouter();
 
 const onSubmit = async () => {
   try {
-    const response = await $axios.put(`/sumbitPerDay`);
-    if (response.status === 200 || response.status === 201) {
-      router.push("/dasktop");
-    } else {
-      console.log("Submit failed");
-    }
+    await $api(`/sumbitPerDay`, {
+      method: "PUT",
+    });
+    router.push("/dasktop");
   } catch (error) {
     console.log("error updating account important", error);
   }
