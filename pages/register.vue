@@ -7,7 +7,7 @@
     <form @submit.prevent="handleRegister" class="rounded w-full flex flex-col gap-2 justify-center ">
       <div class="">
         <label for="username" class="block text-sky-600 font-medium ">
-          ชื่อบัญชี
+          ชื่อบัญชี <span class="text-red-400">{{ error }}</span>
         </label>
         <input v-model="formData.account_user_name" id="name" type="text" placeholder="ชื่อบัญชี"
           class="p-2 rounded-lg w-full border-sky-600 focus:ring-2 focus:ring-sky-600 focus:outline-none border" />
@@ -58,7 +58,7 @@
             </g>
           </svg>
         </span>
-        <span v-else>สมัครสมาชิก</span>
+        <span v-else>{{ isDisabled ? "กรุณากรอกข้อมูลให้ครบก่อน" : "สมัครสมาชิก" }}</span>
       </button>
     </form>
     <button @click="goLogin" class="text-sky-600 px-3 py-2 rounded ">
@@ -87,20 +87,42 @@ const router = useRouter();
 
 
 // state form
+import { computed } from "vue";
+
 const formData = reactive({
   account_user_name: "",
   account_user_username: "",
   account_user_password: "",
   account_user_confirmpassword: "",
 });
+
 const isDisabled = computed(() => {
   return (
     !formData.account_user_name ||
     !formData.account_user_username ||
     !formData.account_user_password ||
-    !formData.account_user_confirmpassword
+    !formData.account_user_confirmpassword ||
+    formData.account_user_name.length <= 2
   );
 });
+
+watch(
+  () => formData.account_user_name,
+  (newVal) => {
+    const len = newVal.length;
+    if (len > 0 && len < 2) {
+      error.value = "ขนาดชื่อบัญชีสั้นเกินไป";
+    } else if (len >= 2 && len <= 5) {
+      error.value = "ขนาดชื่อบัญชีปานกลาง";
+    } else if (len > 5 && len <= 8) {
+      error.value = "ขนาดชื่อบัญชีใช้ได้เเนะนำ";
+    } else if (len > 12) {
+      error.value = "ขนาดชื่อบัญชียาวเกินไป";
+    } else {
+      error.value = "";
+    }
+  }
+);
 
 
 
@@ -110,18 +132,20 @@ const handleRegister = async () => {
   error.value = "";
   const { account_user_name, account_user_username, account_user_password, account_user_confirmpassword } = formData;
   try {
+
     if (account_user_password !== account_user_confirmpassword) {
       showAlert("เกิดข้อผิดพลาดในการสมัครสมาชิก", "รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน");
       return;
     }
-    await $api("/auth/register", {
-      method: "POST",
-      body: {
-        account_user_name,
-        account_user_username,
-        account_user_password,
-      },
-    });
+
+    //  await $api("/auth/register", {
+    //   method: "POST",
+    //   body: {
+    //     account_user_name,
+    //     account_user_username,
+    //     account_user_password,
+    //   },
+    // });
     showAlert("สมัครสำเร็จ!", "คุณสามารถเข้าสู่ระบบได้ทันที");
     await router.push("/");
   } catch (err) {
