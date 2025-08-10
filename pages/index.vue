@@ -78,8 +78,8 @@ const formData = reactive({
 // state form isDisabled
 const isDisabled = computed(() => {
   return (
-    !formData.account_user_username &&
-    !formData.account_user_password
+    !formData.account_user_username.trim() ||
+    !formData.account_user_password.trim()
   )
 })
 
@@ -88,12 +88,12 @@ const isDisabled = computed(() => {
 const handleLogin = async () => {
   if (loading.value) return;
   loading.value = true;
-  if (!formData.value.account_user_username.trim()) {
+  if (!formData.account_user_username.trim()) {
     loading.value = false;
     showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ", "ไม่สามารถเว้นว่างได้ หรือกรอกข้อมูลไม่ถูกต้อง");
     return;
   }
-  if (!formData.value.account_user_password.trim()) {
+  if (!formData.account_user_password.trim()) {
     loading.value = false;
     showAlert("กรุณากรอกรหัสผ่าน", "รหัสผ่านไม่สามารถเว้นว่างได้");
     return;
@@ -102,8 +102,8 @@ const handleLogin = async () => {
     const response = await $api("/auth/login", {
       method: "POST",
       body: {
-        account_user_username: formData.value.account_user_username,
-        account_user_password: formData.value.account_user_password,
+        account_user_username: formData.account_user_username,
+        account_user_password: formData.account_user_password,
       },
     });
     const token = response.token;
@@ -111,9 +111,18 @@ const handleLogin = async () => {
     await router.push("/home");
     window.location.reload();
   } catch (err) {
-    error.value =
-      err.data?.message || "เกิดข้อผิดพลาดในการเข้าสู่ระบบ";
-    showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ", "ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง");
+    console.error(err);
+    const status = err?.status || err?.response?.status;
+    if (status === 409) {
+      showAlert("มีการพยายามเข้าสู่ระบบอย่างไม่ปลอดภัย", "กรุณาลองใหม่ในอีก 10 นาที");
+    }
+    else if (status === 404) {
+      showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+    }
+    else {
+      const message = err?.data?.message || err?.response?.data?.message || "เกิดข้อผิดพลาดในการเข้าสู่ระบบ";
+      showAlert("มีการพยายามเข้าสู่ระบบอย่างไม่ปลอดภัย", "ลองใหม่อีกครั้งใน 5 นาที");
+    }
   } finally {
     loading.value = false;
   }
