@@ -15,7 +15,7 @@ export function useAlert() {
       `,
       icon: "info",
       iconColor: "oklch(58.8% 0.158 241.966)",
-      width: "350px",
+      width: "380px",
       padding: "1rem",
       background: "#fff",
       showConfirmButton: true,

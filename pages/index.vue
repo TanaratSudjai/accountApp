@@ -23,8 +23,8 @@
       <!-- <div v-if="error" class="text-red-500 mb-4">
         {{ error }}
       </div> -->
-      <button @click="handleLogin" :disabled="loading"
-        class="bg-sky-600 text-white px-2 py-2 rounded-md hover:bg-sky-500 flex justify-center items-center">
+      <button @click="handleLogin" :disabled="isDisabled"
+        :class="['bg-sky-600 text-white px-2 py-2 rounded-md hover:bg-sky-500 flex justify-center items-center', { 'opacity-50 cursor-not-allowed': isDisabled }]">
         <span v-if="loading">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <g>
@@ -41,7 +41,7 @@
             </g>
           </svg>
         </span>
-        <span v-else>เข้าสู่ระบบ</span>
+        <span v-else>{{ isDisabled ? "กรุณากรอกข้อมูล" : "เข้าสู่ระบบ" }}</span>
       </button>
     </form>
     <button @click="goRegister"
@@ -71,10 +71,17 @@ const error = ref("");
 
 
 // state form
-const formData = ref({
+const formData = reactive({
   account_user_username: "",
   account_user_password: "",
 });
+// state form isDisabled
+const isDisabled = computed(() => {
+  return (
+    !formData.account_user_username &&
+    !formData.account_user_password
+  )
+})
 
 
 // function method
@@ -82,10 +89,12 @@ const handleLogin = async () => {
   if (loading.value) return;
   loading.value = true;
   if (!formData.value.account_user_username.trim()) {
-    showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ กรุณากรอกชื่อผู้ใช้", "ไม่สามารถเว้นว่างได้ หรือกรอกข้อมูลไม่ถูกต้อง");
+    loading.value = false;
+    showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ", "ไม่สามารถเว้นว่างได้ หรือกรอกข้อมูลไม่ถูกต้อง");
     return;
   }
   if (!formData.value.account_user_password.trim()) {
+    loading.value = false;
     showAlert("กรุณากรอกรหัสผ่าน", "รหัสผ่านไม่สามารถเว้นว่างได้");
     return;
   }
