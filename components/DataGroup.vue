@@ -167,30 +167,6 @@ const fetchGroup = async () => {
   }
 };
 
-const updateImportant = async (account_group_id) => {
-  const account = groupData.value.find(
-    (group) => group.account_group_id === account_group_id
-  );
-  if (account.account_type_important === 0) {
-    try {
-      await $api(`/account_type_important_one_update/${account_group_id}`, {
-        method: "PUT",
-      });
-      fetchGroup();
-    } catch (error) {
-      console.log("error updating account important", error);
-    }
-  } else {
-    try {
-      await $api(`/account_type_important_zero_update/${account_group_id}`, {
-        method: "PUT",
-      });
-      fetchGroup();
-    } catch (error) {
-      console.log("error updating account important", error);
-    }
-  }
-};
 
 defineExpose({ fetchGroup });
 
@@ -239,8 +215,6 @@ const handleUpdate = (updatedData) => {
 };
 
 const goToPath = (account_group_id, categoryID) => {
-  router.push(`/type/${account_group_id}?groupID=${categoryID}`).then(() => {
-    window.location.reload();
-  });
+  router.push(`/type/${account_group_id}?groupID=${categoryID}`)
 };
 </script>

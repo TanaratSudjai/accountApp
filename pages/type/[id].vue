@@ -169,20 +169,9 @@ const formData = ref({
   account_group_id: groupID,
 });
 
-const typeData = ref([]);
 const typeDataID = ref([]);
 const TypeData = ref([]);
 
-const FetchTypeDataAndDataId = async () => {
-  try {
-    const data = await $api(`/account_type_get`);
-    console.log(data.account_type);
-    typeDataID.value = data.account_type;
-    typeData.value = data.account_type;
-  } catch (error) {
-    console.error("Error fetching icons:", error);
-  }
-};
 const fetchType = async () => {
   try {
     const data = await $api(`/account_type_get/${groupID}`);
@@ -192,10 +181,7 @@ const fetchType = async () => {
     console.error("Error fetching group data:", error);
   }
 };
-onMounted(async () => {
-  fetchType();
-  FetchTypeDataAndDataId();
-});
+
 
 const deleteFormData = async (account_type_id) => {
   try {
@@ -206,7 +192,7 @@ const deleteFormData = async (account_type_id) => {
     TypeData.value = TypeData.value.filter(
       (Type) => Type.account_type_id !== account_type_id
     );
-    fetchType();
+    await fetchType();
   } catch (error) {
     console.error("Error deleting group:", error);
   }
@@ -219,12 +205,16 @@ const openUpdateModal = (Type) => {
   showUpdateModal.value = true;
 };
 
-const handleUpdate = (updatedData) => {
+const handleUpdate = async (updatedData) => {
   TypeData.value = TypeData.value.map((Type) =>
     Type.account_type_id === updatedData.account_type_id ? updatedData : Type
   );
-
   formData.value.account_type_from_id = updatedData.account_type_from_id;
-  fetchType();
+  await fetchType();
 };
+
+
+onMounted(async () => {
+  await fetchType();
+});
 </script>

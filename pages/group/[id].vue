@@ -23,8 +23,7 @@ const dataGroupRef = ref(null);
 // import { useGroupStore } from "../../stores/group";
 // const groupStore = useGroupStore();
 
-import GetgroupName from "~/components/GetgroupName.vue";
-const { $api } = useApi();
+// const { $api } = useApi();
 
 const formData = reactive({
   account_group_name: "",
@@ -33,22 +32,22 @@ const formData = reactive({
 
 watch(formData, (newVal) => {}, { deep: true });
 
-const submitForm = async () => {
-  try {
-    await $api("/account_group_create", {
-      method: "POST",
-      body: {
-        account_group_name: formData.account_group_name,
-        account_category_id: formData.account_category_id,
-      },
-    });
-    // อัพเดท formData
-    formData.account_group_name = "";
-    dataGroupRef.value.fetchGroup();
-  } catch (error) {
-    console.log(error, "Error creating account group:");
-  }
-};
+// const submitForm = async () => {
+//   try {
+//     await $api("/account_group_create", {
+//       method: "POST",
+//       body: {
+//         account_group_name: formData.account_group_name,
+//         account_category_id: formData.account_category_id,
+//       },
+//     });
+//     // อัพเดท formData
+//     formData.account_group_name = "";
+//     dataGroupRef.value.fetchGroup();
+//   } catch (error) {
+//     console.log(error, "Error creating account group:");
+//   }
+// };
 
 // const fetchData = async () => {
 //   if (route.params.id) {
