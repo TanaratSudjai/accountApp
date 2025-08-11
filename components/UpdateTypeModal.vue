@@ -1,17 +1,17 @@
 <template>
   <div v-if="show" class="fixed inset-0 z-50">
     <!-- Backdrop -->
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <div class="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
 
     <!-- Modal Container -->
-    <div class="relative min-h-screen flex items-center justify-center">
+    <div class="relative mt-12 flex items-center justify-center">
       <!-- Modal Content -->
-      <div class="relative w-full max-w-xs md:max-w-md bg-white rounded-2xl shadow-2xl">
+      <div class="relative w-full max-w-xs md:max-w-md bg-white rounded-lg ">
         <!-- Header -->
         <div class="p-2 border-b border-gray-100">
           <div class="flex items-center justify-between">
             <div class="text-lg md:text-xl lg:text-2xl font-semibold text-sky-600">อัพเดตประเภท</div>
-            <div class="cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors" @click="close">
+            <div class="cursor-pointer  hover:bg-gray-100 rounded-full transition-colors" @click="close">
               <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -23,7 +23,7 @@
         <div class="p-6">
           <form @submit.prevent="updateAccountType">
             <!-- Input Fields -->
-            <div class="space-y-5">
+            <div class="space-y-2.5">
               <!-- Name Input -->
               <div>
                 <div class="text-xs md:text-sm lg:text-md font-medium text-gray-700">
@@ -31,7 +31,7 @@
                 </div>
                 <div class="relative">
                   <input type="text" v-model="localAccountType.account_type_name"
-                    class="w-full px-2 py-1 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none  "
+                    class="w-full px- 0-1 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none  "
                     required />
                 </div>
               </div>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="relative">
                   <input type="text" v-model="localAccountType.account_type_value"
-                    class="w-full px-2 py-1 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none  " />
+                    class="w-full px-0.5  md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none  " />
                 </div>
               </div>
 
@@ -54,7 +54,7 @@
                 </div>
                 <div class="relative">
                   <input type="text" v-model="localAccountType.account_type_description" placeholder="คำอธิบายเพิ่มเติม"
-                    class="w-full px-2 py-1 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none " />
+                    class="w-full px-0. 5 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none " />
                 </div>
               </div>
 
@@ -63,7 +63,7 @@
                 <div class="text-sm font-medium text-gray-700 ">
                   เลือกประเภท
                 </div>
-                <div class="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
+                <div class="flex gap-2 overflow-x-auto ">
                   <div v-for="type in typeData" :key="type.account_type_id" @click="toggleSelect(type)" :class="[
                     'px-4 py-2.5 rounded-xl text-sm font-medium cursor-pointer whitespace-nowrap transition-all duration-200 ',
                     selected &&
@@ -84,7 +84,7 @@
                 <div class="relative">
                   <div class="overflow-x-auto">
                     <div
-                      class="grid grid-rows-4 grid-column-3 auto-cols-max grid-flow-col gap-3 p-1 bg-gray-50 rounded-xl w-max">
+                      class="grid grid-rows-3 grid-column-3 auto-cols-max grid-flow-col gap-3 p-1 bg-gray-50 rounded-xl w-max">
                       <div v-for="icon in icons" :key="icon.account_icon_id" @click="toggleSelectIcon(icon)" :class="[
                         'w-12 h-12 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105',
                         selectedIcon?.account_icon_id === icon.account_icon_id
@@ -103,7 +103,7 @@
             </div>
 
             <!-- Footer Actions -->
-            <div class="flex items-center justify-end gap-3 mt-8">
+            <div class="flex items-center justify-end gap-3 mt-3">
               <div
                 class="px-2 py-1 md:px-3 md:py-2 text-xs md:text-sm lg:text-md font-medium text-white bg-gray-500 border rounded-lg cursor-pointer hover:bg-gray-600 "
                 @click="close">
