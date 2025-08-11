@@ -174,7 +174,6 @@ const groupIDforAdd = route.query.groupID || "";
 const { formatNumber } = useFormatNumber();
 
 
-
 const formData = ref({
   account_type_name: "",
   account_type_value: "",
@@ -184,7 +183,6 @@ const formData = ref({
   account_group_id: groupID,
 });
 
-const typeDataID = ref([]);
 const TypeData = ref([]);
 
 const fetchType = async () => {
@@ -194,11 +192,6 @@ const fetchType = async () => {
   } catch (error) {
     console.error("Error fetching group data:", error);
   }
-};
-
-const getAccountTypeName = (id) => {
-  const account = TypeData.value.find((type) => type.account_type_id === id);
-  return account ? account.account_type_name : "ยังไม่ได้เลือก";
 };
 
 const deleteFormData = async (account_type_id) => {
