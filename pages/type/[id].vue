@@ -75,7 +75,7 @@
               >
                 {{ Type.account_type_name }}
               </h3>
-              <div
+              <!-- <div
                 class="flex items-center text-xs text-gray-500 bg-gray-50 rounded-full w-fit"
               >
                 <svg
@@ -92,7 +92,7 @@
                   ></path>
                 </svg>
                 Code: {{ Type.account_type_id }}
-              </div>
+              </div> -->
             </div>
           </div>
 
