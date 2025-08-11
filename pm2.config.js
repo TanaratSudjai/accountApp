@@ -4,7 +4,10 @@ module.exports = {
       name: "accountApp",
       script: ".output/server/index.mjs",
       cwd: "/home/xver/accountApp",
-      interpreter: "node"
-    }
-  ]
-}
+      interpreter: "node",
+      env: {
+        NODE_ENV: "production",
+      },
+    },
+  ],
+};
