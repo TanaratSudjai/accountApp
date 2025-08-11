@@ -70,6 +70,7 @@
 <script setup>
 definePageMeta({
   layout: "login",
+  pageTransition: { name: 'slide-right', mode: 'out-in' }
 });
 
 // import

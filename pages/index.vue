@@ -54,6 +54,7 @@
 <script setup>
 definePageMeta({
   layout: "login",
+  pageTransition: { name: 'slide-right', mode: 'out-in' }
 });
 
 // import 
@@ -82,7 +83,6 @@ const isDisabled = computed(() => {
     !formData.account_user_password.trim()
   )
 })
-
 
 // function method
 const handleLogin = async () => {
@@ -124,7 +124,7 @@ const handleLogin = async () => {
     }
     else {
       const message = err?.data?.message || err?.response?.data?.message || "เกิดข้อผิดพลาดในการเข้าสู่ระบบ";
-      showAlert("มีการพยายามเข้าสู่ระบบอย่างไม่ปลอดภัย", "ลองใหม่อีกครั้งใน 5 นาที");
+      showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
     }
   } finally {
     loading.value = false;

@@ -6,16 +6,16 @@
         <div class="flex gap-2 justify-between items-center">
           <div class="flex gap-2">
             <button v-if="page === `report`" @click="hideZeroRows = !hideZeroRows"
-              class="px-2 py-1 border-b-2 border-sky-600 text-gray-700 hover:bg-sky-20 hover:text-sky-700  text-xs md:text-md lg:text-lg">
+              class="text-nowrap px-2 py-1 border-b-2 border-sky-600 text-gray-700 hover:bg-sky-20 hover:text-sky-700  text-xs md:text-md lg:text-lg">
               {{ hideZeroRows ? "แสดงทั้งหมด" : "ซ่อนแถวที่เป็นศูนย์" }}
             </button>
             <button @click="page = page === 'report' ? 'graph' : 'report'"
-              class="px-2 py-1 border-b-2 border-sky-600 text-gray-700 hover:bg-sky-20 hover:text-sky-700  text-xs md:text-md lg:text-lg">
+              class="text-nowrap px-2 py-1 border-b-2 border-sky-600 text-gray-700 hover:bg-sky-20 hover:text-sky-700  text-xs md:text-md lg:text-lg">
               {{ page === "report" ? "ดูกราฟรายงาน" : "ดูตารางรายงาน" }}
             </button>
           </div>
           <div class="" v-if="page == 'report'">
-            <button class="px-2 py-1 bg-sky-600 text-white rounded text-sm flex justify-center items-center gap-1">
+            <button class="px-2 py-1 bg-sky-600 text-white rounded text-xs md:text-md lg:text-lg flex justify-center items-center gap-1">
               <FileDown color="white" :size="18" />
               <span>Export ใบรายงาน</span>
             </button>
@@ -117,7 +117,7 @@
       </table>
 
       <!-- graph -->
-      <div v-else class=" ">
+      <div v-else class="mt-2">
         <p class="text-gray-500 text-center mb-4">กราฟรายงานจะถูกแสดงที่นี่</p>
         <div class="">
           <data-graph-report :income="income_graph" :expense="expense_graph" :mounth="mounth_value"></data-graph-report>

@@ -80,8 +80,157 @@ onMounted(() => {
   getSession();
 });
 </script>
-<style scoped>
+<style>
 .font-noto {
   font-family: "Noto Sans Thai", sans-serif;
+}
+
+/* Page Transition Styles - Optimized for data loading */
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(15px) scale(0.98);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-15px) scale(1.02);
+}
+
+/* Ensure content is visible during transition */
+.page-enter-active *,
+.page-leave-active * {
+  pointer-events: none;
+}
+
+.page-enter-to * {
+  pointer-events: auto;
+}
+
+/* Slide Right Transition - Optimized */
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: all 0.25s ease-in-out;
+}
+
+.slide-right-enter-from {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.slide-right-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+/* Slide Left Transition */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+
+.slide-left-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* Fade Scale Transition */
+.fade-scale-enter-active,
+.fade-scale-leave-active {
+  transition: all 0.5s ease;
+}
+
+.fade-scale-enter-from {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.fade-scale-leave-to {
+  opacity: 0;
+  transform: scale(1.05);
+}
+
+/* Zoom Transition */
+.zoom-enter-active,
+.zoom-leave-active {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.zoom-enter-from {
+  opacity: 0;
+  transform: scale(0.8) rotate(-5deg);
+}
+
+.zoom-leave-to {
+  opacity: 0;
+  transform: scale(1.2) rotate(5deg);
+}
+
+/* Bounce Transition */
+.bounce-enter-active {
+  animation: bounce-in 0.6s;
+}
+
+.bounce-leave-active {
+  animation: bounce-out 0.4s;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+
+  70% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* Flip Transition */
+.flip-enter-active,
+.flip-leave-active {
+  transition: all 0.5s ease;
+}
+
+.flip-enter-from {
+  opacity: 0;
+  transform: rotateY(-90deg) scale(0.9);
+}
+
+.flip-leave-to {
+  opacity: 0;
+  transform: rotateY(90deg) scale(0.9);
 }
 </style>
