@@ -109,10 +109,19 @@ const handleLogin = async () => {
       showAlert("เกิดปัญหาในการเข้าสู่ระบบ", "กรุณาลองใหม่ในอีกอีกครั้ง");
     }
 
+    if (response.status === 200) {
+      const token = response.token;
+      const tokenCookie = useCookie("token", {
+        maxAge: 60 * 60 * 2, // 2 ชั่วโมง
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+      });
+      tokenCookie.value = token;
+      await router.push("/home");
+      window.location.reload();
+    }
 
-
-    await router.push("/home");
-    window.location.reload();
   } catch (err) {
     console.error(err);
     const status = err?.status || err?.response?.status;
@@ -136,11 +145,4 @@ const goRegister = async () => {
   router.push("/register");
 };
 
-// Monitor cookies on page load
-onMounted(() => {
-  if (process.client) {
-    console.log('🚀 Login page loaded - starting cookie monitoring');
-
-  }
-});
 </script>
