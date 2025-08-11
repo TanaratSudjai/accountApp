@@ -1,6 +1,6 @@
 <template>
   <BackComponents />
-  <div class="bg-white  overflow-hidden p-3">
+  <div class="bg-white max-w-7xl mx-auto overflow-hidden p-3">
     <div class="overflow-x-auto">
       <div class="">
         <div class="flex gap-2 justify-between items-center">
@@ -15,9 +15,10 @@
             </button>
           </div>
           <div class="" v-if="page == 'report'">
-            <button class="px-2 py-1 bg-sky-600 text-white rounded text-xs md:text-md lg:text-lg flex justify-center items-center gap-1">
+            <button
+              class="px-2 py-1 bg-sky-600 text-white rounded text-xs md:text-md lg:text-lg flex justify-center items-center gap-1">
               <FileDown color="white" :size="18" />
-              <span>Export ใบรายงาน</span>
+              <span class="px-2 py-1 bg-sky-600 text-white rounded text-xs">Export ใบรายงาน</span>
             </button>
           </div>
         </div>
@@ -26,6 +27,7 @@
         </p>
       </div>
       <table v-if="page == 'report'" class="w-full border-collapse">
+
         <!-- Table Header -->
         <!-- Table Header -->
         <thead>
@@ -123,7 +125,8 @@
           <data-graph-report :income="income_graph" :expense="expense_graph" :mounth="mounth_value"></data-graph-report>
         </div>
         <div class="mt-3 p-2 md:mt-6 md:p-3 bg-white  rounded-lg">
-          <h2 class="text-md md: text-md md:text-lg lg:text-xl lg:text-xl font-semibold text-gray-800 mb-4">วิธีการอ่านและวิเคราะห์กราฟรายได้และรายจ่ายทางการบัญชี
+          <h2 class="text-md md: text-md md:text-lg lg:text-xl lg:text-xl font-semibold text-gray-800 mb-4">
+            วิธีการอ่านและวิเคราะห์กราฟรายได้และรายจ่ายทางการบัญชี
           </h2>
           <p class="text-gray-600 mb-4 text-xs md:text-md lg: text-md md:text-lg lg:text-xl">
             กราฟรายได้และรายจ่ายเป็นเครื่องมือสำคัญในการวิเคราะห์สถานะทางการเงินของธุรกิจหรือบุคคล
@@ -131,9 +134,12 @@
             เพื่อให้คุณสามารถตีความข้อมูลได้อย่างมีประสิทธิภาพ
           </p>
 
-          <h3 class="text-md md: text-md md:text-lg lg:text-xl lg:text-xl font-medium text-gray-700 mt-6 mb-3">1. ทำความเข้าใจส่วนประกอบของกราฟ</h3>
-          <p class="text-gray-600 mb-3 text-md md:text-lg lg:text-xl">กราฟรายได้และรายจ่ายมักประกอบด้วยองค์ประกอบหลักดังนี้</p>
-          <ul class="list-disc list-inside text-gray-600 mb-4 text-xs md:text-md lg: text-md md:text-lg lg:text-xl text-xs md:text-md lg:text-lg">
+          <h3 class="text-md md: text-md md:text-lg lg:text-xl lg:text-xl font-medium text-gray-700 mt-6 mb-3">1.
+            ทำความเข้าใจส่วนประกอบของกราฟ</h3>
+          <p class="text-gray-600 mb-3 text-md md:text-lg lg:text-xl">
+            กราฟรายได้และรายจ่ายมักประกอบด้วยองค์ประกอบหลักดังนี้</p>
+          <ul
+            class="list-disc list-inside text-gray-600 mb-4 text-xs md:text-md lg: text-md md:text-lg lg:text-xl text-xs md:text-md lg:text-lg">
             <li><strong>แกน X (แนวนอน):</strong> มักแสดงช่วงเวลา เช่น เดือน ไตรมาส หรือปี</li>
             <li><strong>แกน Y (แนวตั้ง):</strong> แสดงจำนวนเงิน เช่น รายได้หรือรายจ่าย (หน่วยเป็นบาท, ดอลลาร์,
               หรือสกุลเงินอื่น)</li>
@@ -147,7 +153,8 @@
           </ul>
 
           <h3 class="font-medium text-gray-700 mt-6 mb-3 text-md md:text-lg lg:text-xl">2. ขั้นตอนการวิเคราะห์กราฟ</h3>
-          <h4 class="text-xs md:text-md lg: text-md md:text-lg lg:text-xl font-medium text-gray-600 mt-4 mb-2">ขั้นตอนที่ 1: ดูภาพรวมของกราฟ</h4>
+          <h4 class="text-xs md:text-md lg: text-md md:text-lg lg:text-xl font-medium text-gray-600 mt-4 mb-2">
+            ขั้นตอนที่ 1: ดูภาพรวมของกราฟ</h4>
           <ul class="list-disc list-inside text-gray-600 mb-4 text-xs md:text-md lg: text-md md:text-lg lg:text-xl">
             <li>ตรวจสอบช่วงเวลาที่กราฟครอบคลุม เช่น กราฟแสดงข้อมูลรายเดือนหรือรายปี</li>
             <li>สังเกตแนวโน้มของเส้นหรือแท่งกราฟ:
@@ -159,20 +166,23 @@
             </li>
           </ul>
 
-          <h4 class="text-xs md:text-md lg: text-md md:text-lg lg:text-xl font-medium text-gray-600 mt-4 mb-2">ขั้นตอนที่ 2: เปรียบเทียบรายได้และรายจ่าย</h4>
+          <h4 class="text-xs md:text-md lg: text-md md:text-lg lg:text-xl font-medium text-gray-600 mt-4 mb-2">
+            ขั้นตอนที่ 2: เปรียบเทียบรายได้และรายจ่าย</h4>
           <ul class="list-disc list-inside text-gray-600 mb-4 text-xs md:text-md lg: text-md md:text-lg lg:text-xl">
             <li>ดูว่ารายได้และรายจ่ายมีความสัมพันธ์กันอย่างไร</li>
             <li>หากรายได้สูงกว่ารายจ่าย แปลว่าธุรกิจหรือการเงินส่วนบุคคลมีกำไร</li>
             <li>หากรายจ่ายสูงกว่ารายได้ อาจบ่งชี้ถึงปัญหาการเงินที่ต้องแก้ไข</li>
           </ul>
 
-          <h4 class="text-xs md:text-md lg: text-md md:text-lg lg:text-xl font-medium text-gray-600 mt-4 mb-2">ขั้นตอนที่ 3: วิเคราะห์จุดผิดปกติ</h4>
+          <h4 class="text-xs md:text-md lg: text-md md:text-lg lg:text-xl font-medium text-gray-600 mt-4 mb-2">
+            ขั้นตอนที่ 3: วิเคราะห์จุดผิดปกติ</h4>
           <p class="text-gray-600 mb-4">
             สังเกตจุดที่กราฟมีการเปลี่ยนแปลงอย่างมาก เช่น รายได้พุ่งสูงขึ้นหรือรายจ่ายเพิ่มขึ้นกะทันหัน วิเคราะห์สาเหตุ
             เช่น การเพิ่มขึ้นของยอดขาย หรือค่าใช้จ่ายพิเศษ (เช่น ค่าซ่อมบำรุง)
           </p>
 
-          <h4 class="text-xs md:text-md lg: text-md md:text-lg lg:text-xl font-medium text-gray-600 mt-4 mb-2">ขั้นตอนที่ 4: ใช้กราฟในการตัดสินใจ</h4>
+          <h4 class="text-xs md:text-md lg: text-md md:text-lg lg:text-xl font-medium text-gray-600 mt-4 mb-2">
+            ขั้นตอนที่ 4: ใช้กราฟในการตัดสินใจ</h4>
           <ul class="list-disc list-inside text-gray-600 mb-4 text-xs md:text-md lg: text-md md:text-lg lg:text-xl">
             <li>หากรายจ่ายสูงเกินไป อาจต้องพิจารณาลดค่าใช้จ่ายที่ไม่จำเป็น</li>
             <li>หากรายได้เพิ่มขึ้นอย่างต่อเนื่อง อาจเป็นโอกาสในการขยายธุรกิจหรือลงทุนเพิ่ม</li>
@@ -223,15 +233,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
-import {
-  FileDown,
+import { FileDown, } from "lucide-vue-next";
 
-} from "lucide-vue-next";
+
 const { formatNumber } = useFormatNumber();
 const report = ref([]);
-const error = ref("");
 const { $api } = useApi();
-const loading = ref(true);
 const flattenedReport = ref([]);
 const income_graph = ref<number[]>(Array(12).fill(0));
 const expense_graph = ref<number[]>(Array(12).fill(0));

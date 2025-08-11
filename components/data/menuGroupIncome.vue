@@ -1,6 +1,6 @@
 <template>
   <div class="p-4">
-    <div class="max-w-4xl mx-auto space-y-2">
+    <div class="max-w-6xl mx-auto space-y-2">
 
       <div class="border-b border-gray-200">
         <div class="bg-white overflow-hidden">

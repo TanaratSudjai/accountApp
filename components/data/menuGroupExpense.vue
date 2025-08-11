@@ -1,6 +1,6 @@
 <template>
   <div class="p-4">
-    <div class="max-w-4xl mx-auto space-y-2">
+    <div class="max-w-6xl mx-auto space-y-2">
       <!-- Error State -->
       <!-- <div v-if="error" class="relative p-6 rounded-2xl border-2 border-sky-200 ">
         <div
