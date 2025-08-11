@@ -169,7 +169,7 @@
                   >
                   <span
                     class="text-blue-800 font-semibold text-xs sm:text-md md:text-lg lg:text-xl"
-                    >{{ getAccountTypeName(Type.account_type_from_id) }}</span
+                    >{{ Type.account_type_from_id_name || "ยังไม่ได้เลือกประเภท" }}</span
                   >
                 </div>
               </div>
@@ -246,10 +246,7 @@ const typeID = route.params.id;
 const groupIDforAdd = route.query.groupID || "";
 const { formatNumber } = useFormatNumber();
 
-const getAccountTypeName = (id) => {
-  const account = typeDataID.value.find((type) => type.account_type_id === id);
-  return account ? account.account_type_name : "ยังไม่ได้เลือก";
-};
+
 
 const formData = ref({
   account_type_name: "",
@@ -270,6 +267,11 @@ const fetchType = async () => {
   } catch (error) {
     console.error("Error fetching group data:", error);
   }
+};
+
+const getAccountTypeName = (id) => {
+  const account = TypeData.value.find((type) => type.account_type_id === id);
+  return account ? account.account_type_name : "ยังไม่ได้เลือก";
 };
 
 const deleteFormData = async (account_type_id) => {

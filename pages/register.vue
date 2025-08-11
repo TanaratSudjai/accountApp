@@ -139,14 +139,14 @@ const handleRegister = async () => {
       return;
     }
 
-    //  await $api("/auth/register", {
-    //   method: "POST",
-    //   body: {
-    //     account_user_name,
-    //     account_user_username,
-    //     account_user_password,
-    //   },
-    // });
+     await $api("/auth/register", {
+      method: "POST",
+      body: {
+        account_user_name,
+        account_user_username,
+        account_user_password,
+      },
+    });
     showAlert("สมัครสำเร็จ!", "คุณสามารถเข้าสู่ระบบได้ทันที");
     await router.push("/");
   } catch (err) {
