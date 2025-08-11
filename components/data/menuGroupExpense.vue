@@ -51,7 +51,7 @@
                     ></path>
                   </svg>
                   {{
-                    menuGroup.filter(
+                    menuGroup.flatMap(group => group.items).filter(
                       (menu) =>
                         selectedCategory === menu.account_category_id &&
                         !disabledAccountTypeIds.has(menu.account_type_id)
