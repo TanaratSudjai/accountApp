@@ -114,8 +114,8 @@
                   </path>
                 </svg>
                 <div class="flex gap-1">
-                  <span class="text-blue-600 font-medium text-xs sm:text-md md:text-lg lg:text-xl ">ประเภท</span>
-                  <span class="text-blue-800 font-semibold text-xs sm:text-md md:text-lg lg:text-xl">{{
+                  <span class="text-blue-600 font-medium text-xs sm:text-xs md:text-sm lg:text-md ">ประเภท</span>
+                  <span class="text-blue-800 font-semibold text-xs sm:text-xs md:text-sm lg:text-md">{{
                     Type.account_type_from_id_name || "ยังไม่ได้เลือกประเภท" }}</span>
                 </div>
               </div>

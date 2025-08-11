@@ -59,7 +59,7 @@
               </div>
 
               <!-- Type Selection -->
-              <div v-if="categoryID != 1">
+              <div v-if="categoryID != 1 && categoryID != 7">
                 <div class="text-sm font-medium text-gray-700 ">
                   เลือกประเภท
                 </div>
@@ -83,7 +83,8 @@
                 </div>
                 <div class="relative">
                   <div class="overflow-x-auto">
-                    <div class="grid grid-rows-4 grid-column-3 auto-cols-max grid-flow-col gap-3 p-1 bg-gray-50 rounded-xl w-max">
+                    <div
+                      class="grid grid-rows-4 grid-column-3 auto-cols-max grid-flow-col gap-3 p-1 bg-gray-50 rounded-xl w-max">
                       <div v-for="icon in icons" :key="icon.account_icon_id" @click="toggleSelectIcon(icon)" :class="[
                         'w-12 h-12 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105',
                         selectedIcon?.account_icon_id === icon.account_icon_id
