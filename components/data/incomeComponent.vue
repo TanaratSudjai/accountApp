@@ -1,15 +1,11 @@
 <template>
-  <div class="flex gap-1 p-2 mx-2">
+  <div class="flex gap-1">
     <button class="w-full">
-      <div
-        class="rounded-lg bg-gradient-to-br from-green-50 to-green-100 shadow-md p-2"
-      >
-        <div class="flex items-center justify-between">
-          <div class="space-y-2">
-            <div class="text-sm text-green-700 font-medium">รายได้ทั้งหมด</div>
-            <div class="text-2xl font-bold text-green-800">
-              ฿{{ formatNumber(sumvalue_extend) }}
-            </div>
+      <div class="">
+        <div class="flex flex-col items-end justify-start">
+          <div class="text-sm text-green-500 font-medium">รายได้ทั้งหมด</div>
+          <div class="text-sm md:text-lg lg:text-xl font-bold text-green-500">
+            ฿{{ formatNumber(sumvalue_extend) }}
           </div>
         </div>
       </div>
@@ -19,31 +15,10 @@
 
 <script setup>
 const { formatNumber } = useFormatNumber(); // นำเข้า composable สำหรับการจัดรูปแบบตัวเลข
-const error = ref(null); // สำหรับจัดการข้อผิดพลาด
-const transition = ref([]);
-const { $axios } = useNuxtApp();
-
-let interval;
-// ฟังก์ชันดึงข้อมูลการเปลี่ยนแปลง
-const fetchTransitions = async () => {
-  try {
-    const data = await $axios.get(
-      "/get_income_transition"
-    );
-    transition.value = data.data;
-  } catch (err) {
-    error.value = "Error fetching transitions: " + err.message; // ตั้งค่า error
-  }
-};
-onMounted(() => {
-  interval = setInterval(fetchTransitions, 1000);
-  fetchTransitions(); // เรียกครั้งแรกทันทีที่โหลด
-});
-
-// ล้าง interval เมื่อ Component ถูกทำลาย
-onBeforeUnmount(() => {
-  clearInterval(interval);
-});
+import { storeToRefs } from "pinia";
+import { useIncomeTransitionStore } from "~/stores/incomeTransition";
+const store = useIncomeTransitionStore();
+const { transition } = storeToRefs(store);
 
 // คำนวณรายจ่ายทั้งหมด
 const sumvalue_extend = computed(() => {

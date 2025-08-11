@@ -66,25 +66,23 @@ const breadcrumbs = ref([
   { text: '', link: '' }, // Hardcoded for type name, replace with dynamic if needed
   { text: 'เพิ่ม', link: '' } // Hardcoded for type name, replace with dynamic if needed
 ]);
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 const fetchCategory = async () => {
   try {
-    const response = await $axios.get(`/category/${groupID}`);
-    const data = await response.data;
+    const data = await $api(`/category/${groupID}`);
     CategoryData.value = data;
   } catch (error) {
-    console.log("Error fetching group data:", error);
+    console.error("Error fetching group data:");
   }
 };
 
 const fetchGroup = async () => {
   try {
-    const response = await $axios.get(`/account_group_get/${typeID}`);
-    const data = await response.data;
+    const data = await $api(`/account_group_get/${typeID}`);
     GroupData.value = data.account_group_by_id;
   } catch (error) {
-    console.log("Error fetching group data:", error);
+    console.error("Error fetching group data:");
   }
 };
 

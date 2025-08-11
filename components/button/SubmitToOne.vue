@@ -1,24 +1,17 @@
 <script setup>
+const { $api } = useApi();
 
-const { $axios } = useNuxtApp();
-
-const router = useRouter()
+const router = useRouter();
 
 const onSubmit = async () => {
   try {
-      const response = await $axios.put(
-        `/sumbitPerDay`
-      );
-      if(response.status === 200 || response.status === 201){
-       console.log("Submit successful");
-       router.push("/dasktop")
-
-      } else {
-        console.log("Submit failed");
-      }
-    } catch (error) {
-      console.log("error updating account important", error);
-    }
+    await $api(`/sumbitPerDay`, {
+      method: "PUT",
+    });
+    router.push("/dasktop");
+  } catch (error) {
+    console.log("error updating account important", error);
+  }
 };
 </script>
 
@@ -27,7 +20,7 @@ const onSubmit = async () => {
     <div class="flex w-full gap-2 justify-center">
       <button
         @click="onSubmit"
-        class="bg-blue-300 p-4 rounded-xl w-full font-bold text-white hover:bg-blue-400 transition-colors duration-200"
+        class="bg-sky-600 p-2 text-white rounded-md w-full font-bold text-xs md:text-sm lg:text-md hover:bg-blue-400 transition-colors duration-200"
       >
         ยืนยันการทำรายการ
       </button>

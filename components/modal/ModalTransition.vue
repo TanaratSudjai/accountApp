@@ -13,7 +13,7 @@
 
       <!-- Modal -->
       <div
-        class="inline-block w-full max-w-md p-6 my-8 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
+        class="inline-block w-full max-w-md p-3 my-4 text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl"
         @click.stop
       >
         <!-- Header -->
@@ -38,7 +38,7 @@
             <div class="flex justify-between items-center">
               <span class="text-gray-600">ค่าเงินที่มีอยู่</span>
               <span class="font-medium text-gray-900"
-                >฿ {{ formatNumber(AccountTypeTotal) }}</span
+                >฿ {{ formatNumber(computedAccountTypeTotal) }}</span
               >
             </div>
           </div>
@@ -110,7 +110,7 @@
           <div>
             <span
               v-if="
-                account_category_id === 5 && updatedValue > AccountTypeTotal
+                account_category_id === 5 && updatedValue > computedAccountTypeTotal
               "
               class="text-red-500 text-sm"
             >
@@ -121,7 +121,7 @@
           <div class="flex space-x-3">
             <button
               @click="closeModal"
-              class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
+              class="px-4 py-2 text-sm font-medium text-white bg-gray-600 border border-gray-300 rounded-lg  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
             >
               ยกเลิก
             </button>
@@ -129,10 +129,10 @@
               v-if="account_category_id === 5"
               @click="updateValue"
               :class="{
-                'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200': true,
+                'bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200': true,
                 'bg-gray-400 text-gray-600 cursor-not-allowed opacity-50':
                   account_category_id === 5 && isSubmitDisabled,
-                'bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500':
+                'bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500':
                   !isSubmitDisabled,
               }"
               :disabled="account_category_id === 5 && isSubmitDisabled"
@@ -143,10 +143,10 @@
               v-if="account_category_id === 4"
               @click="updateValue"
               :class="{
-                'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200': true,
+                'bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200': true,
                 'bg-gray-400 text-gray-600 cursor-not-allowed opacity-50':
                   isSubmitDisabledIncome,
-                'bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500':
+                'bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500':
                   !isSubmitDisabledIncome,
               }"
               :disabled="isSubmitDisabledIncome"
@@ -174,17 +174,16 @@ input[type="number"] {
 </style>
 
 <script setup>
-import { ref, defineProps, defineEmits, computed, onMounted, watch } from "vue";
-
+import { ref, defineProps, defineEmits, computed, onMounted } from "vue";
 const categorys = ref([]);
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 const { formatNumber } = useFormatNumber();
 // Fetch category data
 const { data: category, error } = await useAsyncData(
   "fetch transitions",
   async () => {
-    const result_category = await $axios.get("/get_type_from_id");
-    categorys.value = result_category.data.result || [];
+    const result_category = await $api("/get_type_from_id");
+    categorys.value = result_category.result || [];
   }
 );
 
@@ -196,8 +195,6 @@ const props = defineProps({
   account_type_from_id: Number,
   account_category_id: Number,
 });
-
-console.log(props.account_type_value);
 
 const emits = defineEmits(["close", "update"]);
 
@@ -215,7 +212,6 @@ const selectCategory = (cat) => {
 const AccountTypeTotal = ref(0);
 const getAccountTypeTotal = (cat) => {
   AccountTypeTotal.value = parseFloat(cat.account_type_total) || 0; // Convert to number
-  console.log(AccountTypeTotal.value);
 };
 
 const updateValue = () => {
@@ -226,11 +222,9 @@ const updateValue = () => {
     account_category_id: props.account_category_id, // Include the selected account_category_id
   });
   closeModal();
-
-  console.log("Updated value:", updatedValue.value);
 };
 
-const closeModal = () => {
+const closeModal = async () => {
   emits("close");
 };
 
@@ -242,7 +236,7 @@ const isSubmitDisabled = computed(() => {
     updatedValue.value === undefined ||
     updatedValue.value === "" ||
     updatedAccountTypeId.value === null ||
-    updatedValue.value > AccountTypeTotal.value // Disable if updatedValue is greater than AccountTypeTotal
+    updatedValue.value > computedAccountTypeTotal.value // Disable if updatedValue is greater than AccountTypeTotal
   );
 });
 const isSubmitDisabledIncome = computed(() => {
@@ -257,28 +251,34 @@ const isSubmitDisabledIncome = computed(() => {
 });
 
 onMounted(() => {
-  console.log(
-    "Initial disabled state of submit button:",
-    isSubmitDisabled.value
-  );
-  // Perform any actions based on the initial disabled state, if needed
 });
 
 // formattedValue updatedValue to 10,000 => 10,000.00 updatedValue input tag
 
-watch(updatedValue, (newValue) => {
-  const numericValue = newValue.replace(/,/g, "");
-  // Only update the internal value without formatting
+// watch(updatedValue, (newCats) => {
+//   const defaultCat = newCats.find(
+//     (cat) => cat.account_type_id === props.account_type_from_id
+//   );
+//   if (defaultCat) {
+//     AccountTypeTotal.value = parseFloat(defaultCat.account_type_total) || 0;
+//     updatedAccountCategoryId.value = defaultCat.account_category_id;
+//   }
+//   // const numericValue = newValue.replace(/,/g, "");
+//   // // Only update the internal value without formatting
 
-  if (/^\d+(\.\d+)?$/.test(numericValue)) {
-    updatedValue.value = Number(numericValue).toLocaleString("en-US", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    });
-  }
+//   // if (/^\d+(\.\d+)?$/.test(numericValue)) {
+//   //   updatedValue.value = Number(numericValue).toLocaleString("en-US", {
+//   //     minimumFractionDigits: 0,
+//   //     maximumFractionDigits: 2,
+//   //   });
+//   // }
+// });
+
+const computedAccountTypeTotal = computed(() => {
+  const selectedCat = categorys.value.find(
+    (cat) => cat.account_type_id === updatedAccountTypeId.value
+  );
+  return parseFloat(selectedCat?.account_type_total) || 0;
 });
 
-
-// -------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------
 </script>

@@ -1,32 +1,19 @@
 <template>
   <div v-if="show" class="fixed inset-0 z-50">
     <!-- Backdrop -->
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <div class="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
 
     <!-- Modal Container -->
-    <div class="relative min-h-screen flex items-center justify-center p-4">
+    <div class="relative mt-12 flex items-center justify-center">
       <!-- Modal Content -->
-      <div class="relative w-full max-w-xl bg-white rounded-2xl shadow-2xl">
+      <div class="relative w-full max-w-xs md:max-w-md bg-white rounded-lg ">
         <!-- Header -->
-        <div class="p-6 border-b border-gray-100">
+        <div class="p-2 border-b border-gray-100">
           <div class="flex items-center justify-between">
-            <div class="text-xl font-semibold text-gray-900">อัพเดตประเภท</div>
-            <div
-              class="cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors"
-              @click="close"
-            >
-              <svg
-                class="w-5 h-5 text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
+            <div class="text-lg md:text-xl lg:text-2xl font-semibold text-sky-600">อัพเดตประเภท</div>
+            <div class="cursor-pointer  hover:bg-gray-100 rounded-full transition-colors" @click="close">
+              <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
           </div>
@@ -36,68 +23,54 @@
         <div class="p-6">
           <form @submit.prevent="updateAccountType">
             <!-- Input Fields -->
-            <div class="space-y-5">
+            <div class="space-y-2.5">
               <!-- Name Input -->
               <div>
-                <div class="text-sm font-medium text-gray-700 mb-1.5">
+                <div class="text-xs md:text-sm lg:text-md font-medium text-gray-700">
                   ชื่อประเภท
                 </div>
                 <div class="relative">
-                  <input
-                    type="text"
-                    v-model="localAccountType.account_type_name"
-                    class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-yellow-500/20 focus:border-yellow-500 transition-all duration-200"
-                    required
-                  />
+                  <input type="text" v-model="localAccountType.account_type_name"
+                    class="w-full px- 0-1 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none  "
+                    required />
                 </div>
               </div>
 
               <!-- Amount Input -->
               <div>
-                <div class="text-sm font-medium text-gray-700 mb-1.5">
+                <div class="text-xs md:text-sm lg:text-md font-medium text-gray-700">
                   จำนวนเงิน
                 </div>
                 <div class="relative">
-                  <input
-                    type="text"
-                    v-model="localAccountType.account_type_value"
-                    class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-yellow-500/20 focus:border-yellow-500 transition-all duration-200"
-                  />
+                  <input type="text" v-model="localAccountType.account_type_value"
+                    class="w-full px-0.5  md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none  " />
                 </div>
               </div>
 
               <!-- Description Input -->
               <div>
-                <div class="text-sm font-medium text-gray-700 mb-1.5">
+                <div class="text-sm font-medium text-gray-700 ">
                   คำอธิบาย
                 </div>
                 <div class="relative">
-                  <input
-                    type="text"
-                    v-model="localAccountType.account_type_description"
-                    class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-yellow-500/20 focus:border-yellow-500 transition-all duration-200"
-                  />
+                  <input type="text" v-model="localAccountType.account_type_description" placeholder="คำอธิบายเพิ่มเติม"
+                    class="w-full px-0. 5 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none " />
                 </div>
               </div>
 
               <!-- Type Selection -->
-              <div v-if="categoryID != 1">
-                <div class="text-sm font-medium text-gray-700 mb-2">
+              <div v-if="categoryID != 1 && categoryID != 7">
+                <div class="text-sm font-medium text-gray-700 ">
                   เลือกประเภท
                 </div>
-                <div class="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
-                  <div
-                    v-for="type in typeData"
-                    :key="type.account_type_id"
-                    @click="toggleSelect(type)"
-                    :class="[
-                      'px-4 py-2.5 rounded-xl text-sm font-medium cursor-pointer whitespace-nowrap transition-all duration-200',
-                      selected &&
+                <div class="flex gap-2 overflow-x-auto ">
+                  <div v-for="type in typeData" :key="type.account_type_id" @click="toggleSelect(type)" :class="[
+                    'px-4 py-2.5 rounded-xl text-sm font-medium cursor-pointer whitespace-nowrap transition-all duration-200 ',
+                    selected &&
                       selected.account_type_id === type.account_type_id
-                        ? 'bg-yellow-500 text-white shadow-lg scale-105'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200',
-                    ]"
-                  >
+                      ? 'bg-yellow-500 text-white shadow-lg scale-105'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200',
+                  ]">
                     {{ type.account_type_name }}
                   </div>
                 </div>
@@ -105,31 +78,22 @@
 
               <!-- Icon Selection -->
               <div>
-                <div class="text-sm font-medium text-gray-700 mb-2">
+                <div class="text-sm font-medium text-gray-700 ">
                   เลือกไอคอน
                 </div>
                 <div class="relative">
                   <div class="overflow-x-auto">
                     <div
-                      class="grid grid-column-3 auto-cols-max grid-flow-col gap-3 p-4 bg-gray-50 rounded-xl w-max"
-                    >
-                      <div
-                        v-for="icon in icons"
-                        :key="icon.account_icon_id"
-                        @click="toggleSelectIcon(icon)"
-                        :class="[
-                          'w-12 h-12 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105',
-                          selectedIcon?.account_icon_id === icon.account_icon_id
-                            ? 'bg-yellow-500 shadow-lg ring-2 ring-yellow-500 ring-offset-2'
-                            : 'bg-white hover:bg-gray-100 border border-gray-200',
-                        ]"
-                      >
+                      class="grid grid-rows-3 grid-column-3 auto-cols-max grid-flow-col gap-3 p-1 bg-gray-50 rounded-xl w-max">
+                      <div v-for="icon in icons" :key="icon.account_icon_id" @click="toggleSelectIcon(icon)" :class="[
+                        'w-12 h-12 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105',
+                        selectedIcon?.account_icon_id === icon.account_icon_id
+                          ? 'bg-sky-600 shadow-lg ring-2 ring-sky-300 ring-offset-2'
+                          : 'bg-white hover:bg-gray-100 border border-gray-200',
+                      ]">
                         <div class="p-2 h-full">
-                          <img
-                            :src="`/icon_folder/${icon.account_icon_name}`"
-                            :alt="icon.account_icon_name"
-                            class="w-full h-full object-cover rounded-lg"
-                          />
+                          <img :src="`/icon_folder/${icon.account_icon_name}`" :alt="icon.account_icon_name"
+                            class="w-full h-full object-cover rounded-lg" />
                         </div>
                       </div>
                     </div>
@@ -139,17 +103,15 @@
             </div>
 
             <!-- Footer Actions -->
-            <div class="flex items-center justify-end gap-3 mt-8">
+            <div class="flex items-center justify-end gap-3 mt-3">
               <div
-                class="px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors duration-200"
-                @click="close"
-              >
+                class="px-2 py-1 md:px-3 md:py-2 text-xs md:text-sm lg:text-md font-medium text-white bg-gray-500 border rounded-lg cursor-pointer hover:bg-gray-600 "
+                @click="close">
                 ยกเลิก
               </div>
               <div
-                class="px-4 py-2.5 text-sm font-medium text-white bg-yellow-500 rounded-xl cursor-pointer hover:bg-yellow-600 transition-colors duration-200"
-                @click="updateAccountType"
-              >
+                class="px-2 py-1 md:px-3 md:py-2 text-xs md:text-sm lg:text-md font-medium text-white bg-sky-600 rounded-lg cursor-pointer hover:bg-sky-500 "
+                @click="updateAccountType">
                 ยืนยันการแก้ไข
               </div>
             </div>
@@ -168,12 +130,11 @@ const route = useRoute();
 const categoryID = route.query.groupID;
 
 const typeData = ref([]);
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 const fetchTypeData = async () => {
   try {
-    const response = await $axios.get(`/account_type_get`);
-    const data = await response.data;
+    const data = await $api(`/account_type_get`);
     typeData.value = data.account_type;
   } catch (error) {
     console.log("Error fetching icons:", error);
@@ -184,10 +145,8 @@ const icons = ref(); //เก็บข้อมูลไอคอน
 const fetchIcon = async () => {
   //นำข้อมูลไอคอนมา
   try {
-    const response = await $axios.get(`/get_icons/${categoryID}`);
-    const data = await response.data;
+    const data = await $api(`/get_icons/${categoryID}`);
     icons.value = data.data;
-    console.log(icons);
   } catch (error) {
     console.log("No data", error);
   }
@@ -219,8 +178,6 @@ const toggleSelect = (type) => {
     selected.value = type;
     localAccountType.value.account_type_from_id = type.account_type_id;
   }
-  console.log(localAccountType.value.account_type_icon);
-  console.log(localAccountType.value.account_type_from_id);
 };
 watch(
   () => props.account_type_from_id,
@@ -247,7 +204,6 @@ const toggleSelectIcon = (icon) => {
   } else {
     selectedIcon.value = icon;
   }
-  console.log(selectedIcon.value?.account_icon_id); // Ensure it logs correctly
 };
 
 watch(selectedIcon, (newVal) => {
@@ -271,14 +227,6 @@ watch(
 // -------------------------------------------------------------------------------------
 
 const updateAccountType = async () => {
-  console.log(localAccountType.value.account_type_id);
-  console.log(localAccountType.value.account_type_name);
-  // value format
-  console.log(localAccountType.value.account_type_value);
-  console.log(localAccountType.value.account_type_description);
-  console.log(localAccountType.value.account_type_from_id);
-  console.log(localAccountType.value.account_type_icon);
-
   const removeComma = (value) => {
     if (typeof value === "string") {
       return value.replace(/,/g, "");
@@ -287,14 +235,14 @@ const updateAccountType = async () => {
   };
 
   try {
-    const response = await $axios.put(
-      `/account_type_update/${localAccountType.value.account_type_id}`,
-      {
+    await $api(`/account_type_update/${localAccountType.value.account_type_id}`, {
+      method: "PUT",
+      body: {
         account_type_name: localAccountType.value.account_type_name,
-        // value
-
-        account_type_value: localAccountType.value.account_type_value?.replace(/,/g,""),
-
+        account_type_value: localAccountType.value.account_type_value?.replace(
+          /,/g,
+          ""
+        ),
         account_type_from_id: parseInt(
           localAccountType.value.account_type_from_id
         ),
@@ -303,20 +251,16 @@ const updateAccountType = async () => {
         account_type_icon: localAccountType.value.account_type_icon
           ? parseInt(localAccountType.value.account_type_icon)
           : null,
-      }
-    );
+      },
+    });
 
-    if (response.status === 200 || response.status === 201) {
-      emit("update", {
-        ...localAccountType.value,
-        account_type_from_id: localAccountType.value.account_type_from_id, // Include updated account_type_from_id
-      });
-      selected.value = null;
-      selectedIcon.value = null;
-      close();
-    } else {
-      console.log("Error updating account type");
-    }
+    emit("update", {
+      ...localAccountType.value,
+      account_type_from_id: localAccountType.value.account_type_from_id, // Include updated account_type_from_id
+    });
+    selected.value = null;
+    selectedIcon.value = null;
+    close();
   } catch (error) {
     console.log("Error:", error);
   }

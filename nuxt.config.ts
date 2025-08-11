@@ -5,12 +5,12 @@ export default defineNuxtConfig({
   },
   ssr: true,
   build: {
-    transpile: ['gsap']
+    transpile: ["gsap"],
   },
-  
+
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@pinia/nuxt"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@pinia/nuxt", "@nuxt/icon", "nuxt-charts"],
 
   components: true,
   vue: {
@@ -22,24 +22,20 @@ export default defineNuxtConfig({
     head: {
       link: [
         {
-          rel: 'stylesheet',
-          href: 'https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/index.global.min.css'
+          rel: "stylesheet",
+          href: "https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/index.global.min.css",
         },
         {
-          rel: 'stylesheet',
-          href: 'https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/index.global.min.css'
-        }
-      ]
-    }
+          rel: "stylesheet",
+          href: "https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/index.global.min.css",
+        },
+      ],
+    },
   },
-  css: [
-    
-    '@/assets/main.css'
-  ],
+  css: ["@/assets/main.css"],
   runtimeConfig: {
     public: {
-      apiBaseUrl:
-        process.env.NUXT_PUBLIC_API_BASE_URL,
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL,
     },
   },
 });

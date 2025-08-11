@@ -1,11 +1,7 @@
 <template>
-  <client-only>
-    <BackComponents></BackComponents>
-  </client-only>
-  <div class="mx-auto ">
+  <BackComponents></BackComponents>
+  <div class="mx-auto max-w-6xl">
     <DataTransitionOnsubmitExpense />
-    <DataMenuGroupExpense></DataMenuGroupExpense>
+    <DataMenuGroupExpense />
   </div>
-
 </template>
-

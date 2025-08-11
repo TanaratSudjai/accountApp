@@ -38,7 +38,7 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 import { Rewind } from "lucide-vue-next";
 
 const GroupData = ref([]);
@@ -49,11 +49,10 @@ const breadcrumbs = ref([
 
 const fetchGroup = async () => {
   try {
-    const response = await $axios.get(`/category/${categoryID}`);
-    const data = await response.data;
+    const data = await $api(`/category/${categoryID}`);
     GroupData.value = data;
   } catch (error) {
-    console.log("Error fetching group data:", error);
+    console.error("Error fetching group data:");
   }
 };
 

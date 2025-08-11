@@ -1,34 +1,23 @@
 <template>
-  <div
-    v-if="show"
-    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-  >
-    <div class="bg-white/90 p-6 rounded-lg shadow-lg w-full mx-5 md:w-[60%]">
-      <h2 class="text-lg font-semibold mb-4">Update Account Type</h2>
+  <div v-if="show" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 w-full">
+    <div class="bg-white p-4 rounded-lg shadow-lg  w-[60%] md:w-[300px]">
+      <h2 class="text-lg text-sky-600 font-semibold mb-4">แก้ไขหรืออัพเดตกลุ่มบัญชี</h2>
       <form @submit.prevent="updateAccountType">
-        <label class="block text-sm text-gray-800">
-          ชื่อกลุ่ม:
-          <input
-            type="text"
-            v-model="localAccountGroup.account_group_name"
-            class="mt-1 w-full border border-gray-300 px-2 py-1 rounded"
-            required
-          />
+        <label class="block text-sm text-gray-600">
+          ชื่อกลุ่ม
         </label>
+        <input type="text" v-model="localAccountGroup.account_group_name"
+          class="w-full px-2 py-1 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none "
+          required />
 
         <div class="mt-4 flex justify-end">
-          <button
-            type="button"
-            class="mr-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-            @click="close"
-          >
+          <button type="button" class="mr-2 bg-gray-500 hover:bg-gray-600 text-white px-2 py-1 md:px-3 md:py-2 rounded-lg"
+            @click="close">
             ยกเลิก
           </button>
-          <button
-            type="submit"
-            class="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded"
-          >
-            ยืนยันการเเก้ไข
+          <button type="submit" class="bg-sky-600 hover:bg-sky-700 text-white px-2 py-1 md:px-3 md:py-2 rounded-lg">
+            <SquarePen class="inline-block mr-2 w-4 h-4" />
+            อัพเดต
           </button>
         </div>
       </form>
@@ -37,8 +26,11 @@
 </template>
 
 <script setup>
+import {
+  SquarePen
+} from "lucide-vue-next";
 import { ref, watch } from "vue";
-const { $axios } = useNuxtApp();
+const { $api } = useApi();
 
 const props = defineProps({
   show: Boolean,
@@ -57,22 +49,17 @@ watch(
 );
 
 const updateAccountType = async () => {
-  console.log(localAccountGroup.value.account_group_id);
-  console.log(localAccountGroup.value.account_group_name);
-  try {
-    const response = await $axios.put(
-      `/account_group_update/${localAccountGroup.value.account_group_id}`,
-      {
-        account_group_name: localAccountGroup.value.account_group_name, // ✅ Fix property
-      }
-    );
 
-    if (response.status === 200 || response.status === 201) { // ✅ Use status instead of `ok`
-      emit("update", response.data); // ✅ Use `response.data`, no need for `.json()`
-      close();
-    } else {
-      console.log("Error updating account type");
-    }
+  try {
+    const response = await $api(`/account_group_update/${localAccountGroup.value.account_group_id}`, {
+      method: "PUT",
+      body: {
+        account_group_name: localAccountGroup.value.account_group_name,
+      },
+    });
+
+    emit("update", response);
+    close();
   } catch (error) {
     console.log("Error:", error);
   }

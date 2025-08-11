@@ -1,13 +1,13 @@
 <template>
   <footer class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg">
-    <div class="max-w-md mx-auto px-4">
-      <nav class="flex justify-between items-center py-2">
+    <div class="max-w-md mx-auto ">
+      <nav class="flex justify-between items-center">
         
         <!-- Pending -->
         <NuxtLink
           to="/dashboard_submit_transition"
-          class="flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200 hover:bg-gray-50 active:bg-gray-100 group relative"
-          :class="{ 'text-orange-600': $route.path === '/dashboard_submit_transition' }"
+          class="flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200 hover:bg-sky-50 active:bg-sky-100 group relative"
+          :class="{ 'text-sky-600': $route.path === '/dashboard_submit_transition' }"
         >
           <div class="relative">
             <Clock 
@@ -22,7 +22,7 @@
             class="text-xs mt-1 font-medium"
             :class="$route.path === '/dashboard_submit_transition' ? 'text-orange-600' : 'text-gray-500 group-hover:text-gray-700'"
           >
-            Pending
+            ตรวจสอบ
           </span>
         </NuxtLink>
         <!-- Income -->
@@ -40,7 +40,7 @@
             class="text-xs mt-1 font-medium"
             :class="$route.path === '/transection_income' ? 'text-green-600' : 'text-gray-500 group-hover:text-gray-700'"
           >
-            Income
+            รายได้
           </span>
         </NuxtLink>
 
@@ -48,18 +48,18 @@
         <NuxtLink
           to="/home"
           class="flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200 hover:bg-gray-50 active:bg-gray-100 group"
-          :class="{ 'text-blue-600': $route.path === '/home' }"
+          :class="{ 'text-sky-600': $route.path === '/home' }"
         >
           <House 
             name="lucide:home" 
             size="22" 
-            :class="$route.path === '/home' ? 'text-blue-600' : 'text-gray-500 group-hover:text-gray-700'"
+            :class="$route.path === '/home' ? 'text-sky-600' : 'text-gray-500 group-hover:text-gray-700'"
           />
           <span 
             class="text-xs mt-1 font-medium"
-            :class="$route.path === '/home' ? 'text-blue-600' : 'text-gray-500 group-hover:text-gray-700'"
+            :class="$route.path === '/home' ? 'text-sky-600' : 'text-gray-500 group-hover:text-gray-700'"
           >
-            Home
+            หน้าหลัก
           </span>
         </NuxtLink>
 
@@ -78,7 +78,7 @@
             class="text-xs mt-1 font-medium"
             :class="$route.path === '/transection_expense' ? 'text-red-600' : 'text-gray-500 group-hover:text-gray-700'"
           >
-            Expense
+            รายจ่าย
           </span>
         </NuxtLink>
 
@@ -97,7 +97,7 @@
             class="text-xs mt-1 font-medium"
             :class="$route.path === '/transitionbank' ? 'text-purple-600' : 'text-gray-500 group-hover:text-gray-700'"
           >
-            Bank
+            ธนาคาร
           </span>
         </NuxtLink>
 
