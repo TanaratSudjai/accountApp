@@ -48,7 +48,7 @@
         <div class="bg-white border-gray-200 overflow-hidden space-y-2">
           <!-- Section Header -->
           <div class="border-b border-gray-200 pb-2">
-            <div class="flex justify-between items-start">
+            <div class="flex items-start justify-between space-x-3">
               <div class="flex gap-3 justify-start items-center">
                 <div
                   class="w-1 h-10 bg-gradient-to-b from-red-300 to-red-400 rounded-full"

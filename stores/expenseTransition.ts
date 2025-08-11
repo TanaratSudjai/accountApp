@@ -9,7 +9,6 @@ export const useExpenseTransitionStore = defineStore('expenseTransition', () => 
   const error = ref(null)
 
   const fetchTransitions = async () => {
-    console.log("Fetching transitions...")
     try {
       const res = await $api('/get_expense_transition')
       if (Array.isArray(res)) {

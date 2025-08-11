@@ -26,7 +26,7 @@ export const useAuth = () => {
     token.value = null;
     user.value = null;
     console.log("Token cleared on logout");
-    navigateTo("/login");
+    navigateTo("/");
   };
 
   const isAuthenticated = computed(() => !!token.value);

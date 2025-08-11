@@ -40,40 +40,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
+import { useSession } from "~/composables/useSession";
+import { useAlert } from "~/composables/showAlert";
+import { useRoute } from "vue-router";
 import {
-  ArrowLeft,
-  Key,
-  Store,
-  Book,
   Users,
-  User,
-  Clock,
-  Building,
-  FolderOpen,
-  FilePlus,
-  FileMinus,
-  BarChart2,
   Landmark,
   HandCoins,
-  ChartNoAxesCombined,
   Grid2x2Plus,
   CircleDollarSign,
   Wallet,
-  ArrowUpFromLine,
 } from "lucide-vue-next";
-
-const categoryData = ref([]);
-const { $api } = useApi();
-
-const fetchCategory = async () => {
-  const data = await $api("/category");
-  categoryData.value = data;
+const { showAlert } = useAlert();
+const r = useRoute();
+const { nameuser } = useSession();
+console.log(nameuser.value);
+if (nameuser.value === "ไม่พบชื่อผู้ใช้") {
+  showAlert("เซ็สชั่นคุณหมดอายุ", "กรุณาออกจากระบบเเล้วเข้าสู่ระบบใหม่อีกครั้ง");
+  window.location.href = "/";
 };
-
-onMounted(async () => {
-  await fetchCategory();
-});
 
 const menuItems = ref([
   {

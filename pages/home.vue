@@ -16,7 +16,7 @@
                     สวัสดี, คุณ
                     <span class="text-sky-600 font-bold">{{
                       loading ? "กำลังโหลด" : nameuser
-                      }}</span>
+                    }}</span>
                   </h1>
                 </div>
                 <span @click="openModifyFundModal()" class="text-xl md:text-2xl flex items-center gap-2">
@@ -266,8 +266,9 @@ import {
 import { computed } from "vue";
 import ModifyFund from "@/components/modal/ModifyFund.vue";
 import { useSession } from "~/composables/useSession";
-
+import { useAlert } from "#imports";
 // register state
+const { showAlert } = useAlert();
 const { loading, nameuser, getSession } = useSession();
 const checkData = ref([]);
 const checkCheck_open = ref({ type: "", value: 0 });
@@ -375,6 +376,8 @@ const fetchData = async () => {
     totalPages.value = data.total_page || 1;
   } catch (error) {
     console.error("Error fetching data:", error);
+    showAlert("เซ็สชั่นคุณหมดอายุ", "กรุณาออกจากระบบเเล้วเข้าสู่ระบบใหม่อีกครั้ง");
+    window.location.href = "/";
   }
 };
 // Helper function to format currency

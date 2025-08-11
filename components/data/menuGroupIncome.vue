@@ -2,27 +2,7 @@
   <div class="p-4">
     <div class="max-w-4xl mx-auto space-y-2">
 
-      <!-- error -->
-      <div v-if="error"
-        class="relative p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border-2 border-green-200">
-        <div
-          class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-green-200/30 to-transparent rounded-bl-full">
-        </div>
-        <div class="relative flex items-center space-x-4">
-          <div
-            class="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
-            <Icon name="lucide:alert-circle" class="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <h3 class="font-semibold text-green-800 text-lg">แจ้งเตือน</h3>
-            <p class="text-green-700 mt-1">เกิดข้อผิดพลาด กรุณาลองอีกครั้งในภายหลัง</p>
-          </div>
-        </div>
-      </div>
-
-
-
-      <div v-else class="border-b border-gray-200">
+      <div class="border-b border-gray-200">
         <div class="bg-white overflow-hidden">
           <div class="p-1 border-b border-gray-200">
             <div class="flex items-center justify-between">
@@ -61,7 +41,7 @@
           <div class="p-2">
             <div class="max-h-60 overflow-y-auto space-y-2 sm:space-y-4 pr-2 custom-scrollbar">
               <TransitionGroup name="account-list" tag="div"
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
+                class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
                 <div v-for="menu in menuGroup" :key="menu.account_type_id" class="group">
                   <button v-if="selectedCategory === menu.account_category_id" @click="openUpdateModal(menu)" :class="{
                     hidden: disabledAccountTypeIds.has(menu.account_type_id),
@@ -84,20 +64,15 @@
                       </div>
 
                       <!-- Text content - Right side -->
-                      <div class="flex-grow min-w-0">
-                        <!-- Account name -->
+                      <div class="flex flex-col min-w-0">
                         <h3
-                          class="font-semibold text-gray-800 text-sm leading-tight group-hover:text-green-700 transition-colors duration-300 truncate">
+                          class="font-semibold text-left text-gray-800 text-xs leading-tight group-hover:text-green-700 transition-colors duration-300 truncate">
                           {{ menu.account_type_name }}
                         </h3>
-
-                        <!-- Account value -->
-                        <div class="mt-1">
-                          <span
-                            class="inline-flex items-center px-2 py-0.5 bg-gray-100 group-hover:bg-green-100 rounded text-xs font-medium text-gray-700 group-hover:text-green-800 transition-colors duration-300">
-                            ฿{{ formatNumber(menu.account_type_value) }}
-                          </span>
-                        </div>
+                        <span
+                          class="inline-flex text-left items-center px-2 py-0.5 bg-gray-100 group-hover:bg-green-100 rounded text-xs font-medium text-gray-700 group-hover:text-green-800 transition-colors duration-300">
+                          ฿{{ formatNumber(menu.account_type_value) }}
+                        </span>
                       </div>
                     </div>
                   </button>
@@ -198,10 +173,12 @@ import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import UpdateAccountTypeModal from "../../components/modal/ModalTransition.vue";
 import { storeToRefs } from "pinia";
 import { useIncomeTransitionStore } from "~/stores/incomeTransition";
-
+import { useRoute } from "vue-router";
+import { useAlert } from "#imports";
+const { showAlert } = useAlert();
 const store = useIncomeTransitionStore();
 const { disabledAccountTypeIds } = storeToRefs(store); // 👈 ทำให้ reactive
-
+const r = useRoute();
 // ฟังก์ชันสำหรับจัดรูปแบบตัวเลข
 const { formatNumber } = useFormatNumber();
 const menuGroup = ref([]); // เก็บรายการเมนู
@@ -273,6 +250,8 @@ const fetchMenuGroupData = async () => {
     menuGroup.value = menuGroup_result || [];
   } catch (err) {
     error.value = "Error fetching menu group: " + err.message; // ตั้งค่า error
+    showAlert("เซ็สชั่นคุณหมดอายุ", "กรุณาออกจากระบบเเล้วเข้าสู่ระบบใหม่อีกครั้ง");
+    window.location.href = "/";
   }
 };
 

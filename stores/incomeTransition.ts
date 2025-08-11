@@ -9,7 +9,6 @@ export const useIncomeTransitionStore = defineStore('incomeTransition', () => {
   const error = ref(null)
 
   const fetchTransitions = async () => {
-    console.log("Fetching transitions...")
     try {
       const res = await $api('/get_income_transition')
       if (Array.isArray(res)) {

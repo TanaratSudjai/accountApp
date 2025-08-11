@@ -1,7 +1,7 @@
 <template>
-  <div class="" @click="goBack">
+  <div class="">
     <div class="">
-      <NuxtImg src="./back.svg" class="w-5 h-5 cursor-pointer text-black" />
+      <NuxtImg @click="goBack" src="./back.svg" class="w-5 h-5 cursor-pointer text-black" />
     </div>
   </div>
 </template>

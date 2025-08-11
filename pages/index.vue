@@ -106,8 +106,11 @@ const handleLogin = async () => {
         account_user_password: formData.account_user_password,
       },
     });
-    const token = response.token;
-    localStorage.setItem("token", token);
+    if (!response.success) {
+      showAlert("เกิดปัญหาในการเข้าสู่ระบบ", "กรุณาลองใหม่ในอีกอีกครั้ง");
+    }
+    // const token = response.token;
+    // localStorage.setItem("token", token);
     await router.push("/home");
     window.location.reload();
   } catch (err) {

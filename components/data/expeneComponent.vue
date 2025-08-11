@@ -1,7 +1,7 @@
 <template>
   <div class="flex gap-1">
     <button class="w-full">
-      <div class="rounded-md p-2">
+      <div >
         <div class="flex flex-col items-end justify-start">
           <div class="text-sm text-red-500 font-medium">รายจ่ายทั้งหมด</div>
           <div class="text-sm md:text-lg lg:text-xl font-bold text-red-500">

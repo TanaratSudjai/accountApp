@@ -88,22 +88,22 @@
                     class="relative p-1 rounded-lg border-2 border-green-200 bg-gradient-to-r from-green-50 to-green-50 transition-all duration-300 hover:border-green-300"
                   >
                     <div class="relative flex justify-between items-center">
-                      <div class="flex items-center">
+                      <div class="flex items-center ">
                         <!-- Income icon -->
                         <div>
                           <span
-                            class="font-semibold text-green-800 text-xs md:text-sm lg:text-md"
+                            class="font-semibold text-green-800 text-xs md:text-xs lg:text-sm text-pretty"
                           >
                             {{ transactionData.account_type_name }}
                           </span>
-                          <div class="text-sm text-green-600">รายได้</div>
+                          <div class="text-xs text-green-600">รายได้</div>
                         </div>
                       </div>
 
-                      <div class="flex items-center gap-2">
+                      <div class="flex items-center gap-2 "> 
                         <div class="text-right">
                           <div
-                             class="font-bold text-green-700 text-xs md:text-sm lg:text-md"
+                             class="font-bold text-green-700 text-xs md:text-xs lg:text-sm"
                           >
                             ฿{{
                               formatNumber(

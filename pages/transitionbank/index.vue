@@ -31,21 +31,21 @@
                       : 'group-hover:bg-gray-50',
                   ]" />
                   <div class="relative">
-                    <p class="font-medium text-xs md:text-sm text-gray-900">
+                    <p class="font-medium text-xs md:text-sm text-gray-900 text-xs md:text-md lg:text-lg ">
                       {{ item.account_type_name }}
                     </p>
-                    <p class="text-xs md:text-sm text-gray-600">
+                    <p class=" text-gray-600 text-xs md:text-md lg:text-lg ">
                       ยอดเงินที่มี {{ formatNumber(item.account_type_total) }}
                     </p>
                   </div>
                 </div>
               </button>
 
-              <div v-else class="relative overflow-hidden rounded-md border border-gray-200 p-2">
+              <div v-else class="relative overflow-hidden rounded-md border border-gray-200 p-2 text-center">
                 <p class="font-medium text-xs md:text-sm text-gray-400">
                   {{ item.account_type_name }}
                 </p>
-                <p class="text-xs md:text-sm text-gray-400">ไม่มียอดเงิน</p>
+                <p class=" text-gray-400 text-xs md:text-sm">ไม่มียอดเงิน</p>
               </div>
             </div>
           </div>
@@ -74,7 +74,7 @@
             </h3>
             <div v-for="item in catData" :key="item.account_type_id" class="transition-all duration-200">
               <button :class="[
-                'w-full transition-all duration-200 group',
+                'w-full transition-all duration-200 group ',
                 {
                   'pointer-events-none opacity-50':
                     columnOneSelected?.account_type_id ===
@@ -94,10 +94,10 @@
                       : 'group-hover:bg-gray-50',
                   ]" />
                   <div class="relative">
-                    <p class="font-medium text-gray-900">
+                    <p class="font-medium text-gray-900 text-xs md:text-md lg:text-lg ">
                       {{ item.account_type_name }}
                     </p>
-                    <p class="text-xs md:text-sm text-gray-400">
+                    <p class="text-xs md:text-sm text-gray-400 text-xs md:text-md lg:text-lg ">
                       (คลิกเพื่อเลือกปลายทาง)
                     </p>
                   </div>
@@ -111,15 +111,15 @@
         <div class="flex gap-4">
           <div class="relative flex-1">
             <input v-model="accountTypeValue" type="text" placeholder="Enter amount"
-              class="w-full px-4 py-3 border-b border-gray-300 focus:border-b-blue-500 focus:outline-none" />
+              class="w-full px-2 py-1 md:px-3 md:py-2 border-b border-gray-300 focus:border-b-blue-500 focus:outline-none" />
           </div>
           <button :class="[
-            'px-2 py-3 rounded-lg font-medium transition-all duration-200',
+            'px-3 py-1 text-xs md:text-md lg:text-lg rounded-md font-medium transition-all duration-200',
             isButtonDisabled
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
               : 'bg-sky-600 text-white hover:bg-sky-700 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2',
           ]" :disabled="isButtonDisabled" @click="handleOkClick">
-            ถ่ายโอน
+            โอนเงิน
           </button>
         </div>
 
@@ -352,7 +352,7 @@ watch(accountTypeValue, (newValue, oldValue) => {
 
 onMounted(() => {
   fetchCat(),
-  bankTransition();
+    bankTransition();
 });
 
 </script>

@@ -35,7 +35,7 @@ export const useApi = () => {
                 tokenCookie.value = null
                 // อาจจะ redirect ไป login page
                 if (process.client) {
-                    navigateTo('/login')
+                    navigateTo('/')
                 }
             }
         },
