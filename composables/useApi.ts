@@ -2,6 +2,7 @@ import { useCookie } from "#app";
 
 export const useApi = () => {
   const config = useRuntimeConfig();
+  
   const tokenCookie = useCookie("token", {
     maxAge: 60 * 60 * 2,
     secure: process.env.NODE_ENV === "production",
