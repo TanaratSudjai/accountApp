@@ -27,12 +27,12 @@ jobs:
       - name: Upload built app to VPS
         uses: appleboy/scp-action@v0.1.4
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: 22
-          source: ".output"
-          target: "/home/xver/accountApp"
+            host: ${{ secrets.VPS_HOST }}
+            username: ${{ secrets.VPS_USER }}
+            key: ${{ secrets.VPS_SSH_KEY }}
+            port: 22
+            source: ".output"
+            target: "/home/xver/accountApp"
 
       - name: Restart app with PM2
         uses: appleboy/ssh-action@v1.0.3
