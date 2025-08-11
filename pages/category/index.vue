@@ -41,9 +41,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { useSession } from "~/composables/useSession";
-import { useAlert } from "~/composables/showAlert";
-import { useRoute } from "vue-router";
 import {
   Users,
   Landmark,
@@ -52,14 +49,6 @@ import {
   CircleDollarSign,
   Wallet,
 } from "lucide-vue-next";
-const { showAlert } = useAlert();
-const r = useRoute();
-const { nameuser } = useSession();
-console.log(nameuser.value);
-if (nameuser.value === "ไม่พบชื่อผู้ใช้") {
-  showAlert("เซ็สชั่นคุณหมดอายุ", "กรุณาออกจากระบบเเล้วเข้าสู่ระบบใหม่อีกครั้ง");
-  window.location.href = "/";
-};
 
 const menuItems = ref([
   {
