@@ -114,10 +114,21 @@ const handleLogin = async () => {
       const tokenCookie = useCookie("token", {
         maxAge: 60 * 60 * 2, // 2 ชั่วโมง
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
         path: "/",
+        domain: process.env.NODE_ENV === "production" ? ".goolnw.com" : undefined,
       });
       tokenCookie.value = token;
+      
+      // เก็บ backup token ใน localStorage สำหรับกรณีที่ cookie หาย
+      if (process.client) {
+        try {
+          localStorage.setItem('backup_token', token);
+        } catch (e) {
+          console.warn('Failed to save backup token:', e);
+        }
+      }
+      
       await router.push("/home");
       window.location.reload();
     }
