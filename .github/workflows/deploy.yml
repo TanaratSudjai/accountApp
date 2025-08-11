@@ -45,5 +45,5 @@ jobs:
             export PATH="/home/xver/.nvm/versions/node/v20.19.4/bin:$PATH"
             cd /home/xver/accountApp/
 
-            pm2 start pm2.config.js || pm2 restart accountApp
+            pm2 start pm2.config.cjs  || pm2 restart accountApp
             pm2 save
