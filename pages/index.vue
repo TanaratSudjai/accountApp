@@ -61,16 +61,13 @@ definePageMeta({
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAlert } from "~/composables/showAlert";
-import { useCookieDebug } from "~/composables/useCookieDebug";
 
 // resigter state
 const { showAlert } = useAlert();
 const { $api } = useApi();
-const { debugCookie, monitorCookie } = useCookieDebug();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
-const error = ref("");
 
 
 // state form
