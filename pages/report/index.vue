@@ -16,9 +16,9 @@
           </div>
           <div class="" v-if="page == 'report'">
             <button
-              class="px-2 py-1 bg-sky-600 text-white rounded text-xs md:text-md lg:text-lg flex justify-center items-center gap-1">
+              class="px-0.5 py-1 bg-sky-600 text-white rounded text-xs md:text-md lg:text-lg flex justify-center items-center gap-1">
               <FileDown color="white" :size="18" />
-              <span class="px-2 py-1 bg-sky-600 text-white rounded text-xs">Export ใบรายงาน</span>
+              <span class="px-0.5 py-1 bg-sky-600 text-white rounded text-xs">Export ใบรายงาน</span>
             </button>
           </div>
         </div>

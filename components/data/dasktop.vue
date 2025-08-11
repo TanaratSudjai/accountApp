@@ -443,12 +443,12 @@ const closeAccount = async () => {
     });
     showAlert("ปิดบัญชีสำเร็จแล้ว", "ปิดบัญชีสำเร็จแล้ว");
   } catch (err) {
-    console.error("Error closing account:", err);
-    if (err.response.status === 400) {
+    if (err.response.status == 400) {
       showAlert("คุณได้ปิดบัญชีเดือนนี้ไปแล้ว", "กรุณาปิดอีกทีเดือนถัดไป");
     }
-    console.log(err);
-    showAlert("เกิดข้อผิดพลาดในการปิดบัญชี", "เกิดข้อผิดพลาดในการปิดบัญชี");
+    else {
+      showAlert("เกิดข้อผิดพลาดในการปิดบัญชี", "เกิดข้อผิดพลาดในการปิดบัญชี");
+    }
   }
 };
 </script>
