@@ -61,10 +61,12 @@ definePageMeta({
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAlert } from "~/composables/showAlert";
+import { useCookieDebug } from "~/composables/useCookieDebug";
 
 // resigter state
 const { showAlert } = useAlert();
 const { $api } = useApi();
+const { debugCookie, monitorCookie } = useCookieDebug();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
@@ -109,8 +111,13 @@ const handleLogin = async () => {
     if (!response.success) {
       showAlert("เกิดปัญหาในการเข้าสู่ระบบ", "กรุณาลองใหม่ในอีกอีกครั้ง");
     }
-    // const token = response.token;
-    // localStorage.setItem("token", token);
+    
+    // Debug cookie after login
+    setTimeout(() => {
+      debugCookie('token');
+      monitorCookie('token', 2000); // Monitor every 2 seconds
+    }, 100);
+    
     await router.push("/home");
     window.location.reload();
   } catch (err) {
@@ -135,4 +142,13 @@ const handleLogin = async () => {
 const goRegister = async () => {
   router.push("/register");
 };
+
+// Monitor cookies on page load
+onMounted(() => {
+  if (process.client) {
+    console.log('🚀 Login page loaded - starting cookie monitoring');
+    debugCookie('token');
+    monitorCookie('token', 3000); // Monitor every 3 seconds
+  }
+});
 </script>

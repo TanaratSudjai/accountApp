@@ -1,5 +1,27 @@
 export default defineNuxtRouteMiddleware((to) => {
-  const token = useState("token", () => useCookie("token").value).value;
+  const tokenCookie = useCookie("token");
+  let token = useState("token", () => tokenCookie.value).value;
+
+  // Fallback: Check localStorage if cookie is missing (client-side only)
+  if (!token && process.client) {
+    try {
+      const backupToken = localStorage.getItem('backup_token');
+      if (backupToken) {
+        console.log('🔄 Using backup token from localStorage');
+        tokenCookie.value = backupToken;
+        token = backupToken;
+        // Clean up backup after restoring
+        localStorage.removeItem('backup_token');
+      }
+    } catch (e) {
+      console.warn('Failed to check backup token:', e);
+    }
+  }
+
+  // Debug logging
+  if (process.client) {
+    console.log('🔍 Auth middleware - Path:', to.path, 'Token exists:', !!token);
+  }
 
   if (!token) {
     if (to.path === "/register" || to.path === "/login") return; // ✅ ผ่านได้
