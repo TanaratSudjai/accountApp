@@ -108,12 +108,9 @@ const handleLogin = async () => {
     if (!response.success) {
       showAlert("เกิดปัญหาในการเข้าสู่ระบบ", "กรุณาลองใหม่ในอีกอีกครั้ง");
     }
-    
-    // Debug cookie after login
-    setTimeout(() => {
-      monitorCookie('token', 2000); // Monitor every 2 seconds
-    }, 100);
-    
+
+
+
     await router.push("/home");
     window.location.reload();
   } catch (err) {
@@ -143,7 +140,7 @@ const goRegister = async () => {
 onMounted(() => {
   if (process.client) {
     console.log('🚀 Login page loaded - starting cookie monitoring');
-    monitorCookie('token', 3000); // Monitor every 3 seconds
+
   }
 });
 </script>
