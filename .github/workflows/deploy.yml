@@ -1,4 +1,4 @@
-name: Build & Deploy Nuxt3 to VPS
+name: resume web deploy to vps server
 
 on:
   push:
@@ -13,26 +13,37 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: "20"
 
       - name: Install dependencies
-        run: npm install --force
+        run: npm install
 
-      - name: Build Nuxt3
+      - name: 🛠 Build Nuxt app
         run: npm run build
 
-      - name: Setup SSH agent
-        uses: webfactory/ssh-agent@v0.5.4
+      - name: 🚀 Upload built app to VPS
+        uses: appleboy/scp-action@v0.1.4
         with:
-          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          source: ".output"
+          target: "/home/xver/accountApp/"
 
-      - name: Sync files to VPS
-        run: |
-          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" .output/ xver@185.84.161.119:/home/xver/accountApp/.output/
+      - name: 🔁 Restart app with PM2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          script: |
+            export PATH="/home/xver/.nvm/versions/node/v20.19.4/bin:$PATH"
+            cd /home/xver/accountApp/
 
-      - name: Restart app on VPS
-        run: |
-          ssh -o StrictHostKeyChecking=no xver@185.84.161.119 "pm2 restart accountApp || pm2 start node .output/server/index.mjs --name accountApp"
+            pm2 start pm2.config.js || pm2 restart accountApp
+            pm2 save
