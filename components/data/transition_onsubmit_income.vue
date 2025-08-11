@@ -57,7 +57,7 @@
                 </div>
               </div>
               <!-- Transaction count badge -->
-              <div v-if="transition.length > 0" class="flex items-center">
+              <div v-if="transition.length >= 0" class="flex items-center">
                 <span
                   class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800"
                 >
