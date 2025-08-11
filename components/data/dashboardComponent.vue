@@ -159,13 +159,13 @@ const router = useRouter();
 const { FormatThaiDate } = useFormatThaiDate();
 const transition_data = ref([]);
 const loading = ref(true);
-const { $api } = useApi();
+const { api } = useApi();
 
 const fetchData = async () => {
   loading.value = true;
   try {
-    const data = await $api("/dashboard");
-    transition_data.value = data.result;
+    const response = await api.get("/dashboard");
+    transition_data.value = response.data.result;
     console.log(transition_data.value);
   } catch (error) {
     console.error("Error fetching data:", error);

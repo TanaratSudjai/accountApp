@@ -66,12 +66,12 @@ const breadcrumbs = ref([
   { text: '', link: '' }, // Hardcoded for type name, replace with dynamic if needed
   { text: 'เพิ่ม', link: '' } // Hardcoded for type name, replace with dynamic if needed
 ]);
-const { $api } = useApi();
+const { api } = useApi();
 
 const fetchCategory = async () => {
   try {
-    const data = await $api(`/category/${groupID}`);
-    CategoryData.value = data;
+    const response = await api.get(`/category/${groupID}`);
+    CategoryData.value = response.data;
   } catch (error) {
     console.error("Error fetching group data:");
   }
@@ -79,8 +79,8 @@ const fetchCategory = async () => {
 
 const fetchGroup = async () => {
   try {
-    const data = await $api(`/account_group_get/${typeID}`);
-    GroupData.value = data.account_group_by_id;
+    const response = await api.get(`/account_group_get/${typeID}`);
+    GroupData.value = response.data.account_group_by_id;
   } catch (error) {
     console.error("Error fetching group data:");
   }

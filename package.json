@@ -19,7 +19,7 @@
     "@nuxtjs/proxy": "^2.1.0",
     "@nuxtjs/pwa": "github:nuxt-community/pwa-module",
     "@pinia/nuxt": "^0.9.0",
-
+    "axios": "^1.11.0",
     "chart.js": "^4.4.9",
     "cookie-universal": "^2.2.2",
     "framer-motion": "^12.6.0",

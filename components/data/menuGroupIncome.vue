@@ -187,7 +187,7 @@ const selectedMenu = ref(null); // เก็บข้อมูลเมนูท
 const count = ref(null); // เก็บจำนวนรายการ
 const selectedCategory = ref(4); // เก็บประเภทที่เลือก
 const error = ref(null); // สำหรับจัดการข้อผิดพลาด
-const { $api } = useApi();
+const { api } = useApi();
 
 // ฟังก์ชันเปิด Modal สำหรับการอัปเดต
 const openUpdateModal = (menu) => {
@@ -225,14 +225,11 @@ const handleUpdate = async ({
 
   try {
     // ส่งข้อมูลไปยัง API
-    await $api("/transition_select_income", {
-      method: "POST",
-      body: {
-        account_type_id: formData.value.account_type_id,
-        account_transition_value: formData.value.account_transition_value,
-        account_type_from_id: formData.value.account_type_from_id,
-        account_category_id: formData.value.account_category_id,
-      },
+    await api.post("/transition_select_income", {
+      account_type_id: formData.value.account_type_id,
+      account_transition_value: formData.value.account_transition_value,
+      account_type_from_id: formData.value.account_type_from_id,
+      account_category_id: formData.value.account_category_id,
     });
     await fetchMenuGroupData(); // ดึงข้อมูลเมนูใหม่
   } catch (err) {
@@ -246,8 +243,8 @@ const handleUpdate = async ({
 // ฟังก์ชันดึงข้อมูลรายการเมนู
 const fetchMenuGroupData = async () => {
   try {
-    const menuGroup_result = await $api("/getMenuGroup_income");
-    menuGroup.value = menuGroup_result || [];
+    const response = await api.get("/getMenuGroup_income");
+    menuGroup.value = response.data || [];
   } catch (err) {
     error.value = "Error fetching menu group: " + err.message; // ตั้งค่า error
     showAlert("เซ็สชั่นคุณหมดอายุ", "กรุณาออกจากระบบเเล้วเข้าสู่ระบบใหม่อีกครั้ง");
@@ -258,8 +255,8 @@ const fetchMenuGroupData = async () => {
 // ฟังก์ชันดึงข้อมูลจำนวนรายการ
 const fetchDataSelect = async () => {
   try {
-    const data = await $api("/getSelect_countSelect");
-    count.value = data; // เก็บค่าที่ดึงมา
+    const response = await api.get("/getSelect_countSelect");
+    count.value = response.data; // เก็บค่าที่ดึงมา
   } catch (err) {
     error.value = "Error fetching count: " + err.message; // ตั้งค่า error
   }

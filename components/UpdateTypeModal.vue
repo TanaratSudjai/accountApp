@@ -130,12 +130,12 @@ const route = useRoute();
 const categoryID = route.query.groupID;
 
 const typeData = ref([]);
-const { $api } = useApi();
+const { api } = useApi();
 
 const fetchTypeData = async () => {
   try {
-    const data = await $api(`/account_type_get`);
-    typeData.value = data.account_type;
+    const response = await api.get(`/account_type_get`);
+    typeData.value = response.data.account_type;
   } catch (error) {
     console.log("Error fetching icons:", error);
   }
@@ -145,8 +145,8 @@ const icons = ref(); //เก็บข้อมูลไอคอน
 const fetchIcon = async () => {
   //นำข้อมูลไอคอนมา
   try {
-    const data = await $api(`/get_icons/${categoryID}`);
-    icons.value = data.data;
+    const response = await api.get(`/get_icons/${categoryID}`);
+    icons.value = response.data.data;
   } catch (error) {
     console.log("No data", error);
   }
@@ -235,23 +235,20 @@ const updateAccountType = async () => {
   };
 
   try {
-    await $api(`/account_type_update/${localAccountType.value.account_type_id}`, {
-      method: "PUT",
-      body: {
-        account_type_name: localAccountType.value.account_type_name,
-        account_type_value: localAccountType.value.account_type_value?.replace(
-          /,/g,
-          ""
-        ),
-        account_type_from_id: parseInt(
-          localAccountType.value.account_type_from_id
-        ),
-        account_type_description:
-          localAccountType.value.account_type_description,
-        account_type_icon: localAccountType.value.account_type_icon
-          ? parseInt(localAccountType.value.account_type_icon)
-          : null,
-      },
+    await api.put(`/account_type_update/${localAccountType.value.account_type_id}`, {
+      account_type_name: localAccountType.value.account_type_name,
+      account_type_value: localAccountType.value.account_type_value?.replace(
+        /,/g,
+        ""
+      ),
+      account_type_from_id: parseInt(
+        localAccountType.value.account_type_from_id
+      ),
+      account_type_description:
+        localAccountType.value.account_type_description,
+      account_type_icon: localAccountType.value.account_type_icon
+        ? parseInt(localAccountType.value.account_type_icon)
+        : null,
     });
 
     emit("update", {

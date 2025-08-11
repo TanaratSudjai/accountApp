@@ -38,7 +38,7 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
-const { $api } = useApi();
+const { api } = useApi();
 import { Rewind } from "lucide-vue-next";
 
 const GroupData = ref([]);
@@ -49,8 +49,8 @@ const breadcrumbs = ref([
 
 const fetchGroup = async () => {
   try {
-    const data = await $api(`/category/${categoryID}`);
-    GroupData.value = data;
+    const response = await api.get(`/category/${categoryID}`);
+    GroupData.value = response.data;
   } catch (error) {
     console.error("Error fetching group data:");
   }

@@ -347,18 +347,18 @@ const router = useRouter();
 const datatype_sum = ref([]);
 const showZeroSum = ref(true);
 const error = ref("");
-const { $api } = useApi();
+const { api } = useApi();
 const loading = ref(true);
 
 const fetchType = async () => {
   try {
     if (showZeroSum.value) {
-      const response = await $api("/dasktop_data_sumtype");
-      datatype_sum.value = response.account_type_sum || [];
+      const response = await api.get("/dasktop_data_sumtype");
+      datatype_sum.value = response.data.account_type_sum || [];
       loading.value = false;
     } else {
-      const response = await $api("/dasktop_data_sumzero");
-      datatype_sum.value = response.account_type_sum || [];
+      const response = await api.get("/dasktop_data_sumzero");
+      datatype_sum.value = response.data.account_type_sum || [];
     }
   } catch (err) {
     error.value = "Error fetching transitions: " + err.message;
@@ -438,9 +438,7 @@ const sumColumn6 = computed(() =>
 
 const closeAccount = async () => {
   try {
-    await $api("/ExportAccount", {
-      method: "POST",
-    });
+    await api.post("/ExportAccount");
     showAlert("ปิดบัญชีสำเร็จแล้ว", "ปิดบัญชีสำเร็จแล้ว");
   } catch (err) {
     if (err.response.status == 400) {

@@ -238,7 +238,7 @@ import { FileDown, } from "lucide-vue-next";
 
 const { formatNumber } = useFormatNumber();
 const report = ref([]);
-const { $api } = useApi();
+const { api } = useApi();
 const flattenedReport = ref([]);
 const income_graph = ref<number[]>(Array(12).fill(0));
 const expense_graph = ref<number[]>(Array(12).fill(0));
@@ -246,14 +246,15 @@ const mounth_value = ref<number[]>([]);
 const page = ref("report");
 
 const fetchReport = async () => {
-  const response = await $api("/getClosedAccount");
-  console.log("Response data:", response);
+  const response = await api.get("/getClosedAccount");
+  const data = response.data;
+  console.log("Response data:", data);
 
   income_graph.value = Array(12).fill(0);
   expense_graph.value = Array(12).fill(0);
   mounth_value.value = [];
 
-  response.forEach((item: any) => {
+  data.forEach((item: any) => {
     const monthIndex = new Date(item.account_closing_time).getMonth();
 
     income_graph.value[monthIndex] = item.account_closing_income;
@@ -268,7 +269,7 @@ const fetchReport = async () => {
   console.log("รายจ่าย:", expense_graph.value);
   console.log("เดือนที่มีข้อมูล:", mounth_value.value);
 
-  const parsed = response.map((item) => {
+  const parsed = data.map((item) => {
     return {
       ...item,
       parsed_data: JSON.parse(item.account_closing_data),

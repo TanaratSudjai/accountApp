@@ -94,7 +94,7 @@ const router = useRouter();
 const groupID = route.query.groupID || ""; // Retrieve groupID from query parameters
 const typeID = route.params.id;
 const groupIDGroup = route.params.id;
-const { $api } = useApi();
+const { api } = useApi();
 const CategoryData = ref([]);
 const GroupData = ref([]);
 const OtherGroupData = ref([])
@@ -112,8 +112,8 @@ const breadcrumbsForGroup = ref([
 
 const fetchCategory = async () => {
   try {
-    const data = await $api(`/category/${groupID}`);
-    CategoryData.value = data;
+    const response = await api.get(`/category/${groupID}`);
+    CategoryData.value = response.data;
   } catch (error) {
     if (process.env.NODE_ENV !== 'production') {
       console.error("Error fetching group data:", error);
@@ -125,8 +125,8 @@ const fetchCategory = async () => {
 
 const fetchGroup = async () => {
   try {
-    const data = await $api(`/account_group_get/${typeID}`);
-    GroupData.value = data.account_group_by_id;
+    const response = await api.get(`/account_group_get/${typeID}`);
+    GroupData.value = response.data.account_group_by_id;
   } catch (error) {
     console.log("Error fetching group data:", error);
   }
@@ -134,8 +134,8 @@ const fetchGroup = async () => {
 
 const fetchOtherGroup = async () => {
   try {
-    const data = await $api(`/category/${groupIDGroup}`);
-    OtherGroupData.value = data;
+    const response = await api.get(`/category/${groupIDGroup}`);
+    OtherGroupData.value = response.data;
   } catch (error) {
     console.log("Error fetching group data:", error);
   }

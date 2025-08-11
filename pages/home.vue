@@ -277,7 +277,7 @@ const checkData_depter = ref({ type: "", value: 0 });
 const checkData_creditor = ref({ type: "", value: 0 });
 const offAccount_menu = ref(true);
 const { formatNumber } = useFormatNumber();
-const { $api } = useApi();
+const { api } = useApi();
 const page = ref(1);
 const limit = ref(5);
 const totalPages = ref(1);
@@ -364,9 +364,10 @@ const openModifyFundModal = () => {
 // function method fetch data transitions
 const fetchData = async () => {
   try {
-    const data = await $api("/transitions", {
+    const response = await api.get("/transitions", {
       params: { page: page.value, limit: limit.value },
     });
+    const data = response.data;
     checkData.value = data.data || [];
     const summary = Array.isArray(data.summary) ? data.summary : [];
     checkData_depter.value = summary[0] ?? { type: "", value: 0 };

@@ -1,13 +1,11 @@
 <script setup>
-const { $api } = useApi();
+const { api } = useApi();
 
 const router = useRouter();
 
 const onSubmit = async () => {
   try {
-    await $api(`/sumbitPerDay`, {
-      method: "PUT",
-    });
+    await api.put(`/sumbitPerDay`);
     router.push("/dasktop");
   } catch (error) {
     console.log("error updating account important", error);

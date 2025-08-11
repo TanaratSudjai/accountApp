@@ -11,14 +11,14 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const groupID = route.params.id;
 
-const { $api } = useApi();
+const { api } = useApi();
 
 const GroupData = ref([]);
 
 const fetchGroup = async () => {
   try {
-    const data = await $api(`/account_group_get/${groupID}`);
-    GroupData.value = data.account_group_by_id;
+    const response = await api.get(`/account_group_get/${groupID}`);
+    GroupData.value = response.data.account_group_by_id;
   } catch (error) {
     console.log("Error fetching group data:", error);
   }
