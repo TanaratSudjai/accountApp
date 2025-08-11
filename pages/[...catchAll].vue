@@ -1,5 +1,6 @@
 <template>
     <div class=" flex flex-col items-center justify-center p-6 space-y-6 text-center min-h-[400px]">
+        <NuxtImg src="./undraw_chat-bot_c8iw.svg" alt="" />
         <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-sky-600">
             Oops! Page not found
         </h1>
