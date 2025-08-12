@@ -1,4 +1,4 @@
-name: resume web deploy to vps server
+name: accounting web deploy to vps server
 
 on:
   push:
