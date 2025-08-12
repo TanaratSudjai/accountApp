@@ -290,129 +290,107 @@ const { $api } = useApi();
 
 async function fetchDashboardData(year, month, day = null) {
   try {
-    const params = day
-      ? { year, month, day }
-      : month === 0
-        ? { year }
-        : { year, month };
+    // Normalize month
+    const normalizedMonth =
+      typeof month === "number" && month >= 1 && month <= 12 ? month : 0;
 
-    if (day === null) {
-      selectedDay.value = "ทั้งเดือน";
-    } else if (month === 0) {
+    // Build API params
+    const params = day
+      ? { year, month: normalizedMonth, day }
+      : normalizedMonth === 0
+      ? { year }
+      : { year, month: normalizedMonth };
+
+    // Set selectedDay label
+    if (day) {
+      selectedDay.value = day;
+    } else if (normalizedMonth === 0) {
       selectedDay.value = "ทั้งปี";
     } else {
-      selectedDay.value = day;
+      selectedDay.value = "ทั้งเดือน";
     }
+
     const data = await $api("/get_dashboard_data", { params });
 
-    // Calendar events
-    calendarEvents.value = (data.dailyExpenseTotals || []).map((day) => ({
-      title: `${day.total}`,
-      date: day.date,
+    // Events
+    const expenseEvents = (data.dailyExpenseTotals || []).map((d) => ({
+      title: `${d.total} ฿`,
+      date: d.date,
+      className: "expense-event",
     }));
-    calendarEventsIncome.value = (data.dailyIncomeTotals || []).map((day) => ({
-      title: `${day.total}`,
-      date: day.date,
+    const incomeEvents = (data.dailyIncomeTotals || []).map((d) => ({
+      title: `${d.total} ฿`,
+      date: d.date,
+      className: "income-event",
     }));
+    calendarEvents.value = [...expenseEvents, ...incomeEvents];
 
-    // Pie chart data
+    // Pie chart - Expense
     pieChartDataExpense.value = {
       labels: (data.expenseChart || []).map((e) => e.account_type_name),
       datasets: [
         {
           label: "Expense Distribution",
-          data: (data.expenseChart || []).map((e) => Number(e.total_expense)),
+          data: (data.expenseChart || []).map((e) =>
+            Number(e.total_expense)
+          ),
           backgroundColor: [
-            "#FF6384",
-            "#FF4757",
-            "#FF3838",
-            "#FF5722",
-            "#E74C3C",
-            "#C0392B",
-            "#A93226",
-            "#922B21",
+            "#FF6384", "#FF4757", "#FF3838", "#FF5722",
+            "#E74C3C", "#C0392B", "#A93226", "#922B21",
           ],
         },
       ],
     };
 
-    // Pie chart data for Income
+    // Pie chart - Income
     pieChartDataIncome.value = {
       labels: (data.incomeChart || []).map((e) => e.account_type_name),
       datasets: [
         {
           label: "Income Distribution",
-          data: (data.incomeChart || []).map((e) => Number(e.total_income)),
+          data: (data.incomeChart || []).map((e) =>
+            Number(e.total_income)
+          ),
           backgroundColor: [
-            "#4CAF50",
-            "#66BB6A",
-            "#81C784",
-            "#A5D6A7",
-            "#2E7D32",
-            "#388E3C",
-            "#43A047",
-            "#4CAF50",
+            "#4CAF50", "#66BB6A", "#81C784", "#A5D6A7",
+            "#2E7D32", "#388E3C", "#43A047", "#4CAF50",
           ],
         },
       ],
     };
 
-    // Merge both expense and income events with custom classes
-    const expenseEvents = (data.dailyExpenseTotals || []).map((day) => ({
-      title: `${day.total} ฿`,
-      date: day.date,
-      className: "expense-event",
-    }));
-
-    const incomeEvents = (data.dailyIncomeTotals || []).map((day) => ({
-      title: `${day.total} ฿`,
-      date: day.date,
-      className: "income-event",
-    }));
-
-    // Combine them for the calendar
-    calendarEvents.value = [...expenseEvents, ...incomeEvents];
-
-    // Totals for display
-    // Yearly
-    // Totals for display
+    // Totals
     if (day) {
       // Daily totals
       totalExpenseDay.value = (data.expenseChart || []).reduce(
-        (sum, e) => sum + Number(e.total_expense),
-        0
+        (sum, e) => sum + Number(e.total_expense), 0
       );
       totalIncomeDay.value = (data.incomeChart || []).reduce(
-        (sum, e) => sum + Number(e.total_income),
-        0
+        (sum, e) => sum + Number(e.total_income), 0
       );
       totalExpenseMonth.value = 0;
       totalIncomeMonth.value = 0;
       totalExpenseYear.value = 0;
       totalIncomeYear.value = 0;
-    } else if (month === 0) {
+    } else if (normalizedMonth === 0) {
       // Yearly totals
       totalExpenseYear.value = (data.monthYearExpenseTotals || []).reduce(
-        (sum, e) => sum + Number(e.total),
-        0
+        (sum, e) => sum + Number(e.total), 0
       );
       totalIncomeYear.value = (data.monthYearIncomeTotals || []).reduce(
-        (sum, e) => sum + Number(e.total),
-        0
+        (sum, e) => sum + Number(e.total), 0
       );
       totalExpenseMonth.value = 0;
       totalIncomeMonth.value = 0;
       totalExpenseDay.value = 0;
       totalIncomeDay.value = 0;
     } else {
-      // Monthly totals (default case)
+      // Monthly totals
       totalExpenseMonth.value = (data.monthYearExpenseTotals || []).reduce(
-        (sum, e) => sum + Number(e.total),
-        0
+        (sum, e) => sum + Number(e.total), 0
       );
       totalIncomeMonth.value = (data.monthYearIncomeTotals || []).reduce(
-        (sum, e) => sum + Number(e.total),
-        0
+        (sum, e) => sum + Number(e.total), 0
       );
       totalExpenseYear.value = 0;
       totalIncomeYear.value = 0;
@@ -421,21 +399,10 @@ async function fetchDashboardData(year, month, day = null) {
     }
   } catch (error) {
     console.error("Error fetching dashboard data:", error);
-    // Reset all on error
+    // Reset on error
     calendarEvents.value = [];
-    calendarEventsIncome.value = [];
-    pieChartDataExpense.value = {
-      labels: [],
-      datasets: [
-        { label: "Expense Distribution", data: [], backgroundColor: [] },
-      ],
-    };
-    pieChartDataIncome.value = {
-      labels: [],
-      datasets: [
-        { label: "Income Distribution", data: [], backgroundColor: [] },
-      ],
-    };
+    pieChartDataExpense.value = { labels: [], datasets: [{ label: "Expense Distribution", data: [], backgroundColor: [] }] };
+    pieChartDataIncome.value = { labels: [], datasets: [{ label: "Income Distribution", data: [], backgroundColor: [] }] };
     totalExpenseDay.value = 0;
     totalExpenseMonth.value = 0;
     totalExpenseYear.value = 0;
@@ -445,11 +412,12 @@ async function fetchDashboardData(year, month, day = null) {
   }
 }
 
+
 // Use this for your "ค้นหา" button
 const fetchChartData = async () => {
   if (selectedMonthForChart.value === 0) {
     selectedDay.value = "ทั้งปี";
-    selectedMonth.value = null;
+    selectedMonth.value = 0;
     selectedYear.value = selectedYearForChart.value;
   } else {
     selectedDay.value = "ทั้งเดือน";
