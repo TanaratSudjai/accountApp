@@ -61,16 +61,14 @@ definePageMeta({
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAlert } from "~/composables/showAlert";
-
-
+import { useAuth } from "~/composables/useAuth";
 
 // resigter state
 const { showAlert } = useAlert();
-const { api } = useApi();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
-// const auth = useAuth();
+const { login } = useAuth();
 
 // state form
 const formData = reactive({
@@ -100,15 +98,12 @@ const handleLogin = async () => {
     return;
   }
   try {
-    const response = await api.post("/auth/login", {
-      account_user_username: formData.account_user_username,
-      account_user_password: formData.account_user_password,
-    });
-    if (response.status === 200) {
-
-      auth.setToken(response.data.token);
+    const ok = await login(formData.account_user_username, formData.account_user_password);
+    if (ok) {
+      showAlert("เข้าสู่ระบบสำเร็จ", "กำลังนำคุณไปยังหน้าหลัก...","success");
       router.push("/home");
-      showAlert("เข้าสู่ระบบเรียบร้อย", "คุณได้เข้าสู่ระบบเรียบร้อยแล้ว", "success");
+    } else {
+      showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
     }
   } catch (err) {
     console.error(err);
