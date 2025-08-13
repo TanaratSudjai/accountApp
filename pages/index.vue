@@ -113,7 +113,7 @@ const handleLogin = async () => {
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
         path: "/",
-        domain: process.env.NODE_ENV === "production" ? ".goolnw.com" : undefined,
+        domain: process.env.NODE_ENV === "production" ? "accounting.goolnw.com" : undefined,
       });
       tokenCookie.value = token;
 
