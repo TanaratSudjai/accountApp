@@ -41,7 +41,7 @@ export default defineNuxtConfig({
   css: ["@/assets/main.css"],
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE_URL,
     },
   },
   nitro: {

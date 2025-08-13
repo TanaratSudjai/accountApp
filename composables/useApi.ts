@@ -10,9 +10,7 @@ export const useApi = () => {
   });
 
   const api = axios.create({
-    baseURL:
-      (config.public.apiBase as string) ||
-      "https://serveraccounting.goolnw.com/api",
+    baseURL: config.public.apiBase as string,
     withCredentials: true,
     timeout: 10000,
   });

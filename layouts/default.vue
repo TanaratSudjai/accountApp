@@ -49,31 +49,22 @@ definePageMeta({
 });
 // import
 import { useSession } from "~/composables/useSession";
+import { useAuth } from "~/composables/useAuth";
+import { useAlert } from "#imports";
 // composables state
 const { loading, nameuser, getSession } = useSession();
 const { api } = useApi();
+const auth = useAuth();
+const { showAlert } = useAlert();
+
 // api call logout
 const logout = async () => {
   try {
     loading.value = true;
     await api.post("/auth/logout");
-    // ลบ token ใน LocalStorage & SessionStorage
-    localStorage.removeItem("token");
-    sessionStorage.clear();
-    // เคลียร์ cookie
-    const tokenCookie = useCookie("token", {
-      maxAge: 0, // ทำให้หมดอายุทันที
-      path: "/", // ให้ครอบคลุมทั้งเว็บ
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-    });
-    tokenCookie.value = null;
-    // แสดง loading 3 วินาทีก่อน reload
-    setTimeout(() => {
-      loading.value = false;
-      window.location.reload();
-    }, 3000);
-
+    auth.clearToken();
+    showAlert("ออกจากระบบเรียบร้อยแล้ว", "คุณได้ออกจากระบบเรียบร้อยแล้ว", "success");
+    navigateTo("/");
   } catch (err) {
     if (err.status === 401) {
       console.error("Unauthorized access. Please login again.");
