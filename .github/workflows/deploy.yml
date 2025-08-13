@@ -31,8 +31,9 @@ jobs:
 
       - name: Sync files to VPS
         run: |
-          rsync -avz --delete .output/ xver@185.84.161.119:/home/xver/accountApp/.output/
+          rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" .output/ xver@185.84.161.119:/home/xver/accountApp/.output/
 
       - name: Restart app on VPS
         run: |
           ssh -o StrictHostKeyChecking=no xver@185.84.161.119 "pm2 restart accountApp || pm2 start node .output/server/index.mjs --name accountApp"
+d
