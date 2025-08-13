@@ -2,14 +2,14 @@ import { ref } from "vue";
 export function useSession() {
   const loading = ref(false);
   const nameuser = ref("ไม่พบชื่อผู้ใช้");
-  const { $api } = useApi();
+  const { api } = useApi();
   const getSession = async () => {
     loading.value = true;
     try {
-      const response = await $api("/auth/get_session");
-      if (response) {
+      const response = await api.get("/auth/get_session");
+      if (response.data) {
         nameuser.value =
-          response.data_user.account_user_name || "ไม่พบชื่อผู้ใช้";
+          response.data.data_user.account_user_name || "ไม่พบชื่อผู้ใช้";
       } else {
         nameuser.value = "ไม่พบชื่อผู้ใช้";
       }

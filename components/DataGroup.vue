@@ -238,7 +238,7 @@ import { useAlert } from "~/composables/showAlert";
 
 // resigter state
 const { confirmAlert } = useAlert();
-const { $api } = useApi();
+const { api } = useApi();
 const route = useRoute();
 const categoryID = route.params.id;
 
@@ -251,8 +251,8 @@ const openAddModal = () => {
 
 const fetchGroup = async () => {
   try {
-    const response = await $api(`/account_group_counttype/${categoryID}`);
-    groupData.value = response.count_type_at_group;
+    const response = await api.get(`/account_group_counttype/${categoryID}`);
+    groupData.value = response.data.count_type_at_group;
   } catch (error) {
     console.error("Error fetching group data:", error);
   }
@@ -281,9 +281,7 @@ const deleteFormData = async (account_group_id) => {
     );
 
     if (result.isConfirmed) {
-      await $api(`/account_group_del/${account_group_id}`, {
-        method: "DELETE",
-      });
+      await api.delete(`/account_group_del/${account_group_id}`);
       groupData.value = groupData.value.filter(
         (group) => group.account_group_id !== account_group_id
       );

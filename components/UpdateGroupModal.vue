@@ -30,7 +30,7 @@ import {
   SquarePen
 } from "lucide-vue-next";
 import { ref, watch } from "vue";
-const { $api } = useApi();
+const { api } = useApi();
 
 const props = defineProps({
   show: Boolean,
@@ -51,14 +51,11 @@ watch(
 const updateAccountType = async () => {
 
   try {
-    const response = await $api(`/account_group_update/${localAccountGroup.value.account_group_id}`, {
-      method: "PUT",
-      body: {
-        account_group_name: localAccountGroup.value.account_group_name,
-      },
+    const response = await api.put(`/account_group_update/${localAccountGroup.value.account_group_id}`, {
+      account_group_name: localAccountGroup.value.account_group_name,
     });
 
-    emit("update", response);
+    emit("update", response.data);
     close();
   } catch (error) {
     console.log("Error:", error);

@@ -100,7 +100,7 @@
 <script setup>
 import { ref, defineProps, defineEmits, computed, onMounted, watch } from "vue";
 
-const { $api } = useApi();
+const { api } = useApi();
 const emits = defineEmits(["close", "update"]);
 const fundData = ref({ data: [] });
 const isSubmitting = ref(false);
@@ -143,8 +143,8 @@ const formatCurrency = (value) => {
 
 const fetchFundData = async () => {
   try {
-    const response = await $api("/getLastedFund");
-    fundData.value = response;
+    const response = await api.get("/getLastedFund");
+    fundData.value = response.data;
   } catch (error) {
     console.error("Error fetching fund data:", error);
   }
@@ -160,13 +160,10 @@ const updateFundValue = async (
   account_category_id
 ) => {
   try {
-    await $api("/updateLastedFund", {
-      method: "POST",
-      body: {
-        account_type_id,
-        new_value: newValue,
-        account_category_id,
-      },
+    await api.post("/updateLastedFund", {
+      account_type_id,
+      new_value: newValue,
+      account_category_id,
     });
     console.log("Updated fund:", account_type_id, "=>", newValue);
   } catch (error) {

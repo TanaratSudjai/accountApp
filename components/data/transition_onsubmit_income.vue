@@ -197,17 +197,14 @@ import { useIncomeTransitionStore } from "~/stores/incomeTransition";
 const store = useIncomeTransitionStore();
 const { transition } = storeToRefs(store);
 const error = ref(null); // เก็บข้อผิดพลาด (ถ้ามี)
-const { $api } = useApi();
+const { api } = useApi();
 const { formatNumber } = useFormatNumber(); // ฟังก์ชันสำหรับการจัดรูปแบบตัวเลข
 
 // ฟังก์ชันลบธุรกรรม
 const deleteTransection = async (id, value) => {
   try {
-    await $api(`/delete_transition_income/${id}`, {
-      method: "PUT",
-      body: {
-        account_transition_value: value,
-      },
+    await api.put(`/delete_transition_income/${id}`, {
+      account_transition_value: value,
     });
     await store.fetchTransitions(); // Refresh the store data
   } catch (error) {

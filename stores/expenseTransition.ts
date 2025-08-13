@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useExpenseTransitionStore = defineStore('expenseTransition', () => {
-  const { $api } = useApi()
+  const { api } = useApi()
 
   const transition = ref([])
   const disabledAccountTypeIds = ref(new Set())
@@ -10,7 +10,8 @@ export const useExpenseTransitionStore = defineStore('expenseTransition', () => 
 
   const fetchTransitions = async () => {
     try {
-      const res = await $api('/get_expense_transition')
+      const response = await api.get('/get_expense_transition')
+      const res = response.data
       if (Array.isArray(res)) {
         transition.value = res
         disabledAccountTypeIds.value = new Set(

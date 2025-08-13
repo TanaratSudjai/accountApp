@@ -10,14 +10,14 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 const groupID = route.params.id;
-const { $api } = useApi();
+const { api } = useApi();
 
 const GroupData = ref([]);
 
 const fetchGroup = async () => {
   try {
-    const data = await $api(`/category/${groupID}`);
-    GroupData.value = data;
+    const response = await api.get(`/category/${groupID}`);
+    GroupData.value = response.data;
   } catch (error) {
     console.error("Error fetching group data:", error);
   }

@@ -51,14 +51,12 @@ definePageMeta({
 import { useSession } from "~/composables/useSession";
 // composables state
 const { loading, nameuser, getSession } = useSession();
-const { $api } = useApi();
+const { api } = useApi();
 // api call logout
 const logout = async () => {
   try {
     loading.value = true;
-    await $api("/auth/logout", {
-      method: "POST",
-    });
+    await api.post("/auth/logout");
     setInterval(() => {
       loading.value = false;
     }, 3000)

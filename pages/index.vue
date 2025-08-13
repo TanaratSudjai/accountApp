@@ -64,7 +64,7 @@ import { useAlert } from "~/composables/showAlert";
 
 // resigter state
 const { showAlert } = useAlert();
-const { $api } = useApi();
+const { api } = useApi();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
@@ -85,6 +85,8 @@ const isDisabled = computed(() => {
 
 // function method
 const handleLogin = async () => {
+  console.log(api);
+
   if (loading.value) return;
   loading.value = true;
   if (!formData.account_user_username.trim()) {
@@ -98,22 +100,18 @@ const handleLogin = async () => {
     return;
   }
   try {
-    const response = await $api("/auth/login", {
-      method: "POST",
-      body: {
-        account_user_username: formData.account_user_username,
-        account_user_password: formData.account_user_password,
-      },
+    const response = await api.post("/auth/login", {
+      account_user_username: formData.account_user_username,
+      account_user_password: formData.account_user_password,
     });
 
     if (response.status === 200) {
-      const token = response.token;
+      const token = response.data.token;
       const tokenCookie = useCookie("token", {
         maxAge: 60 * 60 * 2, // 2 ชั่วโมง
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
         path: "/",
-        domain: process.env.NODE_ENV === "production" ? "accounting.goolnw.com" : undefined,
       });
       tokenCookie.value = token;
 

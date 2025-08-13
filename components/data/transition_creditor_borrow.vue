@@ -311,7 +311,7 @@ const columnOneSelected = ref(null); //จากคอลัมน์ที่ 1
 const columnTwoSelected = ref(null); //จากคอลัมน์ที่ 2
 const accountTypeValue = ref(0);
 const bankData = ref([]);
-const { $api } = useApi();
+const { api } = useApi();
 const { formatDateTime } = useFormatDateTime(); // or adjust path
 const page = ref(1);
 const limit = ref(5);
@@ -364,8 +364,8 @@ const isButtonDisabled = computed(() => {
 
 const fetchCat = async () => {
   try {
-    const data = await $api("/get_type_from_id");
-    catData.value = data.result;
+    const response = await api.get("/get_type_from_id");
+    catData.value = response.data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);
   }
@@ -375,8 +375,8 @@ const creditor = ref([]);
 
 const fetchCreditor = async () => {
   try {
-    const data = await $api("/get_creditor");
-    creditor.value = data.result;
+    const response = await api.get("/get_creditor");
+    creditor.value = response.data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);
   }
@@ -434,14 +434,11 @@ const handleOkClick = async () => {
 
   try {
     // Send data to the API
-    await $api("/bank_borrow", {
-      method: "POST",
-      body: {
-        account_type_id: columnOneSelected.value.account_type_id,
-        account_type_from_id: columnTwoSelected.value.account_type_id,
-        account_transition_value: parseFloat(accountTypeValue.value), // Access the value directly
-        account_category_id: 2,
-      },
+    await api.post("/bank_borrow", {
+      account_type_id: columnOneSelected.value.account_type_id,
+      account_type_from_id: columnTwoSelected.value.account_type_id,
+      account_transition_value: parseFloat(accountTypeValue.value), // Access the value directly
+      account_category_id: 2,
     });
 
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
@@ -455,11 +452,11 @@ const handleOkClick = async () => {
 
 const bankTransition = async () => {
   try {
-    const data = await $api(`/creditor_transition`, {
+    const response = await api.get(`/creditor_transition`, {
       params: { page: page.value, limit: limit.value }
     });
-    bankData.value = data.data;
-    totalPages.value = data.total_page || 1; 
+    bankData.value = response.data.data;
+    totalPages.value = response.data.total_page || 1; 
   } catch (error) {
     console.error("Error fetching transition group One:", error);
   }
@@ -467,9 +464,7 @@ const bankTransition = async () => {
 
 const deleteTransection = async (id) => {
   try {
-    await $api(`/return_creditor/${id}`, {
-      method: "PUT",
-    });
+    await api.put(`/return_creditor/${id}`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCreditor(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCat(); // ดึงข้อมูลใหม่หลังจากลบ
