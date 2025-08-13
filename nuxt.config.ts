@@ -45,7 +45,6 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
-    // เพิ่มการตั้งค่า CORS สำหรับ production
     experimental: {
       wasm: true,
     },
