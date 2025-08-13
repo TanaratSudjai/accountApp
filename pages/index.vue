@@ -62,7 +62,6 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAlert } from "~/composables/showAlert";
 import { useAuth } from "~/composables/useAuth";
-import { jwtDecode } from "jwt-decode";
 
 // resigter state
 const { showAlert } = useAlert();
@@ -106,7 +105,8 @@ const handleLogin = async () => {
     });
     if (response.status === 200) {
       auth.setToken(response.data.token);
-      navigateTo('/home');
+      router.push("/home");
+      showAlert("เข้าสู่ระบบเรียบร้อย", "คุณได้เข้าสู่ระบบเรียบร้อยแล้ว", "success");
     }
   } catch (err) {
     console.error(err);
