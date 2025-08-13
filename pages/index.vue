@@ -61,6 +61,8 @@ definePageMeta({
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAlert } from "~/composables/showAlert";
+import { useAuth } from "~/composables/useAuth";
+import { jwtDecode } from "jwt-decode";
 
 // resigter state
 const { showAlert } = useAlert();
@@ -68,7 +70,7 @@ const { api } = useApi();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
-
+const auth = useAuth();
 
 // state form
 const formData = reactive({
@@ -85,8 +87,6 @@ const isDisabled = computed(() => {
 
 // function method
 const handleLogin = async () => {
-  console.log(api);
-
   if (loading.value) return;
   loading.value = true;
   if (!formData.account_user_username.trim()) {
@@ -104,30 +104,10 @@ const handleLogin = async () => {
       account_user_username: formData.account_user_username,
       account_user_password: formData.account_user_password,
     });
-
     if (response.status === 200) {
-      const token = response.data.token;
-      const tokenCookie = useCookie("token", {
-        maxAge: 60 * 60 * 2, // 2 ชั่วโมง
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-        path: "/",
-      });
-      tokenCookie.value = token;
-
-      // เก็บ backup token ใน localStorage สำหรับกรณีที่ cookie หาย
-      if (process.client) {
-        try {
-          localStorage.setItem('backup_token', token);
-        } catch (e) {
-          console.warn('Failed to save backup token:', e);
-        }
-      }
-
-      await router.push("/home");
-      window.location.reload();
+      auth.setToken(response.data.token);
+      navigateTo('/home');
     }
-
   } catch (err) {
     console.error(err);
     const status = err?.status || err?.response?.status;
@@ -138,7 +118,6 @@ const handleLogin = async () => {
       showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
     }
     else {
-      const message = err?.data?.message || err?.response?.data?.message || "เกิดข้อผิดพลาดในการเข้าสู่ระบบ";
       showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
     }
   } finally {

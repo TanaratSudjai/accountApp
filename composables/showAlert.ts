@@ -59,5 +59,5 @@ export function useAlert() {
     });
   };
 
-  return { showAlert, confirmAlert};
+  return { showAlert, confirmAlert };
 }
