@@ -3,9 +3,11 @@ import axios from "axios";
 export const useApi = () => {
   const config = useRuntimeConfig();
   const tokenCookie = useCookie("token", {
-    secure: true,
-    sameSite: "none",
-    maxAge: 60 * 60 * 24 * 1,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    httpOnly: true,
+    path: "/",
+    maxAge: 60 * 60 * 24 * 1, // 1 วัน
   });
 
   const api = axios.create({
