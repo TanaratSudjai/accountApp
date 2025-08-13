@@ -1,13 +1,17 @@
 export default defineNuxtRouteMiddleware((to) => {
   const tokenCookie = useCookie("token");
-  let token = useState("token", () => tokenCookie.value).value;
+  const token = tokenCookie.value;
 
-  if (!token) {
-    if (to.path === "/register") return;
+  // หน้าที่ไม่ต้องการ authentication
+  const publicRoutes = ["/", "/register"];
+  
+  // ถ้าไม่มี token และไม่ใช่หน้า public routes
+  if (!token && !publicRoutes.includes(to.path)) {
+    return navigateTo("/");
   }
 
-  if (token && to.path === "/") {
-    if (token) return navigateTo("/home");
-    return;
+  // ถ้ามี token และอยู่ในหน้า login หรือ register ให้ redirect ไป home
+  if (token && (to.path === "/" || to.path === "/register")) {
+    return navigateTo("/home");
   }
 });
