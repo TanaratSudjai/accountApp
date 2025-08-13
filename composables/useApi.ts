@@ -10,7 +10,7 @@ export const useApi = () => {
     maxAge: 60 * 60 * 24 * 7, // เพิ่มเป็น 7 วัน
     // ลบ domain ออกเพื่อให้ใช้ได้กับทุก domain ใน development
     ...(process.env.NODE_ENV === "production" && {
-      domain: "accounting.goolnw.com",
+      domain: process.env.COOKIE_DOMAIN,
     }),
   });
 
