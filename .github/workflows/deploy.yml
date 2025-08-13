@@ -11,8 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install dependencies
+        run: npm install  --legacy-peer-deps
+
       - name: Build
-        run: npm install --production --force && npm run build
+        run: npm run build
 
       - name: Copy files to VPS
         uses: appleboy/scp-action@v0.1.4
