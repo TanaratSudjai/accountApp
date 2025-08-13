@@ -5,8 +5,7 @@ export const useApi = () => {
   const tokenCookie = useCookie("token", {
     secure: true,
     sameSite: "none",
-    maxAge: 60 * 60 * 24 * 7,
-    domain: ".goolnw.com",
+    maxAge: 60 * 60 * 24 * 1,
   });
 
   const api = axios.create({

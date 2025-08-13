@@ -61,7 +61,7 @@ definePageMeta({
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAlert } from "~/composables/showAlert";
-import { useAuth } from "~/composables/useAuth";
+// import { useAuth } from "~/composables/useAuth";
 
 // resigter state
 const { showAlert } = useAlert();
@@ -69,7 +69,7 @@ const { api } = useApi();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
-const auth = useAuth();
+// const auth = useAuth();
 
 // state form
 const formData = reactive({
@@ -104,7 +104,6 @@ const handleLogin = async () => {
       account_user_password: formData.account_user_password,
     });
     if (response.status === 200) {
-      auth.setToken(response.data.token);
       router.push("/home");
       showAlert("เข้าสู่ระบบเรียบร้อย", "คุณได้เข้าสู่ระบบเรียบร้อยแล้ว", "success");
     }

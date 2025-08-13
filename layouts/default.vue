@@ -49,12 +49,10 @@ definePageMeta({
 });
 // import
 import { useSession } from "~/composables/useSession";
-import { useAuth } from "~/composables/useAuth";
 import { useAlert } from "#imports";
 // composables state
 const { loading, nameuser, getSession } = useSession();
 const { api } = useApi();
-const auth = useAuth();
 const { showAlert } = useAlert();
 
 // api call logout
@@ -62,7 +60,6 @@ const logout = async () => {
   try {
     loading.value = true;
     await api.post("/auth/logout");
-    auth.clearToken();
     showAlert("ออกจากระบบเรียบร้อยแล้ว", "คุณได้ออกจากระบบเรียบร้อยแล้ว", "success");
     navigateTo("/");
   } catch (err) {
