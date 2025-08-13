@@ -2,7 +2,6 @@ export default defineNuxtRouteMiddleware((to) => {
   const tokenCookie = useCookie("token");
   let token = useState("token", () => tokenCookie.value).value;
 
-  // Fallback: Check localStorage if cookie is missing (client-side only)
   if (!token && process.client) {
     try {
       const backupToken = localStorage.getItem('backup_token');
