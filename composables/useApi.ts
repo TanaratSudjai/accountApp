@@ -17,9 +17,13 @@ export const useApi = () => {
     onRequest({ request, options }) {
       // Debug logging
       if (process.client && process.env.NODE_ENV === "development") {
-        console.log('🚀 API Request:', request, 'Token exists:', !!tokenCookie.value);
+        console.log(
+          "🚀 API Request:",
+          request,
+          "Token exists:",
+          !!tokenCookie.value
+        );
       }
-
       // เพิ่ม Authorization header
       if (tokenCookie.value) {
         options.headers = {
@@ -27,17 +31,16 @@ export const useApi = () => {
           Authorization: `Bearer ${tokenCookie.value}`,
         };
       }
-
       // เพิ่ม headers สำหรับ CORS
       options.headers = {
         ...options.headers,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       };
     },
     onResponse({ response, request }) {
       // Debug logging
       if (process.client && process.env.NODE_ENV === "development") {
-        console.log('✅ API Response:', response.status, request);
+        console.log("✅ API Response:", response.status, request);
       }
 
       // จัดการ token จาก login response
@@ -47,9 +50,9 @@ export const useApi = () => {
         // เก็บ backup token
         if (process.client) {
           try {
-            localStorage.setItem('backup_token', response._data.token);
+            localStorage.setItem("backup_token", response._data.token);
           } catch (e) {
-            console.warn('Failed to save backup token:', e);
+            console.warn("Failed to save backup token:", e);
           }
         }
       }
@@ -57,14 +60,19 @@ export const useApi = () => {
     onResponseError({ response, request }) {
       // Debug logging
       if (process.client) {
-        console.error('❌ API Error:', response.status, request, response._data);
+        console.error(
+          "❌ API Error:",
+          response.status,
+          request,
+          response._data
+        );
       }
 
       // จัดการ error
       if (response.status === 401) {
         tokenCookie.value = null;
         if (process.client) {
-          localStorage.removeItem('backup_token');
+          localStorage.removeItem("backup_token");
           navigateTo("/");
         }
       }
