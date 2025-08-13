@@ -6,44 +6,31 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
+      - name: Build
+        run: npm install --force && npm run build
 
-      - name: Install dependencies
-        run: npm install --force
-
-      - name: 🛠 Build Nuxt app
-        run: npm run build
-
-      - name: Upload built app to VPS
+      - name: Copy files to VPS
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          port: 22
-          source: ".output"
+          source: ".output/**"
           target: "/home/xver/accountApp"
 
-      - name: Restart app with PM2
+      - name: Restart app on VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          port: 22
           script: |
-            export PATH="/home/xver/.nvm/versions/node/v20.19.4/bin:$PATH"
-            cd /home/xver/accountApp/
-
-            pm2 start pm2.config.cjs  || pm2 restart accountApp
+            cd /home/xver/accountApp
+            npm install --production
+            pm2 restart accountApp || pm2 start pm2.config.cjs
             pm2 save
