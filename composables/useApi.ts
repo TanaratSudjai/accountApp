@@ -3,12 +3,10 @@ import { useCookie } from "#app";
 export const useApi = () => {
   const config = useRuntimeConfig();
   const tokenCookie = useCookie("token", {
-    maxAge: 60 * 60 * 24 * 1,
+    maxAge: 60 * 60 * 2,
     secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    domain: process.env.NODE_ENV === "production" ? ".goolnw.com" : undefined,
+    sameSite: "strict",
     path: "/",
-    httpOnly: false,
   });
 
   // สร้าง $fetch instance ที่มี interceptor
