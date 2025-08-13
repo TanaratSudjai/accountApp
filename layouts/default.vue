@@ -57,14 +57,23 @@ const logout = async () => {
   try {
     loading.value = true;
     await api.post("/auth/logout");
-    setInterval(() => {
-      loading.value = false;
-    }, 3000)
+    // ลบ token ใน LocalStorage & SessionStorage
     localStorage.removeItem("token");
     sessionStorage.clear();
-    const tokenCookie = useCookie("token");
+    // เคลียร์ cookie
+    const tokenCookie = useCookie("token", {
+      maxAge: 0, // ทำให้หมดอายุทันที
+      path: "/", // ให้ครอบคลุมทั้งเว็บ
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+    });
     tokenCookie.value = null;
-    window.location.reload();
+    // แสดง loading 3 วินาทีก่อน reload
+    setTimeout(() => {
+      loading.value = false;
+      window.location.reload();
+    }, 3000);
+
   } catch (err) {
     if (err.status === 401) {
       console.error("Unauthorized access. Please login again.");
