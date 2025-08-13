@@ -14,8 +14,12 @@ export const useApi = () => {
     }),
   });
 
+  // Debug API base URL
+  const apiBaseUrl = config.public.apiBase ;
+  console.log("API Base URL:", apiBaseUrl);
+
   const api = axios.create({
-    baseURL: config.public.apiBase as string,
+    baseURL: apiBaseUrl,
     withCredentials: true,
     timeout: 10000,
   });
