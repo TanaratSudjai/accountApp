@@ -36,6 +36,13 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL,
+      frontendUrl: process.env.NUXT_PUBLIC_FRONTEND_URL,
     },
+  },
+  nitro: {
+    // เพิ่มการตั้งค่า CORS สำหรับ production
+    experimental: {
+      wasm: true
+    }
   },
 });
