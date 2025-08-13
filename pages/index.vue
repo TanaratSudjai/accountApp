@@ -104,8 +104,16 @@ const handleLogin = async () => {
       account_user_password: formData.account_user_password,
     });
     if (response.status === 200) {
-    
+      const tokenCookie = useCookie("token", {
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        httpOnly: false,
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7, 
+      });
+      tokenCookie.value = response.data.token;
       showAlert("เข้าสู่ระบบเรียบร้อย", "คุณได้เข้าสู่ระบบเรียบร้อยแล้ว", "success");
+      router.push("/home");
     }
   } catch (err) {
     console.error(err);

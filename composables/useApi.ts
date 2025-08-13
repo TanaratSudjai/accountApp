@@ -8,22 +8,13 @@ export const useApi = () => {
     httpOnly: false, // เปลี่ยนเป็น false เพื่อให้ client-side สามารถเข้าถึงได้
     path: "/",
     maxAge: 60 * 60 * 24 * 7, // เพิ่มเป็น 7 วัน
-    // ตั้งค่า domain สำหรับ production
-    ...(process.env.NODE_ENV === "production" && {
-      domain: "accounting.goolnw.com",
-    }),
   });
-
-  // Debug API base URL
   const apiBaseUrl = config.public.apiBase;
-  console.log("API Base URL:", apiBaseUrl);
-
   const api = axios.create({
     baseURL: apiBaseUrl,
     withCredentials: true,
     timeout: 10000,
   });
-
   api.interceptors.request.use(
     (config: any) => {
       if (tokenCookie.value) {
