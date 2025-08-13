@@ -105,9 +105,6 @@ const handleLogin = async () => {
         account_user_password: formData.account_user_password,
       },
     });
-    if (!response.success) {
-      showAlert("เกิดปัญหาในการเข้าสู่ระบบ", "กรุณาลองใหม่ในอีกอีกครั้ง");
-    }
 
     if (response.status === 200) {
       const token = response.token;
@@ -119,7 +116,7 @@ const handleLogin = async () => {
         domain: process.env.NODE_ENV === "production" ? ".goolnw.com" : undefined,
       });
       tokenCookie.value = token;
-      
+
       // เก็บ backup token ใน localStorage สำหรับกรณีที่ cookie หาย
       if (process.client) {
         try {
@@ -128,7 +125,7 @@ const handleLogin = async () => {
           console.warn('Failed to save backup token:', e);
         }
       }
-      
+
       await router.push("/home");
       window.location.reload();
     }
