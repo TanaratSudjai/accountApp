@@ -111,7 +111,6 @@ const handleLogin = async () => {
     
     // Debug cookie after login
     setTimeout(() => {
-      debugCookie('token');
       monitorCookie('token', 2000); // Monitor every 2 seconds
     }, 100);
     
@@ -144,7 +143,6 @@ const goRegister = async () => {
 onMounted(() => {
   if (process.client) {
     console.log('🚀 Login page loaded - starting cookie monitoring');
-    debugCookie('token');
     monitorCookie('token', 3000); // Monitor every 3 seconds
   }
 });
