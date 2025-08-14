@@ -49,19 +49,20 @@ definePageMeta({
 });
 // import
 import { useSession } from "~/composables/useSession";
-import { useAlert } from "#imports";
+import { useAlert } from "~/composables/showAlert";
+import { useAuth } from "~/composables/useAuth";
 // composables state
 const { loading, nameuser, getSession } = useSession();
 const { $axios } = useNuxtApp();
 const { showAlert } = useAlert();
+const auth = useAuth();
 
 // api call logout
 const logout = async () => {
   try {
     loading.value = true;
-    await $axios.post("/auth/logout");
-    showAlert("ออกจากระบบเรียบร้อยแล้ว", "คุณได้ออกจากระบบเรียบร้อยแล้ว", "success");
-    navigateTo("/");
+    await auth.logout();
+    loading.value = false;
   } catch (err) {
     if (err.status === 401) {
       console.error("Unauthorized access. Please login again.");
