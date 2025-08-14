@@ -168,7 +168,7 @@ import { useAlert } from "~/composables/showAlert";
 const { confirmAlert } = useAlert();
 const route = useRoute();
 const groupID = route.params.id;
-const { api } = useApi();
+const { $api } = useNuxtApp();
 const typeID = route.params.id;
 const groupIDforAdd = route.query.groupID || "";
 const { formatNumber } = useFormatNumber();
@@ -187,7 +187,7 @@ const TypeData = ref([]);
 
 const fetchType = async () => {
   try {
-    const response = await api.get(`/account_type_get/${groupID}`);
+    const response = await $api.get(`/account_type_get/${groupID}`);
     TypeData.value = response.data.account_type;
   } catch (error) {
     console.error("Error fetching group data:", error);
@@ -204,7 +204,7 @@ const deleteFormData = async (account_type_id) => {
     console.log("Result:", result);
 
     if (result.isConfirmed) {
-      await api.delete(`/account_type_del/${account_type_id}`);
+      await $api.delete(`/account_type_del/${account_type_id}`);
 
       TypeData.value = TypeData.value.filter(
         (Type) => Type.account_type_id !== account_type_id

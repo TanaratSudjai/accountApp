@@ -347,17 +347,17 @@ const router = useRouter();
 const datatype_sum = ref([]);
 const showZeroSum = ref(true);
 const error = ref("");
-const { api } = useApi();
+const { $api } = useNuxtApp();
 const loading = ref(true);
 
 const fetchType = async () => {
   try {
     if (showZeroSum.value) {
-      const response = await api.get("/dasktop_data_sumtype");
+      const response = await $api.get("/dasktop_data_sumtype");
       datatype_sum.value = response.data.account_type_sum || [];
       loading.value = false;
     } else {
-      const response = await api.get("/dasktop_data_sumzero");
+      const response = await $api.get("/dasktop_data_sumzero");
       datatype_sum.value = response.data.account_type_sum || [];
     }
   } catch (err) {
@@ -438,7 +438,7 @@ const sumColumn6 = computed(() =>
 
 const closeAccount = async () => {
   try {
-    await api.post("/ExportAccount");
+    await $api.post("/ExportAccount");
     showAlert("ปิดบัญชีสำเร็จแล้ว", "ปิดบัญชีสำเร็จแล้ว");
   } catch (err) {
     if (err.response.status == 400) {

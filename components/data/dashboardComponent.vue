@@ -159,12 +159,12 @@ const router = useRouter();
 const { FormatThaiDate } = useFormatThaiDate();
 const transition_data = ref([]);
 const loading = ref(true);
-const { api } = useApi();
+const { $api } = useNuxtApp();
 
 const fetchData = async () => {
   loading.value = true;
   try {
-    const response = await api.get("/dashboard");
+    const response = await $api.get("/dashboard");
     transition_data.value = response.data.result;
     console.log(transition_data.value);
   } catch (error) {

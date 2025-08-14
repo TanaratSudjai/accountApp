@@ -176,13 +176,13 @@ input[type="number"] {
 <script setup>
 import { ref, defineProps, defineEmits, computed, onMounted } from "vue";
 const categorys = ref([]);
-const { api } = useApi();
+const { $api } = useNuxtApp();
 const { formatNumber } = useFormatNumber();
 // Fetch category data
 const { data: category, error } = await useAsyncData(
   "fetch transitions",
   async () => {
-    const response = await api.get("/get_type_from_id");
+    const response = await $api.get("/get_type_from_id");
     categorys.value = response.data.result || [];
   }
 );

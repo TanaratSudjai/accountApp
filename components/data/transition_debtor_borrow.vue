@@ -485,7 +485,7 @@ const columnOneSelected = ref(null); //จากคอลัมน์ที่ 1
 const columnTwoSelected = ref(null); //จากคอลัมน์ที่ 2
 const accountTypeValue = ref(0);
 const bankData = ref([]);
-const { api } = useApi();
+const { $api } = useNuxtApp();
 const page = ref(1);
 const limit = ref(5);
 const totalPages = ref(1);
@@ -541,7 +541,7 @@ const isButtonDisabled = computed(() => {
 
 const fetchCat = async () => {
   try {
-    const response = await api.get("/get_type_from_id");
+    const response = await $api.get("/get_type_from_id");
     catData.value = response.data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -552,7 +552,7 @@ const debtor = ref([]);
 
 const fetchDebtor = async () => {
   try {
-    const response = await api.get("/get_debtor");
+    const response = await $api.get("/get_debtor");
     debtor.value = response.data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -606,7 +606,7 @@ const handleOkClick = async () => {
 
   try {
     // Send data to the API
-    await api.post("/debtor_borrow", {
+    await $api.post("/debtor_borrow", {
       account_type_id: columnOneSelected.value.account_type_id,
       account_type_from_id: columnTwoSelected.value.account_type_id,
       account_transition_value: parseFloat(accountTypeValue.value), // Access the value directly
@@ -624,7 +624,7 @@ const handleOkClick = async () => {
 
 const bankTransition = async () => {
   try {
-    const response = await api.get(`/debtor_transition`, {
+    const response = await $api.get(`/debtor_transition`, {
       params: { page: page.value, limit: limit.value }
     });
     bankData.value = response.data.data;
@@ -636,7 +636,7 @@ const bankTransition = async () => {
 
 const deleteTransection = async (id) => {
   try {
-    await api.put(`/return_debtor/${id}`);
+    await $api.put(`/return_debtor/${id}`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCat(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchDebtor();

@@ -308,7 +308,7 @@ const columnOneSelected = ref(null); //จากคอลัมน์ที่ 1
 const columnTwoSelected = ref(null); //จากคอลัมน์ที่ 2
 const accountTypeValue = ref(0);
 const bankData = ref([]);
-const { api } = useApi();
+const { $api } = useNuxtApp();
 const { formatDateTime } = useFormatDateTime();
 const page = ref(1);
 const limit = ref(5);
@@ -387,7 +387,7 @@ const handleOkClick = async () => {
 
   try {
     // Send data to the API
-    await api.post("/bank_return", {
+    await $api.post("/bank_return", {
       account_type_id: columnOneSelected.value.account_type_id,
       account_type_from_id: columnTwoSelected.value.account_type_id,
       account_transition_value: parseFloat(accountTypeValue.value), // Access the value directly
@@ -405,7 +405,7 @@ const handleOkClick = async () => {
 
 const bankTransition = async () => {
   try {
-    const response = await api.get(`/creditor_transition`, {
+    const response = await $api.get(`/creditor_transition`, {
       params: { page: page.value, limit: limit.value }
     });
     bankData.value = response.data.data;
@@ -449,7 +449,7 @@ const isButtonDisabled = computed(() => {
 
 const fetchCreditor = async () => {
   try {
-    const response = await api.get("/get_creditor");
+    const response = await $api.get("/get_creditor");
     creditor.value = response.data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -457,7 +457,7 @@ const fetchCreditor = async () => {
 };
 const deleteTransection = async (id) => {
   try {
-    await api.put(`/return_creditor/${id}`);
+    await $api.put(`/return_creditor/${id}`);
     await bankTransition();
     await fetchCreditor();
     await fetchCat();
@@ -467,7 +467,7 @@ const deleteTransection = async (id) => {
 };
 const fetchCat = async () => {
   try {
-    const response = await api.get("/get_type_from_id");
+    const response = await $api.get("/get_type_from_id");
     catData.value = response.data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);

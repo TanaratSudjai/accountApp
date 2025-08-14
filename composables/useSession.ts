@@ -1,14 +1,14 @@
 import { ref } from "vue";
 export function useSession() {
+  const { $api } = useNuxtApp()
   const loading = ref(false);
   const nameuser = ref("ไม่พบชื่อผู้ใช้");
-  const { api } = useApi();
   const router = useRouter();
 
   const getSession = async () => {
     loading.value = true;
     try {
-      const response = await api.get("/auth/get_session");
+      const response = await $api.get("/auth/get_session");
       if (response.data) {
         nameuser.value =
           response.data.data_user.account_user_name || "ไม่พบชื่อผู้ใช้";
@@ -31,7 +31,7 @@ export function useSession() {
   const logout = async () => {
     try {
       // เรียก API logout (ถ้ามี)
-      await api.post("/auth/logout").catch(() => {
+      await $api.post("/auth/logout").catch(() => {
         // ไม่ต้องแสดง error ถ้า logout API ล้มเหลว
       });
     } finally {

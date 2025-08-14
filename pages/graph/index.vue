@@ -286,7 +286,7 @@ const years = [];
 const currentYear = new Date().getFullYear();
 for (let y = currentYear; y >= currentYear - 10; y--) years.push(y);
 
-const { api } = useApi();
+const { $api } = useNuxtApp();
 
 async function fetchDashboardData(year, month, day = null) {
   try {
@@ -303,7 +303,7 @@ async function fetchDashboardData(year, month, day = null) {
     } else {
       selectedDay.value = day;
     }
-    const response = await api.get("/get_dashboard_data", { params });
+    const response = await $api.get("/get_dashboard_data", { params });
     const data = response.data;
 
     // Calendar events

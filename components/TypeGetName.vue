@@ -11,13 +11,13 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 const groupID = route.params.id;
 
-const { api } = useApi();
+const { $api } = useNuxtApp();
 
 const GroupData = ref([]);
 
 const fetchGroup = async () => {
   try {
-    const response = await api.get(`/account_group_get/${groupID}`);
+    const response = await $api.get(`/account_group_get/${groupID}`);
     GroupData.value = response.data.account_group_by_id;
   } catch (error) {
     console.log("Error fetching group data:", error);

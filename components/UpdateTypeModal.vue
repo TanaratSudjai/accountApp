@@ -130,11 +130,11 @@ const route = useRoute();
 const categoryID = route.query.groupID;
 
 const typeData = ref([]);
-const { api } = useApi();
+const { $api } = useNuxtApp();
 
 const fetchTypeData = async () => {
   try {
-    const response = await api.get(`/account_type_get`);
+    const response = await $api.get(`/account_type_get`);
     typeData.value = response.data.account_type;
   } catch (error) {
     console.log("Error fetching icons:", error);
@@ -145,7 +145,7 @@ const icons = ref(); //เก็บข้อมูลไอคอน
 const fetchIcon = async () => {
   //นำข้อมูลไอคอนมา
   try {
-    const response = await api.get(`/get_icons/${categoryID}`);
+    const response = await $api.get(`/get_icons/${categoryID}`);
     icons.value = response.data.data;
   } catch (error) {
     console.log("No data", error);
@@ -235,7 +235,7 @@ const updateAccountType = async () => {
   };
 
   try {
-    await api.put(`/account_type_update/${localAccountType.value.account_type_id}`, {
+    await $api.put(`/account_type_update/${localAccountType.value.account_type_id}`, {
       account_type_name: localAccountType.value.account_type_name,
       account_type_value: localAccountType.value.account_type_value?.replace(
         /,/g,

@@ -80,8 +80,8 @@ import { useAlert } from "~/composables/showAlert";
 
 
 // register state 
+const { $api } = useNuxtApp()
 const { showAlert } = useAlert();
-const { api } = useApi();
 const loading = ref(false);
 const error = ref("");
 const router = useRouter();
@@ -139,7 +139,7 @@ const handleRegister = async () => {
       return;
     }
 
-     await api.post("/auth/register", {
+     await $api.post("/auth/register", {
         account_user_name,
         account_user_username,
         account_user_password,
