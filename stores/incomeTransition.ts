@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useIncomeTransitionStore = defineStore('incomeTransition', () => {
-  const { $api } = useNuxtApp()
+  const { $axios } = useNuxtApp()
 
   const transition = ref([])
   const disabledAccountTypeIds = ref(new Set())
