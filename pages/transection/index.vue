@@ -241,7 +241,7 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
-const { api } = useApi();
+const { $axios } = useNuxtApp();
 const IconData = ref([]);
 const transition = ref([]);
 const selectedIcon = ref(null);
@@ -257,7 +257,7 @@ const { formatNumber } = useFormatNumber();
 
 const onSubmitTransition = async () => {
   try {
-    const response = await api.put(`/transitionsubmit`);
+    const ok = await $axios.put(`/transitionsubmit`);
   } catch (error) {
     // console.error("Error fetching transition:", error.message);
     throw error;
@@ -282,13 +282,13 @@ const router = useRouter();
 
 const submitDifferences = async () => {
   try {
-    await api.post(`/sumbittrantision_suminsert`, {
+    await $axios.post(`/sumbittrantision_suminsert`, {
       account_transition_value: differences.value,
     });
     await onSubmitTransition();
     await fetchTransition();
     await fetchDataTransitionOpen();
-    router.push({ path: "/" });
+    router.push({ path: "/home" });
   } catch (error) {
     console.error("Error submitting data:", error);
   }
@@ -297,7 +297,7 @@ const submitDifferences = async () => {
 
 const fetchDataTransitionOpen = async () => {
   try {
-    const response = await api.get(`/data_transition_open`);
+    const response = await $axios.get(`/data_transition_open`);
     const data = response.data.data;
 
     // Set all data from single API response
@@ -320,7 +320,7 @@ const fetchDataTransitionOpen = async () => {
 
 const fetchTransition = async () => {
   try {
-    const response = await api.get(`/transitions`);
+    const response = await $axios.get(`/transitions`);
     const data = response.data;
     transition.value = data.data;
   } catch (error) {
@@ -388,7 +388,7 @@ const updateAccountTransition = async (
   accountCategoryID
 ) => {
   try {
-    await api.post(`/transition`, {
+    await $axios.post(`/transition`, {
       account_type_id: accountTypeId,
       account_transition_value: accountTypeValue,
       account_category_from_id: accountCategoryID,

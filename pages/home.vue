@@ -266,9 +266,8 @@ import {
 import { computed } from "vue";
 import ModifyFund from "@/components/modal/ModifyFund.vue";
 import { useSession } from "~/composables/useSession";
-import { useAlert } from "#imports";
+import { useMenuLocalStorage } from "~/composables/menuLocalStorage";
 // register state
-const { showAlert } = useAlert();
 const { loading, nameuser, getSession } = useSession();
 const checkData = ref([]);
 const checkCheck_open = ref({ type: "", value: 0 });
@@ -277,11 +276,12 @@ const checkData_depter = ref({ type: "", value: 0 });
 const checkData_creditor = ref({ type: "", value: 0 });
 const offAccount_menu = ref(true);
 const { formatNumber } = useFormatNumber();
-const { api } = useApi();
+const { $axios } = useNuxtApp();
 const page = ref(1);
 const limit = ref(5);
 const totalPages = ref(1);
 const showModifyFund = ref(false);
+const { disableMenu } = useMenuLocalStorage();
 
 const menuItems = ref([
   {
@@ -364,7 +364,7 @@ const openModifyFundModal = () => {
 // function method fetch data transitions
 const fetchData = async () => {
   try {
-    const response = await api.get("/transitions", {
+    const response = await $axios.get("/transitions", {
       params: { page: page.value, limit: limit.value },
     });
     const data = response.data;
@@ -377,8 +377,6 @@ const fetchData = async () => {
     totalPages.value = data.total_page || 1;
   } catch (error) {
     console.error("Error fetching data:", error);
-    showAlert("เซ็สชั่นคุณหมดอายุ", "กรุณาออกจากระบบเเล้วเข้าสู่ระบบใหม่อีกครั้ง");
-    window.location.href = "/";
   }
 };
 // Helper function to format currency
@@ -441,10 +439,8 @@ const isDisabled = (title) => {
       openAcc.id = 13;
       offAccount_menu.value = false;
     }
-
     return false;
   }
-
   return disableTitles.includes(title);
 };
 
@@ -471,6 +467,24 @@ watch(
   { immediate: true }
 );
 
+
+
+watch(
+  () => menuItems.value,
+  (items) => {
+    const openAcc = items.find(item => item.title === "เปิดบัญชี");
+    console.log("openAcc : ", openAcc);
+    
+    if (openAcc) {
+      // ถ้า id เป็น 11 หรือ sum > 0 ก็ disable
+      const shouldDisable = openAcc.id !== 2; // หรือเงื่อนไขของคุณ
+      disableMenu(shouldDisable);
+    }
+  },
+  { immediate: true, deep: true }
+);
+
+
 // Helper function to filter menu items
 const filteredMenuItems = computed(() => {
   return menuItems.value.filter((item) => {
@@ -481,6 +495,8 @@ const filteredMenuItems = computed(() => {
     return true;
   });
 });
+
+
 
 // Helper function to check if a title is disabled
 const isDisabled_icons = (title) => {

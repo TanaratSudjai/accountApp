@@ -260,7 +260,7 @@ const selectedMenu = ref(null); // เก็บข้อมูลเมนูท
 const count = ref(null); // เก็บจำนวนรายการ
 const selectedCategory = ref(5); // เก็บประเภทที่เลือก
 const error = ref(null); // สำหรับจัดการข้อผิดพลาด
-const { api } = useApi();
+const { $axios } = useNuxtApp();
 const { showAlert } = useAlert();
 const r = useRouter();
 
@@ -305,7 +305,7 @@ const handleUpdate = async ({
 
   try {
     // ส่งข้อมูลไปยัง API
-    await api.post("/transition_select_expense", {
+    await $axios.post("/transition_select_expense", {
       account_type_id: formData.value.account_type_id,
       account_transition_value: formData.value.account_transition_value,
       account_type_from_id: formData.value.account_type_from_id,
@@ -323,22 +323,18 @@ const handleUpdate = async ({
 // ฟังก์ชันดึงข้อมูลรายการเมนู
 const fetchMenuGroupData = async () => {
   try {
-    const response = await api.get("/getMenuGroup_expense");
+    const response = await $axios.get("/getMenuGroup_expense");
     menuGroup.value = response.data || [];
   } catch (err) {
     error.value = "Error fetching menu group: " + err.message; // ตั้งค่า error
-    showAlert(
-      "เซ็สชั่นคุณหมดอายุ",
-      "กรุณาออกจากระบบเเล้วเข้าสู่ระบบใหม่อีกครั้ง"
-    );
-    window.location.href = "/";
+   
   }
 };
 
 // ฟังก์ชันดึงข้อมูลจำนวนรายการ
 const fetchDataSelect = async () => {
   try {
-    const response = await api.get("/getSelect_countSelect");
+    const response = await $axios.get("/getSelect_countSelect");
     count.value = response.data; // เก็บค่าที่ดึงมา
   } catch (err) {
     error.value = "Error fetching count: " + err.message; // ตั้งค่า error

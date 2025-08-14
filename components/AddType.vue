@@ -87,13 +87,13 @@ const router = useRouter();
 const route = useRoute();
 const groupID = route.params.id;
 const categoryID = route.query.groupID;
-const { api } = useApi();
+const { $axios } = useNuxtApp();
 
 const icons = ref(); //เก็บข้อมูลไอคอน
 const fetchIcon = async () => {
   //นำข้อมูลไอคอนมา
   try {
-    const response = await api.get(`/get_icons/${categoryID}`);
+    const response = await $axios.get(`/get_icons/${categoryID}`);
     icons.value = response.data.data;
   } catch (error) {
     
@@ -160,7 +160,7 @@ const typeData = ref([]); //เก็บข้อมูล type ไว้ใช�
 const fetchTypeData = async () => {
   //นำข้อมูล account_type มา
   try {
-    const response = await api.get(`/account_type_get`);
+    const response = await $axios.get(`/account_type_get`);
     typeData.value = response.data.account_type;
   } catch (error) {
     if (process.env.NODE_ENV !== 'production') {
@@ -176,7 +176,7 @@ const goBack = () => {
 
 const submitForm = async () => {
   try {
-    const result = await api.post("/account_type_create", {
+    const result = await $axios.post("/account_type_create", {
       account_type_name: formData.value.account_type_name,
       account_type_value: formData.value.account_type_value,
       account_type_description: formData.value.account_type_description,
@@ -209,7 +209,7 @@ const submitForm = async () => {
 const TypeData = ref([]);
 const fetchType = async () => {
   try {
-    const response = await api.get(`/account_type_get/${groupID}`);
+    const response = await $axios.get(`/account_type_get/${groupID}`);
     TypeData.value = response.data.account_type;
   } catch (error) {
     console.error("Error fetching group data:");

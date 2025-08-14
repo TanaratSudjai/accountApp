@@ -197,13 +197,13 @@ import { useIncomeTransitionStore } from "~/stores/incomeTransition";
 const store = useIncomeTransitionStore();
 const { transition } = storeToRefs(store);
 const error = ref(null); // เก็บข้อผิดพลาด (ถ้ามี)
-const { api } = useApi();
+const { $axios } = useNuxtApp();
 const { formatNumber } = useFormatNumber(); // ฟังก์ชันสำหรับการจัดรูปแบบตัวเลข
 
 // ฟังก์ชันลบธุรกรรม
 const deleteTransection = async (id, value) => {
   try {
-    await api.put(`/delete_transition_income/${id}`, {
+    await $axios.put(`/delete_transition_income/${id}`, {
       account_transition_value: value,
     });
     await store.fetchTransitions(); // Refresh the store data

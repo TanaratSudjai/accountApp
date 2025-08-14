@@ -52,7 +52,7 @@
                           ? 'text-green-600'
                           : 'text-gray-700',
                       ]">
-                        {{ item.account_type_total }}
+                        {{ formatNumber(item.account_type_total) }}
                       </p>
                     </div>
                     <div class="flex-shrink-0 mx-2">
@@ -127,7 +127,7 @@
                       </div>
                     </div>
                     <div class="flex-1 flex justify-between items-center ">
-                      <p class="font-medium">{{ item.account_type_name }}</p>
+                      <p class="font-medium text-xs md:text-sm">{{ item.account_type_name }}</p>
                       <p :class="[
                         'text-xs md:text-sm lg:text-md font-semibold',
                         columnTwoSelected &&
@@ -140,7 +140,7 @@
                             ? 'text-gray-400'
                             : 'text-gray-700',
                       ]">
-                        {{ item.account_type_total }}
+                        {{ formatNumber(item.account_type_total) }}
                       </p>
                     </div>
                     <div class="flex-shrink-0 mx-2">
@@ -222,7 +222,7 @@
                 </div>
                 <div>
                   <p class="text-sm font-medium text-gray-900 flex items-center">
-                    <span class="font-semibold">{{
+                    <span class="font-medium text-xs md:text-sm">{{
                       bankDatas.account_type_name
                     }}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -231,20 +231,17 @@
                         d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
                         clip-rule="evenodd" />
                     </svg>
-                    <span class="font-semibold">{{
+                    <span class="font-medium text-xs md:text-sm">{{
                       bankDatas.account_type_from_name
                     }}</span>
                   </p>
-                  <span class="text-xs text-gray-500 ml-2">
-                    วันที่/เวลา #{{ formatDateTime(bankDatas.account_transition_datetime) }}
-                  </span>
                   <div class="flex items-center mt-1">
                     <span
-                      class="inline-flex items-center text-sm font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded">
-                      ฿{{ bankDatas.account_transition_value }}
+                      class="inline-flex items-center font-medium text-xs md:text-sm text-green-600 bg-green-100 px-2 py-0.5 rounded">
+                      ฿{{ formatNumber(bankDatas.account_transition_value) }}
                     </span>
                     <span class="text-xs text-gray-500 ml-2">
-                      Transaction #{{ bankDatas.account_transition_id }}
+                      {{ formatDateTime(bankDatas.account_transition_datetime) }}
                     </span>
                   </div>
                 </div>
@@ -311,11 +308,12 @@ const columnOneSelected = ref(null); //จากคอลัมน์ที่ 1
 const columnTwoSelected = ref(null); //จากคอลัมน์ที่ 2
 const accountTypeValue = ref(0);
 const bankData = ref([]);
-const { api } = useApi();
+const { $axios } = useNuxtApp();
 const { formatDateTime } = useFormatDateTime(); // or adjust path
 const page = ref(1);
 const limit = ref(5);
 const totalPages = ref(1);
+const { formatNumber } = useFormatNumber();
 
 const maxAccountTypeId = computed(() => {
   // ป้องกัน bankData ไม่ใช่ array
@@ -364,7 +362,7 @@ const isButtonDisabled = computed(() => {
 
 const fetchCat = async () => {
   try {
-    const response = await api.get("/get_type_from_id");
+    const response = await $axios.get("/get_type_from_id");
     catData.value = response.data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -375,7 +373,7 @@ const creditor = ref([]);
 
 const fetchCreditor = async () => {
   try {
-    const response = await api.get("/get_creditor");
+    const response = await $axios.get("/get_creditor");
     creditor.value = response.data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -434,7 +432,7 @@ const handleOkClick = async () => {
 
   try {
     // Send data to the API
-    await api.post("/bank_borrow", {
+    await $axios.post("/bank_borrow", {
       account_type_id: columnOneSelected.value.account_type_id,
       account_type_from_id: columnTwoSelected.value.account_type_id,
       account_transition_value: parseFloat(accountTypeValue.value), // Access the value directly
@@ -452,7 +450,7 @@ const handleOkClick = async () => {
 
 const bankTransition = async () => {
   try {
-    const response = await api.get(`/creditor_transition`, {
+    const response = await $axios.get(`/creditor_transition`, {
       params: { page: page.value, limit: limit.value }
     });
     bankData.value = response.data.data;
@@ -464,7 +462,7 @@ const bankTransition = async () => {
 
 const deleteTransection = async (id) => {
   try {
-    await api.put(`/return_creditor/${id}`);
+    await $axios.put(`/return_creditor/${id}`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCreditor(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCat(); // ดึงข้อมูลใหม่หลังจากลบ

@@ -238,7 +238,7 @@ import { FileDown, } from "lucide-vue-next";
 
 const { formatNumber } = useFormatNumber();
 const report = ref([]);
-const { api } = useApi();
+const { $axios } = useNuxtApp();
 const flattenedReport = ref([]);
 const income_graph = ref<number[]>(Array(12).fill(0));
 const expense_graph = ref<number[]>(Array(12).fill(0));
@@ -246,7 +246,7 @@ const mounth_value = ref<number[]>([]);
 const page = ref("report");
 
 const fetchReport = async () => {
-  const response = await api.get("/getClosedAccount");
+  const response = await $axios.get("/getClosedAccount");
   const data = response.data;
   console.log("Response data:", data);
 
