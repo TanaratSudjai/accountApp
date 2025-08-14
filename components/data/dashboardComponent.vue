@@ -83,7 +83,7 @@
                       </span>
                       <div class="flex items-center space-x-2 mt-1">
                         <span class="inline-flex items-center rounded-md text-xs  bg-gray-100 text-gray-800">
-                          {{ transition.account_type_sum }}
+                          {{ formatNumber(transition.account_type_sum) }}
                         </span>
                         <svg class="w-2 md:w-3 h-2 md:h-3 text-gray-400" fill="none" stroke="currentColor"
                           viewBox="0 0 24 24">
@@ -91,7 +91,7 @@
                             d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                         </svg>
                         <span class="inline-flex items-center rounded-md text-xs  bg-indigo-100 text-indigo-800">
-                          {{ transition.account_type_total }}
+                          {{ formatNumber(transition.account_type_total) }}
                         </span>
                       </div>
                     </div>
@@ -160,6 +160,7 @@ const { FormatThaiDate } = useFormatThaiDate();
 const transition_data = ref([]);
 const loading = ref(true);
 const { $axios } = useNuxtApp();
+const { formatNumber } = useFormatNumber();
 
 const fetchData = async () => {
   loading.value = true;

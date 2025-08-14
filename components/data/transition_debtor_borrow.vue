@@ -78,7 +78,7 @@
                             : 'text-gray-700',
                         ]"
                       >
-                        {{ item.account_type_total }}
+                        {{ formatNumber(item.account_type_total)  }}
                       </p>
                     </div>
                     <div class="flex-shrink-0 mx-2">
@@ -217,7 +217,7 @@
                             : 'text-gray-700',
                         ]"
                       >
-                        {{ item.account_type_total }}
+                        {{ formatNumber(item.account_type_total)  }}
                       </p>
                     </div>
                     <div class="flex-shrink-0 mx-2">
@@ -384,7 +384,7 @@
                     <span
                       class="inline-flex items-center font-medium text-xs md:text-sm text-green-600 bg-green-100 px-2 py-0.5 rounded"
                     >
-                      ฿{{ bankDatas.account_transition_value }}
+                      ฿{{ formatNumber(bankDatas.account_transition_value) }}
                     </span>
                     <span class="text-xs text-gray-500 ml-2">
                       {{ formatDateTime(bankDatas.account_transition_datetime) }}
@@ -484,6 +484,7 @@ const { $axios } = useNuxtApp();
 const page = ref(1);
 const limit = ref(5);
 const totalPages = ref(1);
+const { formatNumber } = useFormatNumber();
 
 const { formatDateTime } = useFormatDateTime();
 

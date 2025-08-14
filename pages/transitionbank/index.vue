@@ -31,10 +31,10 @@
                       : 'group-hover:bg-gray-50',
                   ]" />
                   <div class="relative">
-                    <p class="font-medium text-xs md:text-sm text-gray-900 text-xs md:text-md lg:text-lg ">
+                    <p class="font-medium text-xs md:text-sm text-gray-900 ">
                       {{ item.account_type_name }}
                     </p>
-                    <p class=" text-gray-600 text-xs md:text-md lg:text-lg ">
+                    <p class=" font-medium text-xs md:text-sm text-gray-500">
                       ยอดเงินที่มี {{ formatNumber(item.account_type_total) }}
                     </p>
                   </div>
@@ -42,17 +42,13 @@
               </button>
 
               <div v-else class="relative overflow-hidden rounded-md border border-gray-200 p-2 text-center">
-                <p class="font-medium text-xs md:text-sm text-gray-400">
+                <p class="font-medium text-xs md:text-smtext-gray-400">
                   {{ item.account_type_name }}
                 </p>
-                <p class=" text-gray-400 text-xs md:text-sm">ไม่มียอดเงิน</p>
+                <p class="font-medium text-xs md:text-sm">ไม่มียอดเงิน</p>
               </div>
             </div>
           </div>
-
-
-
-
 
           <!-- Arrow Column -->
           <div class="flex items-center justify-center">
@@ -64,8 +60,6 @@
               </svg>
             </div>
           </div>
-
-
 
           <!-- Destination Account Column -->
           <div class="col-span-3 space-y-1">
@@ -94,10 +88,10 @@
                       : 'group-hover:bg-gray-50',
                   ]" />
                   <div class="relative">
-                    <p class="font-medium text-gray-900 text-xs md:text-md lg:text-lg ">
+                    <p class="font-medium text-xs md:text-sm">
                       {{ item.account_type_name }}
                     </p>
-                    <p class="text-xs md:text-sm text-gray-400 text-xs md:text-md lg:text-lg ">
+                    <p class="font-medium text-xs md:text-sm text-gray-500">
                       (คลิกเพื่อเลือกปลายทาง)
                     </p>
                   </div>
@@ -141,7 +135,7 @@
                     {{ formatDateTime(bankDatas.account_transition_datetime) }}
                   </p>
                   <p class="text-sm text-gray-500">
-                    {{ bankDatas.account_transition_value }}
+                    {{ formatNumber(bankDatas.account_transition_value) }}
                   </p>
                 </div>
               </div>
