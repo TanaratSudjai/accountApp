@@ -8,6 +8,8 @@ export default defineNuxtPlugin(() => {
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     path: "/",
+    httpOnly: true,
+    domain: process.env.NODE_ENV === "production" ? ".goolnw.com" : "",
   });
 
   const $axios = axios.create({

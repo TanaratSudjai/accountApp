@@ -107,6 +107,8 @@ const handleLogin = async () => {
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
         path: "/",
+        httpOnly: true,
+        domain: process.env.NODE_ENV === "production" ? ".goolnw.com" : "",
       });
       tokenCookie.value = token;
       showAlert("เข้าสู่ระบบสำเร็จ", "กำลังนำคุณไปยังหน้าหลัก...", "success");
