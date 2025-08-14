@@ -69,7 +69,7 @@ const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
 const { login } = useAuth();
-
+const { $api } = useNuxtApp();
 // state form
 const formData = reactive({
   account_user_username: "",
@@ -98,9 +98,21 @@ const handleLogin = async () => {
     return;
   }
   try {
-    const ok = await login(formData.account_user_username, formData.account_user_password);
+    const ok = await $api.post("/auth/login", {
+      account_user_username: formData.account_user_username,
+      account_user_password: formData.account_user_password,
+    });
     if (ok) {
-      showAlert("เข้าสู่ระบบสำเร็จ", "กำลังนำคุณไปยังหน้าหลัก...","success");
+      const token = useCookie("token", {
+        path: "/",
+        maxAge: 60 * 60,
+        // sameSite: process.env.NODE_ENV === "production" ? "Lax" : "Strict",
+        sameSite: "lax",
+        secure: true
+      })
+      token.value = ok.data.token;
+      // set token to localStorage
+      // showAlert("เข้าสู่ระบบสำเร็จ", "กำลังนำคุณไปยังหน้าหลัก...", "success");
       router.push("/home");
     } else {
       showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");

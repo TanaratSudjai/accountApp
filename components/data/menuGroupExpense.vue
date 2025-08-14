@@ -327,11 +327,7 @@ const fetchMenuGroupData = async () => {
     menuGroup.value = response.data || [];
   } catch (err) {
     error.value = "Error fetching menu group: " + err.message; // ตั้งค่า error
-    showAlert(
-      "เซ็สชั่นคุณหมดอายุ",
-      "กรุณาออกจากระบบเเล้วเข้าสู่ระบบใหม่อีกครั้ง"
-    );
-    window.location.href = "/";
+   
   }
 };
 

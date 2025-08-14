@@ -11,7 +11,6 @@ export default defineNuxtPlugin(() => {
     },
   });
 
-  // Request interceptor to add auth token
   api.interceptors.request.use((req) => {
     if (token.value) {
       req.headers["Authorization"] = `Bearer ${token.value}`;
@@ -19,15 +18,12 @@ export default defineNuxtPlugin(() => {
     return req;
   });
 
-  // Response interceptor for error handling
   api.interceptors.response.use(
     (response) => response,
     (error) => {
-      // Handle common errors here if needed
       if (error.response?.status === 401) {
-        // Token expired or invalid
         token.value = null;
-        navigateTo("/login");
+        navigateTo("/");
       }
       return Promise.reject(error);
     }

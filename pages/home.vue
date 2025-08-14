@@ -377,8 +377,6 @@ const fetchData = async () => {
     totalPages.value = data.total_page || 1;
   } catch (error) {
     console.error("Error fetching data:", error);
-    showAlert("เซ็สชั่นคุณหมดอายุ", "กรุณาออกจากระบบเเล้วเข้าสู่ระบบใหม่อีกครั้ง");
-    window.location.href = "/";
   }
 };
 // Helper function to format currency
