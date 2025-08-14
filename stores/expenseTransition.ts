@@ -10,7 +10,7 @@ export const useExpenseTransitionStore = defineStore('expenseTransition', () => 
 
   const fetchTransitions = async () => {
     try {
-      const response = await $api.get('/get_expense_transition')
+      const response = await $axios.get('/get_expense_transition')
       const res = response.data
       if (Array.isArray(res)) {
         transition.value = res

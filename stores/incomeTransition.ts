@@ -10,7 +10,7 @@ export const useIncomeTransitionStore = defineStore('incomeTransition', () => {
 
   const fetchTransitions = async () => {
     try {
-      const response = await $api.get('/get_income_transition')
+      const response = await $axios.get('/get_income_transition')
       const res = response.data
       if (Array.isArray(res)) {
         transition.value = res

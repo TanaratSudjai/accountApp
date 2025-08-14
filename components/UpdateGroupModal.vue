@@ -30,7 +30,7 @@ import {
   SquarePen
 } from "lucide-vue-next";
 import { ref, watch } from "vue";
-const { $api } = useNuxtApp();
+const { $axios } = useNuxtApp();
 
 const props = defineProps({
   show: Boolean,
@@ -51,7 +51,7 @@ watch(
 const updateAccountType = async () => {
 
   try {
-    const response = await $api.put(`/account_group_update/${localAccountGroup.value.account_group_id}`, {
+    const response = await $axios.put(`/account_group_update/${localAccountGroup.value.account_group_id}`, {
       account_group_name: localAccountGroup.value.account_group_name,
     });
 

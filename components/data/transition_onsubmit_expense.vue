@@ -198,13 +198,13 @@ import { useExpenseTransitionStore } from "~/stores/expenseTransition";
 const store = useExpenseTransitionStore();
 const { transition } = storeToRefs(store);
 const error = ref(null); // เก็บข้อผิดพลาด (ถ้ามี)
-const { $api } = useNuxtApp();
+const { $axios } = useNuxtApp();
 const { formatNumber } = useFormatNumber(); // ฟังก์ชันสำหรับการจัดรูปแบบตัวเลข
 
 // ฟังก์ชันลบธุรกรรม
 const deleteTransection = async (id, value) => {
   try {
-    await $api.put(`/delete_transition_expense/${id}`, {
+    await $axios.put(`/delete_transition_expense/${id}`, {
       account_transition_value: value,
     });
     await store.fetchTransitions(); // Refresh the store data

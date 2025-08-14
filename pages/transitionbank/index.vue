@@ -187,7 +187,7 @@ import { computed, onMounted } from "vue";
 const columnOneSelected = ref(null); //จากคอลัมน์ที่ 1
 const columnTwoSelected = ref(null); //จากคอลัมน์ที่ 2
 const bankData = ref([]);
-const { $api } = useNuxtApp();
+const { $axios } = useNuxtApp();
 const { formatNumber } = useFormatNumber();
 const { formatDateTime } = useFormatDateTime(); // or adjust path
 const page = ref(1);
@@ -205,7 +205,7 @@ const formData = ref({
 // function method fetch data category
 const fetchCat = async () => {
   try {
-    const response = await $api.get("/get_type_from_id");
+    const response = await $axios.get("/get_type_from_id");
     catData.value = response.data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -215,7 +215,7 @@ const fetchCat = async () => {
 // function method fetch data transitions 
 const bankTransition = async () => {
   try {
-    const response = await $api.get(`/transition_bank`, {
+    const response = await $axios.get(`/transition_bank`, {
       params: { page: page.value, limit: limit.value }
     });
     bankData.value = response.data.data;
@@ -237,7 +237,7 @@ const handleOkClick = async () => {
   };
 
   try {
-    await $api.post("/bank_trantisionInsert", formData.value);
+    await $axios.post("/bank_trantisionInsert", formData.value);
 
     // Clear the form
     formData.value = {};
@@ -254,7 +254,7 @@ const handleOkClick = async () => {
 // function method delete data
 const deleteTransection = async (id) => {
   try {
-    await $api.patch(`/return_transition_bank`);
+    await $axios.patch(`/return_transition_bank`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCat();
   } catch (error) {

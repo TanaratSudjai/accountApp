@@ -139,7 +139,7 @@ const handleRegister = async () => {
       return;
     }
 
-     await $api.post("/auth/register", {
+     await $axios.post("/auth/register", {
         account_user_name,
         account_user_username,
         account_user_password,

@@ -100,7 +100,7 @@
 <script setup>
 import { ref, defineProps, defineEmits, computed, onMounted, watch } from "vue";
 
-const { $api } = useNuxtApp();
+const { $axios } = useNuxtApp();
 const emits = defineEmits(["close", "update"]);
 const fundData = ref({ data: [] });
 const isSubmitting = ref(false);
@@ -143,7 +143,7 @@ const formatCurrency = (value) => {
 
 const fetchFundData = async () => {
   try {
-    const response = await $api.get("/getLastedFund");
+    const response = await $axios.get("/getLastedFund");
     fundData.value = response.data;
   } catch (error) {
     console.error("Error fetching fund data:", error);
@@ -160,7 +160,7 @@ const updateFundValue = async (
   account_category_id
 ) => {
   try {
-    await $api.post("/updateLastedFund", {
+    await $axios.post("/updateLastedFund", {
       account_type_id,
       new_value: newValue,
       account_category_id,
