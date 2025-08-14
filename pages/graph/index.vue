@@ -134,10 +134,10 @@
               <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-0">
                 กราฟ
                 <span v-if="selectedDay === 'ทั้งปี'">ปี {{ selectedYear || "-" }}</span>
-                <span v-else-if="selectedDay === 'ทั้งเดือน'">เดือน {{ selectedMonth || "-" }} ปี
+                <span v-else-if="selectedDay === 'ทั้งเดือน'">เดือน {{ (months.find(m => m.value === selectedMonth)?.name) || "-" }} ปี
                   {{ selectedYear || "-" }}</span>
                 <span v-else>วันที่ {{ selectedDay || "-" }} เดือน
-                  {{ selectedMonth || "-" }} ปี {{ selectedYear || "-" }}</span>
+                  {{ (months.find(m => m.value === selectedMonth)?.name) || "-" }} ปี {{ selectedYear || "-" }}</span>
               </h2>
             </div>
 
@@ -220,6 +220,7 @@
 
 <script setup>
 import { ref, reactive, onMounted } from "vue";
+
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -246,10 +247,10 @@ const totalIncomeMonth = ref(0);
 const totalIncomeYear = ref(0);
 
 const calendarEvents = ref([]);
-const calendarEventsIncome = ref([]);
 const selectedDay = ref(null);
 const selectedMonth = ref(null);
 const selectedYear = ref(null);
+const { $axios } = useNuxtApp();
 
 const pieChartDataExpense = ref({
   labels: [],
@@ -286,134 +287,100 @@ const years = [];
 const currentYear = new Date().getFullYear();
 for (let y = currentYear; y >= currentYear - 10; y--) years.push(y);
 
-const { $axios } = useNuxtApp();
-
 async function fetchDashboardData(year, month, day = null) {
   try {
-    const params = day
-      ? { year, month, day }
-      : month === 0
-        ? { year }
-        : { year, month };
+    const normalizedMonth =
+      typeof month === "number" && month >= 1 && month <= 12 ? month : 0;
 
-    if (day === null) {
-      selectedDay.value = "ทั้งเดือน";
-    } else if (month === 0) {
+    const params = day
+      ? { year, month: normalizedMonth, day }
+      : normalizedMonth === 0
+      ? { year }
+      : { year, month: normalizedMonth };
+
+    if (day) {
+      selectedDay.value = day;
+    } else if (normalizedMonth === 0) {
       selectedDay.value = "ทั้งปี";
     } else {
-      selectedDay.value = day;
+      selectedDay.value = "ทั้งเดือน";
     }
-    const response = await $axios.get("/get_dashboard_data", { params });
-    const data = response.data;
 
-    // Calendar events
-    calendarEvents.value = (data.dailyExpenseTotals || []).map((day) => ({
-      title: `${day.total}`,
-      date: day.date,
-    }));
-    calendarEventsIncome.value = (data.dailyIncomeTotals || []).map((day) => ({
-      title: `${day.total}`,
-      date: day.date,
-    }));
+    // ✅ Axios call instead of $axios
+    const { data } = await $axios.get("/get_dashboard_data", { params });
 
-    // Pie chart data
+    const expenseEvents = (data.dailyExpenseTotals || []).map((d) => ({
+      title: `${d.total} ฿`,
+      date: d.date,
+      className: "expense-event",
+    }));
+    const incomeEvents = (data.dailyIncomeTotals || []).map((d) => ({
+      title: `${d.total} ฿`,
+      date: d.date,
+      className: "income-event",
+    }));
+    calendarEvents.value = [...expenseEvents, ...incomeEvents];
+
     pieChartDataExpense.value = {
       labels: (data.expenseChart || []).map((e) => e.account_type_name),
       datasets: [
         {
           label: "Expense Distribution",
-          data: (data.expenseChart || []).map((e) => Number(e.total_expense)),
+          data: (data.expenseChart || []).map((e) =>
+            Number(e.total_expense)
+          ),
           backgroundColor: [
-            "#FF6384",
-            "#FF4757",
-            "#FF3838",
-            "#FF5722",
-            "#E74C3C",
-            "#C0392B",
-            "#A93226",
-            "#922B21",
+            "#FF6384", "#FF4757", "#FF3838", "#FF5722",
+            "#E74C3C", "#C0392B", "#A93226", "#922B21",
           ],
         },
       ],
     };
 
-    // Pie chart data for Income
     pieChartDataIncome.value = {
       labels: (data.incomeChart || []).map((e) => e.account_type_name),
       datasets: [
         {
           label: "Income Distribution",
-          data: (data.incomeChart || []).map((e) => Number(e.total_income)),
+          data: (data.incomeChart || []).map((e) =>
+            Number(e.total_income)
+          ),
           backgroundColor: [
-            "#4CAF50",
-            "#66BB6A",
-            "#81C784",
-            "#A5D6A7",
-            "#2E7D32",
-            "#388E3C",
-            "#43A047",
-            "#4CAF50",
+            "#4CAF50", "#66BB6A", "#81C784", "#A5D6A7",
+            "#2E7D32", "#388E3C", "#43A047", "#4CAF50",
           ],
         },
       ],
     };
 
-    // Merge both expense and income events with custom classes
-    const expenseEvents = (data.dailyExpenseTotals || []).map((day) => ({
-      title: `${day.total} ฿`,
-      date: day.date,
-      className: "expense-event",
-    }));
-
-    const incomeEvents = (data.dailyIncomeTotals || []).map((day) => ({
-      title: `${day.total} ฿`,
-      date: day.date,
-      className: "income-event",
-    }));
-
-    // Combine them for the calendar
-    calendarEvents.value = [...expenseEvents, ...incomeEvents];
-
-    // Totals for display
-    // Yearly
-    // Totals for display
     if (day) {
-      // Daily totals
       totalExpenseDay.value = (data.expenseChart || []).reduce(
-        (sum, e) => sum + Number(e.total_expense),
-        0
+        (sum, e) => sum + Number(e.total_expense), 0
       );
       totalIncomeDay.value = (data.incomeChart || []).reduce(
-        (sum, e) => sum + Number(e.total_income),
-        0
+        (sum, e) => sum + Number(e.total_income), 0
       );
       totalExpenseMonth.value = 0;
       totalIncomeMonth.value = 0;
       totalExpenseYear.value = 0;
       totalIncomeYear.value = 0;
-    } else if (month === 0) {
-      // Yearly totals
+    } else if (normalizedMonth === 0) {
       totalExpenseYear.value = (data.monthYearExpenseTotals || []).reduce(
-        (sum, e) => sum + Number(e.total),
-        0
+        (sum, e) => sum + Number(e.total), 0
       );
       totalIncomeYear.value = (data.monthYearIncomeTotals || []).reduce(
-        (sum, e) => sum + Number(e.total),
-        0
+        (sum, e) => sum + Number(e.total), 0
       );
       totalExpenseMonth.value = 0;
       totalIncomeMonth.value = 0;
       totalExpenseDay.value = 0;
       totalIncomeDay.value = 0;
     } else {
-      // Monthly totals (default case)
       totalExpenseMonth.value = (data.monthYearExpenseTotals || []).reduce(
-        (sum, e) => sum + Number(e.total),
-        0
+        (sum, e) => sum + Number(e.total), 0
       );
       totalIncomeMonth.value = (data.monthYearIncomeTotals || []).reduce(
-        (sum, e) => sum + Number(e.total),
-        0
+        (sum, e) => sum + Number(e.total), 0
       );
       totalExpenseYear.value = 0;
       totalIncomeYear.value = 0;
@@ -422,21 +389,9 @@ async function fetchDashboardData(year, month, day = null) {
     }
   } catch (error) {
     console.error("Error fetching dashboard data:", error);
-    // Reset all on error
     calendarEvents.value = [];
-    calendarEventsIncome.value = [];
-    pieChartDataExpense.value = {
-      labels: [],
-      datasets: [
-        { label: "Expense Distribution", data: [], backgroundColor: [] },
-      ],
-    };
-    pieChartDataIncome.value = {
-      labels: [],
-      datasets: [
-        { label: "Income Distribution", data: [], backgroundColor: [] },
-      ],
-    };
+    pieChartDataExpense.value = { labels: [], datasets: [{ label: "Expense Distribution", data: [], backgroundColor: [] }] };
+    pieChartDataIncome.value = { labels: [], datasets: [{ label: "Income Distribution", data: [], backgroundColor: [] }] };
     totalExpenseDay.value = 0;
     totalExpenseMonth.value = 0;
     totalExpenseYear.value = 0;
@@ -446,11 +401,10 @@ async function fetchDashboardData(year, month, day = null) {
   }
 }
 
-// Use this for your "ค้นหา" button
 const fetchChartData = async () => {
   if (selectedMonthForChart.value === 0) {
     selectedDay.value = "ทั้งปี";
-    selectedMonth.value = null;
+    selectedMonth.value = 0;
     selectedYear.value = selectedYearForChart.value;
   } else {
     selectedDay.value = "ทั้งเดือน";
@@ -462,7 +416,6 @@ const fetchChartData = async () => {
     selectedMonthForChart.value
   );
 
-  // Update calendar view when a specific month is selected
   if (
     selectedMonthForChart.value !== 0 &&
     calendarRef.value &&
@@ -478,18 +431,12 @@ const fetchChartData = async () => {
 };
 
 const handleDateClick = (info) => {
-  // info.dateStr is in 'YYYY-MM-DD' format
   const [year, month, day] = info.dateStr.split("-").map(Number);
-
   selectedYear.value = year;
   selectedMonth.value = month;
   selectedDay.value = day;
-
-  // Optionally update the filter controls to match
   selectedYearForChart.value = year;
   selectedMonthForChart.value = month;
-
-  // Pass day as the third argument!
   fetchDashboardData(year, month, day);
 };
 
@@ -500,20 +447,17 @@ const calendarOptions = reactive({
   dateClick: handleDateClick,
 });
 
-// Initial load
-// Initial load
 onMounted(async () => {
   const today = new Date();
-  selectedDay.value = null; // no specific day
-  selectedMonth.value = today.getMonth() + 1; // current month
+  selectedDay.value = null;
+  selectedMonth.value = today.getMonth() + 1;
   selectedYear.value = today.getFullYear();
-
   selectedMonthForChart.value = selectedMonth.value;
   selectedYearForChart.value = selectedYear.value;
-
   await fetchDashboardData(selectedYear.value, selectedMonth.value);
 });
 </script>
+
 
 <style scoped>
 ::v-deep(.expense-event) {

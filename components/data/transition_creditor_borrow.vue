@@ -127,7 +127,7 @@
                       </div>
                     </div>
                     <div class="flex-1 flex justify-between items-center ">
-                      <p class="font-medium">{{ item.account_type_name }}</p>
+                      <p class="font-medium text-xs md:text-sm">{{ item.account_type_name }}</p>
                       <p :class="[
                         'text-xs md:text-sm lg:text-md font-semibold',
                         columnTwoSelected &&
@@ -222,7 +222,7 @@
                 </div>
                 <div>
                   <p class="text-sm font-medium text-gray-900 flex items-center">
-                    <span class="font-semibold">{{
+                    <span class="font-medium text-xs md:text-sm">{{
                       bankDatas.account_type_name
                     }}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -231,20 +231,17 @@
                         d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
                         clip-rule="evenodd" />
                     </svg>
-                    <span class="font-semibold">{{
+                    <span class="font-medium text-xs md:text-sm">{{
                       bankDatas.account_type_from_name
                     }}</span>
                   </p>
-                  <span class="text-xs text-gray-500 ml-2">
-                    วันที่/เวลา #{{ formatDateTime(bankDatas.account_transition_datetime) }}
-                  </span>
                   <div class="flex items-center mt-1">
                     <span
-                      class="inline-flex items-center text-sm font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded">
+                      class="inline-flex items-center font-medium text-xs md:text-sm text-green-600 bg-green-100 px-2 py-0.5 rounded">
                       ฿{{ bankDatas.account_transition_value }}
                     </span>
                     <span class="text-xs text-gray-500 ml-2">
-                      Transaction #{{ bankDatas.account_transition_id }}
+                      {{ formatDateTime(bankDatas.account_transition_datetime) }}
                     </span>
                   </div>
                 </div>

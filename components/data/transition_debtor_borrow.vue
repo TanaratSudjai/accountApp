@@ -2,7 +2,7 @@
   <div class="">
     <div class="mx-auto bg-white overflow-hidden">
       <h2 class="text-2xl font-semibold p-3 border-b border-gray-200">
-        ให้ลูกหนี้ยิมเงิน
+        ให้ลูกหนี้ยืมเงิน
       </h2>
 
       <div class="p-3">
@@ -361,7 +361,7 @@
                   <p
                     class="text-sm font-medium text-gray-900 flex items-center"
                   >
-                    <span class="font-semibold"
+                    <span class="font-medium text-xs md:text-sm"
                       >{{ bankDatas.account_type_name }}
                     </span>
                     <svg
@@ -376,23 +376,18 @@
                         clip-rule="evenodd"
                       />
                     </svg>
-                    <span class="font-semibold">{{
+                    <span class="font-medium text-xs md:text-sm">{{
                       bankDatas.account_type_from_name
                     }}</span>
                   </p>
-                  <span class="text-xs text-gray-500 ml-2">
-                    วันที่/เวลา #{{
-                      formatDateTime(bankDatas.account_transition_datetime)
-                    }}
-                  </span>
                   <div class="flex items-center mt-1">
                     <span
-                      class="inline-flex items-center text-sm font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded"
+                      class="inline-flex items-center font-medium text-xs md:text-sm text-green-600 bg-green-100 px-2 py-0.5 rounded"
                     >
                       ฿{{ bankDatas.account_transition_value }}
                     </span>
                     <span class="text-xs text-gray-500 ml-2">
-                      Transaction #{{ bankDatas.account_transition_id }}
+                      {{ formatDateTime(bankDatas.account_transition_datetime) }}
                     </span>
                   </div>
                 </div>
