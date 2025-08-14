@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 
 export const useAuth = () => {
-  const token = useCookie("token", {
+  const token = useCookie("token_auth", {
     maxAge: 60 * 60 * 2, // 2 ชั่วโมง
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",

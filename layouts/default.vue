@@ -51,9 +51,9 @@ definePageMeta({
 import { useSession } from "~/composables/useSession";
 import { useAlert } from "~/composables/showAlert";
 import { useAuth } from "~/composables/useAuth";
+
 // composables state
 const { loading, nameuser, getSession } = useSession();
-const { $axios } = useNuxtApp();
 const { showAlert } = useAlert();
 const auth = useAuth();
 
@@ -63,6 +63,7 @@ const logout = async () => {
     loading.value = true;
     await auth.logout();
     loading.value = false;
+    showAlert("ออกจากระบบเรียบร้อยแล้ว", "ออกจากระบบเรียบร้อยแล้ว", "success");
   } catch (err) {
     if (err.status === 401) {
       console.error("Unauthorized access. Please login again.");
