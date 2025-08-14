@@ -80,7 +80,7 @@ import { useAlert } from "~/composables/showAlert";
 
 
 // register state 
-const { $api } = useNuxtApp()
+const { $axios } = useNuxtApp()
 const { showAlert } = useAlert();
 const loading = ref(false);
 const error = ref("");

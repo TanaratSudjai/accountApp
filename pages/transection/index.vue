@@ -257,7 +257,7 @@ const { formatNumber } = useFormatNumber();
 
 const onSubmitTransition = async () => {
   try {
-    const response = await $axios.put(`/transitionsubmit`);
+    const ok = await $axios.put(`/transitionsubmit`);
   } catch (error) {
     // console.error("Error fetching transition:", error.message);
     throw error;
@@ -288,7 +288,7 @@ const submitDifferences = async () => {
     await onSubmitTransition();
     await fetchTransition();
     await fetchDataTransitionOpen();
-    router.push({ path: "/" });
+    router.push({ path: "/home" });
   } catch (error) {
     console.error("Error submitting data:", error);
   }
