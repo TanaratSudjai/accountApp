@@ -61,14 +61,12 @@ definePageMeta({
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAlert } from "~/composables/showAlert";
-import { useAuth } from "~/composables/useAuth";
 
 // resigter state
 const { showAlert } = useAlert();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
-const { login } = useAuth();
 const { $axios } = useNuxtApp();
 // state form
 const formData = reactive({
