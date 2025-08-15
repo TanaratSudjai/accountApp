@@ -62,8 +62,9 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAlert } from "~/composables/showAlert";
 
-// resigter state
+// register state
 const { showAlert } = useAlert();
+const { setToken } = useAuth();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
@@ -102,14 +103,7 @@ const handleLogin = async () => {
     }, { withCredentials: true });
     if (ok) {
       const { token } = ok.data;
-      const tokenCookie = useCookie("token", {
-        maxAge: 60 * 60 * 2, // 2 ชั่วโมง
-        secure: true, // ใช้เฉพาะ HTTPS
-        sameSite: "None",
-        path: "/",
-        domain: process.env.cookieDomain,
-      });
-      tokenCookie.value = token;
+      setToken(token);
       showAlert("เข้าสู่ระบบสำเร็จ", "กำลังนำคุณไปยังหน้าหลัก...", "success");
       router.push("/home");
     } else {
