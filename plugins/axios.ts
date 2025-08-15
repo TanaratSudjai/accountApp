@@ -4,12 +4,12 @@ import { useCookie } from "#app";
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
   const tokenCookie = useCookie("token", {
-    maxAge: 60 * 60 * 24, // 1 วัน
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 2 ชั่วโมง
+    secure: true, // ใช้เฉพาะ HTTPS
+    sameSite: "None",
     path: "/",
     httpOnly: true,
-    domain: process.env.NODE_ENV === "production" ? ".goolnw.com" : "",
+    domain: config.public.cookieDomain,
   });
 
   const $axios = axios.create({
