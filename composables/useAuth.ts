@@ -1,4 +1,3 @@
-import { jwtDecode } from "jwt-decode";
 
 export const useAuth = () => {
   const token = useCookie("token_auth", {
@@ -10,21 +9,7 @@ export const useAuth = () => {
 
   const isAuthenticated = computed(() => !!token.value);
 
-  // Decode token to get role
-  const decodedToken = computed(() => {
-    if (!token.value) return null;
-    try {
-      return jwtDecode(token.value) as any;
-    } catch (error) {
-      console.error("Token decode error:", error);
-      return null;
-    }
-  });
-
-  const role = computed(() => {
-    const decoded = decodedToken.value;
-    return decoded?.role || null;
-  });
+  
 
   function logout() {
     token.value = null;
@@ -38,8 +23,6 @@ export const useAuth = () => {
   return {
     token,
     isAuthenticated,
-    role,
-    decodedToken,
     logout,
   };
 };

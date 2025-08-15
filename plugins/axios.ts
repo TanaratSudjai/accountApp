@@ -5,8 +5,8 @@ export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
   const $axios = axios.create({
-    baseURL: config.public.apiBase, 
-    withCredentials: true,          
+    baseURL: config.public.apiBase,
+    withCredentials: true,
     timeout: 10000,
   });
 

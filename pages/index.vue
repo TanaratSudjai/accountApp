@@ -99,16 +99,15 @@ const handleLogin = async () => {
     const ok = await $axios.post("/auth/login", {
       account_user_username: formData.account_user_username,
       account_user_password: formData.account_user_password,
-    });
+    }, { withCredentials: true });
     if (ok) {
       const { token } = ok.data;
       const tokenCookie = useCookie("token", {
         maxAge: 60 * 60 * 2, // 2 ชั่วโมง
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        secure: true, // ใช้เฉพาะ HTTPS
+        sameSite: "None",
         path: "/",
-        httpOnly: true,
-        domain: process.env.NODE_ENV === "production" ? ".goolnw.com" : "",
+        domain: process.env.cookieDomain,
       });
       tokenCookie.value = token;
       showAlert("เข้าสู่ระบบสำเร็จ", "กำลังนำคุณไปยังหน้าหลัก...", "success");
