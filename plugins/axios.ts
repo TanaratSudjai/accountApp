@@ -3,6 +3,10 @@ import axios from "axios";
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
+  // Debug: ตรวจสอบ API base URL
+  console.log('API Base URL:', config.public.apiBase);
+  console.log('Cookie Domain:', config.public.cookieDomain);
+
   const $axios = axios.create({
     baseURL: config.public.apiBase as string,
     withCredentials: true,

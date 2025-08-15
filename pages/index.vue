@@ -97,13 +97,19 @@ const handleLogin = async () => {
     return;
   }
   try {
+    console.log('Sending login request to:', $axios.defaults.baseURL + '/auth/login');
     const ok = await $axios.post("/auth/login", {
       account_user_username: formData.account_user_username,
       account_user_password: formData.account_user_password,
     }, { withCredentials: true });
+    
+    console.log('Login response:', ok.data);
+    
     if (ok) {
       const { token } = ok.data;
+      console.log('Token received:', token);
       setToken(token);
+      console.log('Cookie after setToken:', document.cookie);
       showAlert("เข้าสู่ระบบสำเร็จ", "กำลังนำคุณไปยังหน้าหลัก...", "success");
       router.push("/home");
     } else {

@@ -7,7 +7,7 @@ export const useAuth = () => {
     secure: true, // ใช้เฉพาะ HTTPS
     sameSite: "none" as const, // สำหรับ cross-domain
     path: "/",
-    domain: config.public.cookieDomain,
+    domain: config.public.cookieDomain as string,
     httpOnly: false, // ต้องเป็น false เพื่อให้ client อ่านได้
   });
 
@@ -23,7 +23,10 @@ export const useAuth = () => {
   }
 
   function setToken(newToken: string) {
+    console.log('Setting token:', newToken);
+    console.log('Cookie domain:', config.public.cookieDomain);
     token.value = newToken;
+    console.log('Token set, current value:', token.value);
   }
 
   return {

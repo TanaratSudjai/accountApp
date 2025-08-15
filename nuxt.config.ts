@@ -41,8 +41,8 @@ export default defineNuxtConfig({
   css: ["@/assets/main.css"],
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE_URL,
-      cookieDomain: process.env.COOKIE_DOMAIN,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      cookieDomain: process.env.NUXT_PUBLIC_COOKIE_DOMAIN,
     },
   },
 });
