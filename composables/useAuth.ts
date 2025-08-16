@@ -1,33 +1,38 @@
+
 export const useAuth = () => {
-    const token = useCookie<string | null>("token", {
-        path: "/",
-        maxAge: 60 * 60,
-        sameSite: 'strict',
-        secure: true
-    })
+  const config = useRuntimeConfig();
+  
+  const token = useCookie("token", {
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 วัน
+    secure: true, // ใช้เฉพาะ HTTPS
+    sameSite: "none" as const, // สำหรับ cross-domain
+    path: "/",
+    domain: config.public.cookieDomain as string,
+    httpOnly: false, // ต้องเป็น false เพื่อให้ client อ่านได้
+  });
 
-    const user = useState<any | null>("user", () => null);
-    const api = useApi();
-    console.log(api);
+  const isAuthenticated = computed(() => !!token.value);
 
-    const login = async (email: string, password: string) => {
-        const response = await api.post("/auth/login", { email, password });
-        user.value = response.data.user;
-        token.value = response.data.token;
-        return response.data.user;
+  function logout() {
+    token.value = null;
+    // Clear localStorage if exists
+    if (import.meta.client && typeof window !== "undefined") {
+      localStorage.removeItem("token");
     }
+    navigateTo("/");
+  }
 
-    const logout = async () => {
-        await api.post("/auth/logout");
-        user.value = null;
-        token.value = null;
-    }
+  function setToken(newToken: string) {
+    console.log('Setting token:', newToken);
+    console.log('Cookie domain:', config.public.cookieDomain);
+    token.value = newToken;
+    console.log('Token set, current value:', token.value);
+  }
 
-    return {
-        user,
-        token,
-        login,
-        logout
-    };
-
-}
+  return {
+    token,
+    isAuthenticated,
+    logout,
+    setToken,
+  };
+};

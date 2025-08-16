@@ -61,15 +61,14 @@ definePageMeta({
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAlert } from "~/composables/showAlert";
-import { useAuth } from "~/composables/useAuth";
 
-// resigter state
+// register state
 const { showAlert } = useAlert();
+const { setToken } = useAuth();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
-const { login } = useAuth();
-
+const { $axios } = useNuxtApp();
 // state form
 const formData = reactive({
   account_user_username: "",
@@ -98,9 +97,20 @@ const handleLogin = async () => {
     return;
   }
   try {
-    const ok = await login(formData.account_user_username, formData.account_user_password);
+    console.log('Sending login request to:', $axios.defaults.baseURL + '/auth/login');
+    const ok = await $axios.post("/auth/login", {
+      account_user_username: formData.account_user_username,
+      account_user_password: formData.account_user_password,
+    }, { withCredentials: true });
+    
+    console.log('Login response:', ok.data);
+    
     if (ok) {
-      showAlert("เข้าสู่ระบบสำเร็จ", "กำลังนำคุณไปยังหน้าหลัก...","success");
+      const { token } = ok.data;
+      console.log('Token received:', token);
+      setToken(token);
+      console.log('Cookie after setToken:', document.cookie);
+      showAlert("เข้าสู่ระบบสำเร็จ", "กำลังนำคุณไปยังหน้าหลัก...", "success");
       router.push("/home");
     } else {
       showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");

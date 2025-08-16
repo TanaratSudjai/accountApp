@@ -41,12 +41,8 @@ export default defineNuxtConfig({
   css: ["@/assets/main.css"],
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL,
-    }
-  },
-  nitro: {
-    experimental: {
-      wasm: true,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      cookieDomain: process.env.NUXT_PUBLIC_COOKIE_DOMAIN,
     },
   },
 });

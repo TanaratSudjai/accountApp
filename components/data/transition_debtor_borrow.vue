@@ -2,7 +2,7 @@
   <div class="">
     <div class="mx-auto bg-white overflow-hidden">
       <h2 class="text-2xl font-semibold p-3 border-b border-gray-200">
-        ให้ลูกหนี้ยิมเงิน
+        ให้ลูกหนี้ยืมเงิน
       </h2>
 
       <div class="p-3">
@@ -78,7 +78,7 @@
                             : 'text-gray-700',
                         ]"
                       >
-                        {{ item.account_type_total }}
+                        {{ formatNumber(item.account_type_total)  }}
                       </p>
                     </div>
                     <div class="flex-shrink-0 mx-2">
@@ -217,7 +217,7 @@
                             : 'text-gray-700',
                         ]"
                       >
-                        {{ item.account_type_total }}
+                        {{ formatNumber(item.account_type_total)  }}
                       </p>
                     </div>
                     <div class="flex-shrink-0 mx-2">
@@ -361,7 +361,7 @@
                   <p
                     class="text-sm font-medium text-gray-900 flex items-center"
                   >
-                    <span class="font-semibold"
+                    <span class="font-medium text-xs md:text-sm"
                       >{{ bankDatas.account_type_name }}
                     </span>
                     <svg
@@ -376,23 +376,18 @@
                         clip-rule="evenodd"
                       />
                     </svg>
-                    <span class="font-semibold">{{
+                    <span class="font-medium text-xs md:text-sm">{{
                       bankDatas.account_type_from_name
                     }}</span>
                   </p>
-                  <span class="text-xs text-gray-500 ml-2">
-                    วันที่/เวลา #{{
-                      formatDateTime(bankDatas.account_transition_datetime)
-                    }}
-                  </span>
                   <div class="flex items-center mt-1">
                     <span
-                      class="inline-flex items-center text-sm font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded"
+                      class="inline-flex items-center font-medium text-xs md:text-sm text-green-600 bg-green-100 px-2 py-0.5 rounded"
                     >
-                      ฿{{ bankDatas.account_transition_value }}
+                      ฿{{ formatNumber(bankDatas.account_transition_value) }}
                     </span>
                     <span class="text-xs text-gray-500 ml-2">
-                      Transaction #{{ bankDatas.account_transition_id }}
+                      {{ formatDateTime(bankDatas.account_transition_datetime) }}
                     </span>
                   </div>
                 </div>
@@ -485,10 +480,11 @@ const columnOneSelected = ref(null); //จากคอลัมน์ที่ 1
 const columnTwoSelected = ref(null); //จากคอลัมน์ที่ 2
 const accountTypeValue = ref(0);
 const bankData = ref([]);
-const { api } = useApi();
+const { $axios } = useNuxtApp();
 const page = ref(1);
 const limit = ref(5);
 const totalPages = ref(1);
+const { formatNumber } = useFormatNumber();
 
 const { formatDateTime } = useFormatDateTime();
 
@@ -541,7 +537,7 @@ const isButtonDisabled = computed(() => {
 
 const fetchCat = async () => {
   try {
-    const response = await api.get("/get_type_from_id");
+    const response = await $axios.get("/get_type_from_id");
     catData.value = response.data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -552,7 +548,7 @@ const debtor = ref([]);
 
 const fetchDebtor = async () => {
   try {
-    const response = await api.get("/get_debtor");
+    const response = await $axios.get("/get_debtor");
     debtor.value = response.data.result;
   } catch (error) {
     console.error("Error fetching transition:", error);
@@ -606,7 +602,7 @@ const handleOkClick = async () => {
 
   try {
     // Send data to the API
-    await api.post("/debtor_borrow", {
+    await $axios.post("/debtor_borrow", {
       account_type_id: columnOneSelected.value.account_type_id,
       account_type_from_id: columnTwoSelected.value.account_type_id,
       account_transition_value: parseFloat(accountTypeValue.value), // Access the value directly
@@ -624,7 +620,7 @@ const handleOkClick = async () => {
 
 const bankTransition = async () => {
   try {
-    const response = await api.get(`/debtor_transition`, {
+    const response = await $axios.get(`/debtor_transition`, {
       params: { page: page.value, limit: limit.value }
     });
     bankData.value = response.data.data;
@@ -636,7 +632,7 @@ const bankTransition = async () => {
 
 const deleteTransection = async (id) => {
   try {
-    await api.put(`/return_debtor/${id}`);
+    await $axios.put(`/return_debtor/${id}`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCat(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchDebtor();

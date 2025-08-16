@@ -55,7 +55,8 @@ export function useAlert() {
       showCancelButton: true,
       confirmButtonColor: confirmButtonColor,
       cancelButtonColor: "#4b5563",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "ยินยันที่จะลบ!",
+      cancelButtonText: "ยกเลิก",
     });
   };
 
