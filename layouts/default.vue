@@ -38,8 +38,9 @@
       </div>
     </div>
     <div v-else class="p-2 mb-12">
+      <ButtonBackComponents />
       <slot />
-      <NavbarComponents />
+      <NavbarBaseNavbar />
     </div>
   </div>
 </template>
@@ -51,6 +52,7 @@ definePageMeta({
 import { useSession } from "~/composables/useSession";
 import { useAlert } from "~/composables/showAlert";
 import { useAuth } from "~/composables/useAuth";
+import { ButtonBackComponents } from "#components";
 
 // composables state
 const { loading, nameuser, getSession } = useSession();

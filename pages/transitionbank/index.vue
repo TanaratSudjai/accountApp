@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackComponents />
+    
     <div class="max-w-4xl mx-auto">
       <!-- Main Card -->
       <div class="bg-white p-2 space-y-8">
