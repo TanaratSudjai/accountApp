@@ -78,7 +78,6 @@
 import { useRoute } from "vue-router";
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
-import { Rewind, DiamondPlus } from "lucide-vue-next";
 import { useAlert } from "~/composables/showAlert";
 
 // resigter state
@@ -86,8 +85,10 @@ const { showAlert } = useAlert();
 const router = useRouter();
 const route = useRoute();
 const groupID = route.params.id;
-const categoryID = route.query.groupID;
+const categoryID = route.query.id;
 const { $axios } = useNuxtApp();
+console.log("groupID", groupID);
+console.log("categoryID", categoryID);
 
 const icons = ref(); //เก็บข้อมูลไอคอน
 const fetchIcon = async () => {

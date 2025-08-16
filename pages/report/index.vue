@@ -1,5 +1,5 @@
 <template>
-  <BackComponents />
+  
   <div class="bg-white max-w-7xl mx-auto overflow-hidden p-3">
     <div class="overflow-x-auto">
       <div class="">

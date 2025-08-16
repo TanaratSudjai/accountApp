@@ -19,7 +19,7 @@
                     }}</span>
                   </h1>
                 </div>
-                <span @click="openModifyFundModal()" class="text-xl md:text-2xl flex items-center gap-2">
+                <span @click="showModifyFund = true" class="text-xl md:text-2xl flex items-center gap-2">
                   <Settings class="text-sky-600" />
                 </span>
               </div>
@@ -238,7 +238,6 @@
       </div>
     </div>
   </div>
-
   <ModifyFund :show="showModifyFund" @close="showModifyFund = false" @update="fetchData()" />
 </template>
 
@@ -248,14 +247,11 @@ import { ref, onMounted } from "vue";
 import {
   Users,
   Clock,
-  FolderOpen,
   Landmark,
   HandCoins,
   ChartNoAxesCombined,
   Grid2x2Plus,
-  ArrowUpFromLine,
   Plus,
-  SquareStack,
   Minus,
   UserRound,
   FolderPen,
@@ -263,26 +259,28 @@ import {
   ArrowLeftRight,
   ArrowUpFromDot,
 } from "lucide-vue-next";
+
 import { computed } from "vue";
 import ModifyFund from "@/components/modal/ModifyFund.vue";
 import { useSession } from "~/composables/useSession";
 import { useMenuLocalStorage } from "~/composables/menuLocalStorage";
 // register state
 const { loading, nameuser, getSession } = useSession();
+const { formatNumber } = useFormatNumber();
+const { $axios } = useNuxtApp();
+const { disableMenu } = useMenuLocalStorage();
+
 const checkData = ref([]);
 const checkCheck_open = ref({ type: "", value: 0 });
 const amount = ref({ type: "", value: 0 });
 const checkData_depter = ref({ type: "", value: 0 });
 const checkData_creditor = ref({ type: "", value: 0 });
 const offAccount_menu = ref(true);
-const { formatNumber } = useFormatNumber();
-const { $axios } = useNuxtApp();
 const page = ref(1);
 const limit = ref(5);
 const totalPages = ref(1);
 const showModifyFund = ref(false);
-const { disableMenu } = useMenuLocalStorage();
-
+// import icons
 const menuItems = ref([
   {
     id: 1,
@@ -357,10 +355,7 @@ const menuItems = ref([
     route: "/transitionbank",
   },
 ]);
-// function class open modal edit
-const openModifyFundModal = () => {
-  showModifyFund.value = true;
-};
+
 // function method fetch data transitions
 const fetchData = async () => {
   try {
@@ -473,8 +468,6 @@ watch(
   () => menuItems.value,
   (items) => {
     const openAcc = items.find(item => item.title === "เปิดบัญชี");
-    console.log("openAcc : ", openAcc);
-    
     if (openAcc) {
       // ถ้า id เป็น 11 หรือ sum > 0 ก็ disable
       const shouldDisable = openAcc.id !== 2; // หรือเงื่อนไขของคุณ

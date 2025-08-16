@@ -1,5 +1,4 @@
 <template>
-  <BackComponents />
   <div v-if="!TypeData || TypeData.length === 0"
     class="flex flex-col items-center justify-center p-12 text-center mx-4 mt-6">
     <div
@@ -100,7 +99,7 @@
                     class="text-gray-600 font-medium text-xs sm:text-md md:text-lg lg:text-xl block">รายละเอียด</span>
                   <span class="text-gray-800 text-xs sm:text-md md:text-lg lg:text-xl">{{
                     Type.account_type_description || "ไม่มีรายละเอียด"
-                  }}</span>
+                    }}</span>
                 </div>
               </div>
             </div>
@@ -160,7 +159,7 @@
 </template>
 <script setup>
 import { useRoute } from "vue-router";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import { Pencil, Trash2, Plus } from "lucide-vue-next";
 import { useAlert } from "~/composables/showAlert";
 
@@ -170,8 +169,11 @@ const route = useRoute();
 const groupID = route.params.id;
 const { $axios } = useNuxtApp();
 const typeID = route.params.id;
-const groupIDforAdd = route.query.groupID || "";
+const groupIDforAdd = route.query.id || "";
 const { formatNumber } = useFormatNumber();
+console.log("groupID:", groupID);
+console.log("typeID:", typeID);
+console.log("groupIDforAdd:", groupIDforAdd);
 
 
 const formData = ref({
@@ -198,7 +200,7 @@ const deleteFormData = async (account_type_id) => {
   try {
     const result = await confirmAlert(
       "ยืนยันการลบ",
-      "คุณแน่ใจหรือไม่ว่าต้องการลบประเภทนี้? การดำเนินการนี้ไม่สามารถย้อนกลับได้"
+      "คุณแน่ใจหรือไม่ว่าต้องการลบประเภทนี้? <br/> การดำเนินการนี้ไม่สามารถย้อนกลับได้"
     );
 
     console.log("Result:", result);

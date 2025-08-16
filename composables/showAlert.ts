@@ -49,14 +49,24 @@ export function useAlert() {
     confirmButtonColor: string = "oklch(58.8% 0.158 241.966)"
   ) => {
     return Swal.fire({
-      title,
-      text,
+      html: `
+        <div class="flex flex-col items-center space-y-2 ">
+          <h2 class="text-md text-nowrap font-semibold text-gray-800">${title}</h2>
+          <p class="text-sm text-gray-600">${text}</p>
+        </div>
+      `,
       icon: "info",
       showCancelButton: true,
       confirmButtonColor: confirmButtonColor,
       cancelButtonColor: "#4b5563",
       confirmButtonText: "ยินยันที่จะลบ!",
       cancelButtonText: "ยกเลิก",
+      width: "380px",
+      customClass: {
+        popup: "rounded-lg shadow-md",
+        confirmButton: "px-3 py-1.5 text-sm rounded-md",
+        cancelButton: "px-3 py-1.5 text-sm rounded-md",
+      },
     });
   };
 

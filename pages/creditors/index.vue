@@ -1,6 +1,6 @@
 <!-- SlidingButton.vue -->
 <template>
-  <BackComponents />
+  
   <div class="max-w-2xl container mx-auto">
     <div
       class="w-full flex justify-center space-y-2w-full flex justify-center space-y-2"

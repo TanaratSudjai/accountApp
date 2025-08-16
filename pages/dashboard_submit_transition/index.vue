@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BackComponents />
+    
     <div class="mx-auto max-w-4xl">
       <DataDashboardComponent />
     </div>

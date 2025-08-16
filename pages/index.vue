@@ -1,54 +1,54 @@
 <template>
-  <div ref="boxRef"
-    class="border border-gray-100 p-8 rounded-xl flex flex-col justify-center items-center w-full h-full">
-    <div class="my-3 flex flex-col justify-center items-center gap-4">
-      <NuxtImg src="./logo.png" alt="" width="80" />
-      <text class="text-xl text-sky-600 py-1">เข้าสู่ระบบ</text>
-    </div>
-    <form @submit.prevent="handleLogin" class="rounded-md w-full flex flex-col justify-center">
-      <div class="mb-4">
-        <label for="username" class="block text-sky-600 font-medium mb-2">
-          ชื่อผู้ใช้
-        </label>
-        <input v-model="formData.account_user_username" id="username" type="text" placeholder="กรุณากรอกชื่อผู้ใช้"
-          class="p-2 border rounded-md w-full border-sky-600 focus:ring-2 focus:ring-sky-600 focus:outline-none" />
+  <div class="container mx-auto font-noto min-h-screen flex justify-center items-center  max-w-md">
+    <div ref="boxRef"
+      class="border border-gray-100 p-8 rounded-xl flex flex-col justify-center items-center w-full h-full">
+      <div class="my-3 flex flex-col justify-center items-center gap-4">
+        <NuxtImg src="./logo.png" alt="" width="80" />
+        <text class="text-xl text-sky-600 py-1">เข้าสู่ระบบ</text>
       </div>
-      <div class="mb-4">
-        <label for="password" class="block text-sky-600 font-medium mb-2">
-          รหัสผ่าน
-        </label>
-        <input v-model="formData.account_user_password" id="password" type="password" placeholder="กรุณากรอกรหัสผ่าน"
-          class="p-2 border rounded-md w-full border-sky-600 focus:ring-2 focus:ring-sky-600 focus:outline-none" />
-      </div>
-      <!-- <div v-if="error" class="text-red-500 mb-4">
-        {{ error }}
-      </div> -->
-      <button @click="handleLogin" :disabled="isDisabled"
-        :class="['bg-sky-600 text-white px-2 py-2 rounded-md hover:bg-sky-500 flex justify-center items-center', { 'opacity-50 cursor-not-allowed': isDisabled }]">
-        <span v-if="loading">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <g>
-              <circle cx="3" cy="12" r="2" fill="currentColor" />
-              <circle cx="21" cy="12" r="2" fill="currentColor" />
-              <circle cx="12" cy="21" r="2" fill="currentColor" />
-              <circle cx="12" cy="3" r="2" fill="currentColor" />
-              <circle cx="5.64" cy="5.64" r="2" fill="currentColor" />
-              <circle cx="18.36" cy="18.36" r="2" fill="currentColor" />
-              <circle cx="5.64" cy="18.36" r="2" fill="currentColor" />
-              <circle cx="18.36" cy="5.64" r="2" fill="currentColor" />
-              <animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate"
-                values="0 12 12;360 12 12" />
-            </g>
-          </svg>
-        </span>
-        <span v-else>{{ isDisabled ? "กรุณากรอกข้อมูล" : "เข้าสู่ระบบ" }}</span>
+      <form @submit.prevent="handleLogin" class="rounded-md w-full flex flex-col justify-center">
+        <div class="mb-4">
+          <label for="username" class="block text-sky-600 font-medium mb-2">
+            ชื่อผู้ใช้
+          </label>
+          <input v-model="formData.account_user_username" id="username" type="text" placeholder="กรุณากรอกชื่อผู้ใช้"
+            class="p-2 border rounded-md w-full border-sky-600 focus:ring-2 focus:ring-sky-600 focus:outline-none" />
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block text-sky-600 font-medium mb-2">
+            รหัสผ่าน
+          </label>
+          <input v-model="formData.account_user_password" id="password" type="password" placeholder="กรุณากรอกรหัสผ่าน"
+            class="p-2 border rounded-md w-full border-sky-600 focus:ring-2 focus:ring-sky-600 focus:outline-none" />
+        </div>
+        <button @click="handleLogin" :disabled="isDisabled"
+          :class="['bg-sky-600 text-white px-2 py-2 rounded-md hover:bg-sky-500 flex justify-center items-center', { 'opacity-50 cursor-not-allowed': isDisabled }]">
+          <span v-if="loading">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <g>
+                <circle cx="3" cy="12" r="2" fill="currentColor" />
+                <circle cx="21" cy="12" r="2" fill="currentColor" />
+                <circle cx="12" cy="21" r="2" fill="currentColor" />
+                <circle cx="12" cy="3" r="2" fill="currentColor" />
+                <circle cx="5.64" cy="5.64" r="2" fill="currentColor" />
+                <circle cx="18.36" cy="18.36" r="2" fill="currentColor" />
+                <circle cx="5.64" cy="18.36" r="2" fill="currentColor" />
+                <circle cx="18.36" cy="5.64" r="2" fill="currentColor" />
+                <animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate"
+                  values="0 12 12;360 12 12" />
+              </g>
+            </svg>
+          </span>
+          <span v-else>{{ isDisabled ? "กรุณากรอกข้อมูล" : "เข้าสู่ระบบ" }}</span>
+        </button>
+      </form>
+      <button @click="$router.push('/register')"
+        class="text-black px-4 py-2 rounded flex gap-2 flex-col md:flex-row lg:flex-row xl:flex-row ">
+        <span class="text-black ">มีชื่อผู้ใช้หรือยัง ? <span class="text-sky-600">สมัครใช้งาน</span></span>
       </button>
-    </form>
-    <button @click="goRegister"
-      class="text-black px-4 py-2 rounded flex gap-2 flex-col md:flex-row lg:flex-row xl:flex-row ">
-      <span class="text-black ">มีชื่อผู้ใช้หรือยัง ? <span class="text-sky-600">สมัครใช้งาน</span></span>
-    </button>
+    </div>
   </div>
+
 </template>
 
 <script setup>
@@ -65,10 +65,10 @@ import { useAlert } from "~/composables/showAlert";
 // register state
 const { showAlert } = useAlert();
 const { setToken } = useAuth();
+const { $axios } = useNuxtApp();
 const boxRef = ref(null);
 const router = useRouter();
 const loading = ref(false);
-const { $axios } = useNuxtApp();
 // state form
 const formData = reactive({
   account_user_username: "",
@@ -81,7 +81,6 @@ const isDisabled = computed(() => {
     !formData.account_user_password.trim()
   )
 })
-
 // function method
 const handleLogin = async () => {
   if (loading.value) return;
@@ -97,19 +96,14 @@ const handleLogin = async () => {
     return;
   }
   try {
-    console.log('Sending login request to:', $axios.defaults.baseURL + '/auth/login');
     const ok = await $axios.post("/auth/login", {
       account_user_username: formData.account_user_username,
       account_user_password: formData.account_user_password,
-    }, { withCredentials: true });
-    
-    console.log('Login response:', ok.data);
-    
+    });
     if (ok) {
       const { token } = ok.data;
       console.log('Token received:', token);
       setToken(token);
-      console.log('Cookie after setToken:', document.cookie);
       showAlert("เข้าสู่ระบบสำเร็จ", "กำลังนำคุณไปยังหน้าหลัก...", "success");
       router.push("/home");
     } else {
@@ -132,9 +126,6 @@ const handleLogin = async () => {
   }
 };
 
-// function class
-const goRegister = async () => {
-  router.push("/register");
-};
+
 
 </script>

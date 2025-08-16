@@ -1,5 +1,5 @@
 <template>
-  <BackComponents />
+  
   <div class="min-h-screen pb-20">
     <div class="max-w-6xl mx-auto">
       <!-- Main Container with responsive grid -->

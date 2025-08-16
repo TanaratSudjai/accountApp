@@ -192,8 +192,7 @@ const submitAllUpdates = async () => {
     emits("close");
     fetchFundData();
   } catch (err) {
-    console.error("Failed to update all funds:", err);
-    // You might want to show an error message to the user here
+
   } finally {
     isSubmitting.value = false;
   }

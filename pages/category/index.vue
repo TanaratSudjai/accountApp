@@ -1,5 +1,5 @@
 <template>
-  <BackComponents />
+
   <div class="flex-1 p-6   max-w-4xl mx-auto">
     <div class="mx-auto">
       <!-- Header Section -->
@@ -55,37 +55,37 @@ const menuItems = ref([
     icon: Wallet,
     title: "สินทรัพย์",
     color: "text-sky-900",
-    route: `/group/1`, // Replace with the appropriate account_category_id
+    route: `/category/group?id=1`, // Replace with the appropriate account_category_id
   },
   {
     icon: Landmark,
     title: "ธนาคาร",
     color: "text-sky-900",
-    route: "/group/7",
+    route: "/category/group?id=7",
   },
   {
     icon: Users,
     title: "ลูกหนี้",
     color: "text-sky-900",
-    route: "/group/6",
+    route: "/category/group?id=6",
   },
   {
     icon: Grid2x2Plus,
     title: "หนี้สิน",
     color: "text-sky-900",
-    route: "/group/2",
+    route: "/category/group?id=2",
   },
   {
     icon: HandCoins,
     title: "รายได้",
     color: "text-sky-900",
-    route: "/group/4",
+    route: "/category/group?id=4",
   },
   {
     icon: CircleDollarSign,
     title: "ค่าใช้จ่าย",
     color: "text-sky-900",
-    route: "/group/5",
+    route: "/category/group?id=5",
   },
 
 

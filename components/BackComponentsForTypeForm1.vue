@@ -70,7 +70,7 @@
       </div>
       <div v-else>
         <NuxtLink
-          :to="`/type/addType/${typeID}?groupID=${groupID}`"
+          :to="`/type/create_type/${typeID}?groupID=${groupID}`"
           class="mb-2 sm:mb-0 self-start sm:self-center"
         >
           <div

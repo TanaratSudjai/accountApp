@@ -38,6 +38,7 @@
       </div>
     </div>
     <div v-else class="p-2 mb-12">
+      <BackComponents />
       <slot />
       <NavbarComponents />
     </div>
