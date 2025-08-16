@@ -1,6 +1,6 @@
 <!-- SlidingButton.vue -->
 <template>
-  <BackComponents />
+
   <div class="max-w-2xl container mx-auto">
     <div class="w-full flex justify-center space-y-2">
       <div class="relative w-full">
@@ -28,8 +28,8 @@
 
   <!-- Conditionally Render Components -->
   <div class="mx-auto max-w-2xl">
-    <DataTransitionDebtorBorrow v-if="activeButton === 'borrow'" />
-    <DataTransitionDebtorReturn v-else />
+    <DebtCreditorTransitionDebtorBorrow v-if="activeButton === 'borrow'" />
+    <DebtCreditorTransitionDebtorReturn v-else />
   </div>
 
   <div class="flex justify-center w-full mb-12">

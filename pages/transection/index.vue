@@ -1,5 +1,5 @@
 <template>
-  <BackComponents />
+  
   <div class="container mx-auto max-w-3xl   rounded-lg min-h-screen">
     <div class="flex flex-col items-center w-full min-h-screen w-full mb-[150px]">
       <!-- Header -->
