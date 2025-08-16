@@ -38,7 +38,7 @@
                     <label class="block text-sm text-gray-600 font-medium mb-2">ประเภท</label>
                     <div
                       class="w-full px-2 py-1 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none ">
-                      <GetgroupName :category-id="formData.account_category_id" />
+                      <HooksGroupName :category-id="formData.account_category_id" /> 
                     </div>
                   </div>
 
@@ -50,7 +50,7 @@
                     </button>
                     <button type="submit"
                       class="rounded-md bg-sky-600 px-2 py-1 md:px-3 md:py-2 text-sm font-medium text-white hover:bg-sky-500 transition-colors">
-                      <SaveAll class="inline-block mr-2" />
+                      <SaveAll class="inline-block mr-2"  size="16"/>
                       บันทึก
                     </button>
                   </div>
@@ -69,7 +69,6 @@ import {
   SaveAll
 } from "lucide-vue-next";
 import { reactive, watch } from "vue";
-import GetgroupName from "~/components/GetgroupName.vue";
 
 const props = defineProps({
   show: {

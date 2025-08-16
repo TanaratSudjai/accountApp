@@ -8,12 +8,12 @@
       <!-- Modal -->
       <div class="relative inline-block w-full max-w-lg sm:max-w-xl lg:max-w-2xl">
         <!-- Centered modal container -->
-        <div class="flex  items-center justify-center p-2">
+        <div class="flex  items-center justify-center p-8">
           <div
-            class="relative w-full max-w-md sm:max-w-lg lg:max-w-xl p-3 sm:p-4 text-left align-middle transition-all transform bg-white rounded-xl border border-gray-100"
+            class="relative w-full max-w-md sm:max-w-lg lg:max-w-xl p-3 sm:p-4 text-left align-middle transition-all transform bg-white rounded-lg "
             @click.stop>
             <!-- Header -->
-            <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center justify-between mb-2 border-b border-gray-200 pb-2">
               <div>
                 <h2 class="text-md sm:text-2xl font-bold text-sky-600">
                   จัดการข้อมูลทุน
@@ -29,7 +29,7 @@
             </div>
 
             <!-- Transaction Details -->
-            <div class="space-y-6 mb-3 max-h-96 sm:max-h-80 overflow-y-auto">
+            <div class="space-y-6 mb-3 max-h-96 sm:max-h-80 overflow-y-auto border-b border-gray-200 pb-4">
               <div v-for="(fund, index) in fundData.data" :key="fund.account_type_id"
                 class="bg-white p-2 rounded-lg border border-sky-200">
                 <!-- Category Badge -->
@@ -71,13 +71,7 @@
             <!-- Action Buttons -->
             <div
               class="flex flex-col sm:flex-row items-stretch sm:items-center justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-              <button @click="closeModal" class="w-full sm:w-auto px-3 py-1.5 text-sm font-semibold text-gray-700 bg-white border-2 border-gray-300 rounded-lg 
-                       hover:bg-gray-50 hover:border-gray-400 active:bg-gray-100
-                       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 
-                       transition-all duration-200">
-                ยกเลิก
-              </button>
-              <button @click="submitAllUpdates" :disabled="isSubmitting" class="bg-sky-600 text-white px-3 py-1.5 text-sm font-semibold rounded-lg
+              <button @click="submitAllUpdates" :disabled="isSubmitting" class="bg-sky-600 text-white px-3 py-1.5 text-sm rounded-md
                 hover:bg-sky-700 active:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500
                 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
                 <span v-if="!isSubmitting" class="flex items-center justify-center">
@@ -88,6 +82,12 @@
 
                   กำลังบันทึก...
                 </span>
+              </button>
+              <button @click="closeModal" class="w-full sm:w-auto px-3 py-1.5 text-sm  text-gray-700 bg-white border-2 border-gray-300 rounded-md 
+                       hover:bg-gray-50 hover:border-gray-400 active:bg-gray-100
+                       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 
+                       transition-all duration-200">
+                ยกเลิก
               </button>
             </div>
           </div>

@@ -1,7 +1,4 @@
 <template>
-  <client-only>
-    <BackComponents></BackComponents>
-  </client-only>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 mb-10">
     <div v-for="item in reports" :key="item.account_type_id"
       class="bg-white flex justify-between items-center border-l-2 border-blue-400 p-6 shadow-lg rounded-lg transition-transform transform hover:scale-105 hover:shadow-xl"
