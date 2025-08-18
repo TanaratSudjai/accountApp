@@ -139,7 +139,7 @@
                   </p>
                 </div>
               </div>
-              <button v-if="bankDatas.account_transition_id === maxAccountTypeId"
+              <button v-if="bankDatas.account_transition_id === maxAccountTypeId && page === 1"
                 @click="deleteTransection(bankDatas.account_transition_id)"
                 class="p-2 rounded-full hover:bg-red-50 text-red-600 transition-colors duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -190,6 +190,7 @@ const totalPages = ref(1);
 const catData = ref([]);
 const columnValue = ref([]);
 const rawAccountValue = ref(null);
+const { confirmAlert } = useAlert();
 // form state
 const formData = ref({
   account_type_id: "",
@@ -248,6 +249,11 @@ const handleOkClick = async () => {
 // function method delete data
 const deleteTransection = async (id) => {
   try {
+    const result = await confirmAlert(
+      "ยืนยันการลบ",
+      "คุณแน่ใจหรือไม่ว่าต้องการลบประเภทนี้? <br/> การดำเนินการนี้ไม่สามารถย้อนกลับได้"
+    );
+    if (!result.isConfirmed) return;
     await $axios.patch(`/return_transition_bank`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCat();
