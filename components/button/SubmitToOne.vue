@@ -6,7 +6,7 @@ const router = useRouter();
 const onSubmit = async () => {
   try {
     await $axios.put(`/sumbitPerDay`);
-    router.push("/dasktop");
+    router.push("/home/dasktop");
   } catch (error) {
     console.log("error updating account important", error);
   }

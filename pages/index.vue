@@ -100,8 +100,9 @@ const handleLogin = async () => {
       account_user_username: formData.account_user_username,
       account_user_password: formData.account_user_password,
     });
-    if (ok) {
+    if (ok && ok.data && typeof ok.data === "object" && ok.data.token) {
       const { token } = ok.data;
+      console.log('Login successful:', ok.data);
       console.log('Token received:', token);
       setToken(token);
       showAlert("เข้าสู่ระบบสำเร็จ", "กำลังนำคุณไปยังหน้าหลัก...", "success");
