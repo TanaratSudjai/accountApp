@@ -248,7 +248,7 @@
                   </div>
                 </div>
               </div>
-              <button v-if="bankDatas.account_transition_id === maxAccountTypeId"
+              <button v-if="bankDatas.account_transition_id === maxAccountTypeId && page === 1"
                 @click="deleteTransection(bankDatas.account_transition_id)"
                 class="p-2 rounded-full hover:bg-red-50 text-red-500 hover:text-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-200"
                 title="Delete transaction">
@@ -309,6 +309,7 @@ const page = ref(1);
 const limit = ref(5);
 const totalPages = ref(1);
 const { formatNumber } = useFormatNumber();
+const { confirmAlert } = useAlert();
 
 const maxAccountTypeId = computed(() => {
   // ป้องกัน bankData ไม่ใช่ array
@@ -448,6 +449,11 @@ const bankTransition = async () => {
 
 const deleteTransection = async (id) => {
   try {
+    const result = await confirmAlert(
+      "ยืนยันการลบ",
+      "คุณแน่ใจหรือไม่ว่าต้องการย้อนการทำรายการ? <br/> การดำเนินการนี้ไม่สามารถย้อนกลับได้"
+    );
+    if (!result.isConfirmed) return;
     await $axios.put(`/return_debtor/${id}`);
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCat(); // ดึงข้อมูลใหม่หลังจากลบ
