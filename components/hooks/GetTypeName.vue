@@ -1,5 +1,6 @@
 <template>
-  <h1>{{ GroupData }}</h1>
+  <h1 v-if="GroupData.length > 0">{{ GroupData[0].account_group_name }}</h1>
+  <h1 v-else>ไม่มีประเภท</h1>
 </template>
 
 <script setup>
@@ -11,11 +12,11 @@ const type_id = route.params.id;
 const { $axios } = useNuxtApp();
 const GroupData = ref([]);
 
-
 const fetchGroup = async () => {
   try {
     const response = await $axios.get(`/account_group_get/${type_id}`);
     GroupData.value = response.data.account_group_by_id;
+    console.log("GroupData:", GroupData.value);
   } catch (error) {
     console.log("Error fetching group data:", error);
   }
