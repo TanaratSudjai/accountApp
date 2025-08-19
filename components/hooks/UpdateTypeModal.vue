@@ -4,7 +4,7 @@
     <div class="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
 
     <!-- Modal Container -->
-    <div class="relative mt-12 flex items-center justify-center">
+    <div class="relative mt-6 flex items-center justify-center">
       <!-- Modal Content -->
       <div class="relative w-full max-w-xs md:max-w-md bg-white rounded-lg ">
         <!-- Header -->
@@ -31,7 +31,7 @@
                 </div>
                 <div class="relative">
                   <input type="text" v-model="localAccountType.account_type_name"
-                    class="w-full px- 0-1 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none  "
+                    class="w-full px- 0-1  text-xs md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none  "
                     required />
                 </div>
               </div>
@@ -42,8 +42,9 @@
                   จำนวนเงิน
                 </div>
                 <div class="relative">
-                  <input type="text" v-model="localAccountType.account_type_value"
-                    class="w-full px-0.5  md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none  " />
+                  <input type="text" v-model="localAccountType.account_type_value" min="0"
+                    placeholder="จำนวนเงิน (0 = ไม่มีจำนวนเงิน)"
+                    class="w-full px-0.5 text-xs  md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none  " />
                 </div>
               </div>
 
@@ -54,7 +55,7 @@
                 </div>
                 <div class="relative">
                   <input type="text" v-model="localAccountType.account_type_description" placeholder="คำอธิบายเพิ่มเติม"
-                    class="w-full px-0. 5 md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none " />
+                    class="w-full px-0.5  text-xs md:px-3 md:py-2 border-b border-sky-400    transition-colors  focus:outline-none " />
                 </div>
               </div>
 
@@ -82,9 +83,8 @@
                   เลือกไอคอน
                 </div>
                 <div class="relative">
-                  <div class="overflow-x-auto ">
-                    <div
-                      class="grid grid-rows-3 grid-column-3 auto-cols-max grid-flow-col gap-3 p-1 bg-gray-50 rounded-xl w-max">
+                  <div class="overflow-y-auto max-h-60">
+                    <div class="grid grid-cols-5 gap-0.5 p-1 bg-gray-50 rounded-xl w-max">
                       <div v-for="icon in icons" :key="icon.account_icon_id" @click="toggleSelectIcon(icon)" :class="[
                         'w-12 h-12 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105',
                         selectedIcon?.account_icon_id === icon.account_icon_id
@@ -112,7 +112,8 @@
               <div
                 class="px-2 py-1 md:px-3 md:py-2 text-xs md:text-sm lg:text-md font-medium text-white bg-sky-600 rounded-lg cursor-pointer hover:bg-sky-500 "
                 @click="updateAccountType">
-                ยืนยันการแก้ไข
+                <span v-if="isDisabled" class="opacity-50 cursor-not-allowed">ยืนยันการแก้ไข</span>
+                <span v-else>ยืนยันการแก้ไข</span>
               </div>
             </div>
           </form>
@@ -125,10 +126,11 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import { useAlert } from "~/composables/showAlert";
 const route = useRoute();
+const { showAlert } = useAlert();
 
-const categoryID = route.query.category_id; // Get category_id from the route query
-console.log("Category ID:", categoryID);
+const categoryID = route.query.category_id;
 
 const typeData = ref([]);
 const { $axios } = useNuxtApp();
@@ -154,9 +156,7 @@ const fetchIcon = async () => {
   }
 };
 
-const setAccountType = (name) => {
-  localAccountType.value.account_type_name = name;
-};
+
 
 const props = defineProps({
   show: Boolean,
@@ -228,6 +228,7 @@ watch(
 );
 // -------------------------------------------------------------------------------------
 
+
 const updateAccountType = async () => {
   const removeComma = (value) => {
     if (typeof value === "string") {
@@ -259,6 +260,7 @@ const updateAccountType = async () => {
     });
     selected.value = null;
     selectedIcon.value = null;
+    showAlert("อัพเดตประเภทบัญชีสำเร็จ", "", "success");
     close();
   } catch (error) {
     console.log("Error:", error);

@@ -78,8 +78,8 @@
                 </svg>
                 <div>
                   <span
-                    class="text-gray-600 font-medium text-xs sm:text-md md:text-lg lg:text-xl block">รายละเอียด</span>
-                  <span class="text-gray-800 text-xs sm:text-md md:text-lg lg:text-xl">{{
+                    class="text-gray-600 font-medium text-xs sm:text-md md:text-lg  block">รายละเอียด</span>
+                  <span class="text-gray-800 text-xs sm:text-md md:text-lg ">{{
                     Type.account_type_description || "ไม่มีรายละเอียด"
                   }}</span>
                 </div>
