@@ -102,7 +102,8 @@ const submitForm = async () => {
     emit("submitted");
     emit("close");
   } catch (error) {
-    console.log(error, "Error creating account group:");
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error creating account group", error);
   }
 };
 </script>

@@ -15,11 +15,11 @@ export function useSession() {
         nameuser.value = "ไม่พบชื่อผู้ใช้";
       }
     } catch (err: any) {
-      console.error(err);
+      const { error, warn } = useLogger();
       if (err.status === 401) {
-        console.error("Unauthorized access. Please login again.");
+        warn("Unauthorized access. Please login again.");
       } else {
-        console.error("Failed to fetch session data:", err.message);
+        error("Failed to fetch session data", err);
       }
     } finally {
       loading.value = false;

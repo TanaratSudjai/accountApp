@@ -203,7 +203,8 @@ const fetchCat = async () => {
     const response = await $axios.get("/get_type_from_id");
     catData.value = response.data.result;
   } catch (error) {
-    console.error("Error fetching transition:", error);
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error fetching transition", error);
   }
 };
 
@@ -216,7 +217,8 @@ const bankTransition = async () => {
     bankData.value = response.data.data;
     totalPages.value = response.data.total_page || 1;
   } catch (error) {
-    console.error("Error fetching transition group One:", error);
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error fetching transition group", error);
   }
 };
 
@@ -242,7 +244,8 @@ const handleOkClick = async () => {
     bankTransition();
     fetchCat();
   } catch (err) {
-    console.error("Error updating data:", err);
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error updating data", err);
   }
 };
 
@@ -258,7 +261,8 @@ const deleteTransection = async (id) => {
     await bankTransition(); // ดึงข้อมูลใหม่หลังจากลบ
     await fetchCat();
   } catch (error) {
-    console.log("Error deleting transaction:", error);
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error deleting transaction", error);
   }
 };
 

@@ -153,9 +153,6 @@ const { $axios } = useNuxtApp();
 const typeID = route.params.id;
 const groupIDforAdd = route.query.category_id || "";
 const { formatNumber } = useFormatNumber();
-console.log("groupID:", groupID);
-console.log("typeID:", typeID);
-console.log("groupIDforAdd:", groupIDforAdd);
 
 
 const formData = ref({
@@ -174,7 +171,8 @@ const fetchType = async () => {
     const response = await $axios.get(`/account_type_get/${groupID}`);
     TypeData.value = response.data.account_type;
   } catch (error) {
-    console.error("Error fetching group data:", error);
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error fetching group data", error);
   }
 };
 
@@ -185,8 +183,6 @@ const deleteFormData = async (account_type_id) => {
       "คุณแน่ใจหรือไม่ว่าต้องการลบประเภทนี้? <br/> การดำเนินการนี้ไม่สามารถย้อนกลับได้"
     );
 
-    console.log("Result:", result);
-
     if (result.isConfirmed) {
       await $axios.delete(`/account_type_del/${account_type_id}`);
 
@@ -196,7 +192,8 @@ const deleteFormData = async (account_type_id) => {
       await fetchType();
     }
   } catch (error) {
-    console.error("Error deleting group:", error);
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error deleting group", error);
   }
 };
 const showUpdateModal = ref(false);

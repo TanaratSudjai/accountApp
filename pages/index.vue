@@ -102,7 +102,6 @@ const handleLogin = async () => {
     });
     if (ok) {
       const { token } = ok.data;
-      console.log('Token received:', token);
       setToken(token);
       showAlert("เข้าสู่ระบบสำเร็จ", "กำลังนำคุณไปยังหน้าหลัก...", "success");
       router.push("/home");
@@ -110,7 +109,6 @@ const handleLogin = async () => {
       showAlert("เกิดข้อผิดพลาดในการเข้าสู่ระบบ", "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
     }
   } catch (err) {
-    console.error(err);
     const status = err?.status || err?.response?.status;
     if (status === 409) {
       showAlert("มีการพยายามเข้าสู่ระบบอย่างไม่ปลอดภัย", "กรุณาลองใหม่ในอีก 10 นาที");

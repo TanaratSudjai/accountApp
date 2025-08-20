@@ -371,7 +371,8 @@ const fetchData = async () => {
     amount.value = summary[3] ?? { type: "", value: 0 };
     totalPages.value = data.total_page || 1;
   } catch (error) {
-    console.error("Error fetching data:", error);
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error fetching data", error);
   }
 };
 // Helper function to format currency

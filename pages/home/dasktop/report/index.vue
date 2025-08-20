@@ -248,7 +248,6 @@ const page = ref("report");
 const fetchReport = async () => {
   const response = await $axios.get("/getClosedAccount");
   const data = response.data;
-  console.log("Response data:", data);
 
   income_graph.value = Array(12).fill(0);
   expense_graph.value = Array(12).fill(0);
@@ -264,10 +263,6 @@ const fetchReport = async () => {
       mounth_value.value.push(monthIndex + 1);
     }
   });
-
-  console.log("รายได้:", income_graph.value);
-  console.log("รายจ่าย:", expense_graph.value);
-  console.log("เดือนที่มีข้อมูล:", mounth_value.value);
 
   const parsed = data.map((item) => {
     return {
@@ -322,21 +317,14 @@ const months = Array.from({ length: 12 }, (_, i) => i + 1);
 
 const filteredReport = computed(() => {
   if (!hideZeroRows.value) {
-    console.log("Showing all rows");
     return flattenedReport.value;
   }
-  console.log("Filtering out zero rows");
   return flattenedReport.value.filter((row) => {
-    console.log("Checking row:", row);
     return months.some((m) => row.values[m] > 0);
   });
 });
 
 onMounted(() => {
   fetchReport();
-});
-
-watch(filteredReport, (newVal) => {
-  console.log("Filtered rows:", newVal.length);
 });
 </script>

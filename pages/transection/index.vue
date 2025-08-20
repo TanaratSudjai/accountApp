@@ -259,7 +259,6 @@ const onSubmitTransition = async () => {
   try {
     const ok = await $axios.put(`/transitionsubmit`);
   } catch (error) {
-    // console.error("Error fetching transition:", error.message);
     throw error;
   }
 };
@@ -290,7 +289,8 @@ const submitDifferences = async () => {
     await fetchDataTransitionOpen();
     router.push({ path: "/home" });
   } catch (error) {
-    console.error("Error submitting data:", error);
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error submitting data", error);
   }
 };
 // -------------------------------------------------------------------------------------
@@ -313,7 +313,8 @@ const fetchDataTransitionOpen = async () => {
     sum_cat_three.value = data.threeTypeSummary.total_fund;
 
   } catch (error) {
-    console.error("Error fetching transition data:", error);
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error fetching transition data", error);
   }
 };
 
@@ -324,7 +325,8 @@ const fetchTransition = async () => {
     const data = response.data;
     transition.value = data.data;
   } catch (error) {
-    console.error("Error fetching transition:", error);
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error fetching transition", error);
   }
 };
 
@@ -396,7 +398,8 @@ const updateAccountTransition = async (
     await fetchTransition();
     await fetchDataTransitionOpen();
   } catch (error) {
-    console.log("Error updating account transition:", error);
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error updating account transition", error);
   }
 };
 

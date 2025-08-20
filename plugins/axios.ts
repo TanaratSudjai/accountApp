@@ -4,8 +4,11 @@ export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
 
   // Debug: ตรวจสอบ API base URL
-  console.log('API Base URL:', config.public.apiBase);
-  console.log('Cookie Domain:', config.public.cookieDomain);
+  if (process.env.NODE_ENV === 'development') {
+    const { logger } = await import('~/utils/logger');
+    logger.debug('API Base URL:', config.public.apiBase);
+    logger.debug('Cookie Domain:', config.public.cookieDomain);
+  }
 
   const $axios = axios.create({
     baseURL: config.public.apiBase as string,

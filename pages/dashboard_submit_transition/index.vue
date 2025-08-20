@@ -158,9 +158,9 @@ const fetchData = async () => {
   try {
     const response = await $axios.get("/dashboard");
     transition_data.value = response.data.result;
-    console.log(transition_data.value);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    const { logger } = await import('~/utils/logger');
+    logger.error("Error fetching data", error);
   }
   loading.value = false;
 };
