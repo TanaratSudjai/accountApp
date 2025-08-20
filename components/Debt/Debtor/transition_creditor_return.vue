@@ -398,8 +398,7 @@ const handleOkClick = async () => {
     await fetchCat(); // ดึงข้อมูลใหม่หลังจากลบ
     clearcase(); // Fetch new menu data
   } catch (err) {
-    const { logger } = await import('~/utils/logger');
-    logger.error("Error updating data", err);
+    console.error("Error updating data:", err);
   }
 };
 
@@ -411,8 +410,7 @@ const bankTransition = async () => {
     bankData.value = response.data.data;
     totalPages.value = response.data.total_page || 1; 
   } catch (error) {
-    const { logger } = await import('~/utils/logger');
-    logger.error("Error fetching transition group", error);
+    console.error("Error fetching transition group One:", error);
   }
 };
 

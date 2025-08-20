@@ -388,8 +388,7 @@ async function fetchDashboardData(year, month, day = null) {
       totalIncomeDay.value = 0;
     }
   } catch (error) {
-    const { logger } = await import('~/utils/logger');
-    logger.error("Error fetching dashboard data", error);
+    console.error("Error fetching dashboard data:", error);
     calendarEvents.value = [];
     pieChartDataExpense.value = { labels: [], datasets: [{ label: "Expense Distribution", data: [], backgroundColor: [] }] };
     pieChartDataIncome.value = { labels: [], datasets: [{ label: "Income Distribution", data: [], backgroundColor: [] }] };

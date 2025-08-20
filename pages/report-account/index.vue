@@ -33,8 +33,7 @@ const fetchReports = async () => {
     const data = await response.json();
     reports.value = data;
   } catch (error) {
-    const { logger } = await import('~/utils/logger');
-    logger.error("Failed to fetch reports", error);
+    console.error("Failed to fetch reports:", error);
   }
 };
 

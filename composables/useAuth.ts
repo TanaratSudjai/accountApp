@@ -23,7 +23,10 @@ export const useAuth = () => {
   }
 
   function setToken(newToken: string) {
+    console.log('Setting token:', newToken);
+    console.log('Cookie domain:', config.public.cookieDomain);
     token.value = newToken;
+    console.log('Token set, current value:', token.value);
   }
 
   return {

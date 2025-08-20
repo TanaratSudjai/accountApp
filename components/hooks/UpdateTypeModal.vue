@@ -140,8 +140,7 @@ const fetchTypeData = async () => {
     const response = await $axios.get(`/account_type_get`);
     typeData.value = response.data.account_type;
   } catch (error) {
-    const { logger } = await import('~/utils/logger');
-    logger.error("Error fetching icons", error);
+    console.log("Error fetching icons:", error);
   }
 };
 
@@ -151,9 +150,9 @@ const fetchIcon = async () => {
   try {
     const response = await $axios.get(`/get_icons/${categoryID}`);
     icons.value = response.data.data;
+    console.log("Icons fetched successfully:", icons.value);
   } catch (error) {
-    const { logger } = await import('~/utils/logger');
-    logger.warn("No icon data available", error);
+    console.log("No data", error);
   }
 };
 
@@ -264,8 +263,7 @@ const updateAccountType = async () => {
     showAlert("อัพเดตประเภทบัญชีสำเร็จ", "", "success");
     close();
   } catch (error) {
-    const { logger } = await import('~/utils/logger');
-    logger.error("Error updating type", error);
+    console.log("Error:", error);
   }
 };
 

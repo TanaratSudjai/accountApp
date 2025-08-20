@@ -146,8 +146,7 @@ const fetchFundData = async () => {
     const response = await $axios.get("/getLastedFund");
     fundData.value = response.data;
   } catch (error) {
-    const { logger } = await import('~/utils/logger');
-    logger.error("Error fetching fund data", error);
+    console.error("Error fetching fund data:", error);
   }
 };
 
@@ -166,9 +165,9 @@ const updateFundValue = async (
       new_value: newValue,
       account_category_id,
     });
+    console.log("Updated fund:", account_type_id, "=>", newValue);
   } catch (error) {
-    const { logger } = await import('~/utils/logger');
-    logger.error("Error updating fund", error);
+    console.error("Error updating fund:", error);
     throw error;
   }
 };

@@ -67,11 +67,10 @@ const logout = async () => {
     loading.value = false;
     showAlert("ออกจากระบบเรียบร้อยแล้ว", "ออกจากระบบเรียบร้อยแล้ว", "success");
   } catch (err) {
-    const { logger } = await import('~/utils/logger');
     if (err.status === 401) {
-      logger.warn("Unauthorized access. Please login again.");
+      console.error("Unauthorized access. Please login again.");
     } else {
-      logger.error("Logout failed", err);
+      console.error("Logout failed:", err.message);
     }
   }
 };
