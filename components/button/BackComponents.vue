@@ -1,5 +1,5 @@
 <template>
-  <div class="" v-if="$route.path !== '/home'">
+  <div class="container mx-auto max-w-7xl" v-if="$route.path !== '/home'">
     <div class="flex items-center justify-between gap-2">
       <NuxtImg @click="$router.go(-1)" src="./back.svg" class="w-5 h-5 cursor-pointer text-black" />
       <span :class="['text-xs md:text-md lg:text-lg font-semibold ', countdown > 5 ? 'text-sky-600' : 'text-red-600']">(
