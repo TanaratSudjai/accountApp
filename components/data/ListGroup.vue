@@ -1,6 +1,18 @@
 <template>
   <div class="pt-6 bg-white h-auto overflow-y-auto text-gray-800 p-2 rounded-md">
-    <div v-if="!groupData || groupData.length === 0" class="text-center p-12 text-gray-500 font-medium">
+    <div v-if="load" class="min-h-[400px] flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="#6d9bda" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
+          opacity="0.25" />
+        <path fill="#6d9bda"
+          d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
+          <animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate"
+            values="0 12 12;360 12 12" />
+        </path>
+      </svg>
+    </div>
+
+    <div v-else-if="!groupData || groupData.length === 0" class="text-center p-12 text-gray-500 font-medium">
       <div class="mb-8">
         <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center">
           <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -14,15 +26,16 @@
       </div>
 
       <div @click="openAddModal"
-        class="border-2 border-dashed border-emerald-200 hover:border-emerald-400 bg-white hover:bg-emerald-50 rounded-2xl p-8 shadow-sm hover:shadow-md flex flex-col justify-center items-center cursor-pointer transition-all duration-300 h-full min-h-[240px] group">
+        class="border-2 border-dashed border-sky-200 hover:border-sky-400 bg-white hover:bg-sky-50 rounded-2xl p-8 shadow-sm hover:shadow-md flex flex-col justify-center items-center cursor-pointer transition-all duration-300 h-full min-h-[240px] group">
         <div
-          class="rounded-full w-16 h-16 bg-emerald-100 group-hover:bg-emerald-200 flex justify-center items-center mb-4 shadow-sm transition-colors duration-300">
-          <Plus class="w-8 h-8 text-emerald-600" />
+          class="rounded-full w-16 h-16 bg-sky-100 group-hover:bg-sky-200 flex justify-center items-center mb-4 shadow-sm transition-colors duration-300">
+          <Plus class="w-8 h-8 text-sky-600" />
         </div>
-        <span class="text-emerald-600 font-semibold text-lg">เพิ่มกลุ่มใหม่</span>
+        <span class="text-sky-600 font-semibold text-lg">เพิ่มกลุ่มใหม่</span>
         <span class="text-gray-500 text-sm mt-1">คลิกเพื่อเริ่มต้น</span>
       </div>
     </div>
+
 
     <div v-else>
       <div class="mb-6">
@@ -136,8 +149,8 @@ import { useAlert } from "~/composables/showAlert";
 const { confirmAlert } = useAlert();
 const { $axios } = useNuxtApp();
 const route = useRoute();
+const load = ref(false);
 const categoryID = route.query.id;
-console.log("categoryID:", categoryID);
 
 
 const router = useRouter();
@@ -148,12 +161,20 @@ const openAddModal = () => {
 };
 
 const fetchGroup = async () => {
+  load.value = true;
   try {
+    if (!categoryID) {
+      return;
+    }
     const response = await $axios.get(`/account_group_counttype/${categoryID}`);
     groupData.value = response.data.count_type_at_group;
+    load.value = false;
   } catch (error) {
     console.error("Error fetching group data:", error);
+  } finally {
+    load.value = false;
   }
+
 };
 
 defineExpose({ fetchGroup });
@@ -187,6 +208,9 @@ const deleteFormData = async (account_group_id) => {
     }
   } catch (error) {
     console.log("Error deleting group:", error);
+  }
+  finally {
+    load.value = false;
   }
 };
 
