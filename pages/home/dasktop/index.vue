@@ -339,9 +339,8 @@
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
 import { useAlert } from "~/composables/showAlert";
-const { showAlert } = useAlert();
+const { showAlert, confirmAlert } = useAlert();
 const { formatNumber } = useFormatNumber();
 const datatype_sum = ref([]);
 const showZeroSum = ref(true);
@@ -432,8 +431,15 @@ const sumColumn6 = computed(() =>
 
 const closeAccount = async () => {
   try {
-    await $axios.post("/ExportAccount");
-    showAlert("ปิดบัญชีสำเร็จแล้ว", "ปิดบัญชีสำเร็จแล้ว");
+    const result = await confirmAlert(
+      "ยืนยันการปิดบัญชี",
+      "คุณแน่ใจหรือไม่ว่าต้องการปิดบัญชี? <br/> การดำเนินการนี้ไม่สามารถย้อนกลับได้",
+      "ยืนยันที่จะปิดบัญชี"
+    );
+    if (result.isConfirmed) {
+      await $axios.post("/ExportAccount");
+      showAlert("ปิดบัญชีสำเร็จแล้ว", "ปิดบัญชีสำเร็จแล้ว");
+    }
   } catch (err) {
     if (err.response.status == 400) {
       showAlert("คุณได้ปิดบัญชีเดือนนี้ไปแล้ว", "กรุณาปิดอีกทีเดือนถัดไป");

@@ -46,6 +46,7 @@ export function useAlert() {
   const confirmAlert = (
     title: string,
     text: string,
+    btn: string,
     confirmButtonColor: string = "oklch(58.8% 0.158 241.966)"
   ) => {
     return Swal.fire({
@@ -59,7 +60,7 @@ export function useAlert() {
       showCancelButton: true,
       confirmButtonColor: confirmButtonColor,
       cancelButtonColor: "#4b5563",
-      confirmButtonText: "ยินยันที่จะลบ!",
+      confirmButtonText: btn || "ยินยันที่จะลบ!",
       cancelButtonText: "ยกเลิก",
       width: "380px",
       customClass: {
